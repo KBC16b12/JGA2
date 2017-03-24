@@ -1,0 +1,14 @@
+*.suo
+*.tlog
+*.log
+*.bin
+*.obj
+*.user
+*.ipch
+*.exe
+*.BAK
+*.db
+*.lib
+*.ilk
+*.pch
+*.pdb

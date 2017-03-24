@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Scene">
+      <UniqueIdentifier>{32c313bd-07db-494a-af8e-de395cbec093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Bar">
+      <UniqueIdentifier>{7debb954-78a1-4a04-a1c3-d09fe898d192}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Player">
+      <UniqueIdentifier>{c7e2c109-52da-4fa6-a704-04eb84987600}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Title">
+      <UniqueIdentifier>{f3d7166b-c487-4540-8d6d-94f9f355ab9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Game">
+      <UniqueIdentifier>{ca6a3bca-0e99-4177-b22a-6e3aa69baeae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Menu">
+      <UniqueIdentifier>{6a936710-bf4a-40ed-b045-5660a1821bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Join">
+      <UniqueIdentifier>{cef8ccb2-25ee-4000-86ed-4db44d65b51d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{d8196969-0a96-4267-b2a3-df4bcd3f1aa9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Ranking">
+      <UniqueIdentifier>{11e6896d-fff6-418d-a68f-0d41c89b1f3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Fade">
+      <UniqueIdentifier>{2a62766b-53f0-44d5-87c0-ff1f93327047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Solo">
+      <UniqueIdentifier>{5e3a0049-137c-4798-8500-6c6c757c4b58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Result">
+      <UniqueIdentifier>{eabb8e04-7c14-4084-9c3c-838adbfa5367}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene\Wait">
+      <UniqueIdentifier>{fe5e7bad-c962-4baf-b854-d06d103e9aa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GameCamera">
+      <UniqueIdentifier>{3f196125-2a0d-46e1-84b6-bc737ee1d69a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bar\Bar.cpp">
+      <Filter>Source Files\Bar</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Player.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Fade\Fade.cpp">
+      <Filter>Source Files\Scene\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\GameScene\GameScene.cpp">
+      <Filter>Source Files\Scene\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\JoinScene\JoinScene.cpp">
+      <Filter>Source Files\Scene\Join</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\MenuScene\MenuScene.cpp">
+      <Filter>Source Files\Scene\Menu</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\ResultScene\ResultScene.cpp">
+      <Filter>Source Files\Scene\Result</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\Ranking\RankingScene.cpp">
+      <Filter>Source Files\Scene\Ranking</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\TitleScene\TitleScene.cpp">
+      <Filter>Source Files\Scene\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\WaitScene\WaitScene.cpp">
+      <Filter>Source Files\Scene\Wait</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene\SoloScene\SoloScene.cpp">
+      <Filter>Source Files\Scene\Solo</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\Map.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Map\MapChip.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera\GameCamera.cpp">
+      <Filter>Source Files\GameCamera</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bar\Bar.h">
+      <Filter>Source Files\Bar</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Player.h">
+      <Filter>Source Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="stuNamespace.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Fade\Fade.h">
+      <Filter>Source Files\Scene\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\GameScene\GameScene.h">
+      <Filter>Source Files\Scene\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\JoinScene\JoinScene.h">
+      <Filter>Source Files\Scene\Join</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\MenuScene\MenuScene.h">
+      <Filter>Source Files\Scene\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\ResultScene\ResultScene.h">
+      <Filter>Source Files\Scene\Result</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\Ranking\RankingScene.h">
+      <Filter>Source Files\Scene\Ranking</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\TitleScene\TitleScene.h">
+      <Filter>Source Files\Scene\Title</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SoloScene\SoloScene.h">
+      <Filter>Source Files\Scene\Solo</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\WaitScene\WaitScene.h">
+      <Filter>Source Files\Scene\Wait</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\Map.h">
+      <Filter>Source Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\MapChip.h">
+      <Filter>Source Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera\GameCamera.h">
+      <Filter>Source Files\GameCamera</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
