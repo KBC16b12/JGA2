@@ -13,10 +13,17 @@ JoinScene::JoinScene()
 
 JoinScene::~JoinScene()
 {
+	//BGM’âŽ~
+	m_bgm->Stop();
+	DeleteGO(m_bgm);
 }
 
 bool JoinScene::Start()
 {
+	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm->Init("Assets/sound/Join.wav");
+	m_bgm->Play(true);
+
 	return true;
 }
 

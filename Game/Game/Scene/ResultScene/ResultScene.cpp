@@ -12,10 +12,17 @@ ResultScene::ResultScene()
 
 ResultScene::~ResultScene()
 {
+	//BGM’âŽ~
+	m_bgm->Stop();
+	DeleteGO(m_bgm);
 }
 
 bool ResultScene::Start()
 {
+	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm->Init("Assets/sound/Result1.wav");
+	m_bgm->Play(true);
+
 	return true;
 }
 

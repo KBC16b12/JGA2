@@ -13,10 +13,17 @@ MenuScene::MenuScene()
 
 MenuScene::~MenuScene()
 {
+	//BGM’âŽ~
+	m_bgm->Stop();
+	DeleteGO(m_bgm);
 }
 
 bool MenuScene::Start()
 {
+	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm->Init("Assets/sound/Menu.wav");
+	m_bgm->Play(true);
+
 	return true;
 }
 
