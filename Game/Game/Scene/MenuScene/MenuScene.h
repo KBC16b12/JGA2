@@ -46,7 +46,7 @@ private:
 	*/
 	void SceneChange();
 
-	CSoundSource* m_bgm = NULL;
+	CSoundSource*				m_bgm;							//BGMソース。
 
 	CTexture*					m_SampleTex;					//!<サンプルのテクスチャ。
 	CSprite						m_Sample;						//!<サンプルのスプライト。

@@ -21,10 +21,16 @@ WaitScene::WaitScene()
 
 WaitScene::~WaitScene()
 {
+	//BGM’âŽ~
+	m_bgm->Stop();
+	DeleteGO(m_bgm);
 }
 
 bool WaitScene::Start()
 {
+	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm->Init("Assets/sound/Wait.wav");
+	m_bgm->Play(true);
 	return true;
 }
 

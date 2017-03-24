@@ -22,14 +22,17 @@ SoloScene::SoloScene()
 
 SoloScene::~SoloScene()
 {
+	//BGM’âŽ~
+	m_bgm->Stop();
 	DeleteGO(m_bgm);
 }
 
 bool SoloScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(0);
-	m_bgm->Init("Assets/sound/TitleBGM.wav");
+	m_bgm->Init("Assets/sound/Solo.wav");
 	m_bgm->Play(true);
+
 	return true;
 }
 void SoloScene::Update()
