@@ -24,5 +24,21 @@ GameCamera::~GameCamera()
 
 void GameCamera::Update()
 {
+	Move();
+}
 
+void GameCamera::Move()
+{
+	CVector3 C_movespeed = m_characterController.GetMoveSpeed();
+	CVector3 C_moveX;
+	CVector3 C_moveY;
+
+	if (Pad(0).GetRStickXF() > 0.0f)
+	{
+		;
+	}
+	if (Pad(0).GetRStickXF() < 0.0f)
+	{
+		;
+	}
 }

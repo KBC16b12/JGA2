@@ -34,11 +34,24 @@ public:
 	*@brief	描画関数。
 	*/
 	void Render(CRenderContext& renderContext);
+
+	void Move();
+
 private:
 	/*!
 	*@brief	HPバー更新関数。
 	*/
 	void UpdateHPBar();
+	
+	CSkinModel				m_skinModel;					//スキンモデル
+	CSkinModelData			m_skinModelData;				//スキンモデルデータ
+	CQuaternion				m_rotation;					//回転
+	CAnimation				m_Animation;					//アニメーション
+	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
+	CVector3				m_position = { 0.0f, 40.0f, 0.0f };
+
+	int						m_currentAnimationNo;
+	float					m_angle = 180;
 
 	Bar*			m_HPbar;		//HPバー
 	int				m_hp;			//HP

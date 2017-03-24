@@ -20,6 +20,8 @@
 #include "tkEngine/Physics/tkPhysics.h"
 #include "tkEngine/physics/tkRigidBody.h"
 #include "tkEngine/Physics/tkMeshCollider.h"
+#include "tkEngine/character/tkCharacterController.h"
+
 using namespace tkEngine;
 #include "tkEngine/random/tkRandom.h"
 

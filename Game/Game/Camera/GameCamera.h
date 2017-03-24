@@ -18,6 +18,7 @@ public:
 	*/
 	void Update();
 
+	void Move();
 
 	/*!
 	*@brief	ビューマトリックスを返す。
@@ -37,12 +38,12 @@ public:
 
 
 private:
-	CCamera				m_camera;				//カメラ
-
-	CVector3			m_position;				//座標
-	CVector3			m_look_position;		//注視点
+	CCamera					m_camera;				//カメラ
+	CCharacterController	m_characterController;	//キャラクタ―コントローラー
+	CVector3				m_position;				//座標
+	CVector3				m_look_position;		//注視点
 	
-	float				m_angle;				//角度
+	float					m_angle;				//角度
 };
 
 extern GameCamera* g_gameCamera;
