@@ -6,10 +6,17 @@ public:
 	*@brief	コンストラクタ。
 	*/
 	WaitScene();
+
 	/*!
 	*@brief	デストラクタ。
 	*/
 	~WaitScene();
+
+	/*!
+	*@brief 初期化関数
+	*/
+	void Init(bool isHost);
+
 	/*!
 	*@brief	開始関数。
 	*@details
@@ -19,10 +26,12 @@ public:
 	*@return	trueが帰ってきたら初期化完了。
 	*/
 	bool Start() override;
+
 	/*!
 	*@brief	更新関数。
 	*/
 	void Update() override;
+
 	/*!
 	*@brief	遅延描画関数。
 	@details
@@ -45,5 +54,7 @@ private:
 	RunStat						m_runstat = enFadeIn;
 
 	SceneData					m_scenedata;
+
+	bool						m_isHost;
 };
 

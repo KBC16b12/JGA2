@@ -26,6 +26,11 @@ WaitScene::~WaitScene()
 	DeleteGO(m_bgm);
 }
 
+void WaitScene::Init(bool isHost)
+{
+	m_isHost = isHost;
+}
+
 bool WaitScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(0);
