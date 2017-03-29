@@ -1,21 +1,21 @@
 #pragma once
-class WaitScene : public IGameObject
+class CharScene : public IGameObject
 {
 public:
 	/*!
 	*@brief	コンストラクタ。
 	*/
-	WaitScene();
+	CharScene();
 
 	/*!
 	*@brief	デストラクタ。
 	*/
-	~WaitScene();
+	~CharScene();
 
 	/*!
 	*@brief 初期化関数
 	*/
-	void Init(bool isHost);
+	void Init(bool isMulti);
 
 	/*!
 	*@brief	開始関数。
@@ -39,7 +39,6 @@ public:
 	*@param[in]		renderContext		レンダリングコンテキスト。
 	*/
 	void PostRender(CRenderContext& renderContext) override;
-
 private:
 	/*!
 	*@brief	画面遷移関数。
@@ -55,6 +54,6 @@ private:
 
 	SceneData					m_scenedata;
 
-	bool						m_isHost;
+	bool						m_isMulti;
 };
 

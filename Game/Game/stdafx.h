@@ -5,7 +5,8 @@
 #ifndef _STDAFX_H_
 #define _STDAFX_H_
 
-
+#include <stdio.h>
+#include <winsock2.h>
 #include <windows.h>
 #include "tkEngine/tkEnginePreCompile.h"
 #include "tkEngine/graphics/tkSkinModelData.h"

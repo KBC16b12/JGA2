@@ -121,7 +121,7 @@ void Player::Move()
 	}
 
 	/*ƒWƒƒƒ“ƒv*/
-	if (m_characterController.IsJump() == false && Pad(0).IsPress(enButtonX))
+	if (!m_characterController.IsJump() && Pad(0).IsPress(enButtonX))
 	{
 		m_characterController.Jump();
 		l_moveSpeed.y += 15.0f;
