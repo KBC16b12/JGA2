@@ -1,6 +1,7 @@
+#pragma once
 /*!
- * @brief	プリコンパイル済みヘッダー。
- */
+* @brief	プリコンパイル済みヘッダー。
+*/
 
 #ifndef _STDAFX_H_
 #define _STDAFX_H_

@@ -115,9 +115,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="Bar\Bar.h">
       <Filter>Source Files\Bar</Filter>
     </ClInclude>
@@ -169,5 +166,6 @@
     <ClInclude Include="Scene\CharScene\CharScene.h">
       <Filter>Source Files\Scene\Char</Filter>
     </ClInclude>
+    <ClInclude Include="stdafx.h" />
   </ItemGroup>
 </Project>
