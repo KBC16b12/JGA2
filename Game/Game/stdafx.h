@@ -23,6 +23,8 @@
 #include "tkEngine/Physics/tkMeshCollider.h"
 #include "tkEngine/character/tkCharacterController.h"
 
+#pragma warning ( disable : 4996 )
+
 using namespace tkEngine;
 #include "tkEngine/random/tkRandom.h"
 
