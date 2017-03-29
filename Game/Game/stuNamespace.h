@@ -18,7 +18,8 @@ namespace Status
 		enRanking,
 		enWait,
 		enTitle,
-		enSolo
+		enSolo,
+		enChar
 	};
 
 	struct SMapInfo {

@@ -1,17 +1,9 @@
 #include "stdafx.h"
 #include "../Fade/Fade.h"
-#include "../GameScene/GameScene.h"
+#include "../CharScene/CharScene.h"
 #include "../Ranking/RankingScene.h"
 #include "../SoloScene/SoloScene.h"
 #include "../TitleScene/TitleScene.h"
-
-namespace
-{
-	std::vector<SMapInfo> n_solo_map_dat =
-	{
-#include "../../Map/MapData/Sample.h"
-	};
-}
 
 SoloScene::SoloScene()
 {
@@ -72,7 +64,7 @@ void SoloScene::SceneChange()
 		}
 		if (Pad(0).IsTrigger(enButtonA))
 		{
-			m_scenedata = enGame;
+			m_scenedata = enChar;
 
 			m_runstat = enFadeOut;
 
@@ -94,9 +86,8 @@ void SoloScene::SceneChange()
 		{
 			switch (m_scenedata)
 			{
-			case enGame:
-				g_gameScene = NewGO<GameScene>(0);
-				g_gameScene->Init(n_solo_map_dat);
+			case enChar:
+				NewGO<CharScene>(0)->Init(false);
 				break;
 			case enRanking:
 				NewGO<RankingScene>(0);

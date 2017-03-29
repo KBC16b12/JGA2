@@ -14,6 +14,12 @@ public:
 	 *@brief	デストラクタ。
 	 */
 	~TitleScene();
+
+	/*!
+	*@brief 初期化関数
+	*/
+	void Init(RunStat stat);
+
 	/*!
 	 *@brief	開始関数。
 	 *@details

@@ -1,37 +1,39 @@
 #include "stdafx.h"
+#include "../CharScene/CharScene.h"
 #include "../Fade/Fade.h"
 #include "../GameScene/GameScene.h"
+#include "../SoloScene/SoloScene.h"
 #include "../JoinScene/JoinScene.h"
-#include "../WaitScene/WaitScene.h"
+#include "../TitleScene/TitleScene.h"
 
 namespace
 {
-	std::vector<SMapInfo> n_multi_map_dat =
+	std::vector<SMapInfo> n_solo_map_dat =
 	{
 #include "../../Map/MapData/Sample.h"
 	};
 }
 
-WaitScene::WaitScene()
+CharScene::CharScene()
 {
-	m_SampleTex = TextureResources().LoadEx("Assets/sprite/Wait.png");
+	m_SampleTex = TextureResources().LoadEx("Assets/sprite/Char.png");
 	m_Sample.Init(m_SampleTex);
 	m_Sample.SetSize({ (float)Engine().GetScreenWidth(),(float)Engine().GetScreenHeight() });
 }
 
-WaitScene::~WaitScene()
+CharScene::~CharScene()
 {
 	//BGM’âŽ~
 	m_bgm->Stop();
 	DeleteGO(m_bgm);
 }
 
-void WaitScene::Init(bool isHost)
+void CharScene::Init(bool isMulti)
 {
-	m_isHost = isHost;
+	m_isMulti = isMulti;
 }
 
-bool WaitScene::Start()
+bool CharScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init("Assets/sound/Wait.wav");
@@ -39,17 +41,17 @@ bool WaitScene::Start()
 	return true;
 }
 
-void WaitScene::Update()
+void CharScene::Update()
 {
 	SceneChange();
 }
 
-void WaitScene::PostRender(CRenderContext& renderContext)
+void CharScene::PostRender(CRenderContext& renderContext)
 {
 	m_Sample.Draw(renderContext);
 }
 
-void WaitScene::SceneChange()
+void CharScene::SceneChange()
 {
 	switch (m_runstat)
 	{
@@ -64,8 +66,7 @@ void WaitScene::SceneChange()
 	case enRun:
 		if (Pad(0).IsTrigger(enButtonStart))
 		{
-			//Join‚Ö‘JˆÚ
-			m_scenedata = enJoin;
+			m_scenedata = (m_isMulti ? enTitle : enSolo);
 
 			m_runstat = enFadeOut;
 
@@ -74,7 +75,7 @@ void WaitScene::SceneChange()
 		}
 		if (Pad(0).IsTrigger(enButtonA))
 		{
-			m_scenedata = enGame;
+			m_scenedata = (m_isMulti ? enJoin : enGame);
 
 			m_runstat = enFadeOut;
 
@@ -89,10 +90,16 @@ void WaitScene::SceneChange()
 			{
 			case enGame:
 				g_gameScene = NewGO<GameScene>(0);
-				g_gameScene->Init(n_multi_map_dat);
+				g_gameScene->Init(n_solo_map_dat);
 				break;
 			case enJoin:
 				NewGO<JoinScene>(0);
+				break;
+			case enTitle:
+				NewGO<TitleScene>(0);
+				break;
+			case enSolo:
+				NewGO<SoloScene>(0);
 				break;
 			default:
 				break;

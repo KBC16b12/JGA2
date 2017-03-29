@@ -54,6 +54,9 @@
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{bb6a44d9-3bde-4c1a-942d-32f735866ee4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scene\Char">
+      <UniqueIdentifier>{f41961a1-67c8-4572-9528-08afb3ac5047}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -107,6 +110,9 @@
     <ClCompile Include="Network.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
+    <ClCompile Include="Scene\CharScene\CharScene.cpp">
+      <Filter>Source Files\Scene\Char</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -145,9 +151,6 @@
     <ClInclude Include="Scene\SoloScene\SoloScene.h">
       <Filter>Source Files\Scene\Solo</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\WaitScene\WaitScene.h">
-      <Filter>Source Files\Scene\Wait</Filter>
-    </ClInclude>
     <ClInclude Include="Map\Map.h">
       <Filter>Source Files\Map</Filter>
     </ClInclude>
@@ -159,6 +162,12 @@
     </ClInclude>
     <ClInclude Include="Network.h">
       <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\WaitScene\WaitScene.h">
+      <Filter>Source Files\Scene\Wait</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\CharScene\CharScene.h">
+      <Filter>Source Files\Scene\Char</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
