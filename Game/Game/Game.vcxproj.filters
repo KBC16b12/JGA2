@@ -54,6 +54,9 @@
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{bb6a44d9-3bde-4c1a-942d-32f735866ee4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scene\Char">
+      <UniqueIdentifier>{f41961a1-67c8-4572-9528-08afb3ac5047}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -104,7 +107,10 @@
     <ClCompile Include="Camera\GameCamera.cpp">
       <Filter>Source Files\GameCamera</Filter>
     </ClCompile>
-    <ClCompile Include="Network.cpp">
+    <ClCompile Include="Scene\CharScene\CharScene.cpp">
+      <Filter>Source Files\Scene\Char</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\Network.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
   </ItemGroup>
@@ -145,9 +151,6 @@
     <ClInclude Include="Scene\SoloScene\SoloScene.h">
       <Filter>Source Files\Scene\Solo</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\WaitScene\WaitScene.h">
-      <Filter>Source Files\Scene\Wait</Filter>
-    </ClInclude>
     <ClInclude Include="Map\Map.h">
       <Filter>Source Files\Map</Filter>
     </ClInclude>
@@ -157,7 +160,13 @@
     <ClInclude Include="Camera\GameCamera.h">
       <Filter>Source Files\GameCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Network.h">
+    <ClInclude Include="Scene\WaitScene\WaitScene.h">
+      <Filter>Source Files\Scene\Wait</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\CharScene\CharScene.h">
+      <Filter>Source Files\Scene\Char</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Network.h">
       <Filter>Source Files\Network</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "../Fade/Fade.h"
-#include "../JoinScene/JoinScene.h"
+#include "../CharScene/CharScene.h"
 #include "../SoloScene/SoloScene.h"
 #include "../TitleScene/TitleScene.h"
 
@@ -15,6 +15,11 @@ TitleScene::~TitleScene()
 {
 	m_bgm->Stop();
 	DeleteGO(m_bgm);
+}
+
+void TitleScene::Init(RunStat stat)
+{
+	m_runstat = stat;
 }
 
 bool TitleScene::Start()
@@ -61,7 +66,7 @@ void TitleScene::SceneChange()
 		}
 		if (Pad(0).IsTrigger(enButtonB))
 		{
-			m_scenedata = enJoin;
+			m_scenedata = enChar;
 
 			m_runstat = enFadeOut;
 
@@ -74,8 +79,8 @@ void TitleScene::SceneChange()
 		{
 			switch (m_scenedata)
 			{
-			case enJoin:
-				NewGO<JoinScene>(0);
+			case enChar:
+				NewGO<CharScene>(0)->Init(true);
 				break;
 			case enSolo:
 				NewGO<SoloScene>(0);

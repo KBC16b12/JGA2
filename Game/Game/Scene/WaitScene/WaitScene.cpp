@@ -56,6 +56,7 @@ void WaitScene::SceneChange()
 	case enFadeIn:
 		if (!g_Fade->IsExecute())
 		{
+			//フェード中でない
 			g_Fade->StartFadeIn();
 			m_runstat = enRun;
 		}
@@ -63,6 +64,7 @@ void WaitScene::SceneChange()
 	case enRun:
 		if (Pad(0).IsTrigger(enButtonStart))
 		{
+			//Joinへ遷移
 			m_scenedata = enJoin;
 
 			m_runstat = enFadeOut;
@@ -87,7 +89,7 @@ void WaitScene::SceneChange()
 			{
 			case enGame:
 				g_gameScene = NewGO<GameScene>(0);
-				g_gameScene->Init(n_multi_map_dat);
+				g_gameScene->Init(n_multi_map_dat, "Assets/sound/GameBGM.wav");
 				break;
 			case enJoin:
 				NewGO<JoinScene>(0);

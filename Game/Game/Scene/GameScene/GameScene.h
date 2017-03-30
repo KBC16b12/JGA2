@@ -22,7 +22,7 @@ public:
 	/*!
 	*@brief 初期化関数
 	*/
-	void Init(std::vector<SMapInfo> map_data);
+	void Init(std::vector<SMapInfo> map_data, char* bgm_path);
 
 	/*!
 	 *@brief	開始関数。
@@ -60,6 +60,8 @@ private:
 	*/
 	void SceneChange();
 
+
+	char*						m_bgm_path;						//BGMのファイルパス
 	CSoundSource*				m_bgm;							//BGMソース。
 	Player*						m_player;						//プレイヤ
 	Map*						m_map;							//マップ

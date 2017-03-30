@@ -82,7 +82,7 @@ int WINAPI wWinMain(
 	g_gameCamera = NewGO<GameCamera>(0);
 
 	//タイトルシーンの作成。
-	NewGO<TitleScene>(0);
+	NewGO<TitleScene>(0)->Init(enRun);
 	
 	Engine().RunGameLoop();		//ゲームループを実行。
 
