@@ -89,7 +89,7 @@ void WaitScene::SceneChange()
 			{
 			case enGame:
 				g_gameScene = NewGO<GameScene>(0);
-				g_gameScene->Init(n_multi_map_dat);
+				g_gameScene->Init(n_multi_map_dat, "Assets/sound/GameBGM.wav");
 				break;
 			case enJoin:
 				NewGO<JoinScene>(0);

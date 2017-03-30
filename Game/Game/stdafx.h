@@ -5,6 +5,9 @@
 #ifndef _STDAFX_H_
 #define _STDAFX_H_
 
+#pragma comment( lib, "WS2_32.LIB" )
+#pragma warning ( disable : 4996 )
+
 #include <stdio.h>
 #include <winsock2.h>
 #include <windows.h>
@@ -23,7 +26,6 @@
 #include "tkEngine/Physics/tkMeshCollider.h"
 #include "tkEngine/character/tkCharacterController.h"
 
-#pragma warning ( disable : 4996 )
 
 using namespace tkEngine;
 #include "tkEngine/random/tkRandom.h"

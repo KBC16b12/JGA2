@@ -107,11 +107,11 @@
     <ClCompile Include="Camera\GameCamera.cpp">
       <Filter>Source Files\GameCamera</Filter>
     </ClCompile>
-    <ClCompile Include="Network.cpp">
-      <Filter>Source Files\Network</Filter>
-    </ClCompile>
     <ClCompile Include="Scene\CharScene\CharScene.cpp">
       <Filter>Source Files\Scene\Char</Filter>
+    </ClCompile>
+    <ClCompile Include="Network\Network.cpp">
+      <Filter>Source Files\Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,14 +160,14 @@
     <ClInclude Include="Camera\GameCamera.h">
       <Filter>Source Files\GameCamera</Filter>
     </ClInclude>
-    <ClInclude Include="Network.h">
-      <Filter>Source Files\Network</Filter>
-    </ClInclude>
     <ClInclude Include="Scene\WaitScene\WaitScene.h">
       <Filter>Source Files\Scene\Wait</Filter>
     </ClInclude>
     <ClInclude Include="Scene\CharScene\CharScene.h">
       <Filter>Source Files\Scene\Char</Filter>
+    </ClInclude>
+    <ClInclude Include="Network\Network.h">
+      <Filter>Source Files\Network</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
