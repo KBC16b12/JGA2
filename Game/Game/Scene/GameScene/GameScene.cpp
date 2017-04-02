@@ -32,9 +32,10 @@ GameScene::GameScene()
 	m_map = NewGO<Map>(0);
 }
 
-void GameScene::Init(std::vector<SMapInfo> map_data)
+void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
 {
 	m_map->Init(map_data);
+	m_bgm_path = bgm_path;
 }
 
 GameScene::~GameScene()
@@ -52,7 +53,7 @@ bool GameScene::Start()
 	m_player = NewGO<Player>(0);
 
 	m_bgm = NewGO<CSoundSource>(0);
-	m_bgm->Init("Assets/sound/GameBGM.wav");
+	m_bgm->Init(m_bgm_path);
 	m_bgm->Play(true);
 
 	//ƒ‰ƒCƒg‚ğ‰Šú‰»B

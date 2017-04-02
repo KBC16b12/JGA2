@@ -6,7 +6,9 @@
 
 TitleScene::TitleScene()
 {
-	
+	m_TitleTex = TextureResources().LoadEx("Assets/sprite/Title.png");
+	m_Title.Init(m_TitleTex);
+	m_Title.SetSize({ (float)Engine().GetScreenWidth(),(float)Engine().GetScreenHeight() });
 }
 
 TitleScene::~TitleScene()
@@ -22,9 +24,6 @@ void TitleScene::Init(RunStat stat)
 
 bool TitleScene::Start()
 {
-	m_TitleTex = TextureResources().LoadEx("Assets/sprite/Title.png");
-	m_Title.Init(m_TitleTex);
-	m_Title.SetSize({ (float)Engine().GetScreenWidth(),(float)Engine().GetScreenHeight() });
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init("Assets/sound/TitleBGM.wav");
 	m_bgm->Play(true);

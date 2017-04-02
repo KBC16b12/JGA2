@@ -90,7 +90,7 @@ void CharScene::SceneChange()
 			{
 			case enGame:
 				g_gameScene = NewGO<GameScene>(0);
-				g_gameScene->Init(n_solo_map_dat);
+				g_gameScene->Init(n_solo_map_dat, "Assets/sound/GameBGM2.wav");
 				break;
 			case enJoin:
 				NewGO<JoinScene>(0);
