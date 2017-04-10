@@ -23,7 +23,7 @@ bool SoloScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init("Assets/sound/Solo.wav");
-	m_bgm->Play(true);
+	//m_bgm->Play(true);
 
 	return true;
 }

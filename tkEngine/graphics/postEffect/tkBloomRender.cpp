@@ -12,6 +12,7 @@ namespace tkEngine{
 	 */
 	CBloomRender::CBloomRender()
 	{
+		m_isEnable = false;
 	}
 	/*!
 	 * @brief	デストラクタ。
@@ -220,7 +221,7 @@ namespace tkEngine{
 			m_downSamplingRenderTarget[2].Create(w >> 2, h, 1, FMT_A16B16G16R16F, FMT_INVALID, MULTISAMPLE_NONE, 0);			//横ブラー用。
 			m_downSamplingRenderTarget[3].Create(w >> 2, h >> 2, 1, FMT_A16B16G16R16F, FMT_INVALID, MULTISAMPLE_NONE, 0);	//縦ブラー用。
 			m_pEffect = CEngine::Instance().EffectManager().LoadEffect("Assets/presetShader/bloom.fx");
-			m_isEnable = true;
+			//m_isEnable = true;
 		}
 	}
 }

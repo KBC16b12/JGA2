@@ -54,7 +54,7 @@ bool GameScene::Start()
 
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init(m_bgm_path);
-	m_bgm->Play(true);
+	//m_bgm->Play(true);
 
 	//ƒ‰ƒCƒg‚ğ‰Šú‰»B
 	m_light.SetAmbinetLight(CVector3::One);

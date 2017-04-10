@@ -45,6 +45,7 @@ void InitTkEngine( HINSTANCE hInst )
 	initParam.graphicsConfig.dofConfig.isEnable = false;
 	//AA
 	initParam.graphicsConfig.aaConfig.isEnable = false;
+	initParam.graphicsConfig.motionBlurConfig.isEnable = false;
 	//—”‰Šú‰»B
 	g_random.Init((unsigned long)time(NULL));
 

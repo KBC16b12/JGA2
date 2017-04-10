@@ -26,7 +26,7 @@ bool TitleScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(0);
 	m_bgm->Init("Assets/sound/TitleBGM.wav");
-	m_bgm->Play(true);
+	//m_bgm->Play(true);
 
 	return true;
 }
