@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "HUD/Bar.h"
 #include "../Camera/GameCamera.h"
+#include "../HUD/KillCountSprite.h"
 
 Player *player;
 Player::Player()
@@ -19,11 +20,13 @@ Player::Player()
 	m_HPbar->SetBarBackPath("Assets/sprite/Black.png");
 	m_HPbar->SetData(m_hp, m_maxhp);
 	m_HPbar->SetBerQuarter(Bar::enBarQuarter::enQuaLeft);
+	m_killcount = NewGO<KillCountSprite>(PRIORITY1);
 }
 
 Player::~Player()
 {
 	DeleteGO(m_HPbar);
+	DeleteGO(m_killcount);
 }
 
 bool Player::Start()
@@ -55,6 +58,12 @@ void Player::Update()
 void Player::Render(CRenderContext& renderContext, int cameranum)
 {
 	m_skinModel.Draw(renderContext, g_gameCamera[cameranum]->GetViewMatrix(), g_gameCamera[cameranum]->GetProjectionMatrix());
+}
+
+void Player::PostRender(CRenderContext& renderContext, int playernum)
+{
+	m_HPbar->PostRender(renderContext, playernum);
+	m_killcount->PostRender(renderContext, playernum);
 }
 
 void Player::UpdateHPBar()

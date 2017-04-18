@@ -48,7 +48,7 @@ public:
 	/*!
 	*@brief	•`‰æŠÖ”B
 	*/
-	void PostRender(CRenderContext& renderContext);
+	void PostRender(CRenderContext& renderContext, int playernum);
 
 	/*!
 	*@brief	‚Ç‚ÌŒü‚«‚ÉŒ¸‚é‚©‚ğİ’èB

@@ -6,6 +6,7 @@
 #include "../../HUD/Bar.h"
 #include "Player/Player.h"
 #include "../../Map/Map.h"
+#include "../../HUD/TimeSprite.h"
 #include "../../Camera/GameCamera.h"
 
 GameScene* g_gameScene = nullptr;
@@ -14,7 +15,6 @@ GameScene::GameScene()
 {
 	m_map = NewGO<Map>(PRIORITY1);
 	m_time = NewGO<TimeSprite>(PRIORITY1);
-	m_killcount = NewGO<KillCountSprite>(PRIORITY1);
 }
 
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
@@ -34,7 +34,6 @@ GameScene::~GameScene()
 	}
 	DeleteGO(m_map);
 	DeleteGO(m_time);
-	DeleteGO(m_killcount);
 	g_gameScene = nullptr;
 }
 
@@ -86,8 +85,9 @@ void GameScene::Render(CRenderContext& renderContext, int playernum)
 */
 void GameScene::PostRender(CRenderContext& renderContext, int playernum)
 {
-	m_killcount->PostRender(renderContext);
-	m_time->PostRender(renderContext);
+	m_time->PostRender(renderContext, playernum);
+
+	m_player[playernum]->PostRender(renderContext, playernum);
 }
 
 /*!

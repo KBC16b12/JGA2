@@ -43,7 +43,7 @@ void TimeSprite::Update()
 	m_sprite[2].SetTexture(m_texture[l_n1]);
 }
 
-void TimeSprite::PostRender(CRenderContext& renderContext)
+void TimeSprite::PostRender(CRenderContext& renderContext, int playernum)
 {
 	for (int i = 0;i < 3;i++)
 	{

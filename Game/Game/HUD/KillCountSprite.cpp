@@ -46,7 +46,7 @@ void KillCountSprite::Update()
 	m_sprite[1].SetTexture(m_texture[l_num1]);
 }
 
-void KillCountSprite::PostRender(CRenderContext& renderContext)
+void KillCountSprite::PostRender(CRenderContext& renderContext, int playernum)
 {
 	for (int i = 0;i < 2;i++) {
 		m_sprite[i].Draw(renderContext);

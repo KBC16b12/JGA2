@@ -1,9 +1,8 @@
 #pragma once
 
 class Player;
-#include"../../Map/Map.h"
-#include "../../HUD/KillCountSprite.h"
-#include "../../HUD/TimeSprite.h"
+class Map;
+class TimeSprite;
 
 /*!
  *@brief	ゲームシーン。
@@ -70,8 +69,7 @@ private:
 	CLight						m_light;								//!<ライト。
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
 	SceneData					m_scenedata;					//画面遷移データ
-	KillCountSprite*					m_killcount;					//キル数のスプライト
-	TimeSprite*						m_time;
+	TimeSprite*					m_time;
 };
 
 extern GameScene* g_gameScene;

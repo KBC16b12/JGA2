@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Weapon.h"
+class KillCountSprite;
 class Bar;
 
 class Player : public IGameObject
@@ -45,6 +46,8 @@ public:
 	*/
 	void Render(CRenderContext& renderContext, int cameranum)override;
 
+	void PostRender(CRenderContext& renderContext, int cameranum)override;
+
 	void Move();
 
 private:
@@ -63,9 +66,10 @@ private:
 	int						m_currentAnimationNo;
 	float					m_angle = 180;
 
-	Bar*			m_HPbar;		//HPバー
-	int				m_hp;			//HP
-	int				m_maxhp;		//最大HP
-	int				m_playernum;
+	KillCountSprite*		m_killcount;					//キル数のスプライト
+	Bar*					m_HPbar;		//HPバー
+	int						m_hp;			//HP
+	int						m_maxhp;		//最大HP
+	int						m_playernum;
 };
 

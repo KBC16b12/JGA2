@@ -193,7 +193,7 @@ void Bar::Bar_Damage()
 	m_BarBack.SetSize(sizeBack);
 }
 
-void Bar::PostRender(CRenderContext& renderContext)
+void Bar::PostRender(CRenderContext& renderContext, int playernum)
 {
 	m_Gauge.Draw(renderContext);
 	m_BarBack.Draw(renderContext);

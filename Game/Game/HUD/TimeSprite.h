@@ -11,7 +11,7 @@ public:
 
 	void Update()override;
 
-	void PostRender(CRenderContext& renderContext);
+	void PostRender(CRenderContext& renderContext, int playernum);
 private:
 	int m_time;				//タイマー
 	CSprite						m_sprite[3];
