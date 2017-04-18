@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Weapon.h"
 class Bar;
 
 class Player : public IGameObject

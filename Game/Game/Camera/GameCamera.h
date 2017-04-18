@@ -21,8 +21,13 @@ public:
 	void Update();
 
 	void Move();
-
+	/*
+	*@brief 描画関数
+	ここでカメラ毎のオブジェクトを描画する
+	*/
 	void Render(CRenderContext&)override;
+
+	void PostRender(CRenderContext&)override;
 
 	/*
 	*@brief ビューポートの矩形の場所とカメラの番号付けする関数

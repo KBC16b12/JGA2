@@ -106,20 +106,14 @@ void Player::Move()
 	l_moveZ.Scale(move);
 
 	/*移動*/
-	l_moveX.Scale(Pad(0).GetLStickXF());
-	l_moveZ.Scale(Pad(0).GetLStickYF());
+	l_moveX.Scale(Pad(m_playernum).GetLStickXF());
+	l_moveZ.Scale(Pad(m_playernum).GetLStickYF());
 	l_moveSpeed.Add(l_moveX);
 	l_moveSpeed.Add(l_moveZ);
 
 	/*アングル*/
-	if (Pad(m_playernum).GetRStickXF() > 0.0f)
-	{
-		m_angle += 5.0f;
-	}
-	if (Pad(m_playernum).GetRStickXF() < 0.0f)
-	{
-		m_angle -= 5.0f;
-	}
+	m_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
+
 
 	/*ジャンプ*/
 	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
