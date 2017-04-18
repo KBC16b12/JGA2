@@ -18,7 +18,7 @@ public:
 	/*!
 	*@brief 初期化関数
 	*/
-	void Init(SMapInfo map_dat);
+	virtual void Init(SMapInfo map_dat);
 
 	/*!
 	*@brief	開始関数。
@@ -39,16 +39,12 @@ public:
 	*@brief	描画関数。
 	*@param[in]		renderContext		レンダリングコンテキスト。
 	*/
-	void Render(CRenderContext& renderContext) override;
 
-private:
+	void Render(CRenderContext& renderContext, int cameranum) override;
+
+protected:
 	CSkinModel					m_SkinModel;		//スキンモデル
 	CSkinModelDataHandle		m_SkinModelData;	//スキンモデルのハンドル
-	CMeshCollider				m_meshCollider;		//メッシュコライダー。
-	CRigidBody					m_rigidBody;		//剛体。
-
-	CLight						m_Light;			//ライト
-
 	CVector3					m_position;			//座標
 	CQuaternion					m_rotation;			//回転
 	CVector3					m_scale;			//拡大

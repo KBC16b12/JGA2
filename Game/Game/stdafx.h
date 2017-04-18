@@ -6,6 +6,11 @@
 #ifndef _STDAFX_H_
 #define _STDAFX_H_
 
+#define PRIORITY0 0
+#define PRIORITY1 1
+#define PRIORITY2 2
+#define PLAYER_NUM 4
+
 #pragma comment( lib, "WS2_32.LIB" )
 #pragma warning ( disable : 4996 )
 

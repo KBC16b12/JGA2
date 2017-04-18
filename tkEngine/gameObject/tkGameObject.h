@@ -49,6 +49,11 @@ namespace tkEngine{
 		{
 
 		}
+		virtual void Render(CRenderContext& renderContext, int cameranum)
+		{
+
+		}
+
 		/*!
 		 *@brief	íœ‚³‚ê‚é‚Æ‚«‚ÉŒÄ‚Î‚ê‚éB
 		 *@details	CGameManager::DeleteGameObject‚ğŒÄ‚ñ‚¾‚Æ‚«‚ÉÀs‚³‚ê‚Ü‚·B

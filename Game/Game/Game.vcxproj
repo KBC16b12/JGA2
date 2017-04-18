@@ -166,6 +166,7 @@
     <ClCompile Include="Bar\Bar.cpp" />
     <ClCompile Include="Camera\GameCamera.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="Map\Map.cpp" />
     <ClCompile Include="Map\MapChip.cpp" />
     <ClCompile Include="Network\Network.cpp" />
@@ -190,6 +191,7 @@
   <ItemGroup>
     <ClInclude Include="Bar\Bar.h" />
     <ClInclude Include="Camera\GameCamera.h" />
+    <ClInclude Include="MapObject.h" />
     <ClInclude Include="Map\Map.h" />
     <ClInclude Include="Map\MapChip.h" />
     <ClInclude Include="Network\Network.h" />

@@ -113,6 +113,9 @@
     <ClCompile Include="Network\Network.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -168,6 +171,9 @@
     </ClInclude>
     <ClInclude Include="Network\Network.h">
       <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>Source Files\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

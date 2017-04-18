@@ -3,12 +3,13 @@
 #include "../Bar/Bar.h"
 #include "../Camera/GameCamera.h"
 
+Player *player;
 Player::Player()
 {
 	//HP設定
 	m_maxhp = m_hp = 15;
 
-	m_HPbar = NewGO<Bar>(0);
+	m_HPbar = NewGO<Bar>(PRIORITY1);
 	m_HPbar->SetBarPos({ -592.95f, 320.0f });
 	m_HPbar->SetBarMaxSize({ 230.5f, 14.2f });
 	m_HPbar->SetGaugePos({ -600.0f, 320.0f });
@@ -51,9 +52,9 @@ void Player::Update()
 	m_Animation.Update(1.0f / 50.0f);
 }
 
-void Player::Render(CRenderContext& renderContext)
+void Player::Render(CRenderContext& renderContext, int cameranum)
 {
-	m_skinModel.Draw(renderContext, g_gameCamera->GetViewMatrix(), g_gameCamera->GetProjectionMatrix());
+	m_skinModel.Draw(renderContext, g_gameCamera[cameranum]->GetViewMatrix(), g_gameCamera[cameranum]->GetProjectionMatrix());
 }
 
 void Player::UpdateHPBar()
@@ -111,17 +112,17 @@ void Player::Move()
 	l_moveSpeed.Add(l_moveZ);
 
 	/*アングル*/
-	if (Pad(0).GetRStickXF() > 0.0f)
+	if (Pad(m_playernum).GetRStickXF() > 0.0f)
 	{
 		m_angle += 5.0f;
 	}
-	if (Pad(0).GetRStickXF() < 0.0f)
+	if (Pad(m_playernum).GetRStickXF() < 0.0f)
 	{
 		m_angle -= 5.0f;
 	}
 
 	/*ジャンプ*/
-	if (!m_characterController.IsJump() && Pad(0).IsPress(enButtonX))
+	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
 	{
 		m_characterController.Jump();
 		l_moveSpeed.y += 15.0f;

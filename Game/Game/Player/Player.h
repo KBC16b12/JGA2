@@ -30,10 +30,19 @@ public:
 	*/
 	void Update() override;
 
+	/*
+	プレイヤーの番号をセットする関数
+	プレイヤーの番号とカメラの番号は同じ
+	*/
+	void SetPlayerNum(int playernum)
+	{
+		m_playernum = playernum;
+	}
+
 	/*!
 	*@brief	描画関数。
 	*/
-	void Render(CRenderContext& renderContext);
+	void Render(CRenderContext& renderContext, int cameranum)override;
 
 	void Move();
 
@@ -56,5 +65,6 @@ private:
 	Bar*			m_HPbar;		//HPバー
 	int				m_hp;			//HP
 	int				m_maxhp;		//最大HP
+	int				m_playernum;
 };
 

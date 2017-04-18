@@ -6,6 +6,7 @@
 #include "Bar/Bar.h"
 #include "Player/Player.h"
 #include "../../Map/Map.h"
+#include "../../Camera/GameCamera.h"
 
 GameScene* g_gameScene = nullptr;
 
@@ -29,7 +30,7 @@ GameScene::GameScene()
 		m_killsprite[i].SetPosition({ 400.0f + i * 50,320.0f });
 		m_killsprite[i].SetSize({ 50.0f,50.0f });
 	}
-	m_map = NewGO<Map>(0);
+	m_map = NewGO<Map>(PRIORITY1);
 }
 
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
@@ -43,21 +44,36 @@ GameScene::~GameScene()
 	//BGM停止
 	m_bgm->Stop();
 	DeleteGO(m_bgm);
-	DeleteGO(m_player);
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		DeleteGO(m_player[i]);
+	}
 	DeleteGO(m_map);
 	g_gameScene = nullptr;
 }
 
 bool GameScene::Start()
 {
-	m_player = NewGO<Player>(0);
+	int l_half_w = Engine().GetScreenWidth() / 2;
+	int l_half_h = Engine().GetScreenHeight() / 2;
+	g_gameCamera[0]->SetViewPort(0, 0, l_half_w, l_half_h, 0);
+	g_gameCamera[1]->SetViewPort(l_half_w, 0, l_half_w, l_half_h, 1);
+	g_gameCamera[2]->SetViewPort(0, l_half_h, l_half_w, l_half_h, 2);
+	g_gameCamera[3]->SetViewPort(l_half_w, l_half_h, l_half_w, l_half_h, 3);
 
-	m_bgm = NewGO<CSoundSource>(0);
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		m_player[i] = NewGO<Player>(PRIORITY1);
+		m_player[i]->SetPlayerNum(g_gameCamera[i]->GetCameraNum());
+	}
+
+	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init(m_bgm_path);
 	//m_bgm->Play(true);
 
 	//ライトを初期化。
 	m_light.SetAmbinetLight(CVector3::One);
+
 
 	return true;
 }
@@ -162,10 +178,10 @@ void GameScene::SceneChange()
 			switch (m_scenedata)
 			{
 			case enMenu:
-				NewGO<MenuScene>(0);
+				NewGO<MenuScene>(PRIORITY1);
 				break;
 			case enResult:
-				NewGO<ResultScene>(0);
+				NewGO<ResultScene>(PRIORITY1);
 			default:
 				break;
 			}
@@ -189,7 +205,10 @@ void GameScene::SceneChange()
 void GameScene::SetActiveFlags(bool flag)
 {
 	//ここで生成したオブジェクトの動作変更
-	m_player->SetActiveFlag(flag);
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		m_player[i]->SetActiveFlag(flag);
+	}
 	if (flag)
 	{
 		m_bgm->Play(true);

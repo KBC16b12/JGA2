@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Map.h"
-#include "MapChip.h"
+#include "../MapObject.h"
 
 Map::Map()
 {
@@ -21,7 +21,7 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 	//マップチップの作成
 	for each(SMapInfo l_map_dat in map_dat)
 	{
-		m_mapchip.push_back(NewGO<MapChip>(0));
+		m_mapchip.push_back(NewGO<MapObject>(PRIORITY1));
 		m_mapchip.back()->Init(l_map_dat);
 	}
 }

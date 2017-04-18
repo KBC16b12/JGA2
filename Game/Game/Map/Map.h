@@ -1,6 +1,6 @@
 #pragma once
 
-class MapChip;
+#include "MapChip.h"
 
 class Map : public IGameObject
 {
@@ -43,6 +43,11 @@ public:
 	*@param[in]		renderContext		レンダリングコンテキスト。
 	*/
 	void PostRender(CRenderContext& renderContext) override;
+
+	const std::vector<MapChip*>& GetMap()
+	{
+		return m_mapchip;
+	}
 
 private:
 

@@ -1,7 +1,7 @@
 #pragma once
 
 class Player;
-class Map;
+#include"../../Map/Map.h"
 
 /*!
  *@brief	ゲームシーン。
@@ -44,6 +44,16 @@ public:
 	*/
 	void Render(CRenderContext& renderContext);
 
+	Player* const GetPlayer(int playernum)
+	{
+		return m_player[playernum];
+	}
+	
+	const std::vector<MapChip*>&  GetMap()
+	{
+		return m_map->GetMap();
+	}
+
 	/*!
 	*@brief	遅延描画関数。
 	@details
@@ -63,7 +73,7 @@ private:
 
 	char*						m_bgm_path;						//BGMのファイルパス
 	CSoundSource*				m_bgm;							//BGMソース。
-	Player*						m_player;						//プレイヤ
+	Player*						m_player[PLAYER_NUM];						//プレイヤ
 	Map*						m_map;							//マップ
 
 	CTexture*					m_texture[10];
