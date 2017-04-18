@@ -49,11 +49,11 @@ void GameCamera::Move()
 	}
 }
 
-void GameCamera::SetViewPort(int x, int y, int width, int height, int cameranum)
+void GameCamera::SetViewPort(int x, int y, int width, int height, int playernum)
 {
-	m_cameranum = cameranum;
+	m_playernum = playernum;
 	m_sviewPort = { (DWORD)x, (DWORD)y, (DWORD)width, (DWORD)height, 0.0f, 1.0f };
-	m_player = g_gameScene->GetPlayer(m_cameranum);
+	m_player = g_gameScene->GetPlayer(m_playernum);
 	m_ViewportFlg = true;
 }
 
@@ -64,22 +64,15 @@ void GameCamera::Render(CRenderContext& renderContext)
 		return;
 	}
 	renderContext.SetViewport(m_sviewPort);
-	if (g_gameScene != nullptr)
-	{
-		for (int i = 0;i < PLAYER_NUM;i++)
-		{
-			Player* l_player = g_gameScene->GetPlayer(i);
-			l_player->Render(renderContext, m_cameranum);
-		}
-		const std::vector<MapChip*>& l_mapchip = g_gameScene->GetMap();
-		for (MapChip* chip : l_mapchip)
-		{
-			chip->Render(renderContext, m_cameranum);
-		}
-	}
+	g_gameScene->Render(renderContext, m_playernum);
 }
 
-void GameCamera::PostRender(CRenderContext& rendercontext)
+void GameCamera::PostRender(CRenderContext& renderContext)
 {
-
+	if (!m_ViewportFlg)
+	{
+		return;
+	}
+	renderContext.SetViewport(m_sviewPort);
+	g_gameScene->PostRender(renderContext, m_playernum);
 }

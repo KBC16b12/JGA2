@@ -55,9 +55,9 @@ public:
 		return m_camera.GetProjectionMatrix();
 	}
 
-	int GetCameraNum()
+	int GetPlayerNum()
 	{
-		return m_cameranum;
+		return m_playernum;
 	}
 
 private:
@@ -67,7 +67,7 @@ private:
 	CVector3				m_look_position;		//注視点
 	SViewport				m_sviewPort;
 	float					m_angle;				//角度
-	int						m_cameranum;			//ビューポートで区切ったときのカメラの番号
+	int						m_playernum;			//ビューポートで区切ったときのカメラの番号
 	bool					m_ViewportFlg;
 	Player*					m_player;
 };

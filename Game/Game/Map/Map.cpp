@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Map.h"
 #include "../MapObject.h"
+#include "../Camera/GameCamera.h"
 
 Map::Map()
 {
@@ -36,7 +37,15 @@ void Map::Update()
 
 }
 
-void Map::PostRender(CRenderContext& renderContext)
+void Map::Render(CRenderContext& renderContext, int playernum)
+{
+	for (MapChip* chip : m_mapchip)
+	{
+		chip->Render(renderContext, playernum);
+	}
+}
+
+void Map::PostRender(CRenderContext& renderContext, int playernum)
 {
 
 }

@@ -3,9 +3,7 @@
 #include "../GameScene/GameScene.h"
 #include "../MenuScene/MenuScene.h"
 #include "../ResultScene/ResultScene.h"
-#include "HUD/Bar.h"
-#include "HUD/TimeSprite.h"
-#include "HUD/KillCount.h"
+#include "../../HUD/Bar.h"
 #include "Player/Player.h"
 #include "../../Map/Map.h"
 #include "../../Camera/GameCamera.h"
@@ -15,8 +13,8 @@ GameScene* g_gameScene = nullptr;
 GameScene::GameScene()
 {
 	m_map = NewGO<Map>(PRIORITY1);
-	//m_time = NewGO<Time>(PRIORITY1);
-	//m_killcount = NewGO<KillCount>(PRIORITY1);
+	m_time = NewGO<TimeSprite>(PRIORITY1);
+	m_killcount = NewGO<KillCountSprite>(PRIORITY1);
 }
 
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
@@ -35,7 +33,8 @@ GameScene::~GameScene()
 		DeleteGO(m_player[i]);
 	}
 	DeleteGO(m_map);
-	//DeleteGO(m_time);
+	DeleteGO(m_time);
+	DeleteGO(m_killcount);
 	g_gameScene = nullptr;
 }
 
@@ -51,7 +50,7 @@ bool GameScene::Start()
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{
 		m_player[i] = NewGO<Player>(PRIORITY1);
-		m_player[i]->SetPlayerNum(g_gameCamera[i]->GetCameraNum());
+		m_player[i]->SetPlayerNum(g_gameCamera[i]->GetPlayerNum());
 	}
 
 	m_bgm = NewGO<CSoundSource>(PRIORITY1);
@@ -73,16 +72,22 @@ void GameScene::Update()
 /*!
 *@brief	•`‰æŠÖ”B
 */
-void GameScene::Render(CRenderContext& renderContext)
+void GameScene::Render(CRenderContext& renderContext, int playernum)
 {
+	m_map->Render(renderContext, playernum);
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		m_player[i]->Render(renderContext, playernum);
+	}
 }
 
 /*!
 *@brief	•`‰æŠÖ”B
 */
-void GameScene::PostRender(CRenderContext& renderContext)
+void GameScene::PostRender(CRenderContext& renderContext, int playernum)
 {
-
+	m_killcount->PostRender(renderContext);
+	m_time->PostRender(renderContext);
 }
 
 /*!

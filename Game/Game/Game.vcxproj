@@ -167,8 +167,9 @@
     <ClCompile Include="Camera\GameCamera.cpp" />
     <ClCompile Include="GrenadeBullet.cpp" />
     <ClCompile Include="HUD\Bar.cpp" />
+    <ClCompile Include="HUD\KillCountSprite.cpp" />
+    <ClCompile Include="HUD\TimeSprite.cpp" />
     <ClCompile Include="Item.cpp" />
-    <ClCompile Include="KillCount.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="Map\Map.cpp" />
@@ -191,7 +192,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TimeSprite.cpp" />
     <ClCompile Include="Weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -199,8 +199,9 @@
     <ClInclude Include="Camera\GameCamera.h" />
     <ClInclude Include="GrenadeBullet.h" />
     <ClInclude Include="HUD\Bar.h" />
+    <ClInclude Include="HUD\KillCountSprite.h" />
+    <ClInclude Include="HUD\TimeSprite.h" />
     <ClInclude Include="Item.h" />
-    <ClInclude Include="KillCount.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="Map\Map.h" />
     <ClInclude Include="Map\MapChip.h" />
@@ -218,7 +219,6 @@
     <ClInclude Include="Scene\WaitScene\WaitScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stuNamespace.h" />
-    <ClInclude Include="TimeSprite.h" />
     <ClInclude Include="Weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

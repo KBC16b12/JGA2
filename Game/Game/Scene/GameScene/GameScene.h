@@ -1,9 +1,9 @@
 #pragma once
 
 class Player;
-class KillCount;
-class Time;
 #include"../../Map/Map.h"
+#include "../../HUD/KillCountSprite.h"
+#include "../../HUD/TimeSprite.h"
 
 /*!
  *@brief	ゲームシーン。
@@ -44,25 +44,14 @@ public:
 	/*!
 	*@brief	描画関数。
 	*/
-	void Render(CRenderContext& renderContext);
+	void Render(CRenderContext& renderContext, int playernum)override;
+
+	void PostRender(CRenderContext& renderContext, int playernum)override;
 
 	Player* const GetPlayer(int playernum)
 	{
 		return m_player[playernum];
 	}
-	
-	const std::vector<MapChip*>&  GetMap()
-	{
-		return m_map->GetMap();
-	}
-
-	/*!
-	*@brief	遅延描画関数。
-	@details
-	* ポストエフェクトの後で実行されます。HUDなどポストエフェクトの影響を受けたくない描画物はここでレンダリングしてください。
-	*@param[in]		renderContext		レンダリングコンテキスト。
-	*/
-	void PostRender(CRenderContext& renderContext) override;
 
 	void SetActiveFlags(bool flag);
 
@@ -81,8 +70,8 @@ private:
 	CLight						m_light;								//!<ライト。
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
 	SceneData					m_scenedata;					//画面遷移データ
-	KillCount*					m_killcount;					//キル数のスプライト
-	Time*						m_time;
+	KillCountSprite*					m_killcount;					//キル数のスプライト
+	TimeSprite*						m_time;
 };
 
 extern GameScene* g_gameScene;
