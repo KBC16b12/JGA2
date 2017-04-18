@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
-#include "../Bar/Bar.h"
+#include "HUD/Bar.h"
 #include "../Camera/GameCamera.h"
 
 Player *player;

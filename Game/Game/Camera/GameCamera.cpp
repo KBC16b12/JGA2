@@ -78,3 +78,8 @@ void GameCamera::Render(CRenderContext& renderContext)
 		}
 	}
 }
+
+void GameCamera::PostRender(CRenderContext& rendercontext)
+{
+
+}

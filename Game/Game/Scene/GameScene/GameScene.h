@@ -1,6 +1,8 @@
 #pragma once
 
 class Player;
+class KillCount;
+class Time;
 #include"../../Map/Map.h"
 
 /*!
@@ -75,21 +77,12 @@ private:
 	CSoundSource*				m_bgm;							//BGMソース。
 	Player*						m_player[PLAYER_NUM];						//プレイヤ
 	Map*						m_map;							//マップ
-
-	CTexture*					m_texture[10];
-	CSprite						m_timesprite[3];
-	CSprite						m_killsprite[2];
-
 	CCamera						m_camera;								//!<カメラ。
-
 	CLight						m_light;								//!<ライト。
-
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
-
 	SceneData					m_scenedata;					//画面遷移データ
-
-	int m_time;				//タイマー
-	int m_killcount;		//キル数
+	KillCount*					m_killcount;					//キル数のスプライト
+	Time*						m_time;
 };
 
 extern GameScene* g_gameScene;
