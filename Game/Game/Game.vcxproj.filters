@@ -119,18 +119,6 @@
     <ClCompile Include="MapObject.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Source Files\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Source Files\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files\Bullet</Filter>
-    </ClCompile>
-    <ClCompile Include="GrenadeBullet.cpp">
-      <Filter>Source Files\Bullet</Filter>
-    </ClCompile>
     <ClCompile Include="HUD\Bar.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
@@ -139,6 +127,18 @@
     </ClCompile>
     <ClCompile Include="HUD\TimeSprite.cpp">
       <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Weapon.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet\Bullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet\GrenadeBullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Item\Item.cpp">
+      <Filter>Source Files\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,18 +196,6 @@
     <ClInclude Include="MapObject.h">
       <Filter>Source Files\Map</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Source Files\Item</Filter>
-    </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Source Files\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Source Files\Bullet</Filter>
-    </ClInclude>
-    <ClInclude Include="GrenadeBullet.h">
-      <Filter>Source Files\Bullet</Filter>
-    </ClInclude>
     <ClInclude Include="HUD\Bar.h">
       <Filter>Source Files\HUD</Filter>
     </ClInclude>
@@ -216,6 +204,18 @@
     </ClInclude>
     <ClInclude Include="HUD\TimeSprite.h">
       <Filter>Source Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet\Bullet.h">
+      <Filter>Source Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet\GrenadeBullet.h">
+      <Filter>Source Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Item\Item.h">
+      <Filter>Source Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Weapon.h">
+      <Filter>Source Files\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

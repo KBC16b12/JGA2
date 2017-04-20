@@ -39,6 +39,16 @@ public:
 	*/
 	void SetViewPort(int x, int y, int width, int height, int cameranum);
 
+
+	/*
+	*@brief 画面分割が終わったら呼ぶ関数
+	*/
+	void FinishViewPort()
+	{
+		m_ViewportFlg = false;
+	}
+
+	void SetPos();
 	/*!
 	*@brief	ビューマトリックスを返す。
 	*/

@@ -21,6 +21,7 @@ Player::Player()
 	m_HPbar->SetData(m_hp, m_maxhp);
 	m_HPbar->SetBerQuarter(Bar::enBarQuarter::enQuaLeft);
 	m_killcount = NewGO<KillCountSprite>(PRIORITY1);
+	m_weapon.Init(this);
 }
 
 Player::~Player()
@@ -45,6 +46,11 @@ bool Player::Start()
 
 void Player::Update()
 {
+	if (Pad(m_playernum).IsTrigger(enButtonRB1))
+	{
+		m_weapon.BulletFilling();
+	}
+	m_weapon.Update();
 	UpdateHPBar();
 
 	Move();
@@ -55,9 +61,10 @@ void Player::Update()
 	m_Animation.Update(1.0f / 50.0f);
 }
 
-void Player::Render(CRenderContext& renderContext, int cameranum)
+void Player::Render(CRenderContext& renderContext, int playernum)
 {
-	m_skinModel.Draw(renderContext, g_gameCamera[cameranum]->GetViewMatrix(), g_gameCamera[cameranum]->GetProjectionMatrix());
+	m_skinModel.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
+	m_weapon.Render(renderContext, playernum);
 }
 
 void Player::PostRender(CRenderContext& renderContext, int playernum)

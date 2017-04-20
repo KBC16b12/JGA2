@@ -79,6 +79,17 @@ namespace tkEngine{
 		{
 			return m_isOnGround;
 		}
+		/*
+		* @brief	何か物に当たったか
+		*/
+		bool IsCollision() const
+		{
+			return m_isCollision;
+		}
+		void SetCollisionFlg(bool collision)
+		{
+			m_isCollision = collision;
+		}
 		/*!
 		* @brief	コライダーを取得。
 		*/
@@ -114,5 +125,6 @@ namespace tkEngine{
 		float				m_height = 0.0f;		
 		CRigidBody			m_rigidBody;					//剛体。
 		float				m_gravity = -9.8f;				//重力。
+		bool				m_isCollision;
 	};
 }

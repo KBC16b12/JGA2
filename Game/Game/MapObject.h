@@ -33,15 +33,13 @@ public:
 	/*!
 	*@brief	描画関数。
 	*@param[in]		renderContext		レンダリングコンテキスト。
+	*@param[in]		playernum			どのプレイヤーに描画したいか
 	*/
-
 	void Render(CRenderContext& renderContext, int cameranum) override;
 
 private:
 	CMeshCollider				m_meshCollider;		//メッシュコライダー。
 	CRigidBody					m_rigidBody;		//剛体。
-
-	CLight						m_Light;			//ライト
 
 };
 

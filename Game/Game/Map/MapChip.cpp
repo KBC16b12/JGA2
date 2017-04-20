@@ -29,8 +29,6 @@ void MapChip::Init(SMapInfo map_dat)
 	m_rotation = map_dat.s_rotation;
 	m_scale = map_dat.s_scale;
 	m_SkinModel.Update(m_position, m_rotation, m_scale);
-
-
 }
 
 bool MapChip::Start()

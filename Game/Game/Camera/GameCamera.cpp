@@ -30,7 +30,22 @@ void GameCamera::Update()
 {
 
 	m_camera.Update();
+	SetPos();
 	Move();
+}
+
+
+void GameCamera::SetPos()
+{
+	//if (!m_ViewportFlg)
+	//{
+	//	return;
+	//}
+	//CVector3 l_tarbget = m_player->GetPosition();
+	//l_tarbget.y += 3.5;
+	//m_camera.SetPosition(l_tarbget);
+	//l_tarbget.Add(m_player->GetFrontWorldMatrix());
+	//m_camera.SetTarget(l_tarbget);
 }
 
 void GameCamera::Move()

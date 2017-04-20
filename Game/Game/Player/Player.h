@@ -32,6 +32,42 @@ public:
 	*/
 	void Update() override;
 
+	/*!
+	*@brief	描画関数。
+	*/
+	void Render(CRenderContext& renderContext, int cameranum)override;
+
+	void PostRender(CRenderContext& renderContext, int cameranum)override;
+
+	void Move();
+
+	CVector3 GetPosition()
+	{
+		return m_position;
+	}
+
+	/*
+	*@brief プレイヤーの前方のワールド行列
+	*/
+	CVector3 GetFrontWorldMatrix()
+	{
+		CVector3 l_frontWorldMatrix;
+		CMatrix l_worldMatrix = m_skinModel.GetWorldMatrix();
+		l_frontWorldMatrix.x = l_worldMatrix.m[2][0];
+		l_frontWorldMatrix.y = l_worldMatrix.m[2][1];
+		l_frontWorldMatrix.z = l_worldMatrix.m[2][2];
+		l_frontWorldMatrix.Scale(-1.0f);
+		return l_frontWorldMatrix;
+	}
+
+	/*
+	*@brief プレイヤー持ってる武器クラスにアイテムをセットする関数
+	*/
+	void SetWeapon()
+	{
+		m_weapon.SetWeapon();
+	}
+
 	/*
 	プレイヤーの番号をセットする関数
 	プレイヤーの番号とカメラの番号は同じ
@@ -41,14 +77,10 @@ public:
 		m_playernum = playernum;
 	}
 
-	/*!
-	*@brief	描画関数。
-	*/
-	void Render(CRenderContext& renderContext, int cameranum)override;
-
-	void PostRender(CRenderContext& renderContext, int cameranum)override;
-
-	void Move();
+	int GetPlayerNUm()
+	{
+		return m_playernum;
+	}
 
 private:
 	/*!
@@ -71,5 +103,6 @@ private:
 	int						m_hp;			//HP
 	int						m_maxhp;		//最大HP
 	int						m_playernum;
+	Weapon					m_weapon;
 };
 
