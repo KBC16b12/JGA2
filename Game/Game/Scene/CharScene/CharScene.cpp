@@ -35,7 +35,7 @@ void CharScene::Init(bool isMulti)
 
 bool CharScene::Start()
 {
-	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init("Assets/sound/Wait.wav");
 	//m_bgm->Play(true);
 	return true;
@@ -89,17 +89,17 @@ void CharScene::SceneChange()
 			switch (m_scenedata)
 			{
 			case enGame:
-				g_gameScene = NewGO<GameScene>(0);
+				g_gameScene = NewGO<GameScene>(PRIORITY1);
 				g_gameScene->Init(n_solo_map_dat, "Assets/sound/GameBGM2.wav");
 				break;
 			case enJoin:
-				NewGO<JoinScene>(0);
+				NewGO<JoinScene>(PRIORITY1);
 				break;
 			case enTitle:
-				NewGO<TitleScene>(0);
+				NewGO<TitleScene>(PRIORITY1);
 				break;
 			case enSolo:
-				NewGO<SoloScene>(0);
+				NewGO<SoloScene>(PRIORITY1);
 				break;
 			default:
 				break;

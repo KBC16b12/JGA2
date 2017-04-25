@@ -49,6 +49,11 @@ namespace tkEngine{
 		{
 
 		}
+		virtual void Render(CRenderContext& renderContext, int cameranum)
+		{
+
+		}
+
 		/*!
 		 *@brief	削除されるときに呼ばれる。
 		 *@details	CGameManager::DeleteGameObjectを呼んだときに実行されます。
@@ -86,6 +91,8 @@ namespace tkEngine{
 		 * ポストエフェクトの後で実行されます。HUDなどポストエフェクトの影響を受けたくない描画物はここでレンダリングしてください。
 		 */
 		virtual void PostRender(CRenderContext& renderContext ) {}
+
+		virtual void PostRender(CRenderContext& renderContext, int playernum){}
 		/*!
 		*@brief	死亡フラグを立てる。
 		*@details

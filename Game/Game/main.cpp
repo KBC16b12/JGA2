@@ -78,12 +78,14 @@ int WINAPI wWinMain(
 	//tkEngineの初期化。
 	InitTkEngine(hInst);
 
-	g_Fade = NewGO<Fade>(1);
+	g_Fade = NewGO<Fade>(PRIORITY2);
 
-	g_gameCamera = NewGO<GameCamera>(0);
-
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		g_gameCamera[i] = NewGO<GameCamera>(PRIORITY0);
+	}
 	//タイトルシーンの作成。
-	NewGO<TitleScene>(0)->Init(enRun);
+	NewGO<TitleScene>(PRIORITY1)->Init(enRun);
 	
 	Engine().RunGameLoop();		//ゲームループを実行。
 

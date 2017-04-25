@@ -1,4 +1,6 @@
 #pragma once
+class Player;
+
 class GameCamera : public IGameObject
 {
 public:
@@ -18,6 +20,34 @@ public:
 	*/
 	void Update();
 
+	/*
+	*@brief 描画関数
+	ここでカメラ毎のオブジェクトを描画する
+	*/
+	void Render(CRenderContext&)override;
+
+	void PostRender(CRenderContext&)override;
+
+	/*
+	*@brief ビューポートの矩形の場所とカメラの番号付けする関数
+	x		左上隅のx座標
+	y		左上隅のy座標
+	width	xからの横幅
+	height	yからの縦幅
+	cameranum カメラの番号
+	*/
+	void SetViewPort(int x, int y, int width, int height, int cameranum);
+
+
+	/*
+	*@brief 画面分割が終わったら呼ぶ関数
+	*/
+	void FinishViewPort()
+	{
+		m_ViewportFlg = false;
+	}
+
+	void SetPos();
 	/*!
 	*@brief	ビューマトリックスを返す。
 	*/
@@ -34,14 +64,22 @@ public:
 		return m_camera.GetProjectionMatrix();
 	}
 
+	int GetPlayerNum()
+	{
+		return m_playernum;
+	}
 
 private:
 	CCamera					m_camera;				//カメラ
-	CCharacterController	m_characterController;	//キャラクタ―コントローラー
+	//CCharacterController	m_characterController;	//キャラクタ―コントローラー
 	CVector3				m_position;				//座標
 	CVector3				m_look_position;		//注視点
 
+	SViewport				m_sviewPort;
 	float					m_angle;				//角度
+	int						m_playernum;			//ビューポートで区切ったときのカメラの番号
+	bool					m_ViewportFlg;
+	Player*					m_player;
 };
 
-extern GameCamera* g_gameCamera;
+extern GameCamera* g_gameCamera[PLAYER_NUM];

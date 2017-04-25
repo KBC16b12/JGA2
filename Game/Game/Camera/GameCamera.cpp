@@ -5,10 +5,11 @@
 
 //extern GameScene* g_player;
 extern Player* g_player;
-GameCamera* g_gameCamera;
+GameCamera* g_gameCamera[PLAYER_NUM];
 
 GameCamera::GameCamera()
 {
+	
 	//ƒJƒƒ‰‚Ì‰Šú‰»
 	m_position = CVector3::Zero;
 	m_position.z -= 50.0f;
@@ -21,6 +22,7 @@ GameCamera::GameCamera()
 	m_camera.SetUp(CVector3::AxisY);
 
 	m_camera.Update();
+	m_ViewportFlg = false;
 }
 
 GameCamera::~GameCamera()
@@ -32,28 +34,52 @@ void GameCamera::Update()
 	float move;
 	move = -5.0f;
 
-	CVector3 l_move = m_characterController.GetPosition();
+	//CVector3 l_move = m_characterController.GetPosition();
 	CVector3 l_moveX, l_moveY, l_moveZ;
 	CVector3 Ppos;
 
-	l_move.x = 0.0f;
-	l_move.y = 0.0f;
-	l_move.z = 0.0f;
+	m_camera.Update();
+	SetPos();
+}
 
-	l_moveX.Scale(move);
-	l_moveY.Scale(move);
-	l_moveZ.Scale(move);
 
-	l_moveX.Scale(Pad(0).GetLStickXF());
-	l_moveZ.Scale(Pad(0).GetLStickYF());
-	l_move.Add(l_moveX);
-	l_move.Add(l_moveZ);
-
-	if (g_gameScene != nullptr)
+void GameCamera::SetPos()
+{
+	if (!m_ViewportFlg)
 	{
-		Ppos = g_player->GetPos();
+		return;
 	}
+	CVector3 l_tarbget = m_player->GetPosition();
+	l_tarbget.y += 3.5;
+	m_camera.SetPosition(l_tarbget);
+	l_tarbget.Add(m_player->GetFrontWorldMatrix());
+	m_camera.SetTarget(l_tarbget);
+}
 
-	m_camera.SetPosition(m_position);
-	m_camera.SetTarget(Ppos);
+void GameCamera::SetViewPort(int x, int y, int width, int height, int playernum)
+{
+	m_playernum = playernum;
+	m_sviewPort = { (DWORD)x, (DWORD)y, (DWORD)width, (DWORD)height, 0.0f, 1.0f };
+	m_player = g_gameScene->GetPlayer(m_playernum);
+	m_ViewportFlg = true;
+}
+
+void GameCamera::Render(CRenderContext& renderContext)
+{
+	if (!m_ViewportFlg)
+	{
+		return;
+	}
+	renderContext.SetViewport(m_sviewPort);
+	g_gameScene->Render(renderContext, m_playernum);
+}
+
+void GameCamera::PostRender(CRenderContext& renderContext)
+{
+	if (!m_ViewportFlg)
+	{
+		return;
+	}
+	renderContext.SetViewport(m_sviewPort);
+	g_gameScene->PostRender(renderContext, m_playernum);
 }

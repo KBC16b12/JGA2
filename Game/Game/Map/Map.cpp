@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Map.h"
-#include "MapChip.h"
+#include "../MapObject.h"
+#include "../Camera/GameCamera.h"
+#include "../Item/Item.h"
 
 Map::Map()
 {
@@ -21,7 +23,16 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 	//マップチップの作成
 	for each(SMapInfo l_map_dat in map_dat)
 	{
-		m_mapchip.push_back(NewGO<MapChip>(0));
+		MapChip *l_mapChip;
+		if (!strcmp("Itembox", l_map_dat.s_modelName))
+		{
+			l_mapChip = NewGO<Item>(PRIORITY1);
+		}
+		else
+		{
+			l_mapChip = NewGO<MapObject>(PRIORITY1);
+		}
+		m_mapchip.push_back(l_mapChip);
 		m_mapchip.back()->Init(l_map_dat);
 	}
 }
@@ -36,7 +47,15 @@ void Map::Update()
 
 }
 
-void Map::PostRender(CRenderContext& renderContext)
+void Map::Render(CRenderContext& renderContext, int playernum)
+{
+	for (MapChip* chip : m_mapchip)
+	{
+		chip->Render(renderContext, playernum);
+	}
+}
+
+void Map::PostRender(CRenderContext& renderContext, int playernum)
 {
 
 }

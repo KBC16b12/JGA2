@@ -24,7 +24,7 @@ void TitleScene::Init(RunStat stat)
 
 bool TitleScene::Start()
 {
-	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init("Assets/sound/TitleBGM.wav");
 	//m_bgm->Play(true);
 
@@ -80,10 +80,10 @@ void TitleScene::SceneChange()
 			switch (m_scenedata)
 			{
 			case enChar:
-				NewGO<CharScene>(0)->Init(true);
+				NewGO<CharScene>(PRIORITY1)->Init(true);
 				break;
 			case enSolo:
-				NewGO<SoloScene>(0);
+				NewGO<SoloScene>(PRIORITY1);
 				break;
 			default:
 				break;
