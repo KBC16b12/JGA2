@@ -12,6 +12,7 @@ namespace tkEngine{
 	 */
 	CBloomRender::CBloomRender()
 	{
+		m_isEnable = false;
 	}
 	/*!
 	 * @brief	デストラクタ。
