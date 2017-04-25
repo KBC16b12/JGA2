@@ -9,7 +9,7 @@ Item::Item()
 {
 	m_activeFlg = false;
 	m_intervalTime = 0;
-	m_rigidBodyFlg = true;
+	m_rigidBodyFlg = false;
 }
 
 

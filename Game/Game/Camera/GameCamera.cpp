@@ -50,7 +50,7 @@ void GameCamera::SetPos()
 
 void GameCamera::Move()
 {
-	CVector3 C_movespeed = m_characterController.GetMoveSpeed();
+	//CVector3 C_movespeed = m_characterController.GetMoveSpeed();
 	CVector3 C_moveX;
 	CVector3 C_moveY;
 
