@@ -3,6 +3,7 @@
 #include "../Camera/GameCamera.h"
 #include "../Scene/GameScene/GameScene.h"
 #include "../Player/Player.h"
+#include "../Map/MapChip.h"
 
 
 Item::Item()

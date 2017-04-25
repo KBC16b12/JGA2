@@ -1,5 +1,6 @@
 #pragma once
-#include "C:\Users\kbc16\Documents\github\JGA2\Game\Game\Map\MapChip.h"
+
+#include "Map/MapChip.h"
 
 /*
 マップにあるアイテムボックスのクラス
