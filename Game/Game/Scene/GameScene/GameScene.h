@@ -54,6 +54,8 @@ public:
 
 	void SetActiveFlags(bool flag);
 
+	void OnDestroy();
+
 private:
 	/*!
 	*@brief	‰æ–Ê‘JˆÚŠÖ”B

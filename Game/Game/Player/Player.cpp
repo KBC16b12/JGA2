@@ -3,12 +3,15 @@
 #include "HUD/Bar.h"
 #include "../Camera/GameCamera.h"
 #include "../HUD/KillCountSprite.h"
+#include "../Scene/GameScene/GameScene.h"
 
 Player *player;
 Player::Player()
 {
+	m_respawnPosition = m_position;
 	//HP設定
 	m_maxhp = m_hp = 15;
+	m_killCount = 0;
 
 	m_HPbar = NewGO<Bar>(PRIORITY1);
 	m_HPbar->SetBarPos({ -592.95f, 320.0f });
@@ -20,14 +23,13 @@ Player::Player()
 	m_HPbar->SetBarBackPath("Assets/sprite/Black.png");
 	m_HPbar->SetData(m_hp, m_maxhp);
 	m_HPbar->SetBerQuarter(Bar::enBarQuarter::enQuaLeft);
-	m_killcount = NewGO<KillCountSprite>(PRIORITY1);
-	m_weapon.Init(this);
+	m_killCountSprite = NewGO<KillCountSprite>(PRIORITY1);
 }
 
 Player::~Player()
 {
 	DeleteGO(m_HPbar);
-	DeleteGO(m_killcount);
+	DeleteGO(m_killCountSprite);
 }
 
 bool Player::Start()
@@ -37,7 +39,7 @@ bool Player::Start()
 	g_defaultLight.SetAmbinetLight(CVector3::One);
 	m_skinModel.SetLight(&g_defaultLight);	//デフォルトライトを設定。
 	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(0.0f));
-
+	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(0.5f, 1.0f, m_position);
 
@@ -52,6 +54,7 @@ void Player::Update()
 	}
 	m_weapon.Update();
 	UpdateHPBar();
+	m_killCountSprite->SetData(m_killCount);
 
 	Move();
 
@@ -70,7 +73,7 @@ void Player::Render(CRenderContext& renderContext, int playernum)
 void Player::PostRender(CRenderContext& renderContext, int playernum)
 {
 	m_HPbar->PostRender(renderContext, playernum);
-	m_killcount->PostRender(renderContext, playernum);
+	m_killCountSprite->PostRender(renderContext, playernum);
 }
 
 void Player::UpdateHPBar()
@@ -145,6 +148,26 @@ void Player::Move()
 	//実行結果を受け取る。
 	m_position = m_characterController.GetPosition();
 
-
 	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(m_angle));
+}
+
+void Player::Damage(int playerNum)
+{
+	//HPを減算
+	m_hp--;
+	if (m_hp <= 0)
+	{
+		//もしHPが０になり死んだ場合殺した相手のカウントアップをしリスポーンする。
+		g_gameScene->GetPlayer(playerNum)->KillCountUp();
+		Respawn();
+	}
+}
+
+void Player::Respawn()
+{
+	//HPを回復して座標を初期化
+	m_hp = m_maxhp;
+	m_position = m_respawnPosition;
+	m_characterController.SetPosition(m_position);
+	m_rotation = m_respawnRotation;
 }

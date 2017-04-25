@@ -2,6 +2,11 @@
 #include "BULLET.H"
 #include "../Player/Weapon.h"
 
+/*
+*@brief グレネードランチャーのクラス
+*/
+
+
 class GrenadeBullet : public Bullet
 {
 public:
@@ -12,12 +17,14 @@ public:
 	/*
 	*@brief 初期化関数
 	*/
-	void Init(CVector3 position, CVector3 moveSpeed, Weapon* weapon, int arraynum)override;
+	void Init(Weapon* weapon, int arraynum, int playerNum)override;
 
 	/*
 	*@brief 更新処理
 	*/
 	void Update()override;
+
+	void DethCheck()override;
 
 private:
 

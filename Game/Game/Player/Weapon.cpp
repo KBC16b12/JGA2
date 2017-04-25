@@ -19,9 +19,10 @@ Weapon::~Weapon()
 {
 }
 
-void Weapon::Init(Player* player)
+void Weapon::Init(Player* player, int playerNum)
 {
 	m_player = player;
+	m_playerNum = playerNum;
 }
 
 bool Weapon::Start()
@@ -55,7 +56,7 @@ void Weapon::BulletFilling()
 		l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
 		break;
 	}
-	l_bullet->Init(m_player->GetPosition(), m_player->GetFrontWorldMatrix(), this, l_ArrayNum);
+	l_bullet->Init(this, l_ArrayNum, m_playerNum);
 	m_bullet[l_ArrayNum] = l_bullet;
 	//アイテムを使った状態の場合数を減らす
 	m_bulletStrikeNum--;
@@ -83,6 +84,18 @@ void Weapon::Render(CRenderContext& renderContext, int playernum)
 		if (m_bullet[i] != nullptr)
 		{
 			m_bullet[i]->Render(renderContext, playernum);
+		}
+	}
+}
+
+void Weapon::OnDestroy()
+{
+	for (int i = 0; i < BULLET_NUM;i++)
+	{
+		if (m_bullet[i] != nullptr)
+		{
+			DeleteGO(m_bullet[i]);
+			m_bullet[i] = nullptr;
 		}
 	}
 }

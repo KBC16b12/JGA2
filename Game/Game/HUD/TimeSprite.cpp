@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "TimeSprite.h"
 
-
+/*
+*@brief ゲーム内の時間を表示するスプライト
+*/
 TimeSprite::TimeSprite()
 {
 	m_time = 999;

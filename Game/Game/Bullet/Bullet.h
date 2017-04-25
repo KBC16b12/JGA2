@@ -21,7 +21,7 @@ public:
 	*@brief position プレイヤーのポジション
 	*@brief moveSpeed
 	*/
-	virtual void Init(CVector3 position, CVector3 moveSpeed, Weapon *weapon, int arraynum);
+	virtual void Init(Weapon *weapon, int arrayNum, int playerNum);
 
 
 	/*
@@ -35,6 +35,7 @@ public:
 	*/
 	virtual void Move();
 
+	virtual void DethCheck();
 	/*
 	*@brief 描画関数
 	*/
@@ -54,6 +55,6 @@ protected:
 	CSkinModelDataHandle	m_modelData;
 	CLight					m_light;
 	Weapon*					m_weapon;
-	int						m_lifeTime;
 	int						m_arraynum;
+	int						m_playerNum;
 };

@@ -15,7 +15,7 @@ Item::Item()
 
 Item::~Item()
 {
-	if (m_rigidBodyFlg)
+	if (!m_rigidBodyFlg)
 	{
 		return;
 	}

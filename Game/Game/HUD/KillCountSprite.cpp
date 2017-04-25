@@ -31,12 +31,6 @@ bool KillCountSprite::Start()
 
 void KillCountSprite::Update()
 {
-	if (GetAsyncKeyState('2') & 0x8000) {
-		if (m_killcount < 99) {
-			m_killcount++;
-		}
-	}
-
 	int l_num1 = 0, l_num10 = 0;
 
 	l_num10 = (m_killcount % 100) / 10;

@@ -201,6 +201,7 @@ namespace tkEngine {
 					}
 				}
 				else {
+					m_isCollision = false;
 					//‚Ç‚±‚Æ‚à“–‚½‚ç‚È‚¢‚Ì‚ÅI‚í‚èB
 					break;
 

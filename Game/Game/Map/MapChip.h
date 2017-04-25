@@ -2,6 +2,10 @@
 
 struct Status::SMapInfo;
 
+/*
+*@brief マップチップとしてマップに配置するオブジェクトの親クラス
+*/
+
 class MapChip : public IGameObject
 {
 public:	

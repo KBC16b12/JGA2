@@ -41,6 +41,17 @@ public:
 
 	void Move();
 
+	/*
+	*@brief ダメージを受けた時に呼ばれる関数
+	*@brief int playerNum
+	*/
+	void Damage(int playerNum);
+
+	/*
+	*@brief リスポーン処理
+	*/
+	void Respawn();
+
 	CVector3 GetPosition()
 	{
 		return m_position;
@@ -75,11 +86,17 @@ public:
 	void SetPlayerNum(int playernum)
 	{
 		m_playernum = playernum;
+		m_weapon.Init(this, m_playernum);
 	}
 
 	int GetPlayerNUm()
 	{
 		return m_playernum;
+	}
+	
+	void KillCountUp()
+	{
+		m_killCount++;
 	}
 
 private:
@@ -94,15 +111,18 @@ private:
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
 	CVector3				m_position = { 0.0f, 40.0f, 0.0f };
+	CVector3				m_respawnPosition;
+	CQuaternion				m_respawnRotation;
 
 	int						m_currentAnimationNo;
 	float					m_angle = 180;
 
-	KillCountSprite*		m_killcount;					//キル数のスプライト
+	KillCountSprite*		m_killCountSprite;					//キル数のスプライト
 	Bar*					m_HPbar;		//HPバー
 	int						m_hp;			//HP
 	int						m_maxhp;		//最大HP
 	int						m_playernum;
+	int						m_killCount;
 	Weapon					m_weapon;
 };
 

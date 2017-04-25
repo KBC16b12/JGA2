@@ -21,7 +21,7 @@ public:
 	/*
 	*@brief 初期化関数
 	*/
-	void Init(Player* player);
+	void Init(Player* player, int playerNum);
 
 	bool Start();
 
@@ -40,6 +40,8 @@ public:
 	*/
 	void SetWeapon();
 
+	void OnDestroy()override;
+
 	/*
 	*@brief bulletを消す関数
 	*@brief bullet側で呼び出す
@@ -47,8 +49,11 @@ public:
 	*/
 	void Delete(int arraynum)
 	{
-		DeleteGO((IGameObject*)m_bullet[arraynum]);
-		m_bullet[arraynum] = nullptr;
+		if (m_bullet[arraynum] != nullptr)
+		{
+			DeleteGO((IGameObject*)m_bullet[arraynum]);
+			m_bullet[arraynum] = nullptr;
+		}
 	}
 
 	/*
@@ -62,4 +67,5 @@ private:
 	Player* m_player;				//参照用のプレイヤーのインスタンス
 	Bullet* m_bullet[BULLET_NUM];	//弾を管理してる配列
 	int		m_bulletStrikeNum;		//アイテムを使った状態の弾を打てる回数
+	int		m_playerNum;			
 };

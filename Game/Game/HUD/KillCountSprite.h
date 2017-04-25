@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+*@brief プレイヤーを殺した数のスプライト
+*/
+
 class KillCountSprite : public IGameObject
 {
 public:
@@ -16,6 +20,11 @@ public:
 	*@brief 更新処理
 	*/
 	void Update()override;
+
+	void SetData(int killCount)
+	{
+		m_killcount = killCount;
+	}
 
 	/*
 	*@brief 描画関数
