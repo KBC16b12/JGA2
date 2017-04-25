@@ -34,10 +34,13 @@ Player::~Player()
 
 bool Player::Start()
 {
-	m_skinModelData.LoadModelData("Assets/modelData/snowman.X", NULL);
-	m_skinModel.Init(&m_skinModelData);
 	g_defaultLight.SetAmbinetLight(CVector3::One);
-	m_skinModel.SetLight(&g_defaultLight);	//デフォルトライトを設定。
+	m_skinModelDataFirst.LoadModelData("Assets/modelData/snowman_first.X", NULL);
+	m_skinModelFirst.Init(&m_skinModelDataFirst);
+	m_skinModelFirst.SetLight(&g_defaultLight);	//デフォルトライトを設定。
+	m_skinModelDataThird.LoadModelData("Assets/modelData/snowman1-3.X", NULL);
+	m_skinModelThird.Init(&m_skinModelDataThird);
+	m_skinModelThird.SetLight(&g_defaultLight);	//デフォルトライトを設定。
 	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(0.0f));
 	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
@@ -59,14 +62,23 @@ void Player::Update()
 	Move();
 
 	//ワールド行列の更新
-	m_skinModel.Update(m_position, m_rotation, { 5.0f,5.0f,5.0f });
+	m_skinModelFirst.Update(m_position, m_rotation, CVector3::One);
+	m_skinModelThird.Update(m_position, m_rotation, { 5.0f,5.0f,5.0f });
 	//アニメーションの更新
 	m_Animation.Update(1.0f / 50.0f);
 }
 
 void Player::Render(CRenderContext& renderContext, int playernum)
 {
-	m_skinModel.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
+	//自分のカメラからは一人称視点のモデルを、他のカメラからは3人称視点のモデルを描画する。
+	if (m_playernum == playernum)
+	{
+		m_skinModelFirst.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
+	}
+	else
+	{
+		m_skinModelThird.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
+	}
 	m_weapon.Render(renderContext, playernum);
 }
 
@@ -110,7 +122,7 @@ void Player::Move()
 	CVector3 l_moveZ;
 	l_moveSpeed.x = 0.0f;
 	l_moveSpeed.z = 0.0f;
-	CMatrix l_pmatrix = m_skinModel.GetWorldMatrix();
+	CMatrix l_pmatrix = m_skinModelFirst.GetWorldMatrix();
 
 	l_moveX.x = l_pmatrix.m[0][0];
 	l_moveX.y = l_pmatrix.m[0][1];
@@ -147,7 +159,7 @@ void Player::Move()
 	m_characterController.Execute(GameTime().GetFrameDeltaTime());
 	//実行結果を受け取る。
 	m_position = m_characterController.GetPosition();
-
+	m_position.y += 2.0f;
 	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(m_angle));
 }
 

@@ -82,7 +82,7 @@ int WINAPI wWinMain(
 
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{
-		g_gameCamera[i] = NewGO<GameCamera>(PRIORITY0);
+		g_gameCamera[i] = NewGO<GameCamera>(PRIORITY1);
 	}
 	//タイトルシーンの作成。
 	NewGO<TitleScene>(PRIORITY1)->Init(enRun);

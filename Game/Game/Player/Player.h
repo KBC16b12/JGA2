@@ -63,7 +63,7 @@ public:
 	CVector3 GetFrontWorldMatrix()
 	{
 		CVector3 l_frontWorldMatrix;
-		CMatrix l_worldMatrix = m_skinModel.GetWorldMatrix();
+		CMatrix l_worldMatrix = m_skinModelFirst.GetWorldMatrix();
 		l_frontWorldMatrix.x = l_worldMatrix.m[2][0];
 		l_frontWorldMatrix.y = l_worldMatrix.m[2][1];
 		l_frontWorldMatrix.z = l_worldMatrix.m[2][2];
@@ -105,8 +105,10 @@ private:
 	*/
 	void UpdateHPBar();
 	
-	CSkinModel				m_skinModel;					//スキンモデル
-	CSkinModelData			m_skinModelData;				//スキンモデルデータ
+	CSkinModel				m_skinModelFirst;					//スキンモデル
+	CSkinModelData			m_skinModelDataFirst;				//スキンモデルデータ
+	CSkinModel				m_skinModelThird;
+	CSkinModelData			m_skinModelDataThird;
 	CQuaternion				m_rotation;					//回転
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。

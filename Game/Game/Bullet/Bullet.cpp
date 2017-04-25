@@ -23,7 +23,6 @@ void Bullet::Init(Weapon *weapon, int arrayNum, int playerNum)
 	//À•W‚Ì‰Šú‰»
 	Player *l_player = g_gameScene->GetPlayer(m_playerNum);
 	m_position = l_player->GetPosition();
-	m_position.y += 3.5f;
 	//
 	m_characterController.Init(0.3f, 0.3f, m_position);
 	m_characterController.SetGravity(0.0f);
