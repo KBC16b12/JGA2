@@ -1,5 +1,4 @@
 #pragma once
-
 class Bar;
 
 class Player : public IGameObject
@@ -37,6 +36,11 @@ public:
 
 	void Move();
 
+	CVector3 GetPos()
+	{
+		return m_position;
+	}
+
 private:
 	/*!
 	*@brief	HPバー更新関数。
@@ -45,7 +49,7 @@ private:
 	
 	CSkinModel				m_skinModel;					//スキンモデル
 	CSkinModelData			m_skinModelData;				//スキンモデルデータ
-	CQuaternion				m_rotation;					//回転
+	CQuaternion				m_rotation;						//回転
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
 	CVector3				m_position = { 0.0f, 40.0f, 0.0f };

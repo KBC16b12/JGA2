@@ -54,6 +54,8 @@ public:
 
 	void SetActiveFlags(bool flag);
 
+	//Player* g_player;
+
 private:
 	/*!
 	*@brief	‰æ–Ê‘JˆÚŠÖ”B

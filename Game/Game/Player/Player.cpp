@@ -3,6 +3,8 @@
 #include "../Bar/Bar.h"
 #include "../Camera/GameCamera.h"
 
+Player* g_player;
+
 Player::Player()
 {
 	//HPİ’è
