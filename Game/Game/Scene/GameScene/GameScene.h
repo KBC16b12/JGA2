@@ -2,6 +2,7 @@
 
 class Player;
 class Map;
+class TimeSprite;
 
 /*!
  *@brief	ゲームシーン。
@@ -42,17 +43,18 @@ public:
 	/*!
 	*@brief	描画関数。
 	*/
-	void Render(CRenderContext& renderContext);
+	void Render(CRenderContext& renderContext, int playernum)override;
 
-	/*!
-	*@brief	遅延描画関数。
-	@details
-	* ポストエフェクトの後で実行されます。HUDなどポストエフェクトの影響を受けたくない描画物はここでレンダリングしてください。
-	*@param[in]		renderContext		レンダリングコンテキスト。
-	*/
-	void PostRender(CRenderContext& renderContext) override;
+	void PostRender(CRenderContext& renderContext, int playernum)override;
+
+	Player* const GetPlayer(int playernum)
+	{
+		return m_player[playernum];
+	}
 
 	void SetActiveFlags(bool flag);
+
+	void OnDestroy();
 
 private:
 	/*!
@@ -63,23 +65,13 @@ private:
 
 	char*						m_bgm_path;						//BGMのファイルパス
 	CSoundSource*				m_bgm;							//BGMソース。
-	Player*						m_player;						//プレイヤ
+	Player*						m_player[PLAYER_NUM];						//プレイヤ
 	Map*						m_map;							//マップ
-
-	CTexture*					m_texture[10];
-	CSprite						m_timesprite[3];
-	CSprite						m_killsprite[2];
-
 	CCamera						m_camera;								//!<カメラ。
-
 	CLight						m_light;								//!<ライト。
-
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
-
 	SceneData					m_scenedata;					//画面遷移データ
-
-	int m_time;				//タイマー
-	int m_killcount;		//キル数
+	TimeSprite*					m_time;
 };
 
 extern GameScene* g_gameScene;

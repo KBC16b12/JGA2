@@ -19,7 +19,7 @@ ResultScene::~ResultScene()
 
 bool ResultScene::Start()
 {
-	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init("Assets/sound/Result1.wav");
 	m_bgm->Play(true);
 
@@ -64,7 +64,7 @@ void ResultScene::SceneChange()
 			switch (m_scenedata)
 			{
 			case enTitle:
-				NewGO<TitleScene>(0);
+				NewGO<TitleScene>(PRIORITY1);
 				break;
 			default:
 				break;

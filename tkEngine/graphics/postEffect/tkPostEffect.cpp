@@ -23,10 +23,11 @@ namespace tkEngine{
 	}
 	void CPostEffect::Create( const SGraphicsConfig& config )
 	{
-		/*if(config.edgeRenderConfig.isEnable)*/{
+		if(config.edgeRenderConfig.isEnable){
 			m_edgeRender.Create(config );
 		}
-		/*if (config.bloomConfig.isEnable)*/ {
+		if (config.bloomConfig.isEnable) 
+		{
 			m_bloomRender.Create(config);
 		}
 		m_dof.Create(config);

@@ -168,6 +168,7 @@ namespace tkEngine {
 				if (callback.isHit) {
 					//当たった。
 					//壁。
+					m_isCollision = true;
 					CVector3 vT0, vT1;
 					//XZ平面上での移動後の座標をvT0に、交点の座標をvT1に設定する。
 					vT0.Set(nextPosition.x, 0.0f, nextPosition.z);
@@ -200,8 +201,10 @@ namespace tkEngine {
 					}
 				}
 				else {
+					m_isCollision = false;
 					//どことも当たらないので終わり。
 					break;
+
 				}
 				loopCount++;
 				if (loopCount == 5) {
@@ -255,6 +258,7 @@ namespace tkEngine {
 				m_moveSpeed.y = 0.0f;
 				m_isJump = false;
 				m_isOnGround = true;
+				m_isCollision = true;
 				nextPosition.y = callback.hitPos.y;
 			}
 			else {

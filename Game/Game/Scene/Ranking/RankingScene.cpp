@@ -19,7 +19,7 @@ RankingScene::~RankingScene()
 
 bool RankingScene::Start()
 {
-	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init("Assets/sound/Ranking.wav");
 	m_bgm->Play(true);
 
@@ -64,7 +64,7 @@ void RankingScene::SceneChange()
 			switch (m_scenedata)
 			{
 			case enSolo:
-				NewGO<SoloScene>(0);
+				NewGO<SoloScene>(PRIORITY1);
 				break;
 			default:
 				break;

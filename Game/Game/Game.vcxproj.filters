@@ -12,9 +12,6 @@
     <Filter Include="Source Files\Scene">
       <UniqueIdentifier>{32c313bd-07db-494a-af8e-de395cbec093}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Bar">
-      <UniqueIdentifier>{7debb954-78a1-4a04-a1c3-d09fe898d192}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Player">
       <UniqueIdentifier>{c7e2c109-52da-4fa6-a704-04eb84987600}</UniqueIdentifier>
     </Filter>
@@ -29,9 +26,6 @@
     </Filter>
     <Filter Include="Source Files\Scene\Join">
       <UniqueIdentifier>{cef8ccb2-25ee-4000-86ed-4db44d65b51d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Map">
-      <UniqueIdentifier>{d8196969-0a96-4267-b2a3-df4bcd3f1aa9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Scene\Ranking">
       <UniqueIdentifier>{11e6896d-fff6-418d-a68f-0d41c89b1f3e}</UniqueIdentifier>
@@ -51,11 +45,23 @@
     <Filter Include="Source Files\GameCamera">
       <UniqueIdentifier>{3f196125-2a0d-46e1-84b6-bc737ee1d69a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Scene\Char">
+      <UniqueIdentifier>{f41961a1-67c8-4572-9528-08afb3ac5047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\HUD">
+      <UniqueIdentifier>{bb34df1b-aa11-4337-b651-400e2844e044}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Item">
+      <UniqueIdentifier>{e4971ffe-2198-4939-bfeb-ecb05647990c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map">
+      <UniqueIdentifier>{d8196969-0a96-4267-b2a3-df4bcd3f1aa9}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Network">
       <UniqueIdentifier>{bb6a44d9-3bde-4c1a-942d-32f735866ee4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Scene\Char">
-      <UniqueIdentifier>{f41961a1-67c8-4572-9528-08afb3ac5047}</UniqueIdentifier>
+    <Filter Include="Source Files\Bullet">
+      <UniqueIdentifier>{85351ead-5cde-4f37-9da2-2cbfeb3a640e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -64,9 +70,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Bar\Bar.cpp">
-      <Filter>Source Files\Bar</Filter>
     </ClCompile>
     <ClCompile Include="Player\Player.cpp">
       <Filter>Source Files\Player</Filter>
@@ -113,13 +116,34 @@
     <ClCompile Include="Network\Network.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
+    <ClCompile Include="MapObject.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD\Bar.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD\KillCountSprite.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD\TimeSprite.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\Weapon.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet\Bullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet\GrenadeBullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Item\Item.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bar\Bar.h">
-      <Filter>Source Files\Bar</Filter>
     </ClInclude>
     <ClInclude Include="Player\Player.h">
       <Filter>Source Files\Player</Filter>
@@ -168,6 +192,30 @@
     </ClInclude>
     <ClInclude Include="Network\Network.h">
       <Filter>Source Files\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="MapObject.h">
+      <Filter>Source Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD\Bar.h">
+      <Filter>Source Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD\KillCountSprite.h">
+      <Filter>Source Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD\TimeSprite.h">
+      <Filter>Source Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet\Bullet.h">
+      <Filter>Source Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet\GrenadeBullet.h">
+      <Filter>Source Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Item\Item.h">
+      <Filter>Source Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\Weapon.h">
+      <Filter>Source Files\Player</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

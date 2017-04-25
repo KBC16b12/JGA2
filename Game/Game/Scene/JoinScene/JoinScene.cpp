@@ -20,7 +20,7 @@ JoinScene::~JoinScene()
 
 bool JoinScene::Start()
 {
-	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init("Assets/sound/Join.wav");
 	m_bgm->Play(true);
 
@@ -78,10 +78,10 @@ void JoinScene::SceneChange()
 			switch (m_scenedata)
 			{
 			case enTitle:
-				NewGO<TitleScene>(0);
+				NewGO<TitleScene>(PRIORITY1);
 				break;
 			case enWait:
-				NewGO<WaitScene>(0);
+				NewGO<WaitScene>(PRIORITY1);
 				break;
 			default:
 				break;

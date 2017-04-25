@@ -33,7 +33,7 @@ void WaitScene::Init(bool isHost)
 
 bool WaitScene::Start()
 {
-	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init("Assets/sound/Wait.wav");
 	m_bgm->Play(true);
 	return true;
@@ -88,11 +88,11 @@ void WaitScene::SceneChange()
 			switch (m_scenedata)
 			{
 			case enGame:
-				g_gameScene = NewGO<GameScene>(0);
+				g_gameScene = NewGO<GameScene>(PRIORITY1);
 				g_gameScene->Init(n_multi_map_dat, "Assets/sound/GameBGM.wav");
 				break;
 			case enJoin:
-				NewGO<JoinScene>(0);
+				NewGO<JoinScene>(PRIORITY1);
 				break;
 			default:
 				break;

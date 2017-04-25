@@ -20,7 +20,7 @@ MenuScene::~MenuScene()
 
 bool MenuScene::Start()
 {
-	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init("Assets/sound/Menu.wav");
 	m_bgm->Play(true);
 
@@ -81,7 +81,7 @@ void MenuScene::SceneChange()
 				g_gameScene->SetActiveFlag(true);
 				break;
 			case enTitle:
-				NewGO<TitleScene>(0);
+				NewGO<TitleScene>(PRIORITY1);
 				if (g_gameScene != nullptr)
 				{
 					DeleteGO(g_gameScene);

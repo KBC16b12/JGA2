@@ -1,6 +1,6 @@
 #pragma once
 
-class MapChip;
+#include "MapChip.h"
 
 class Map : public IGameObject
 {
@@ -42,7 +42,14 @@ public:
 	* ポストエフェクトの後で実行されます。HUDなどポストエフェクトの影響を受けたくない描画物はここでレンダリングしてください。
 	*@param[in]		renderContext		レンダリングコンテキスト。
 	*/
-	void PostRender(CRenderContext& renderContext) override;
+	void Render(CRenderContext& renderContext, int playernum) override;
+
+	void PostRender(CRenderContext& renderContext, int playernum) override;
+
+	const std::vector<MapChip*>& GetMap()
+	{
+		return m_mapchip;
+	}
 
 private:
 

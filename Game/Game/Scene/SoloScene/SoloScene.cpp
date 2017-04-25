@@ -21,9 +21,9 @@ SoloScene::~SoloScene()
 
 bool SoloScene::Start()
 {
-	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init("Assets/sound/Solo.wav");
-	m_bgm->Play(true);
+	//m_bgm->Play(true);
 
 	return true;
 }
@@ -87,13 +87,13 @@ void SoloScene::SceneChange()
 			switch (m_scenedata)
 			{
 			case enChar:
-				NewGO<CharScene>(0)->Init(false);
+				NewGO<CharScene>(PRIORITY1)->Init(false);
 				break;
 			case enRanking:
-				NewGO<RankingScene>(0);
+				NewGO<RankingScene>(PRIORITY1);
 				break;
 			case enTitle:
-				NewGO<TitleScene>(0);
+				NewGO<TitleScene>(PRIORITY1);
 				break;
 			default:
 				break;

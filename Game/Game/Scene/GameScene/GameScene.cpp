@@ -3,37 +3,34 @@
 #include "../GameScene/GameScene.h"
 #include "../MenuScene/MenuScene.h"
 #include "../ResultScene/ResultScene.h"
-#include "Bar/Bar.h"
+#include "../../HUD/Bar.h"
 #include "Player/Player.h"
 #include "../../Map/Map.h"
+#include "../../HUD/TimeSprite.h"
+#include "../../Camera/GameCamera.h"
 
 GameScene* g_gameScene = nullptr;
 
 GameScene::GameScene()
 {
-	m_killcount = 0;
-	m_time = 999;
-	
-	for (int i = 0;i < 10;i++) {
-		char cp[60];
-		sprintf(cp, "Assets/sprite/NewNumber/%d.png", i);
-		m_texture[i]= TextureResources().LoadEx(cp);
-	}
-	for (int i = 0;i < 3;i++) {
-		m_timesprite[i].Init(m_texture[9]);
-		m_timesprite[i].SetPosition({ -50.0f + i * 50,320.0f });
-		m_timesprite[i].SetSize({ 50.0f,50.0f });
-	}
-	for (int i = 0;i < 2;i++) {
-		m_killsprite[i].Init(m_texture[2]);
-		m_killsprite[i].SetPosition({ 400.0f + i * 50,320.0f });
-		m_killsprite[i].SetSize({ 50.0f,50.0f });
-	}
-	m_map = NewGO<Map>(0);
+	m_map = NewGO<Map>(PRIORITY1);
+	m_time = NewGO<TimeSprite>(PRIORITY1);
 }
 
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
 {
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		m_player[i] = NewGO<Player>(PRIORITY0);
+		m_player[i]->SetPlayerNum(i);
+	}
+
+	int l_half_w = Engine().GetScreenWidth() / 2;
+	int l_half_h = Engine().GetScreenHeight() / 2;
+	g_gameCamera[0]->SetViewPort(0, 0, l_half_w, l_half_h, m_player[0]->GetPlayerNUm());
+	g_gameCamera[1]->SetViewPort(l_half_w, 0, l_half_w, l_half_h, m_player[1]->GetPlayerNUm());
+	g_gameCamera[2]->SetViewPort(0, l_half_h, l_half_w, l_half_h, m_player[2]->GetPlayerNUm());
+	g_gameCamera[3]->SetViewPort(l_half_w, l_half_h, l_half_w, l_half_h, m_player[3]->GetPlayerNUm());
 	m_map->Init(map_data);
 	m_bgm_path = bgm_path;
 }
@@ -43,21 +40,28 @@ GameScene::~GameScene()
 	//BGM停止
 	m_bgm->Stop();
 	DeleteGO(m_bgm);
-	DeleteGO(m_player);
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		DeleteGO(m_player[i]);
+	}
 	DeleteGO(m_map);
+	DeleteGO(m_time);
 	g_gameScene = nullptr;
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		g_gameCamera[i]->FinishViewPort();
+	}
 }
 
 bool GameScene::Start()
 {
-	m_player = NewGO<Player>(0);
-
-	m_bgm = NewGO<CSoundSource>(0);
+	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init(m_bgm_path);
-	m_bgm->Play(true);
+	//m_bgm->Play(true);
 
 	//ライトを初期化。
 	m_light.SetAmbinetLight(CVector3::One);
+
 
 	return true;
 }
@@ -65,54 +69,28 @@ bool GameScene::Start()
 void GameScene::Update()
 {
 	SceneChange();
-
-	if (m_time > 0) {
-		m_time--;
-	}
-
-	int l_n1 = 0, l_n10 = 0, l_n100 = 0;
-
-	l_n100 = m_time / 100;			//3桁目の数字
-	l_n10 = (m_time % 100) / 10;	//2桁目の数字
-	l_n1 = m_time % 10;			    //1桁目の数字
-
-	m_timesprite[0].SetTexture(m_texture[l_n100]);
-	m_timesprite[1].SetTexture(m_texture[l_n10]);
-	m_timesprite[2].SetTexture(m_texture[l_n1]);
-
-	if (GetAsyncKeyState('2') & 0x8000) {
-		if (m_killcount < 99) {
-			m_killcount++;
-		}
-	}
-
-	int l_num1 = 0, l_num10 = 0;
-	
-	l_num10 = (m_killcount % 100) / 10;
-	l_num1 = m_killcount % 10;
-	
-	m_killsprite[0].SetTexture(m_texture[l_num10]);
-	m_killsprite[1].SetTexture(m_texture[l_num1]);
 }
 
 /*!
 *@brief	描画関数。
 */
-void GameScene::Render(CRenderContext& renderContext)
+void GameScene::Render(CRenderContext& renderContext, int playernum)
 {
+	m_map->Render(renderContext, playernum);
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		m_player[i]->Render(renderContext, playernum);
+	}
 }
 
 /*!
 *@brief	描画関数。
 */
-void GameScene::PostRender(CRenderContext& renderContext)
+void GameScene::PostRender(CRenderContext& renderContext, int playernum)
 {
-	for (int i = 0;i < 3;i++) {
-		m_timesprite[i].Draw(renderContext);
-	}
-	for (int i = 0;i < 2;i++) {
-		m_killsprite[i].Draw(renderContext);
-	}
+	m_time->PostRender(renderContext, playernum);
+
+	m_player[playernum]->PostRender(renderContext, playernum);
 }
 
 /*!
@@ -162,10 +140,10 @@ void GameScene::SceneChange()
 			switch (m_scenedata)
 			{
 			case enMenu:
-				NewGO<MenuScene>(0);
+				NewGO<MenuScene>(PRIORITY1);
 				break;
 			case enResult:
-				NewGO<ResultScene>(0);
+				NewGO<ResultScene>(PRIORITY1);
 			default:
 				break;
 			}
@@ -189,7 +167,10 @@ void GameScene::SceneChange()
 void GameScene::SetActiveFlags(bool flag)
 {
 	//ここで生成したオブジェクトの動作変更
-	m_player->SetActiveFlag(flag);
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		m_player[i]->SetActiveFlag(flag);
+	}
 	if (flag)
 	{
 		m_bgm->Play(true);
@@ -199,4 +180,9 @@ void GameScene::SetActiveFlags(bool flag)
 		m_bgm->Stop();
 	}
 	m_map->SetActiveFlag(flag);
+}
+
+void GameScene::OnDestroy()
+{
+
 }

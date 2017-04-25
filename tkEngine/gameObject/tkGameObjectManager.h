@@ -102,6 +102,7 @@ namespace tkEngine{
 			TK_ASSERT( prio <= m_gameObjectPriorityMax, "ゲームオブジェクトの優先度の最大数が大きすぎます。");
 			T* newObject = new T();
 			newObject->Awake();
+
 			newObject->SetMarkNewFromGameObjectManager();
 			unsigned int hash = MakeGameObjectNameKey(objectName);
 			m_gameObjectListArray.at(prio).push_back(newObject);
