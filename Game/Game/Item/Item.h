@@ -1,13 +1,12 @@
 #pragma once
 
+#include "Map/MapChip.h"
 
 /*
 マップにあるアイテムボックスのクラス
 */
 
 class Player;
-
-class MapChip;
 
 class Item : public MapChip
 {
