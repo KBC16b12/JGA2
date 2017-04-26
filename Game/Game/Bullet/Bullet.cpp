@@ -24,8 +24,8 @@ void Bullet::Init(Weapon *weapon, int arrayNum, int playerNum)
 	Player *l_player = g_gameScene->GetPlayer(m_playerNum);
 	m_position = l_player->GetPosition();
 	//
-	m_characterController.Init(0.3f, 0.3f, m_position);
-	m_characterController.SetGravity(0.0f);
+	//m_characterController.Init(0.3f, 0.3f, m_position);
+	//m_characterController.SetGravity(0.0f);
 	//移動速度をプレイヤーの向きから求める
 	m_moveSpeed = l_player->GetFrontWorldMatrix();
 	m_moveSpeed.Normalize();
@@ -75,7 +75,7 @@ void Bullet::DethCheck()
 		else
 		{
 			//弾を打ったプレイヤーとある程度離れていればオブジェクトと衝突して消滅
-			if (l_playerRadius < l_distance.Length() && m_characterController.IsCollision())
+			if (500 < l_distance.Length() /*&& m_characterController.IsCollision()*/)
 			{
 				m_weapon->Delete(m_arraynum);
 			}
@@ -85,10 +85,11 @@ void Bullet::DethCheck()
 
 void Bullet::Move()
 {
-	m_moveSpeed.y = m_characterController.GetMoveSpeed().y;
-	m_characterController.SetMoveSpeed(m_moveSpeed);
-	m_characterController.Execute(1.0f);
-	m_position = m_characterController.GetPosition();
+	//m_moveSpeed.y = m_characterController.GetMoveSpeed().y;
+	//m_characterController.SetMoveSpeed(m_moveSpeed);
+	//m_characterController.Execute(1.0f);
+	//m_position = m_characterController.GetPosition();
+	m_position.Add(m_moveSpeed);
 }
 
 void Bullet::Render(CRenderContext& renderContext)

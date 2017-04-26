@@ -46,6 +46,11 @@ public:
 
 	void Render(CRenderContext& renderContext, int cameranum) override;
 
+	bool IsLoadEnd()
+	{
+		return m_SkinModelData.IsLoadEnd();
+	}
+
 protected:
 	CSkinModel					m_SkinModel;		//スキンモデル
 	CSkinModelDataHandle		m_SkinModelData;	//スキンモデルのハンドル

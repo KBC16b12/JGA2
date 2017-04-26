@@ -15,15 +15,11 @@ GrenadeBullet::~GrenadeBullet()
 void GrenadeBullet::Init(Weapon* weapon ,int arraynum, int playerNum)
 {
 	Bullet::Init(weapon, arraynum, playerNum);
-	//重力設定
-	m_characterController.SetGravity(-0.1f);
-	m_moveSpeed.y += 1.0f;
+	m_characterController.Init(0.3f, 0.3f, m_position);
+	m_moveSpeed.Scale(10.0f);
+	m_characterController.SetGravity(-24.0f);
+	m_moveSpeed.y += 10.0f;
 	m_characterController.SetMoveSpeed(m_moveSpeed);
-	//打った瞬間に自分に当たってしまうため少し動かしておく
-	for (int i = 0;i < 2;i++)
-	{
-		m_characterController.Execute(1.0f);
-	}
 	m_characterController.SetCollisionFlg(false);
 }
 
@@ -32,23 +28,37 @@ void GrenadeBullet::Update()
 	Bullet::Update();
 }
 
+void GrenadeBullet::Move()
+{
+	m_moveSpeed.y = m_characterController.GetMoveSpeed().y;
+	m_characterController.SetMoveSpeed(m_moveSpeed);
+	m_characterController.Execute(GameTime().GetFrameDeltaTime());
+	m_position = m_characterController.GetPosition();
+}
+
 void GrenadeBullet::DethCheck()
 {
-	//何か物に当たったら消去する
-	if (m_characterController.IsCollision())
+	bool l_isDelete = false;
+	Player* l_player = g_gameScene->GetPlayer(m_playerNum);
+	CVector3 l_distance = l_player->GetPosition();
+	l_distance.Subtract(m_position);
+	if (3.0f < l_distance.Length() && m_characterController.IsCollision())
 	{
-		//消されるときに爆発で近くにいるプレイヤーにダメージを与える
+		l_isDelete = true;
+	}
+	if (l_isDelete)
+	{
 		for (int i = 0;i < PLAYER_NUM;i++)
 		{
 			Player* l_player = g_gameScene->GetPlayer(i);
 			CVector3 l_distance = l_player->GetPosition();
 			l_distance.Subtract(m_position);
-			if (l_distance.Length() < 8.0f)
+			if (l_distance.Length() < 8.0f && m_playerNum != i)
 			{
 				l_player->Damage(m_playerNum);
 			}
-		}
 
+		}
 		m_weapon->Delete(m_arraynum);
 	}
 }

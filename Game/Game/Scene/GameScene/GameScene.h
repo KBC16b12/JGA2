@@ -56,13 +56,18 @@ public:
 
 	void OnDestroy();
 
+	bool IsLoadEnd()
+	{
+		return m_isLoad;
+	}
+
 private:
 	/*!
 	*@brief	画面遷移関数。
 	*/
 	void SceneChange();
 
-
+	bool						m_isLoad;
 	char*						m_bgm_path;						//BGMのファイルパス
 	CSoundSource*				m_bgm;							//BGMソース。
 	Player*						m_player[PLAYER_NUM];						//プレイヤ

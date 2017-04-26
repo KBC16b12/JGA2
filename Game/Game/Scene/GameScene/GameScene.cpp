@@ -15,6 +15,7 @@ GameScene::GameScene()
 {
 	m_map = NewGO<Map>(PRIORITY1);
 	m_time = NewGO<TimeSprite>(PRIORITY1);
+	m_isLoad = false;
 }
 
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
@@ -25,12 +26,6 @@ void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
 		m_player[i]->SetPlayerNum(i);
 	}
 
-	int l_half_w = Engine().GetScreenWidth() / 2;
-	int l_half_h = Engine().GetScreenHeight() / 2;
-	g_gameCamera[0]->SetViewPort(0, 0, l_half_w, l_half_h, m_player[0]->GetPlayerNUm());
-	g_gameCamera[1]->SetViewPort(l_half_w, 0, l_half_w, l_half_h, m_player[1]->GetPlayerNUm());
-	g_gameCamera[2]->SetViewPort(0, l_half_h, l_half_w, l_half_h, m_player[2]->GetPlayerNUm());
-	g_gameCamera[3]->SetViewPort(l_half_w, l_half_h, l_half_w, l_half_h, m_player[3]->GetPlayerNUm());
 	m_map->Init(map_data);
 	m_bgm_path = bgm_path;
 }
@@ -61,7 +56,12 @@ bool GameScene::Start()
 
 	//ƒ‰ƒCƒg‚ð‰Šú‰»B
 	m_light.SetAmbinetLight(CVector3::One);
-
+	int l_half_w = Engine().GetScreenWidth() / 2;
+	int l_half_h = Engine().GetScreenHeight() / 2;
+	g_gameCamera[0]->SetViewPort(0, 0, l_half_w, l_half_h, m_player[0]->GetPlayerNUm());
+	g_gameCamera[1]->SetViewPort(l_half_w, 0, l_half_w, l_half_h, m_player[1]->GetPlayerNUm());
+	g_gameCamera[2]->SetViewPort(0, l_half_h, l_half_w, l_half_h, m_player[2]->GetPlayerNUm());
+	g_gameCamera[3]->SetViewPort(l_half_w, l_half_h, l_half_w, l_half_h, m_player[3]->GetPlayerNUm());
 
 	return true;
 }

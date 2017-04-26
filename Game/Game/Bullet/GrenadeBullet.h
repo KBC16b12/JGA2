@@ -19,6 +19,8 @@ public:
 	*/
 	void Init(Weapon* weapon, int arraynum, int playerNum)override;
 
+	void Move()override;
+
 	/*
 	*@brief XVˆ—
 	*/
@@ -27,6 +29,6 @@ public:
 	void DethCheck()override;
 
 private:
-
+	CCharacterController	m_characterController;
 };
 

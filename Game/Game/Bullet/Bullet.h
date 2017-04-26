@@ -48,7 +48,6 @@ public:
 	void Render(CRenderContext& renderContext, int playernum)override;
 
 protected:
-	CCharacterController	m_characterController;
 	CVector3				m_position;
 	CVector3				m_moveSpeed;
 	CSkinModel				m_skinModel;

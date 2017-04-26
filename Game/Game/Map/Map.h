@@ -46,13 +46,18 @@ public:
 
 	void PostRender(CRenderContext& renderContext, int playernum) override;
 
+	bool IsLoadEnd()
+	{
+		return m_isLoad;
+	}
+
 	const std::vector<MapChip*>& GetMap()
 	{
 		return m_mapchip;
 	}
 
 private:
-
+	bool						m_isLoad;
 	std::vector<MapChip*>		m_mapchip;			//マップチップリスト
 };
 

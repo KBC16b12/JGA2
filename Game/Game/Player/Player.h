@@ -93,6 +93,11 @@ public:
 	{
 		return m_playernum;
 	}
+
+	bool IsLoadEnd()
+	{
+		return (m_skinModelDataFirst.IsLoadEnd() && m_skinModelDataThird.IsLoadEnd());
+	}
 	
 	void KillCountUp()
 	{
@@ -112,7 +117,7 @@ private:
 	CQuaternion				m_rotation;					//回転
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
-	CVector3				m_position = { 0.0f, 40.0f, 0.0f };
+	CVector3				m_position = { 0.0f, 0.0f, 0.0f };
 	CVector3				m_respawnPosition;
 	CQuaternion				m_respawnRotation;
 

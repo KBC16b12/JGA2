@@ -6,6 +6,7 @@
 
 Map::Map()
 {
+	m_isLoad = false;
 }
 
 Map::~Map()
@@ -39,7 +40,16 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 
 bool Map::Start()
 {
+	for (MapChip* l_mapChip : m_mapchip)
+	{
+		if (!l_mapChip->IsLoadEnd())
+		{
+			return false;
+		}
+	}
+	m_isLoad = true;
 	return true;
+
 }
 
 void Map::Update()
