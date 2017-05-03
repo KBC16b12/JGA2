@@ -34,10 +34,16 @@ void Item::Init(SMapInfo map_dat)
 	m_rbInfo.mass = 0.0f;
 	m_rbInfo.pos = m_position;
 	m_rbInfo.rot = m_rotation;
+
+}
+
+bool Item::Start()
+{
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{
 		m_player[i] = g_gameScene->GetPlayer(i);
 	}
+	return true;
 }
 
 void Item::Update()

@@ -28,7 +28,7 @@ namespace tkEngine{
 		/*!
 		 * @brief	実行。
 		 */
-		void Execute(float deltaTime);
+		CVector3 Execute(float deltaTime);
 		/*!
 		 * @brief	座標を取得。
 		 */
@@ -85,10 +85,6 @@ namespace tkEngine{
 		bool IsCollision() const
 		{
 			return m_isCollision;
-		}
-		void SetCollisionFlg(bool collision)
-		{
-			m_isCollision = collision;
 		}
 		/*!
 		* @brief	コライダーを取得。

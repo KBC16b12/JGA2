@@ -70,6 +70,10 @@ public:
 		return m_playernum;
 	}
 
+	CCamera& GetCamera()
+	{
+		return m_camera;
+	}
 private:
 	CCamera					m_camera;				//ƒJƒƒ‰
 	CVector3				m_position;				//À•W

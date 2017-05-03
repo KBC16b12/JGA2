@@ -140,6 +140,9 @@
     <ClCompile Include="Item\Item.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet\BoundBullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -216,6 +219,9 @@
     </ClInclude>
     <ClInclude Include="Player\Weapon.h">
       <Filter>Source Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet\BoundBullet.h">
+      <Filter>Source Files\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

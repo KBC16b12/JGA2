@@ -5,7 +5,6 @@
 #include "../ResultScene/ResultScene.h"
 #include "../../HUD/Bar.h"
 #include "Player/Player.h"
-#include "../../Map/Map.h"
 #include "../../HUD/TimeSprite.h"
 #include "../../Camera/GameCamera.h"
 
@@ -16,16 +15,14 @@ GameScene::GameScene()
 	m_map = NewGO<Map>(PRIORITY1);
 	m_time = NewGO<TimeSprite>(PRIORITY1);
 	m_isLoad = false;
+	for (int i = 0;i < PARTICLE_NUM;i++)
+	{
+		m_particle[i] = nullptr;
+	}
 }
 
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
 {
-	for (int i = 0;i < PLAYER_NUM;i++)
-	{
-		m_player[i] = NewGO<Player>(PRIORITY0);
-		m_player[i]->SetPlayerNum(i);
-	}
-
 	m_map->Init(map_data);
 	m_bgm_path = bgm_path;
 }
@@ -35,10 +32,6 @@ GameScene::~GameScene()
 	//BGM停止
 	m_bgm->Stop();
 	DeleteGO(m_bgm);
-	for (int i = 0;i < PLAYER_NUM;i++)
-	{
-		DeleteGO(m_player[i]);
-	}
 	DeleteGO(m_map);
 	DeleteGO(m_time);
 	g_gameScene = nullptr;
@@ -58,10 +51,10 @@ bool GameScene::Start()
 	m_light.SetAmbinetLight(CVector3::One);
 	int l_half_w = Engine().GetScreenWidth() / 2;
 	int l_half_h = Engine().GetScreenHeight() / 2;
-	g_gameCamera[0]->SetViewPort(0, 0, l_half_w, l_half_h, m_player[0]->GetPlayerNUm());
-	g_gameCamera[1]->SetViewPort(l_half_w, 0, l_half_w, l_half_h, m_player[1]->GetPlayerNUm());
-	g_gameCamera[2]->SetViewPort(0, l_half_h, l_half_w, l_half_h, m_player[2]->GetPlayerNUm());
-	g_gameCamera[3]->SetViewPort(l_half_w, l_half_h, l_half_w, l_half_h, m_player[3]->GetPlayerNUm());
+	g_gameCamera[0]->SetViewPort(0, 0, l_half_w, l_half_h, m_map->GetPlayer(0)->GetPlayerNum());
+	g_gameCamera[1]->SetViewPort(l_half_w, 0, l_half_w, l_half_h, m_map->GetPlayer(1)->GetPlayerNum());
+	g_gameCamera[2]->SetViewPort(0, l_half_h, l_half_w, l_half_h, m_map->GetPlayer(2)->GetPlayerNum());
+	g_gameCamera[3]->SetViewPort(l_half_w, l_half_h, l_half_w, l_half_h, m_map->GetPlayer(3)->GetPlayerNum());
 
 	return true;
 }
@@ -69,6 +62,14 @@ bool GameScene::Start()
 void GameScene::Update()
 {
 	SceneChange();
+	for (int i = 0;i < PARTICLE_NUM;i++)
+	{
+		if (m_particle[i] != nullptr && m_particle[i]->IsDelete())
+		{
+			DeleteGO(m_particle[i]);
+			m_particle[i] = nullptr;
+		}
+	}
 }
 
 /*!
@@ -77,9 +78,12 @@ void GameScene::Update()
 void GameScene::Render(CRenderContext& renderContext, int playernum)
 {
 	m_map->Render(renderContext, playernum);
-	for (int i = 0;i < PLAYER_NUM;i++)
+	for (int i = 0;i < PARTICLE_NUM;i++)
 	{
-		m_player[i]->Render(renderContext, playernum);
+		if (m_particle[i] != nullptr)
+		{
+			m_particle[i]->Render(renderContext, playernum);
+		}
 	}
 }
 
@@ -89,8 +93,7 @@ void GameScene::Render(CRenderContext& renderContext, int playernum)
 void GameScene::PostRender(CRenderContext& renderContext, int playernum)
 {
 	m_time->PostRender(renderContext, playernum);
-
-	m_player[playernum]->PostRender(renderContext, playernum);
+	m_map->PostRender(renderContext, playernum);
 }
 
 /*!
@@ -166,11 +169,6 @@ void GameScene::SceneChange()
 
 void GameScene::SetActiveFlags(bool flag)
 {
-	//ここで生成したオブジェクトの動作変更
-	for (int i = 0;i < PLAYER_NUM;i++)
-	{
-		m_player[i]->SetActiveFlag(flag);
-	}
 	if (flag)
 	{
 		m_bgm->Play(true);
@@ -185,4 +183,21 @@ void GameScene::SetActiveFlags(bool flag)
 void GameScene::OnDestroy()
 {
 
+}
+void GameScene::ParticleEmit(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition)
+{
+	int i;
+	for (i = 0;i < PARTICLE_NUM;i++)
+	{
+		if (m_particle[i] == nullptr)
+		{
+			break;
+		}
+	}
+	m_particle[i] = NewGO<CParticleEmitter>(PRIORITY0);
+	m_particle[i]->Init(random, camera, param, emitPosition);
+	for (int j = 0;j < PLAYER_NUM;j++)
+	{
+		m_particle[i]->SetCamera(g_gameCamera[j]->GetCamera(), j);
+	}
 }

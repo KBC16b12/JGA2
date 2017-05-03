@@ -18,10 +18,11 @@ public:
 
 	/*
 	*@brief 弾の初期化処理
-	*@brief position プレイヤーのポジション
-	*@brief moveSpeed
+	*@brief moveSpeed		飛ぶ方向
+	*@brief *weapon			自身を消す際に参照するウェポン
+	*@brief arrayNum		自身を消す
 	*/
-	virtual void Init(Weapon *weapon, int arrayNum, int playerNum);
+	virtual void Init(CVector3 movespeed, Weapon *weapon, int arrayNum, int playerNum);
 
 
 	/*

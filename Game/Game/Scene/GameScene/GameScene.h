@@ -1,8 +1,10 @@
 #pragma once
 
 class Player;
-class Map;
 class TimeSprite;
+#include "../../Map/Map.h"
+
+#define PARTICLE_NUM 20
 
 /*!
  *@brief	ゲームシーン。
@@ -49,7 +51,7 @@ public:
 
 	Player* const GetPlayer(int playernum)
 	{
-		return m_player[playernum];
+		return m_map->GetPlayer(playernum);
 	}
 
 	void SetActiveFlags(bool flag);
@@ -61,6 +63,8 @@ public:
 		return m_isLoad;
 	}
 
+	void ParticleEmit(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition);
+
 private:
 	/*!
 	*@brief	画面遷移関数。
@@ -70,13 +74,13 @@ private:
 	bool						m_isLoad;
 	char*						m_bgm_path;						//BGMのファイルパス
 	CSoundSource*				m_bgm;							//BGMソース。
-	Player*						m_player[PLAYER_NUM];						//プレイヤ
 	Map*						m_map;							//マップ
 	CCamera						m_camera;								//!<カメラ。
 	CLight						m_light;								//!<ライト。
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
 	SceneData					m_scenedata;					//画面遷移データ
 	TimeSprite*					m_time;
+	CParticleEmitter*			m_particle[PARTICLE_NUM];
 };
 
 extern GameScene* g_gameScene;

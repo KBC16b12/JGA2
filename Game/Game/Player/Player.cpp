@@ -8,11 +8,10 @@
 Player *player;
 Player::Player()
 {
-	m_respawnPosition = m_position;
+	m_respawnPosition = CVector3::Zero;
 	//HP設定
 	m_maxhp = m_hp = 15;
 	m_killCount = 0;
-
 	m_HPbar = NewGO<Bar>(PRIORITY1);
 	m_HPbar->SetBarPos({ -592.95f, 320.0f });
 	m_HPbar->SetBarMaxSize({ 230.5f, 14.2f });
@@ -35,11 +34,12 @@ Player::~Player()
 bool Player::Start()
 {
 	g_defaultLight.SetAmbinetLight(CVector3::One);
-	m_skinModelDataFirst.LoadModelData("Assets/modelData/snowman_first.X", NULL);
-	m_skinModelFirst.Init(&m_skinModelDataFirst);
+
+	SkinModelDataResources().Load(m_skinModelDataFirst, "Assets/modelData/snowman_first.X", NULL, false, 1);
+	m_skinModelFirst.Init(m_skinModelDataFirst.GetBody());
 	m_skinModelFirst.SetLight(&g_defaultLight);	//デフォルトライトを設定。
-	m_skinModelDataThird.LoadModelData("Assets/modelData/snowman1-3.X", NULL);
-	m_skinModelThird.Init(&m_skinModelDataThird);
+	SkinModelDataResources().Load(m_skinModelDataThird, "Assets/modelData/snowman1-3.X", NULL, false, 1);
+	m_skinModelThird.Init(m_skinModelDataThird.GetBody());
 	m_skinModelThird.SetLight(&g_defaultLight);	//デフォルトライトを設定。
 	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(0.0f));
 	m_respawnRotation = m_rotation;

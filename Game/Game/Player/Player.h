@@ -79,6 +79,12 @@ public:
 		m_weapon.SetWeapon();
 	}
 
+	void SetPosition(CVector3 position)
+	{
+		m_position = position;
+		m_respawnPosition = position;
+	}
+
 	/*
 	プレイヤーの番号をセットする関数
 	プレイヤーの番号とカメラの番号は同じ
@@ -89,7 +95,7 @@ public:
 		m_weapon.Init(this, m_playernum);
 	}
 
-	int GetPlayerNUm()
+	int GetPlayerNum()
 	{
 		return m_playernum;
 	}
@@ -111,9 +117,9 @@ private:
 	void UpdateHPBar();
 	
 	CSkinModel				m_skinModelFirst;					//スキンモデル
-	CSkinModelData			m_skinModelDataFirst;				//スキンモデルデータ
+	CSkinModelDataHandle	m_skinModelDataFirst;				//スキンモデルデータ
 	CSkinModel				m_skinModelThird;
-	CSkinModelData			m_skinModelDataThird;
+	CSkinModelDataHandle	m_skinModelDataThird;
 	CQuaternion				m_rotation;					//回転
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。

@@ -24,6 +24,8 @@ public:
 	*/
 	void Update()override;
 
+	bool Start()override;
+
 	/*
 	*@brief 描画関数
 	*@brief playernum どのプレイヤーの視点で描画したいか

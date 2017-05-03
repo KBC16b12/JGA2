@@ -5,6 +5,7 @@
 #define _TKPARTICLE_H_
 
 namespace tkEngine{
+#define PLAYER_NUM 4
 	class CRandom;
 	class CCamera;
 	struct SParicleEmitParameter;
@@ -29,6 +30,7 @@ namespace tkEngine{
 		CVector3		position;					//!<座標。
 		CVector3		gravity;					//!<重力。
 		float			rotateZ;					//!<Z軸周りの回転。
+		float			rotateY;					//!<Y軸周りの回転。
 		CMatrix			mWorld;						//!<ワールド行列。
 		CVector3		addVelocityRandomMargih;	//!<速度の積分のときのランダム幅。
 		bool			isDead;						//!<死亡フラグ。
@@ -42,6 +44,7 @@ namespace tkEngine{
 		float			brightness;					//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
 		int				alphaBlendMode;				//!<0半透明合成、1加算合成。
 		CVector3		mulColor;					//!<乗算カラー。
+		CCamera*		cameraArray[PLAYER_NUM];
 	public:
 		CParticle();
 		~CParticle();
@@ -49,6 +52,13 @@ namespace tkEngine{
 		bool Start() override ;
 		void Update() override;
 		void Render( CRenderContext& renderContext ) override;
+		void Render(CRenderContext& renderContext, int playerNum)override;
+
+		void SetCamera(CCamera& camera, int playerNum)
+		{
+			cameraArray[playerNum] = &camera;
+		}
+
 		/*!
 		*@brief	パーティクルに力を加える。
 		*@param[in]	applyForce		乱数生成に使用する乱数生成機。

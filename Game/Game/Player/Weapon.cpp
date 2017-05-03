@@ -2,6 +2,7 @@
 #include "Weapon.h"
 #include "../Bullet/Bullet.h"
 #include "../Bullet/GrenadeBullet.h"
+#include "../Bullet/BoundBullet.h"
 #include "Player.h"
 
 Weapon::Weapon()
@@ -34,6 +35,7 @@ void Weapon::Update()
 {
 }
 
+
 void Weapon::BulletFilling()
 {
 	int l_ArrayNum;
@@ -50,13 +52,17 @@ void Weapon::BulletFilling()
 	switch (m_state)
 	{
 	case BULLETSTATE_NOMAL:
-		l_bullet = NewGO<Bullet>(PRIORITY1);
+		l_bullet = NewGO<BoundBullet>(PRIORITY1);
+		break;
+	case BULLETSTATE_BOUND:
+		l_bullet = NewGO<BoundBullet>(PRIORITY1);
 		break;
 	case BULLETSTATE_GRENADE:
+
 		l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
 		break;
 	}
-	l_bullet->Init(this, l_ArrayNum, m_playerNum);
+	l_bullet->Init(m_player->GetFrontWorldMatrix(), this, l_ArrayNum, m_playerNum);
 	m_bullet[l_ArrayNum] = l_bullet;
 	//アイテムを使った状態の場合数を減らす
 	m_bulletStrikeNum--;
