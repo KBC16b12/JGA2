@@ -154,7 +154,7 @@ namespace tkEngine{
 		m_submixVoice->SetEffectParameters(0, &native, sizeof(native));
 		//3Dオーディオの初期化。
 		const float SPEEDOFSOUND = X3DAUDIO_SPEED_OF_SOUND;
-		X3DAudioInitialize(details.OutputFormat.dwChannelMask, SPEEDOFSOUND, m_hx3DAudio);
+		//X3DAudioInitialize(details.OutputFormat.dwChannelMask, SPEEDOFSOUND, m_hx3DAudio);
 		m_listener.Position = { 0.0f, 0.0f, 0.0f };
 		m_listener.OrientFront = { 0.0f, 0.0f, 1.0f };
 		m_listener.OrientTop = { 0.0f, 1.0f, 0.0f };
@@ -326,8 +326,8 @@ namespace tkEngine{
 				emitter.InnerRadiusAngle = 0.0f;
 			}
 			X3DAUDIO_DSP_SETTINGS* dspSettings = soundSource->GetDspSettings();
-			X3DAudioCalculate(m_hx3DAudio, &m_listener, &emitter, dwCalcFlags,
-				dspSettings);
+			//X3DAudioCalculate(m_hx3DAudio, &m_listener, &emitter, dwCalcFlags,
+			//	dspSettings);
 			IXAudio2SourceVoice* voice = soundSource->GetXAudio2SourceVoice();
 			if (voice != nullptr)
 			{

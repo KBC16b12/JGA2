@@ -5,8 +5,6 @@
 #ifndef _TKKEYINPUT_H_ 
 #define _TKKEYINPUT_H_ 
 
-#define KEYNUM 6
-
 #include "tkEngine/Input/tkPad.h"
 namespace tkEngine{
 	class CKeyInput{
@@ -121,22 +119,6 @@ namespace tkEngine{
 		int		m_mousePositionX;
 		int		m_mousePositionY;
 		CPad	m_pad[NUM_PAD];		//!<パッド。
-
-		struct VirtualKeyToKeyboard
-		{
-			EnKey	vKey;
-			DWORD	Key;
-		};
-
-		std::vector<VirtualKeyToKeyboard> m_vKeytoKey =
-		{
-			{	enKeyUp,	VK_UP},
-			{	enKeyDown,	VK_DOWN},
-			{	enKeyRight,	VK_RIGHT},
-			{	enKeyLeft,	VK_LEFT},
-			{	enKeyA,		'A'},
-			{	enKeyB,		'B'}
-		};
 	};
 }
 #endif //_TKKEYINPUT_H_ 

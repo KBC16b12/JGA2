@@ -15,9 +15,6 @@
     <Filter Include="Source Files\debug">
       <UniqueIdentifier>{04314229-1a3c-4ce7-b308-c02d10624720}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\gameObject">
-      <UniqueIdentifier>{ccc04095-1959-45da-98d0-f25e7e9c86ea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\policy">
       <UniqueIdentifier>{4ed3ddea-92df-402f-bef7-6a16d99b7a49}</UniqueIdentifier>
     </Filter>
@@ -74,6 +71,18 @@
     </Filter>
     <Filter Include="Source Files\thread">
       <UniqueIdentifier>{364841d2-6926-44a8-859b-33122fac2536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\nature">
+      <UniqueIdentifier>{a6455ce6-4638-4e2f-a3a5-9454f3c26eed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\material">
+      <UniqueIdentifier>{b915376c-ae6e-4ee9-a744-be5982a1caf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\graphics\material\node">
+      <UniqueIdentifier>{9d614757-4484-47cc-aafa-997fda8cb8f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gameObject">
+      <UniqueIdentifier>{ccc04095-1959-45da-98d0-f25e7e9c86ea}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -215,9 +224,6 @@
     <ClCompile Include="resource\tkSkinModelDataResources.cpp">
       <Filter>Source Files\resource</Filter>
     </ClCompile>
-    <ClCompile Include="graphics\tkSkinModelMaterial.cpp">
-      <Filter>Source Files\graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Sound\tkSoundEngine.cpp">
       <Filter>Source Files\Sound</Filter>
     </ClCompile>
@@ -277,6 +283,21 @@
     </ClCompile>
     <ClCompile Include="graphics\postEffect\tkSepiaFilter.cpp">
       <Filter>Source Files\graphics\postEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\postEffect\tkIPostEffectFilter.cpp">
+      <Filter>Source Files\graphics\postEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="nature\tkSky.cpp">
+      <Filter>Source Files\nature</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\postEffect\tkTonemap.cpp">
+      <Filter>Source Files\graphics\postEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="nature\tkTerrain.cpp">
+      <Filter>Source Files\nature</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics\material\tkSkinModelMaterial.cpp">
+      <Filter>Source Files\graphics\material</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -451,9 +472,6 @@
     <ClInclude Include="resource\tkSkinModelDataHandle.h">
       <Filter>Source Files\resource</Filter>
     </ClInclude>
-    <ClInclude Include="graphics\tkSKinModelMaterial.h">
-      <Filter>Source Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="Sound\tkSoundEngine.h">
       <Filter>Source Files\Sound</Filter>
     </ClInclude>
@@ -531,6 +549,24 @@
     </ClInclude>
     <ClInclude Include="graphics\postEffect\tkSepiaFilter.h">
       <Filter>Source Files\graphics\postEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\postEffect\tkIPostEffectFilter.h">
+      <Filter>Source Files\graphics\postEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="nature\tkSky.h">
+      <Filter>Source Files\nature</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\postEffect\tkTonemap.h">
+      <Filter>Source Files\graphics\postEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="nature\tkTerrain.h">
+      <Filter>Source Files\nature</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\material\node\tkSkinModelMaterialNode.h">
+      <Filter>Source Files\graphics\material\node</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\material\tkSkinModelMaterial.h">
+      <Filter>Source Files\graphics\material</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

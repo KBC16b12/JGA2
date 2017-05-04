@@ -92,7 +92,6 @@ namespace tkEngine{
 		alphaBlendMode = param.alphaBlendMode;
 		mulColor = param.mulColor;
 		rotateZ = CMath::PI * 2.0f * (float)random.GetRandDouble();
-		rotateY = CMath::PI * 2.0f * (float)random.GetRandDouble();
 	}
 	bool CParticle::Start()
 	{
@@ -117,20 +116,18 @@ namespace tkEngine{
 		position.Add(addPos);
 		CMatrix mTrans;
 		mTrans.MakeTranslation(position);
-		{
+		if (isBillboard) {
+			//ビルボード処理を行う。
 			const CMatrix& mCameraRot = camera->GetCameraRotation();
 			CQuaternion qRot;
+			qRot.SetRotation(CVector3(mCameraRot.m[2][0], mCameraRot.m[2][1], mCameraRot.m[2][2]), rotateZ);
 			CMatrix rot;
-			if (isBillboard) {
-				//ビルボード処理を行う。
-				qRot.SetRotation(CVector3(mCameraRot.m[2][0], mCameraRot.m[2][1], mCameraRot.m[2][2]), rotateZ);
-			}
-			else {
-				qRot.SetRotation(CVector3(mCameraRot.m[1][0], mCameraRot.m[1][1], mCameraRot.m[1][2]), rotateY);
-			}
 			rot.MakeRotationFromQuaternion(qRot);
 			mWorld.Mul(mCameraRot, rot);
 			mWorld.Mul(mWorld, mTrans);
+		}
+		else {
+			mWorld = mTrans;
 		}
 		timer += deltaTime;
 		switch (state) {
@@ -165,24 +162,24 @@ namespace tkEngine{
 		//CMatrix m;
 		//m.Mul(mWorld, camera->GetViewMatrix());
 		//m.Mul(m, camera->GetProjectionMatrix());
-		//renderContext.SetRenderState(RS_ALPHABLENDENABLE, TRUE);
+		//renderContext.SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		//switch (alphaBlendMode) {
 		//case 0:
-		//	renderContext.SetRenderState(RS_SRCBLEND, BLEND_SRCALPHA);
-		//	renderContext.SetRenderState(RS_DESTBLEND, BLEND_INVSRCALPHA);
+		//	renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_SRCALPHA);
+		//	renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_INVSRCALPHA);
 		//	shaderEffect->SetTechnique(renderContext, "ColorTexPrimTrans");
 		//	break;
 		//case 1:
-		//	renderContext.SetRenderState(RS_SRCBLEND, BLEND_ONE);
-		//	renderContext.SetRenderState(RS_DESTBLEND, BLEND_ONE);
+		//	renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_ONE);
+		//	renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_ONE);
 		//	shaderEffect->SetTechnique(renderContext, "ColorTexPrimAdd");
 		//	break;
 		//}
 		//
 		//shaderEffect->Begin(renderContext);
 		//shaderEffect->BeginPass(renderContext, 0);
-		//renderContext.SetRenderState(RS_ZENABLE, TRUE);
-		//renderContext.SetRenderState(RS_ZWRITEENABLE, FALSE);
+		//renderContext.SetRenderState(D3DRS_ZENABLE, TRUE);
+		//renderContext.SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 		//shaderEffect->SetValue(renderContext, "g_mWVP", &m, sizeof(CMatrix));
 		//shaderEffect->SetValue(renderContext, "g_alpha", &alpha, sizeof(alpha));
@@ -198,11 +195,11 @@ namespace tkEngine{
 		//renderContext.DrawIndexedPrimitive(&primitive);
 		//shaderEffect->EndPass(renderContext);
 		//shaderEffect->End(renderContext);
-		//renderContext.SetRenderState(RS_ALPHABLENDENABLE, FALSE);
-		//renderContext.SetRenderState(RS_SRCBLEND, BLEND_ONE);
-		//renderContext.SetRenderState(RS_DESTBLEND, BLEND_ZERO);
-		//renderContext.SetRenderState(RS_ZWRITEENABLE, TRUE);
-		//renderContext.SetRenderState(RS_ZENABLE, TRUE);
+		//renderContext.SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		//renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_ONE);
+		//renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_ZERO);
+		//renderContext.SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		//renderContext.SetRenderState(D3DRS_ZENABLE, TRUE);
 		
 	}
 	void CParticle::Render(CRenderContext& renderContext, int playerNum)
@@ -210,24 +207,24 @@ namespace tkEngine{
 		CMatrix m;
 		m.Mul(mWorld, cameraArray[playerNum]->GetViewMatrix());
 		m.Mul(m, cameraArray[playerNum]->GetProjectionMatrix());
-		renderContext.SetRenderState(RS_ALPHABLENDENABLE, TRUE);
+		renderContext.SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		switch (alphaBlendMode) {
 		case 0:
-			renderContext.SetRenderState(RS_SRCBLEND, BLEND_SRCALPHA);
-			renderContext.SetRenderState(RS_DESTBLEND, BLEND_INVSRCALPHA);
+			renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_SRCALPHA);
+			renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_INVSRCALPHA);
 			shaderEffect->SetTechnique(renderContext, "ColorTexPrimTrans");
 			break;
 		case 1:
-			renderContext.SetRenderState(RS_SRCBLEND, BLEND_ONE);
-			renderContext.SetRenderState(RS_DESTBLEND, BLEND_ONE);
+			renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_ONE);
+			renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_ONE);
 			shaderEffect->SetTechnique(renderContext, "ColorTexPrimAdd");
 			break;
 		}
 
 		shaderEffect->Begin(renderContext);
 		shaderEffect->BeginPass(renderContext, 0);
-		renderContext.SetRenderState(RS_ZENABLE, TRUE);
-		renderContext.SetRenderState(RS_ZWRITEENABLE, FALSE);
+		renderContext.SetRenderState(D3DRS_ZENABLE, TRUE);
+		renderContext.SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 
 		shaderEffect->SetValue(renderContext, "g_mWVP", &m, sizeof(CMatrix));
 		shaderEffect->SetValue(renderContext, "g_alpha", &alpha, sizeof(alpha));
@@ -243,10 +240,11 @@ namespace tkEngine{
 		renderContext.DrawIndexedPrimitive(&primitive);
 		shaderEffect->EndPass(renderContext);
 		shaderEffect->End(renderContext);
-		renderContext.SetRenderState(RS_ALPHABLENDENABLE, FALSE);
-		renderContext.SetRenderState(RS_SRCBLEND, BLEND_ONE);
-		renderContext.SetRenderState(RS_DESTBLEND, BLEND_ZERO);
-		renderContext.SetRenderState(RS_ZWRITEENABLE, TRUE);
-		renderContext.SetRenderState(RS_ZENABLE, TRUE);
+		renderContext.SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+		renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_ONE);
+		renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_ZERO);
+		renderContext.SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		renderContext.SetRenderState(D3DRS_ZENABLE, TRUE);
+
 	}
 }

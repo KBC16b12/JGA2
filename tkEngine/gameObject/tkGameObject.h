@@ -49,11 +49,11 @@ namespace tkEngine{
 		{
 
 		}
-		virtual void Render(CRenderContext& renderContext, int cameranum)
+
+		virtual void Render(CRenderContext& renderContext, int playerNum)
 		{
 
 		}
-
 		/*!
 		 *@brief	削除されるときに呼ばれる。
 		 *@details	CGameManager::DeleteGameObjectを呼んだときに実行されます。
@@ -92,7 +92,7 @@ namespace tkEngine{
 		 */
 		virtual void PostRender(CRenderContext& renderContext ) {}
 
-		virtual void PostRender(CRenderContext& renderContext, int playernum){}
+		virtual void PostRender(CRenderContext& renderContext, int playerNum){}
 		/*!
 		*@brief	死亡フラグを立てる。
 		*@details
@@ -116,9 +116,33 @@ namespace tkEngine{
 		{
 			return m_isStart;
 		}
+		/*!
+		*@brief アクティブかどうかを判定。
+		*/
+		bool IsActive() const
+		{
+			return m_isActive;
+		}
+		/*!
+		*@brief アクティブフラグを設定。
+		*/
 		void SetActiveFlag(bool flag)
 		{
 			m_isActive = flag;
+		}
+		/*!
+		*@brief タグを設定。
+		*/
+		void SetTags(unsigned int tags)
+		{
+			m_tags = tags;
+		}
+		/*!
+		*@brief タグを取得。
+		*/
+		unsigned int GetTags() const
+		{
+			return m_tags;
 		}
 	public:
 		void PostRenderWrapper(CRenderContext& renderContext)
@@ -184,6 +208,7 @@ namespace tkEngine{
 		bool m_isNewFromGameObjectManager;	//!<GameObjectManagerでnewされた。
 		bool m_isRegist = false;			//!<GameObjectManagerに登録されている？
 		bool m_isActive = true;				//!<Activeフラグ。
+		unsigned int m_tags = 0;			//!<タグ。
 	};
 }
 #endif // _CGAMEOBJECT_H_

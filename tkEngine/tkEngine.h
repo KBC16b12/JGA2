@@ -18,12 +18,16 @@
 #include "tkEngine/resource/tkTextureResources.h"
 #include "tkEngine/Sound/tkSoundEngine.h"
 #include "tkEngine/Physics/tkPhysics.h"
+#include "tkEngine/nature/tkSky.h"
+
 
 /*!
 * @brief	河原内製ゲームエンジン。
 */
 namespace tkEngine{
 	class CReflectionMap;
+	class CSky;
+	
 	/*!
 	* @brief	描画優先ごとに対応するレンダリングコンテキストの番号のマップを定義するための構造体。
 	*/
@@ -49,7 +53,7 @@ namespace tkEngine{
 		int					screenHeight;			//!<スクリーンの高さ。
 		int					frameBufferWidth;		//!<フレームバッファの幅。これが内部解像度。
 		int					frameBufferHeight;		//!<フレームバッファの高さ。これが内部解像度。
-		SGraphicsConfig		graphicsConfig;			//!<描画コンフィグ。
+		SGraphicsConfig		graphicsConfig;			//!<描画コンフィグ。		
 	};
 	
 	/*!
@@ -209,6 +213,10 @@ namespace tkEngine{
 		{
 			return m_postEffect.GetMotionBlur();
 		}
+		CTonemap& GetTonemap()
+		{
+			return m_postEffect.GetTonemap();
+		}
 		/*!
 		* @brief	スキンモデルリソースを取得。
 		*/
@@ -237,7 +245,13 @@ namespace tkEngine{
 		{
 			return m_physicsWorld;
 		}
-		
+		/*!
+		 * @brief	空を取得。
+		 */
+		CSky& GetSky()
+		{
+			return m_sky;
+		}
 	private:
 		/*!
 		* @brief	メインレンダリングターゲットの内容をバックバッファにコピー。
@@ -290,6 +304,7 @@ namespace tkEngine{
 		CTextureResources						m_textureResources;			//!<テクスチャリソース。
 		CSoundEngine							m_soundEngine;				//!<サウンドエンジン。
 		CPhysicsWorld							m_physicsWorld;				//!<物理ワールド。
+		CSky									m_sky;						//!<空。
 	};
 	static inline CEngine& Engine()
 	{
@@ -331,6 +346,10 @@ namespace tkEngine{
 	{
 		return CEngine::Instance().GetMotionBlur();
 	}
+	static inline CTonemap& Tonemap()
+	{
+		return CEngine::Instance().GetTonemap();
+	}
 	static inline CSkinModelDataResources& SkinModelDataResources()
 	{
 		return CEngine::Instance().GetSkinModelDataResources();
@@ -354,6 +373,10 @@ namespace tkEngine{
 	static inline CSepiaFilter& SepiaFilter()
 	{
 		return CEngine::Instance().GetSepiaFilter();
+	}
+	static inline CSky& Sky()
+	{
+		return CEngine::Instance().GetSky();
 	}
 }
 

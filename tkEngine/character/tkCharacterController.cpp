@@ -99,12 +99,12 @@ namespace tkEngine {
 
 	void CCharacterController::Init(float radius, float height, const CVector3& position)
 	{
+		m_isCollision = false;
 		m_position = position;
 		//コリジョン作成。
 		m_radius = radius;
 		m_height = height;
 		m_collider.Create(radius, height);
-		m_isCollision = false;
 
 		//剛体を初期化。
 		RigidBodyInfo rbInfo;
@@ -122,7 +122,7 @@ namespace tkEngine {
 	}
 	CVector3 CCharacterController::Execute(float deltaTime)
 	{
-		CVector3 l_wallNormal = CVector3::Zero;
+		CVector3 wallNormal = CVector3::Zero;
 		m_isCollision = false;
 		//速度に重力加速度を加える。
 		m_moveSpeed.y += m_gravity * deltaTime;
@@ -135,13 +135,10 @@ namespace tkEngine {
 		CVector3 originalXZDir = addPos;
 		originalXZDir.y = 0.0f;
 		originalXZDir.Normalize();
-		CVector3 l_wall;
 		//XZ平面での衝突検出と衝突解決を行う。
 		{
-			
 			int loopCount = 0;
-			while (true) 
-			{
+			while (true) {
 				//現在の座標から次の移動先へ向かうベクトルを求める。
 				CVector3 addPos;
 				addPos.Subtract(nextPosition, m_position);
@@ -170,10 +167,11 @@ namespace tkEngine {
 				callback.startPos = posTmp;
 				//衝突検出。
 				PhysicsWorld().ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
+
 				if (callback.isHit) {
+					m_isCollision = true;
 					//当たった。
 					//壁。
-					m_isCollision = true;
 					CVector3 vT0, vT1;
 					//XZ平面上での移動後の座標をvT0に、交点の座標をvT1に設定する。
 					vT0.Set(nextPosition.x, 0.0f, nextPosition.z);
@@ -185,7 +183,7 @@ namespace tkEngine {
 					CVector3 hitNormalXZ = callback.hitNormal;
 					hitNormalXZ.y = 0.0f;
 					hitNormalXZ.Normalize();
-					l_wallNormal = hitNormalXZ;
+					wallNormal = hitNormalXZ;
 					//めり込みベクトルを壁の法線に射影する。
 					float fT0 = hitNormalXZ.Dot(vMerikomi);
 					//押し戻し返すベクトルを求める。
@@ -198,7 +196,6 @@ namespace tkEngine {
 					currentDir.Subtract(nextPosition, m_position);
 					currentDir.y = 0.0f;
 					currentDir.Normalize();
-					l_wall = hitNormalXZ;
 					if (currentDir.Dot(originalXZDir) < 0.0f) {
 						//角に入った時のキャラクタの振動を防止するために、
 						//移動先が逆向きになったら移動をキャンセルする。
@@ -210,11 +207,9 @@ namespace tkEngine {
 				else {
 					//どことも当たらないので終わり。
 					break;
-
 				}
 				loopCount++;
 				if (loopCount == 5) {
-
 					break;
 				}
 			}
@@ -258,22 +253,18 @@ namespace tkEngine {
 			SweepResultGround callback;
 			callback.me = m_rigidBody.GetBody();
 			callback.startPos.Set(start.getOrigin());
-			if (start.getOrigin().y() - end.getOrigin().y() != 0.0f)
-			{
-				//衝突検出。
-				PhysicsWorld().ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
-				if (callback.isHit) {
-					//当たった。
-					m_moveSpeed.y = 0.0f;
-					m_isJump = false;
-					m_isOnGround = true;
-					m_isCollision = true;
-					nextPosition.y = callback.hitPos.y;
-				}
-				else {
-					//地面上にいない。
-					m_isOnGround = false;
-				}
+			//衝突検出。
+			PhysicsWorld().ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
+			if (callback.isHit) {
+				//当たった。
+				m_moveSpeed.y = 0.0f;
+				m_isJump = false;
+				m_isOnGround = true;
+				nextPosition.y = callback.hitPos.y;
+			}
+			else {
+				//地面上にいない。
+				m_isOnGround = false;
 			}
 		}
 		//移動確定。
@@ -285,9 +276,8 @@ namespace tkEngine {
 		//剛体の位置を更新。
 		trans.setOrigin(btVector3(m_position.x, m_position.y, m_position.z));
 		//@todo 未対応。 trans.setRotation(btQuaternion(rotation.x, rotation.y, rotation.z));
-		return l_wallNormal;
+		return wallNormal;
 	}
-
 	/*!
 	* @brief	死亡したことを通知。
 	*/
@@ -295,6 +285,4 @@ namespace tkEngine {
 	{
 		PhysicsWorld().RemoveRigidBody(&m_rigidBody);
 	}
-
-
 }

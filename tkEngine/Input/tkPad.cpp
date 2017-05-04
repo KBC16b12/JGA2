@@ -44,22 +44,22 @@ namespace tkEngine{
 			DWORD keyCoord;			//!<キーボードのキーコード。
 		};
 		const VirtualPadToKeyboard vPadToKeyboardTable[enButtonNum] = {
-			{ enButtonUp		, VK_UP },
-			{ enButtonDown		, VK_DOWN },
-			{ enButtonLeft		, VK_LEFT },
-			{ enButtonRight		, VK_RIGHT },
-			{ enButtonA			, VK_NUMPAD2 },
-			{ enButtonB			, VK_NUMPAD6 },
-			{ enButtonY			, VK_NUMPAD8 },
-			{ enButtonX			, VK_NUMPAD4 },
-			{ enButtonSelect	, VK_BACK },
-			{ enButtonStart		, VK_ESCAPE },
-			{ enButtonRB1		, VK_NUMPAD9 },
-			{ enButtonRB2		, VK_NUMPAD3 },
-			{ enButtonRB3		, '1'},
-			{ enButtonLB1		, VK_NUMPAD7 },
-			{ enButtonLB2		, VK_NUMPAD1 },
-			{ enButtonLB3		, '2'},
+			{ enButtonUp		, '8' },
+			{ enButtonDown		, '2' },
+			{ enButtonLeft		, '4' },
+			{ enButtonRight		, '6' },
+			{ enButtonA			, 'J' },
+			{ enButtonB			, 'K' },
+			{ enButtonY			, 'I' },
+			{ enButtonX			, 'O' },
+			{ enButtonSelect	, VK_SPACE },
+			{ enButtonStart		, VK_RETURN },
+			{ enButtonRB1		, '7' },
+			{ enButtonRB2		, '8' },
+			{ enButtonRB3		, '9' },
+			{ enButtonLB1		, 'B' },
+			{ enButtonLB2		, 'N' },
+			{ enButtonLB3		, 'M' },
 		};
 	}
 	CPad::CPad() :
