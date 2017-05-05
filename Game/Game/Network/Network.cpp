@@ -42,12 +42,29 @@ void Network::Init(char* addr)
 
 void Network::Send(char* str)
 {
-	sprintf(m_send_buf, "%s", str);
+	sprintf(m_send_buf, "%s\n", str);
 	sendto(m_send_sock, str, sizeof(m_send_buf), 0, (struct sockaddr *)&m_send_addr, sizeof(m_send_addr));
+}
+
+bool Network::IsRecvOK()
+{
+	fd_set fdset;
+	struct timeval timeout;
+	FD_ZERO(&fdset);
+	FD_SET(m_recv_sock, &fdset);
+
+	/* timeoutは０秒。つまりselectはすぐ戻ってく る */
+	timeout.tv_sec = 0;
+	timeout.tv_usec = 0;
+
+	/* readできるかチェック */
+	select(0, &fdset, NULL, NULL, &timeout);
+	return FD_ISSET(m_recv_sock, &fdset);
 }
 
 char* Network::Recv()
 {
+	//m_recv_sockからデータを受信
 	recv(m_recv_sock, m_recv_buf, sizeof(m_recv_buf), 0);
 	return m_recv_buf;
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 100
 class Network
 {
 public:
@@ -23,6 +23,11 @@ public:
 	*@brief 送信関数
 	*/
 	void Send(char* str);
+
+	/*!
+	*@brief 受信関数の前にこれがtrueか判定すること
+	*/
+	bool IsRecvOK();
 
 	/*!
 	*@brief 受信関数

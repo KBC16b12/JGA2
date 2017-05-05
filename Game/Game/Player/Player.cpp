@@ -133,7 +133,6 @@ void Player::Move()
 	/*アングル*/
 	m_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
 
-
 	/*ジャンプ*/
 	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
 	{
