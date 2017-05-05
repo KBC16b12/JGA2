@@ -34,10 +34,14 @@ namespace tkEngine{
 	}
 	void CParticleEmitter::Update()
 	{
-		if (timer >= param.intervalTime) {
+		if (timer >= param.intervalTime && !m_isDeth) {
 			//パーティクルを生成。
 			CParticle* p = GameObjectManager().NewGameObject<CParticle>(0);
 			p->Init(*random, *camera, param, emitPosition);
+			for (int i = 0;i < PLAYER_NUM;i++)
+			{
+				p->SetCamera(*cameraArray[i], i);
+			}
 			timer = 0.0f;
 			particleList.push_back(p);
 		}
@@ -49,6 +53,7 @@ namespace tkEngine{
 			[](CParticle* p)->bool { return p->IsDead(); }
 		);
 		particleList.erase(delIt, particleList.end());
+		DethCheck();
 	}
 	/*!
 	*@brief	パーティクルに力を加える。

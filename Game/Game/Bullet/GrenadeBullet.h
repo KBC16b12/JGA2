@@ -29,6 +29,5 @@ public:
 	void DethCheck()override;
 
 private:
-	CCharacterController	m_characterController;
 };
 
