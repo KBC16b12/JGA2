@@ -64,7 +64,7 @@ public:
 	CVector3 GetFrontWorldMatrix()
 	{
 		CVector3 l_frontWorldMatrix;
-		CMatrix l_worldMatrix = m_skinModel.GetWorldMatrix();
+		CMatrix l_worldMatrix = m_skinModelFirst.GetWorldMatrix();
 		l_frontWorldMatrix.x = l_worldMatrix.m[2][0];
 		l_frontWorldMatrix.y = l_worldMatrix.m[2][1];
 		l_frontWorldMatrix.z = l_worldMatrix.m[2][2];
@@ -80,6 +80,12 @@ public:
 		m_weapon.SetWeapon();
 	}
 
+	void SetPosition(CVector3 position)
+	{
+		m_position = position;
+		m_respawnPosition = position;
+	}
+
 	/*
 	プレイヤーの番号をセットする関数
 	プレイヤーの番号とカメラの番号は同じ
@@ -90,9 +96,14 @@ public:
 		m_weapon.Init(this, m_playernum);
 	}
 
-	int GetPlayerNUm()
+	int GetPlayerNum()
 	{
 		return m_playernum;
+	}
+
+	bool IsLoadEnd()
+	{
+		return (m_skinModelDataFirst.IsLoadEnd() && m_skinModelDataThird.IsLoadEnd());
 	}
 	
 	void KillCountUp()
@@ -106,12 +117,14 @@ private:
 	*/
 	void UpdateHPBar();
 	
-	CSkinModel				m_skinModel;					//スキンモデル
-	CSkinModelData			m_skinModelData;				//スキンモデルデータ
+	CSkinModel				m_skinModelFirst;					//スキンモデル
+	CSkinModelDataHandle	m_skinModelDataFirst;				//スキンモデルデータ
+	CSkinModel				m_skinModelThird;
+	CSkinModelDataHandle	m_skinModelDataThird;
 	CQuaternion				m_rotation;					//回転
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
-	CVector3				m_position = { 0.0f, 40.0f, 0.0f };
+	CVector3				m_position = { 0.0f, 0.0f, 0.0f };
 	CVector3				m_respawnPosition;
 	CQuaternion				m_respawnRotation;
 

@@ -20,12 +20,15 @@ namespace tkEngine{
 		}
 		void SetTextureDX( LPDIRECT3DTEXTURE9 tex )
 		{
-			if (m_tex != NULL) {
-				m_tex->Release();
+			
+			if (tex != nullptr) {
+				if (m_tex != nullptr) {
+					m_tex->Release();
+				}
+				m_tex = tex;
+				m_tex->AddRef();
+				ComputeTexSize();
 			}
-			m_tex = tex;
-			m_tex->AddRef();
-			ComputeTexSize();
 		}
 		LPDIRECT3DTEXTURE9 GetTextureDX() const
 		{
@@ -64,9 +67,7 @@ namespace tkEngine{
 		 * @brief	テクスチャをロード。
 		 */
 		bool Load( const char* fileName, bool isCubeMap = false);
-		/*!
-		* @brief	テクスチャをロード。
-		*/
+
 		bool LoadEx(const char* fileName, unsigned int color);
 		
 	private:

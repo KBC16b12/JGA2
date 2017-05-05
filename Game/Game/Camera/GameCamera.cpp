@@ -28,29 +28,26 @@ GameCamera::~GameCamera()
 
 void GameCamera::Update()
 {
-
-	m_camera.Update();
 	SetPos();
 	Move();
+	m_camera.Update();
 }
 
 
 void GameCamera::SetPos()
 {
-	//if (!m_ViewportFlg)
-	//{
-	//	return;
-	//}
-	//CVector3 l_tarbget = m_player->GetPosition();
-	//l_tarbget.y += 3.5;
-	//m_camera.SetPosition(l_tarbget);
-	//l_tarbget.Add(m_player->GetFrontWorldMatrix());
-	//m_camera.SetTarget(l_tarbget);
+	if (!m_ViewportFlg)
+	{
+		return;
+	}
+	CVector3 l_tarbget = m_player->GetPosition();
+	m_camera.SetPosition(l_tarbget);
+	l_tarbget.Add(m_player->GetFrontWorldMatrix());
+	m_camera.SetTarget(l_tarbget);
 }
 
 void GameCamera::Move()
 {
-	CVector3 C_movespeed = m_characterController.GetMoveSpeed();
 	CVector3 C_moveX;
 	CVector3 C_moveY;
 

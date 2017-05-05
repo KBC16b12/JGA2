@@ -5,11 +5,11 @@
 #ifndef _TKPARTICLEEMITTER_H_
 #define _TKPARTICLEEMITTER_H_
 
+#include "tkParticle.h"
 
 namespace tkEngine{
 	class CCamera;
 	class CRandom;
-	class CParticle;
 	/*!
 	* @brief	パーティクル生成パラメータ
 	*/
@@ -69,12 +69,27 @@ namespace tkEngine{
 		bool Start() override ;
 		void Update() override;
 		void Render( CRenderContext& renderContext ) override;
+		void Render(CRenderContext& renderContext, int playerNum) override;
+		
+		void DethCheck();
+		
+		bool IsDelete()
+		{
+			return m_isDelete;
+		}
+
 		/*!
 		*@brief	パーティクルに力を加える。
 		*@param[in]	applyForce		乱数生成に使用する乱数生成機。
 		*/
 		void ApplyForce(const CVector3& applyForce);
+
+		void SetCamera(CCamera& camera, int playerNum)
+		{
+			cameraArray[playerNum] = &camera;
+		}
 	private:
+		CCamera*				cameraArray[PLAYER_NUM];
 		float					timer;			//!<タイマー
 		CRandom*				random;			//!<乱数生成機。
 		const CCamera*			camera;			//!<カメラ。
@@ -82,6 +97,9 @@ namespace tkEngine{
 		CVector3				emitPosition;	//!<エミッターの座標。
 		std::list<CParticle*>	particleList;	//!<パーティクルのリスト。
 		std::list<CParticle*>	deleteParticleList;	//!<削除されたパーティクルのリスト。
+		bool					m_isDelete;
+		bool					m_isDeth;
+		float					m_lifeTimer;
 	};
 }
 

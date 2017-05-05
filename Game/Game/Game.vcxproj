@@ -163,6 +163,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bullet\BoundBullet.cpp" />
     <ClCompile Include="Bullet\Bullet.cpp" />
     <ClCompile Include="Bullet\GrenadeBullet.cpp" />
     <ClCompile Include="Camera\GameCamera.cpp" />
@@ -195,6 +196,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bullet\BoundBullet.h" />
     <ClInclude Include="Bullet\Bullet.h" />
     <ClInclude Include="Bullet\GrenadeBullet.h" />
     <ClInclude Include="Camera\GameCamera.h" />

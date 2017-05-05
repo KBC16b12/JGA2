@@ -26,10 +26,10 @@ namespace tkEngine{
 		if(config.edgeRenderConfig.isEnable){
 			m_edgeRender.Create(config );
 		}
-		if (config.bloomConfig.isEnable) 
-		{
+		if (config.bloomConfig.isEnable) {
 			m_bloomRender.Create(config);
 		}
+		m_tonemap.Create(config);
 		m_dof.Create(config);
 		m_fxaa.Init(config);
 		m_motionBlur.Create(config);
@@ -74,6 +74,9 @@ namespace tkEngine{
 		m_edgeRender.Render(renderContext, this);
 		m_motionBlur.Render(renderContext, this);
 		m_dof.Render(renderContext, this);
+		
+		m_tonemap.CalcLuminanceAvarage(renderContext, this);
+		m_tonemap.Execute(renderContext, this);
 		m_bloomRender.Render(renderContext, this);
 		m_fxaa.Render(renderContext, this);
 		m_monochromeFilter.Render(renderContext, this);

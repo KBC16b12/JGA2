@@ -12,6 +12,7 @@
 #include "tkEngine/graphics/postEffect/tkMotionBlur.h"
 #include "tkEngine/graphics/postEffect/tkMonochromeFilter.h"
 #include "tkEngine/graphics/postEffect/tkSepiaFilter.h"
+#include "tkEngine/graphics/postEffect/tkTonemap.h"
 
 namespace tkEngine{
 	/*!
@@ -57,6 +58,13 @@ namespace tkEngine{
 		{
 			return m_motionBlur;
 		}
+		/*!
+		* @brief	トーンマップを取得。
+		*/
+		CTonemap& GetTonemap()
+		{
+			return m_tonemap;
+		}
 		CMonochromeFilter& GetMonochromeFilter()
 		{
 			return m_monochromeFilter;
@@ -73,6 +81,7 @@ namespace tkEngine{
 		CMotionBlur			m_motionBlur;		//!<モーションブラー。
 		CMonochromeFilter	m_monochromeFilter;	//!<モノクロフィルタ。
 		CSepiaFilter		m_sepiaFilter;		//!<セピアフィルタ。
+		CTonemap			m_tonemap;			//!<トーンマップ。
 		CPrimitive		m_fullscreenRenderPrim;	//!<フルスクリーンをレンダリングするためのプリミティブ。
 	};
 }

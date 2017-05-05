@@ -70,9 +70,12 @@ public:
 		return m_playernum;
 	}
 
+	CCamera& GetCamera()
+	{
+		return m_camera;
+	}
 private:
 	CCamera					m_camera;				//カメラ
-	CCharacterController	m_characterController;	//キャラクタ―コントローラー
 	CVector3				m_position;				//座標
 	CVector3				m_look_position;		//注視点
 	SViewport				m_sviewPort;

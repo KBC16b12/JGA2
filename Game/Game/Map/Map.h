@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MapChip.h"
+class Player;
 
 class Map : public IGameObject
 {
@@ -46,13 +47,24 @@ public:
 
 	void PostRender(CRenderContext& renderContext, int playernum) override;
 
+	bool IsLoadEnd()
+	{
+		return m_isLoad;
+	}
+
+	Player* GetPlayer(int playerNum)
+	{
+		return m_player[playerNum];
+	}
+
 	const std::vector<MapChip*>& GetMap()
 	{
 		return m_mapchip;
 	}
 
 private:
-
+	bool						m_isLoad;
+	Player*						m_player[PLAYER_NUM];
 	std::vector<MapChip*>		m_mapchip;			//マップチップリスト
 };
 

@@ -16,29 +16,32 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::Init(Weapon *weapon, int arrayNum, int playerNum)
+void Bullet::Init(CVector3 movespeed, Weapon *weapon, int arrayNum, int playerNum)
 {
 	//どのプレイヤーが打ったのかの番号割り当て
 	m_playerNum = playerNum;
 	//座標の初期化
 	Player *l_player = g_gameScene->GetPlayer(m_playerNum);
 	m_position = l_player->GetPosition();
-	m_position.y += 3.5f;
 	//
-	m_characterController.Init(0.3f, 0.3f, m_position);
-	m_characterController.SetGravity(0.0f);
+	//m_characterController.Init(0.3f, 0.3f, m_position);
+	//m_characterController.SetGravity(0.0f);
 	//移動速度をプレイヤーの向きから求める
-	m_moveSpeed = l_player->GetFrontWorldMatrix();
+	m_moveSpeed = movespeed;
 	m_moveSpeed.Normalize();
-	m_moveSpeed.Scale(1.0f);
+	m_moveSpeed.Scale(30.0f);
 
 	m_weapon = weapon;
 	m_arraynum = arrayNum;
+	m_characterController.Init(0.3f, 0.3f, m_position);
+	m_characterController.SetMoveSpeed(m_moveSpeed);
+	m_characterController.SetGravity(0.0f);
+
 }
 
 bool Bullet::Start()
 {
-	m_modelData.LoadModelData("Assets/modelData/Bullet.X", NULL);
+	SkinModelDataResources().Load(m_modelData, "Assets/modelData/Bullet.X", NULL, false, 1);
 	m_skinModel.Init(m_modelData.GetBody());
 	m_skinModel.SetLight(&m_light);
 	return true;
@@ -88,7 +91,7 @@ void Bullet::Move()
 {
 	m_moveSpeed.y = m_characterController.GetMoveSpeed().y;
 	m_characterController.SetMoveSpeed(m_moveSpeed);
-	m_characterController.Execute(1.0f);
+	m_characterController.Execute(GameTime().GetFrameDeltaTime());
 	m_position = m_characterController.GetPosition();
 }
 

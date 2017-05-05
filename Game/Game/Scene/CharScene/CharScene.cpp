@@ -37,7 +37,7 @@ bool CharScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init("Assets/sound/Wait.wav");
-	//m_bgm->Play(true);
+	m_bgm->Play(true);
 	return true;
 }
 

@@ -102,7 +102,6 @@ namespace tkEngine{
 			TK_ASSERT( prio <= m_gameObjectPriorityMax, "ゲームオブジェクトの優先度の最大数が大きすぎます。");
 			T* newObject = new T();
 			newObject->Awake();
-
 			newObject->SetMarkNewFromGameObjectManager();
 			unsigned int hash = MakeGameObjectNameKey(objectName);
 			m_gameObjectListArray.at(prio).push_back(newObject);
@@ -115,13 +114,31 @@ namespace tkEngine{
 		 */
 		void DeleteGameObject( IGameObject* gameObject )
 		{
-			if (gameObject->m_isRegist) {
+			if (gameObject != nullptr
+				&& gameObject->m_isRegist
+			) {
 				gameObject->SetDeadMark();
 				gameObject->OnDestroy();
 				gameObject->m_isRegist = false;
 				gameObject->m_isRegistDeadList = true;
 				m_deleteObjectArray[m_currentDeleteObjectBufferNo].at(gameObject->GetPriority()).push_back(gameObject);
 			}
+		}
+		/*!
+		*@brief	指定したタグのいずれかがが含まれるゲームオブジェクトを検索して、見つかった場合指定されたコールバック関数を呼び出す。
+		*/
+		
+		void FindGameObjectsWithTag(unsigned int tags, void (*func)(IGameObject* go) )
+		{
+			for (auto& goList : m_gameObjectListArray) {
+				for (auto& go : goList) {
+					unsigned int goTags = go->GetTags();
+					if ((goTags & tags) != 0) {
+						(*func)(go);
+					}
+				}
+			}
+			
 		}
 	private:
 		/*!
@@ -169,6 +186,13 @@ namespace tkEngine{
 	static inline void AddGO(int priority, IGameObject* go, const char* objectName = nullptr)
 	{
 		GameObjectManager().AddGameObject(priority, go, objectName);
+	}
+	/*!
+	*@brief	指定したタグのいずれかがが含まれるゲームオブジェクトを検索して、見つかった場合指定されたコールバック関数を呼び出す。
+	*/
+	static inline 	void FindGameObjectsWithTag(unsigned int tags, void (*func)(IGameObject* go))
+	{
+		GameObjectManager().FindGameObjectsWithTag(tags, func);
 	}
 }
 #endif // _CGAMEOBJECTMANAGER_H_

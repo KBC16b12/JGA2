@@ -92,12 +92,7 @@ namespace tkEngine{
 	    {
 	        return false;
 	    }
-		if(FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, m_hWnd,
-			D3DCREATE_HARDWARE_VERTEXPROCESSING | D3DCREATE_MULTITHREADED,
-			&d3dpp, &m_pD3DDeviceLoading)))
-		{
-			return false;
-		}
+		
 		//バックバッファのレンダリングターゲットと深度ステンシルバッファを取得しておいて覚えておく。
 		LPDIRECT3DSURFACE9 rt, depth;
 		m_pD3DDevice->GetRenderTarget(0, &rt);
@@ -127,9 +122,9 @@ namespace tkEngine{
 				m_frameBufferWidth,
 				m_frameBufferHeight,
 				1,
-				FMT_A16B16G16R16F,
-				FMT_D24S8,
-				MULTISAMPLE_NONE,
+				D3DFMT_A16B16G16R16F,
+				D3DFMT_D24S8,
+				D3DMULTISAMPLE_NONE,
 				0
 			);
 		}
@@ -155,6 +150,10 @@ namespace tkEngine{
 		m_preRender.Create( initParam.graphicsConfig );
 		//ポストエフェクトをレンダリング。
 		m_postEffect.Create( initParam.graphicsConfig );
+		//空を初期化。
+		AddGO(initParam.gameObjectPrioMax-1, &m_sky);
+		m_sky.Init();
+		m_sky.SetActiveFlag(false);
 		m_soundEngine.Init();
 		m_physicsWorld.Init();
 		ShowWindow(m_hWnd, SW_SHOWDEFAULT);
@@ -207,7 +206,7 @@ namespace tkEngine{
 		};
 	
 		m_pTransformedPrimEffect->SetTexture(renderContext, "g_tex", rt.GetTexture());
-		m_pTransformedPrimEffect->SetValue(renderContext, "g_offset", offset, sizeof(offset));
+		m_pTransformedPrimEffect->SetValue(renderContext, "g_texelOffset", offset, sizeof(offset));
 		m_pTransformedPrimEffect->CommitChanges(renderContext);
 		renderContext.SetVertexDeclaration(m_copyBackBufferPrim.GetVertexDecl());
 		renderContext.SetStreamSource(0, m_copyBackBufferPrim.GetVertexBuffer());
@@ -284,7 +283,7 @@ namespace tkEngine{
 				m_pD3DDevice->Present(nullptr, nullptr, nullptr, nullptr);
 				
 				sw.Stop();
-				
+#if 1	
 				if (sw.GetElapsed() < 1.0f / 30.0f) {
 					//30fpsに間に合っているなら眠る。
 					DWORD sleepTime = max( 0.0, (1.0 / 30.0)*1000.0 - (DWORD)sw.GetElapsedMillisecond());
@@ -295,6 +294,9 @@ namespace tkEngine{
 					//間に合っていない。
 					GameTime().SetFrameDeltaTime((float)sw.GetElapsed());
 				}
+#else
+				GameTime().SetFrameDeltaTime(1.0f/60.0f);
+#endif
 				//
 #ifdef USE_DISP_FPS
 				sprintf(text, "fps = %lf\n", 1.0f / sw.GetElapsed());

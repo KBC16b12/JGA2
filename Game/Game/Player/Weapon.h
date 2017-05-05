@@ -12,7 +12,8 @@ public:
 	{
 		BULLETSTATE_NOMAL,
 		BULLETSTATE_GRENADE,
-		BULLETSTATE_NUM
+		BULLETSTATE_BOUND,
+		BULLETSTATE_NUM,
 	};
 	Weapon();
 
@@ -55,6 +56,8 @@ public:
 			m_bullet[arraynum] = nullptr;
 		}
 	}
+
+	void ParticleEmit(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition);
 
 	/*
 	*@brief ï`âÊä÷êî

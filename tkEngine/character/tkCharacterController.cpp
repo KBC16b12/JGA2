@@ -99,6 +99,7 @@ namespace tkEngine {
 
 	void CCharacterController::Init(float radius, float height, const CVector3& position)
 	{
+		m_isCollision = false;
 		m_position = position;
 		//コリジョン作成。
 		m_radius = radius;
@@ -119,8 +120,10 @@ namespace tkEngine {
 		PhysicsWorld().AddRigidBody(&m_rigidBody);
 
 	}
-	void CCharacterController::Execute(float deltaTime)
+	CVector3 CCharacterController::Execute(float deltaTime)
 	{
+		CVector3 wallNormal = CVector3::Zero;
+		m_isCollision = false;
 		//速度に重力加速度を加える。
 		m_moveSpeed.y += m_gravity * deltaTime;
 		//次の移動先となる座標を計算する。
@@ -166,9 +169,9 @@ namespace tkEngine {
 				PhysicsWorld().ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
 
 				if (callback.isHit) {
+					m_isCollision = true;
 					//当たった。
 					//壁。
-					m_isCollision = true;
 					CVector3 vT0, vT1;
 					//XZ平面上での移動後の座標をvT0に、交点の座標をvT1に設定する。
 					vT0.Set(nextPosition.x, 0.0f, nextPosition.z);
@@ -180,6 +183,7 @@ namespace tkEngine {
 					CVector3 hitNormalXZ = callback.hitNormal;
 					hitNormalXZ.y = 0.0f;
 					hitNormalXZ.Normalize();
+					wallNormal = hitNormalXZ;
 					//めり込みベクトルを壁の法線に射影する。
 					float fT0 = hitNormalXZ.Dot(vMerikomi);
 					//押し戻し返すベクトルを求める。
@@ -201,10 +205,8 @@ namespace tkEngine {
 					}
 				}
 				else {
-					m_isCollision = false;
 					//どことも当たらないので終わり。
 					break;
-
 				}
 				loopCount++;
 				if (loopCount == 5) {
@@ -252,18 +254,21 @@ namespace tkEngine {
 			callback.me = m_rigidBody.GetBody();
 			callback.startPos.Set(start.getOrigin());
 			//衝突検出。
-			PhysicsWorld().ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
-			if (callback.isHit) {
-				//当たった。
-				m_moveSpeed.y = 0.0f;
-				m_isJump = false;
-				m_isOnGround = true;
-				m_isCollision = true;
-				nextPosition.y = callback.hitPos.y;
-			}
-			else {
-				//地面上にいない。
-				m_isOnGround = false;
+			if (start.getOrigin().y() - end.getOrigin().y() != 0.0f)
+			{
+				PhysicsWorld().ConvexSweepTest((const btConvexShape*)m_collider.GetBody(), start, end, callback);
+				if (callback.isHit) {
+					m_isCollision = true;
+					//当たった。
+					m_moveSpeed.y = 0.0f;
+					m_isJump = false;
+					m_isOnGround = true;
+					nextPosition.y = callback.hitPos.y;
+				}
+				else {
+					//地面上にいない。
+					m_isOnGround = false;
+				}
 			}
 		}
 		//移動確定。
@@ -275,6 +280,7 @@ namespace tkEngine {
 		//剛体の位置を更新。
 		trans.setOrigin(btVector3(m_position.x, m_position.y, m_position.z));
 		//@todo 未対応。 trans.setRotation(btQuaternion(rotation.x, rotation.y, rotation.z));
+		return wallNormal;
 	}
 	/*!
 	* @brief	死亡したことを通知。

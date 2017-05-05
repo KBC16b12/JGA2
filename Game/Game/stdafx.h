@@ -31,6 +31,7 @@
 #include "tkEngine/physics/tkRigidBody.h"
 #include "tkEngine/Physics/tkMeshCollider.h"
 #include "tkEngine/character/tkCharacterController.h"
+#include "tkEngine/particle/tkParticleEmitter.h"
 
 
 using namespace tkEngine;
