@@ -137,5 +137,6 @@ private:
 	int						m_playernum;
 	int						m_killCount;
 	Weapon					m_weapon;
+	CLight					m_light;
 };
 

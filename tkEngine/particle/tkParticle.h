@@ -32,6 +32,7 @@ namespace tkEngine{
 		CVector3		position;					//!<座標。
 		CVector3		gravity;					//!<重力。
 		float			rotateZ;					//!<Z軸周りの回転。
+		float			rotateY;					//!<Y軸周りの回転。
 		CMatrix			mWorld;						//!<ワールド行列。
 		CVector3		addVelocityRandomMargih;	//!<速度の積分のときのランダム幅。
 		bool			isDead;						//!<死亡フラグ。

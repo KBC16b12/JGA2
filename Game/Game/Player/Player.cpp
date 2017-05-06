@@ -33,14 +33,32 @@ Player::~Player()
 
 bool Player::Start()
 {
-	g_defaultLight.SetAmbinetLight(CVector3::One);
+	//m_light.SetDiffuseLightDirection(0, { 0.707f, 0.0f, -0.707f });
+	//m_light.SetDiffuseLightDirection(1, { -0.707f, 0.0f, -0.707f });
+	//m_light.SetDiffuseLightDirection(2, { 0.0f, 0.707f, -0.707f });
+	//m_light.SetDiffuseLightDirection(3, { 0.0f, -0.707f, -0.707f });
+	m_light.SetDiffuseLightDirection(0, { 0.0f, 1.0f, 0.0f });
+	m_light.SetDiffuseLightDirection(1, { 0.0f, -1.0f, 0.0f });
+	m_light.SetDiffuseLightDirection(2, { 0.0f, 0.707f, -0.707f });
+	m_light.SetDiffuseLightDirection(3, { 0.0f, -0.707f, -0.707f });
+
+	float l_lightColor1 = 0.15f;
+	float l_lightColor2 = 0.4f;
+	float l_lightColor3 = 0.2f;
+	float l_lightColor4 = 0.3f;
+	m_light.SetDiffuseLightColor(0, { l_lightColor1, l_lightColor1, l_lightColor1, 1.0f });
+	m_light.SetDiffuseLightColor(1, { l_lightColor2, l_lightColor2, l_lightColor2, 1.0f });
+	m_light.SetDiffuseLightColor(2, { l_lightColor3, l_lightColor3, l_lightColor3, 1.0f });
+	m_light.SetDiffuseLightColor(3, { l_lightColor4, l_lightColor4, l_lightColor4, 1.0f });
+	m_light.SetAmbinetLight({ 0.3f, 0.3f, 0.3f });
+
 
 	SkinModelDataResources().Load(m_skinModelDataFirst, "Assets/modelData/snowman_first.X", NULL, false, 1);
 	m_skinModelFirst.Init(m_skinModelDataFirst.GetBody());
-	m_skinModelFirst.SetLight(&g_defaultLight);	//デフォルトライトを設定。
+	m_skinModelFirst.SetLight(&m_light);	//デフォルトライトを設定。
 	SkinModelDataResources().Load(m_skinModelDataThird, "Assets/modelData/snowman1-3.X", NULL, false, 1);
 	m_skinModelThird.Init(m_skinModelDataThird.GetBody());
-	m_skinModelThird.SetLight(&g_defaultLight);	//デフォルトライトを設定。
+	m_skinModelThird.SetLight(&m_light);	//デフォルトライトを設定。
 	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(0.0f));
 	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
