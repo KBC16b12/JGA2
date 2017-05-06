@@ -92,6 +92,7 @@ namespace tkEngine{
 		alphaBlendMode = param.alphaBlendMode;
 		mulColor = param.mulColor;
 		rotateZ = CMath::PI * 2.0f * (float)random.GetRandDouble();
+		rotateY = CMath::PI * 2.0f * (float)random.GetRandDouble();
 	}
 	bool CParticle::Start()
 	{
@@ -116,18 +117,22 @@ namespace tkEngine{
 		position.Add(addPos);
 		CMatrix mTrans;
 		mTrans.MakeTranslation(position);
-		if (isBillboard) {
-			//ビルボード処理を行う。
+		{
 			const CMatrix& mCameraRot = camera->GetCameraRotation();
 			CQuaternion qRot;
-			qRot.SetRotation(CVector3(mCameraRot.m[2][0], mCameraRot.m[2][1], mCameraRot.m[2][2]), rotateZ);
+			if (isBillboard) {
+				//ビルボード処理を行う。
+
+				qRot.SetRotation(CVector3(mCameraRot.m[2][0], mCameraRot.m[2][1], mCameraRot.m[2][2]), rotateZ);
+
+			}
+			else {
+				qRot.SetRotation(CVector3(mCameraRot.m[1][0], mCameraRot.m[1][1], mCameraRot.m[1][2]), rotateY);
+			}
 			CMatrix rot;
 			rot.MakeRotationFromQuaternion(qRot);
 			mWorld.Mul(mCameraRot, rot);
 			mWorld.Mul(mWorld, mTrans);
-		}
-		else {
-			mWorld = mTrans;
 		}
 		timer += deltaTime;
 		switch (state) {
