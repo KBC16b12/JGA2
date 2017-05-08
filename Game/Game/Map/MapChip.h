@@ -43,6 +43,7 @@ public:
 	*@brief	描画関数。
 	*@param[in]		renderContext		レンダリングコンテキスト。
 	*/
+	void Render(CRenderContext& renderContext) override;
 
 	void Render(CRenderContext& renderContext, int cameranum) override;
 
@@ -56,6 +57,5 @@ protected:
 	CSkinModelDataHandle		m_SkinModelData;	//スキンモデルのハンドル
 	CVector3					m_position;			//座標
 	CQuaternion					m_rotation;			//回転
-	CVector3					m_scale;			//拡大
 };
 

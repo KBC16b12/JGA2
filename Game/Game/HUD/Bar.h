@@ -50,6 +50,8 @@ public:
 	*/
 	void PostRender(CRenderContext& renderContext, int playernum);
 
+	void PostRender(CRenderContext& renderContext);
+
 	/*!
 	*@brief	‚Ç‚ÌŒü‚«‚ÉŒ¸‚é‚©‚ğİ’èB
 	*/

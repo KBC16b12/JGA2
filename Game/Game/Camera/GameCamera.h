@@ -35,9 +35,9 @@ public:
 	y		左上隅のy座標
 	width	xからの横幅
 	height	yからの縦幅
-	cameranum カメラの番号
+	playernum カメラの番号
 	*/
-	void SetViewPort(int x, int y, int width, int height, int cameranum);
+	void SetViewPort(int x, int y, int width, int height, int playernum);
 
 
 	/*
@@ -74,6 +74,12 @@ public:
 	{
 		return m_camera;
 	}
+
+	void SetPlayer(Player* player)
+	{
+		m_player = player;
+		m_PlayerFlg = true;
+	}
 private:
 	CCamera					m_camera;				//カメラ
 	CVector3				m_position;				//座標
@@ -83,6 +89,7 @@ private:
 	int						m_playernum;			//ビューポートで区切ったときのカメラの番号
 	bool					m_ViewportFlg;
 	Player*					m_player;
+	bool					m_PlayerFlg;
 };
 
 extern GameCamera* g_gameCamera[PLAYER_NUM];

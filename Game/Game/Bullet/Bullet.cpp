@@ -97,6 +97,7 @@ void Bullet::Move()
 
 void Bullet::Render(CRenderContext& renderContext)
 {
+	m_skinModel.Draw(renderContext, g_gameCamera[0]->GetViewMatrix(), g_gameCamera[0]->GetProjectionMatrix());
 }
 
 void Bullet::Render(CRenderContext& renderContext, int playernum)

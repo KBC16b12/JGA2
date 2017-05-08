@@ -7,7 +7,6 @@ MapChip::MapChip()
 	//‰Šú‰»
 	m_position = CVector3::Zero;
 	m_rotation = CQuaternion::Identity;
-	m_scale = CVector3::Zero;
 }
 
 MapChip::~MapChip()
@@ -27,8 +26,7 @@ void MapChip::Init(SMapInfo map_dat)
 	//Šî–{î•ñÝ’è
 	m_position = map_dat.s_position;
 	m_rotation = map_dat.s_rotation;
-	m_scale = map_dat.s_scale;
-	m_SkinModel.Update(m_position, m_rotation, m_scale);
+	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
 }
 
 bool MapChip::Start()
@@ -43,4 +41,9 @@ void MapChip::Update()
 void MapChip::Render(CRenderContext& renderContext, int cameranum)
 {
 	m_SkinModel.Draw(renderContext, g_gameCamera[cameranum]->GetViewMatrix(), g_gameCamera[cameranum]->GetProjectionMatrix());
+}
+
+void MapChip::Render(CRenderContext& renderContext)
+{
+	m_SkinModel.Draw(renderContext, g_gameCamera[0]->GetViewMatrix(), g_gameCamera[0]->GetProjectionMatrix());
 }

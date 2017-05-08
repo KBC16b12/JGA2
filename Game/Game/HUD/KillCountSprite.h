@@ -32,6 +32,8 @@ public:
 	*/
 	void PostRender(CRenderContext& renderContext, int playernum)override;
 
+	void PostRender(CRenderContext& renderContext)override;
+
 private:
 	CTexture*					m_texture[10];
 	CSprite						m_sprite[2];

@@ -20,6 +20,8 @@ GameCamera::GameCamera()
 	m_camera.SetUp(CVector3::AxisY);
 	m_camera.Update();
 	m_ViewportFlg = false;
+	m_playernum = 0;
+	m_PlayerFlg = false;
 }
 
 GameCamera::~GameCamera()
@@ -36,7 +38,7 @@ void GameCamera::Update()
 
 void GameCamera::SetPos()
 {
-	if (!m_ViewportFlg)
+	if (!m_PlayerFlg && !m_ViewportFlg)
 	{
 		return;
 	}
