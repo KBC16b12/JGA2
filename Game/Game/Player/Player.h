@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Network/Network.h"
 #include "Weapon.h"
 class KillCountSprite;
 class Bar;
@@ -140,5 +141,6 @@ private:
 	int						m_killCount;
 	Weapon					m_weapon;
 	CLight					m_light;
+	Network					m_network;
 };
 

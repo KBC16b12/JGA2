@@ -118,13 +118,15 @@ void Player::UpdateHPBar()
 		return;
 	}
 
+	float hp_per = (float)m_hp / (float)m_maxhp * 100.0f;
+
 	//HP50%以上
-	if (50.0f < (float)m_hp / (float)m_maxhp * 100.0f)
+	if (50.0f < hp_per)
 	{
 		m_HPbar->SetBarPath("Assets/sprite/Green.png");
 	}
-	//HP10%以上50%以下
-	else if (10.0f < (float)m_hp / (float)m_maxhp * 100.0f)
+	//HP10%以上50%未満
+	else if (10.0f < hp_per)
 	{
 		m_HPbar->SetBarPath("Assets/sprite/Blue.png");
 	}
@@ -167,7 +169,6 @@ void Player::Move()
 
 	/*アングル*/
 	m_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
-
 
 	/*ジャンプ*/
 	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
