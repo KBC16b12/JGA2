@@ -113,13 +113,15 @@ void Player::UpdateHPBar()
 		return;
 	}
 
+	float hp_per = (float)m_hp / (float)m_maxhp * 100.0f;
+
 	//HP50%à»è„
-	if (50.0f < (float)m_hp / (float)m_maxhp * 100.0f)
+	if (50.0f < hp_per)
 	{
 		m_HPbar->SetBarPath("Assets/sprite/Green.png");
 	}
-	//HP10%à»è„50%à»â∫
-	else if (10.0f < (float)m_hp / (float)m_maxhp * 100.0f)
+	//HP10%à»è„50%ñ¢ñû
+	else if (10.0f < hp_per)
 	{
 		m_HPbar->SetBarPath("Assets/sprite/Blue.png");
 	}
