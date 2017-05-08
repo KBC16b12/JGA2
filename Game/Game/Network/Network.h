@@ -15,9 +15,14 @@ public:
 	~Network();
 
 	/*!
-	*@brief ‰Šú‰»ŠÖ”
+	*@brief ‘—MŠÖ”‚Ì‰Šú‰»ŠÖ”
 	*/
-	void Init(char* addr);
+	void Init_Send(unsigned long addr);
+
+	/*!
+	*@brief óMŠÖ”‚Ì‰Šú‰»ŠÖ”
+	*/
+	void Init_Recv(unsigned long addr);
 
 	/*!
 	*@brief ‘—MŠÖ”

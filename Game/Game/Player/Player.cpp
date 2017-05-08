@@ -73,6 +73,7 @@ void Player::Update()
 	{
 		m_weapon.BulletFilling();
 	}
+
 	m_weapon.Update();
 	UpdateHPBar();
 	m_killCountSprite->SetData(m_killCount);

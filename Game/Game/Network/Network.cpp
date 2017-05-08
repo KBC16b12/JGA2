@@ -11,9 +11,7 @@ Network::Network()
 
 	m_send_addr.sin_family = AF_INET;
 	m_send_addr.sin_port = htons(12345);
-	m_send_addr.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
-
-	setsockopt(m_send_sock, SOL_SOCKET, SO_BROADCAST, m_send_buf, sizeof(m_send_buf));
+	m_send_addr.sin_addr.S_un.S_addr = inet_addr("");
 
 	//Recvデータの初期化
 	m_recv_sock = socket(AF_INET, SOCK_DGRAM, 0);
@@ -22,26 +20,35 @@ Network::Network()
 	m_recv_addr.sin_port = htons(12345);
 	m_recv_addr.sin_addr.S_un.S_addr = INADDR_ANY;
 
-	bind(m_recv_sock, (struct sockaddr *)&m_recv_addr, sizeof(m_recv_addr));
-
 	memset(m_recv_buf, NULL, sizeof(m_recv_buf));
 }
 
 Network::~Network()
 {
+	//ソケット開放
 	closesocket(m_send_sock);
 	closesocket(m_recv_sock);
 
 	WSACleanup();
 }
 
-void Network::Init(char* addr)
+void Network::Init_Send(unsigned long addr)
 {
-	m_send_addr.sin_addr.S_un.S_addr = inet_addr(addr);
+	//送信先データ設定
+	m_send_addr.sin_addr.S_un.S_addr = addr;
+	setsockopt(m_send_sock, SOL_SOCKET, SO_BROADCAST, m_send_buf, sizeof(m_send_buf));
+}
+
+void Network::Init_Recv(unsigned long addr)
+{
+	//受信先データ設定
+	m_recv_addr.sin_addr.S_un.S_addr = addr;
+	bind(m_recv_sock, (struct sockaddr *)&m_recv_addr, sizeof(m_recv_addr));
 }
 
 void Network::Send(char* str)
 {
+	//送信データ設定
 	sprintf(m_send_buf, "%s\n", str);
 	sendto(m_send_sock, str, sizeof(m_send_buf), 0, (struct sockaddr *)&m_send_addr, sizeof(m_send_addr));
 }

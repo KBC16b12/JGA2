@@ -52,7 +52,7 @@ void Weapon::BulletFilling()
 	switch (m_state)
 	{
 	case BULLETSTATE_NOMAL:
-		l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
+		l_bullet = NewGO<Bullet>(PRIORITY1);
 		break;
 	case BULLETSTATE_BOUND:
 		l_bullet = NewGO<BoundBullet>(PRIORITY1);

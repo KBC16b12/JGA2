@@ -139,6 +139,5 @@ private:
 	int						m_killCount;
 	Weapon					m_weapon;
 	CLight					m_light;
-	Network					m_network;
 };
 
