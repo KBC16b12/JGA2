@@ -32,6 +32,8 @@ public:
 	*/
 	void Render(CRenderContext& renderContext, int playernum)override;
 
+	void Render(CRenderContext& renderContext)override;
+
 private:
 	RigidBodyInfo				m_rbInfo;				//剛体のステータス
 	bool						m_activeFlg;			//死んでるか生きてるか

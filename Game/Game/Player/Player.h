@@ -37,6 +37,8 @@ public:
 	*/
 	void Render(CRenderContext& renderContext, int cameranum)override;
 
+	void Render(CRenderContext& renderContext)override;
+
 	void PostRender(CRenderContext& renderContext, int cameranum)override;
 
 	void Move();

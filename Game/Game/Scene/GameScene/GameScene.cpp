@@ -12,6 +12,7 @@ GameScene* g_gameScene = nullptr;
 
 GameScene::GameScene()
 {
+
 	m_map = NewGO<Map>(PRIORITY1);
 	m_time = NewGO<TimeSprite>(PRIORITY1);
 	m_isLoad = false;
@@ -51,10 +52,11 @@ bool GameScene::Start()
 	m_light.SetAmbinetLight(CVector3::One);
 	int l_half_w = Engine().GetScreenWidth() / 2;
 	int l_half_h = Engine().GetScreenHeight() / 2;
-	g_gameCamera[0]->SetViewPort(0, 0, l_half_w, l_half_h, m_map->GetPlayer(0)->GetPlayerNum());
-	g_gameCamera[1]->SetViewPort(l_half_w, 0, l_half_w, l_half_h, m_map->GetPlayer(1)->GetPlayerNum());
-	g_gameCamera[2]->SetViewPort(0, l_half_h, l_half_w, l_half_h, m_map->GetPlayer(2)->GetPlayerNum());
-	g_gameCamera[3]->SetViewPort(l_half_w, l_half_h, l_half_w, l_half_h, m_map->GetPlayer(3)->GetPlayerNum());
+	g_gameCamera[0]->SetPlayer(m_map->GetPlayer(0));
+	//g_gameCamera[0]->SetViewPort(0, 0, l_half_w, l_half_h, m_map->GetPlayer(0)->GetPlayerNum());
+	//g_gameCamera[1]->SetViewPort(l_half_w, 0, l_half_w, l_half_h, m_map->GetPlayer(1)->GetPlayerNum());
+	//g_gameCamera[2]->SetViewPort(0, l_half_h, l_half_w, l_half_h, m_map->GetPlayer(2)->GetPlayerNum());
+	//g_gameCamera[3]->SetViewPort(l_half_w, l_half_h, l_half_w, l_half_h, m_map->GetPlayer(3)->GetPlayerNum());
 
 	return true;
 }

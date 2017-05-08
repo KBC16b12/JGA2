@@ -22,6 +22,9 @@ public:
 	*@brief playernum どのプレイヤーの視点で描画したいか
 	*/
 	void PostRender(CRenderContext& renderContext, int playernum);
+
+	void PostRender(CRenderContext& renderContext);
+
 private:
 	int m_time;				//タイマー
 	CSprite						m_sprite[3];

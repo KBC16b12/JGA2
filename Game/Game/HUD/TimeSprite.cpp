@@ -52,3 +52,11 @@ void TimeSprite::PostRender(CRenderContext& renderContext, int playernum)
 		m_sprite[i].Draw(renderContext);
 	}
 }
+
+void TimeSprite::PostRender(CRenderContext& renderContext)
+{
+	for (int i = 0;i < 3;i++)
+	{
+		m_sprite[i].Draw(renderContext);
+	}
+}

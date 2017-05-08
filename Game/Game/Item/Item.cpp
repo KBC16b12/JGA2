@@ -99,3 +99,8 @@ void Item::Render(CRenderContext& renderContext, int playernum)
 	}
 	m_SkinModel.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
 }
+
+void Item::Render(CRenderContext& renderContext)
+{
+	m_SkinModel.Draw(renderContext, g_gameCamera[0]->GetViewMatrix(), g_gameCamera[0]->GetProjectionMatrix());
+}

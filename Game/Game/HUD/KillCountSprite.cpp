@@ -47,3 +47,11 @@ void KillCountSprite::PostRender(CRenderContext& renderContext, int playernum)
 		m_sprite[i].Draw(renderContext);
 	}
 }
+
+void KillCountSprite::PostRender(CRenderContext& renderContext)
+{
+	for (int i = 0;i < 2;i++)
+	{
+		m_sprite[i].Draw(renderContext);
+	}
+}

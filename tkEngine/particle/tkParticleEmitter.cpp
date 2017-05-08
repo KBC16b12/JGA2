@@ -36,7 +36,7 @@ namespace tkEngine{
 	{
 		if (timer >= param.intervalTime && !m_isDeth) {
 			//パーティクルを生成。
-			CParticle* p = GameObjectManager().NewGameObject<CParticle>(0);
+			CParticle* p = GameObjectManager().NewGameObject<CParticle>(1);
 			p->Init(*random, *camera, param, emitPosition);
 			for (int i = 0;i < PLAYER_NUM;i++)
 			{

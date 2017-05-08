@@ -199,3 +199,10 @@ void Bar::PostRender(CRenderContext& renderContext, int playernum)
 	m_BarBack.Draw(renderContext);
 	m_Bar.Draw(renderContext);
 }
+
+void Bar::PostRender(CRenderContext& renderContext)
+{
+	m_Gauge.Draw(renderContext);
+	m_BarBack.Draw(renderContext);
+	m_Bar.Draw(renderContext);
+}

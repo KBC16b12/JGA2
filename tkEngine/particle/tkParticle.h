@@ -4,7 +4,7 @@
 #ifndef _TKPARTICLE_H_
 #define _TKPARTICLE_H_
 
-#define PLAYER_NUM 4
+#define PLAYER_NUM 1
 
 namespace tkEngine{
 	class CRandom;

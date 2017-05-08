@@ -100,6 +100,11 @@ void Player::Render(CRenderContext& renderContext, int playernum)
 	m_weapon.Render(renderContext, playernum);
 }
 
+void Player::Render(CRenderContext& renderContext)
+{
+	m_skinModelFirst.Draw(renderContext, g_gameCamera[0]->GetViewMatrix(), g_gameCamera[0]->GetProjectionMatrix());
+}
+
 void Player::PostRender(CRenderContext& renderContext, int playernum)
 {
 	m_HPbar->PostRender(renderContext, playernum);
@@ -201,3 +206,4 @@ void Player::Respawn()
 	m_characterController.SetPosition(m_position);
 	m_rotation = m_respawnRotation;
 }
+
