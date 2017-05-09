@@ -42,7 +42,7 @@ bool GameScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init(m_bgm_path);
-	//m_bgm->Play(true);
+	m_bgm->Play(true);
 
 	//ƒ‰ƒCƒg‚ğ‰Šú‰»B5
 	m_light.SetAmbinetLight(CVector3::One);

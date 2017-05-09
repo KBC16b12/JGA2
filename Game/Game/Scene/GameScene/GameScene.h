@@ -61,7 +61,6 @@ private:
 	char*						m_bgm_path;						//BGMのファイルパス
 	CSoundSource*				m_bgm;							//BGMソース。
 	Map*						m_map;							//マップ
-	CCamera						m_camera;								//!<カメラ。
 	CLight						m_light;								//!<ライト。
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
 	SceneData					m_scenedata;					//画面遷移データ
