@@ -65,20 +65,3 @@ void Map::Update()
 {
 
 }
-
-void Map::Render(CRenderContext& renderContext, int playernum)
-{
-	for (MapChip* chip : m_mapchip)
-	{
-		chip->Render(renderContext, playernum);
-	}
-	for (int i = 0;i < PLAYER_NUM;i++)
-	{
-		m_player[i]->Render(renderContext, playernum);
-	}
-}
-
-void Map::PostRender(CRenderContext& renderContext, int playernum)
-{
-	m_player[playernum]->PostRender(renderContext, playernum);
-}

@@ -36,21 +36,6 @@ public:
 	*@brief	更新関数。
 	*/
 	void Update() override;
-	
-	/*!
-	*@brief	遅延描画関数。
-	@details
-	* ポストエフェクトの後で実行されます。HUDなどポストエフェクトの影響を受けたくない描画物はここでレンダリングしてください。
-	*@param[in]		renderContext		レンダリングコンテキスト。
-	*/
-	void Render(CRenderContext& renderContext, int playernum) override;
-
-	void PostRender(CRenderContext& renderContext, int playernum) override;
-
-	bool IsLoadEnd()
-	{
-		return m_isLoad;
-	}
 
 	Player* GetPlayer(int playerNum)
 	{

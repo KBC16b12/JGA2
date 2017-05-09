@@ -6,6 +6,7 @@
 #define _CGAMEOBJECTMANAGER_H_
 
 #include "tkEngine/gameObject/tkGameObject.h"
+#include "tkEngine/ViewPortSprit/tkViewPortSprit.h"
 #include "tkEngine/util/tkUtil.h"
 
 namespace tkEngine{
@@ -86,7 +87,6 @@ namespace tkEngine{
 					//削除リストに入っていたらそこから除去する。
 					go->m_isDead = false;
 				}
-				
 			}
 		}
 		/*!
@@ -140,6 +140,11 @@ namespace tkEngine{
 			}
 			
 		}
+
+		CViewPortSprit& GetViewSprit()
+		{
+			return m_viewSprit;
+		}
 	private:
 		/*!
 		 *@brief	ゲームオブジェクトの削除を実行。
@@ -152,11 +157,19 @@ namespace tkEngine{
 		GameObjectPrio				m_gameObjectPriorityMax;	//!<ゲームオブジェクトの優先度の最大数。
 		int m_currentDeleteObjectBufferNo = 0;					//!<現在の削除オブジェクトのバッファ番号。
 		static const unsigned char 			GAME_OBJECT_PRIO_MAX = 255;		//!<ゲームオブジェクトの優先度の最大値。
+		CViewPortSprit				m_viewSprit;				//!<画面分割するインスタンス
 	};
 
 	static inline CGameObjectManager& GameObjectManager()
 	{
 		return CGameObjectManager::Instance();
+	}
+	/*
+	*@brief ViewPortSpritのゲッター
+	*/
+	static inline CViewPortSprit& GetViewSprit()
+	{
+		return GameObjectManager().GetViewSprit();
 	}
 	/*!
 	 *@brief	ゲームオブジェクト生成のヘルパー関数。

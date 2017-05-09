@@ -17,6 +17,10 @@ namespace tkEngine{
 	}
 	CParticle::~CParticle()
 	{
+		while (!cameraArray.empty())
+		{
+			cameraArray.pop_back();
+		}
 		primitive.Release();
 	}
 	void CParticle::Init(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition )
@@ -117,22 +121,18 @@ namespace tkEngine{
 		position.Add(addPos);
 		CMatrix mTrans;
 		mTrans.MakeTranslation(position);
-		{
+		if (isBillboard) {
+			//ビルボード処理を行う。
 			const CMatrix& mCameraRot = camera->GetCameraRotation();
 			CQuaternion qRot;
-			if (isBillboard) {
-				//ビルボード処理を行う。
-
-				qRot.SetRotation(CVector3(mCameraRot.m[2][0], mCameraRot.m[2][1], mCameraRot.m[2][2]), rotateZ);
-
-			}
-			else {
-				qRot.SetRotation(CVector3(mCameraRot.m[1][0], mCameraRot.m[1][1], mCameraRot.m[1][2]), rotateY);
-			}
+			qRot.SetRotation(CVector3(mCameraRot.m[2][0], mCameraRot.m[2][1], mCameraRot.m[2][2]), rotateZ);
 			CMatrix rot;
 			rot.MakeRotationFromQuaternion(qRot);
 			mWorld.Mul(mCameraRot, rot);
 			mWorld.Mul(mWorld, mTrans);
+		}
+		else {
+			mWorld = mTrans;
 		}
 		timer += deltaTime;
 		switch (state) {
@@ -209,9 +209,23 @@ namespace tkEngine{
 	}
 	void CParticle::Render(CRenderContext& renderContext, int playerNum)
 	{
+		CCamera* cam = cameraArray[playerNum];
+		if (isBillboard) {
+			CMatrix mTrans;
+			mTrans.MakeTranslation(position);
+			//ビルボード処理を行う。
+			const CMatrix& mCameraRot = cam->GetCameraRotation();
+			CQuaternion qRot;
+			qRot.SetRotation(CVector3(mCameraRot.m[2][0], mCameraRot.m[2][1], mCameraRot.m[2][2]), rotateZ);
+			CMatrix rot;
+			rot.MakeRotationFromQuaternion(qRot);
+			mWorld.Mul(mCameraRot, rot);
+			mWorld.Mul(mWorld, mTrans);
+		}
+
 		CMatrix m;
-		m.Mul(mWorld, cameraArray[playerNum]->GetViewMatrix());
-		m.Mul(m, cameraArray[playerNum]->GetProjectionMatrix());
+		m.Mul(mWorld, cam->GetViewMatrix());
+		m.Mul(m, cam->GetProjectionMatrix());
 		renderContext.SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 		switch (alphaBlendMode) {
 		case 0:

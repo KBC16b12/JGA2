@@ -18,11 +18,11 @@ public:
 
 	/*
 	*@brief 弾の初期化処理
+	*@brief position		弾が発射される座標
 	*@brief moveSpeed		飛ぶ方向
-	*@brief *weapon			自身を消す際に参照するウェポン
-	*@brief arrayNum		自身を消す
+	*@brief playerNum		この弾を打ったプレイヤーの番号
 	*/
-	virtual void Init(CVector3 movespeed, Weapon *weapon, int arrayNum, int playerNum);
+	virtual void Init(CVector3 position, CVector3 movespeed, int playerNum);
 
 
 	/*
@@ -55,7 +55,5 @@ protected:
 	CSkinModel				m_skinModel;
 	CSkinModelDataHandle	m_modelData;
 	CLight					m_light;
-	Weapon*					m_weapon;
-	int						m_arraynum;
 	int						m_playerNum;
 };

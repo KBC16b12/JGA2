@@ -68,14 +68,16 @@ namespace tkEngine{
 		void Init(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition);
 		bool Start() override ;
 		void Update() override;
-		void Render( CRenderContext& renderContext ) override;
-		void Render(CRenderContext& renderContext, int playerNum) override;
 		
 		void DethCheck();
-		
-		bool IsDelete()
+
+		/*
+		*@brief 描画するカメラを追加
+		カメラの台数分だけ実行
+		*/
+		void AddCamera(CCamera& cam)
 		{
-			return m_isDelete;
+			cameraArray.push_back(&cam);
 		}
 
 		/*!
@@ -84,12 +86,7 @@ namespace tkEngine{
 		*/
 		void ApplyForce(const CVector3& applyForce);
 
-		void SetCamera(CCamera& camera, int playerNum)
-		{
-			cameraArray[playerNum] = &camera;
-		}
 	private:
-		CCamera*				cameraArray[PLAYER_NUM];
 		float					timer;			//!<タイマー
 		CRandom*				random;			//!<乱数生成機。
 		const CCamera*			camera;			//!<カメラ。
@@ -97,9 +94,8 @@ namespace tkEngine{
 		CVector3				emitPosition;	//!<エミッターの座標。
 		std::list<CParticle*>	particleList;	//!<パーティクルのリスト。
 		std::list<CParticle*>	deleteParticleList;	//!<削除されたパーティクルのリスト。
-		bool					m_isDelete;
-		bool					m_isDeth;
 		float					m_lifeTimer;
+		std::vector<CCamera*>	cameraArray;
 	};
 }
 

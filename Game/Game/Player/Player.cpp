@@ -97,7 +97,6 @@ void Player::Render(CRenderContext& renderContext, int playernum)
 	{
 		m_skinModelThird.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
 	}
-	m_weapon.Render(renderContext, playernum);
 }
 
 void Player::Render(CRenderContext& renderContext)
@@ -105,11 +104,6 @@ void Player::Render(CRenderContext& renderContext)
 	m_skinModelFirst.Draw(renderContext, g_gameCamera[0]->GetViewMatrix(), g_gameCamera[0]->GetProjectionMatrix());
 }
 
-void Player::PostRender(CRenderContext& renderContext, int playernum)
-{
-	m_HPbar->PostRender(renderContext, playernum);
-	m_killCountSprite->PostRender(renderContext, playernum);
-}
 
 void Player::UpdateHPBar()
 {

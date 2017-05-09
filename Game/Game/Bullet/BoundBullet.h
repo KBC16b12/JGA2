@@ -8,7 +8,7 @@ public:
 
 	~BoundBullet();
 
-	void Init(CVector3 movespeed, Weapon* weapon, int arrayNum, int plaerNum)override;
+	void Init(CVector3 position, CVector3 movespeed, int plaerNum)override;
 
 	void Move()override;
 

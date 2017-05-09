@@ -151,10 +151,22 @@ namespace tkEngine{
 				PostRender(renderContext);
 			}
 		}
+		void PostRenderWrapper(CRenderContext& renderContext, int playerNum)
+		{
+			if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
+				PostRender(renderContext, playerNum);
+			}
+		}
 		void RenderWrapper(CRenderContext& renderContext) 
 		{
 			if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
 				Render(renderContext);
+			}
+		}
+		void RenderWrapper(CRenderContext& renderContext, int playerNum)
+		{
+			if (m_isActive && m_isStart && !m_isDead && !m_isRegistDeadList) {
+				Render(renderContext, playerNum);
 			}
 		}
 		void PreRenderWrapper(CRenderContext& renderContext)

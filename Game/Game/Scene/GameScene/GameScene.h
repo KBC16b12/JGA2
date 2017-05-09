@@ -42,13 +42,6 @@ public:
 	 */
 	void Update() override;
 
-	/*!
-	*@brief	描画関数。
-	*/
-	void Render(CRenderContext& renderContext, int playernum)override;
-
-	void PostRender(CRenderContext& renderContext, int playernum)override;
-
 	Player* const GetPlayer(int playernum)
 	{
 		return m_map->GetPlayer(playernum);
@@ -57,13 +50,6 @@ public:
 	void SetActiveFlags(bool flag);
 
 	void OnDestroy();
-
-	bool IsLoadEnd()
-	{
-		return m_isLoad;
-	}
-
-	void ParticleEmit(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition);
 
 private:
 	/*!
@@ -80,7 +66,6 @@ private:
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
 	SceneData					m_scenedata;					//画面遷移データ
 	TimeSprite*					m_time;
-	CParticleEmitter*			m_particle[PARTICLE_NUM];
 };
 
 extern GameScene* g_gameScene;

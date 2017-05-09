@@ -40,8 +40,6 @@ public:
 
 	void Render(CRenderContext& renderContext)override;
 
-	void PostRender(CRenderContext& renderContext, int cameranum)override;
-
 	void Move();
 
 	/*
@@ -101,11 +99,6 @@ public:
 	int GetPlayerNum()
 	{
 		return m_playernum;
-	}
-
-	bool IsLoadEnd()
-	{
-		return (m_skinModelDataFirst.IsLoadEnd() && m_skinModelDataThird.IsLoadEnd());
 	}
 	
 	void KillCountUp()

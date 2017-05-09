@@ -349,6 +349,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Preview|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="ViewPortSprit\tkViewPortSprit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AI\tkPathFinding.h" />
@@ -398,6 +399,7 @@
     <ClInclude Include="graphics\tkRenderTarget.h" />
     <ClInclude Include="graphics\tkSkinModel.h" />
     <ClInclude Include="graphics\tkSkinModelData.h" />
+    <ClInclude Include="graphics\tkSKinModelMaterial.h" />
     <ClInclude Include="graphics\tkTexture.h" />
     <ClInclude Include="graphics\tkVertexBuffer.h" />
     <ClInclude Include="Input\tkKeyInput.h" />
@@ -440,6 +442,10 @@
     <ClInclude Include="typedef.h" />
     <ClInclude Include="util\tkNameKey.h" />
     <ClInclude Include="util\tkUtil.h" />
+    <ClInclude Include="ViewPortSprit\tkViewPortSprit.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
