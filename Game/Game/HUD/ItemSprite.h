@@ -1,0 +1,36 @@
+#pragma once
+
+#define NUM 10
+class ItemSprite : public IGameObject
+{
+public:
+	ItemSprite();
+
+	~ItemSprite();
+
+	void Init(int playerNum, int *bulletNum)
+	{
+		m_playerNum = playerNum;
+		m_bulletStrikeNum = bulletNum;
+	}
+
+	void SetItem(int state);
+
+	bool Start()override;
+
+	void Update()override;
+
+	void PostRender(CRenderContext& renderContext)override;
+
+	void PostRender(CRenderContext& renderContext, int playerNum)override;
+private:
+
+	CTexture*			m_grenadeTexture;
+	CTexture*			m_boundTexture;
+	CSprite				m_itemSprite;
+	CTexture*			m_countTexture[NUM];
+	CSprite				m_countSprite1;
+	CSprite				m_countSprite10;
+	int					m_playerNum;				//プレイヤーの番号
+	int					*m_bulletStrikeNum;			//残弾数
+};
