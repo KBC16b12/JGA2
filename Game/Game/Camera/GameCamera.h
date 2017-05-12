@@ -30,22 +30,23 @@ public:
 	void PostRender(CRenderContext&)override;
 
 	/*
-	*@brief ビューポートの矩形の場所とカメラの番号付けする関数
+	*@brief ビューポートを設定する関数
 	x		左上隅のx座標
 	y		左上隅のy座標
 	width	xからの横幅
 	height	yからの縦幅
-	playernum カメラの番号
+	Player* カメラを持ってるプレイヤー
 	*/
-	void SetViewPort(int x, int y, int width, int height, int playernum);
+	void SetViewPort(ViewPortParam param, Player* player)
+	{
+		GetViewSprit().SetSprit(param);
+		m_player = player;
+		m_isViewport = true;
+	}
 
-
-	/*
-	*@brief 画面分割が終わったら呼ぶ関数
-	*/
 	void FinishViewPort()
 	{
-		m_ViewportFlg = false;
+		m_isViewport = false;
 	}
 
 	void SetPos();
@@ -75,21 +76,15 @@ public:
 		return m_camera;
 	}
 
-	void SetPlayer(Player* player)
-	{
-		m_player = player;
-		m_PlayerFlg = true;
-	}
 private:
-	CCamera					m_camera;				//カメラ
+	CCamera				m_camera;				//カメラ
 	CVector3				m_position;				//座標
 	CVector3				m_look_position;		//注視点
 	SViewport				m_sviewPort;
 	float					m_angle;				//角度
 	int						m_playernum;			//ビューポートで区切ったときのカメラの番号
-	bool					m_ViewportFlg;
+	bool					m_isViewport;
 	Player*					m_player;
-	bool					m_PlayerFlg;
 };
 
 extern GameCamera* g_gameCamera[PLAYER_NUM];

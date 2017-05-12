@@ -17,7 +17,7 @@ public:
 	/*
 	*@brief ‰Šú‰»ŠÖ”
 	*/
-	void Init(CVector3 movespeed, Weapon* weapon, int arraynum, int playerNum)override;
+	void Init(CVector3 position, CVector3 movespeed, int playerNum)override;
 
 	void Move()override;
 

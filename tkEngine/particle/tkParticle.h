@@ -4,8 +4,6 @@
 #ifndef _TKPARTICLE_H_
 #define _TKPARTICLE_H_
 
-#define PLAYER_NUM 1
-
 namespace tkEngine{
 	class CRandom;
 	class CCamera;
@@ -20,7 +18,6 @@ namespace tkEngine{
 			eStateDead,
 		};
 	private:
-		CCamera*		cameraArray[PLAYER_NUM];
 		CPrimitive		primitive;					//!<プリミティブ。
 		CTexture*		texture;					//!<テクスチャ。
 		CEffect*		shaderEffect;				//!<シェーダーエフェクト。
@@ -46,6 +43,7 @@ namespace tkEngine{
 		float			brightness;					//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
 		int				alphaBlendMode;				//!<0半透明合成、1加算合成。
 		CVector3		mulColor;					//!<乗算カラー。
+		std::vector<CCamera*> cameraArray;
 	public:
 		CParticle();
 		~CParticle();
@@ -56,10 +54,11 @@ namespace tkEngine{
 
 		void Render(CRenderContext& renderContext, int playerNum)override;
 
-		void SetCamera(CCamera& camera, int playerNum)
+		void AddCamera(CCamera& cam)
 		{
-			cameraArray[playerNum] = &camera;
+			cameraArray.push_back(&cam);
 		}
+
 		/*!
 		*@brief	パーティクルに力を加える。
 		*@param[in]	applyForce		乱数生成に使用する乱数生成機。

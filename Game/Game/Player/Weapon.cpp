@@ -38,15 +38,6 @@ void Weapon::Update()
 
 void Weapon::BulletFilling()
 {
-	int l_ArrayNum;
-	//配列の空いてる場所を探す
-	for (l_ArrayNum = 0;l_ArrayNum < BULLET_NUM;l_ArrayNum++)
-	{
-		if (m_bullet[l_ArrayNum] == nullptr)
-		{
-			break;
-		}
-	}
 	Bullet *l_bullet;
 	//m_stateの状態によりどの弾を打ち出すか決める
 	switch (m_state)
@@ -62,8 +53,7 @@ void Weapon::BulletFilling()
 		l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
 		break;
 	}
-	l_bullet->Init(m_player->GetFrontWorldMatrix(), this, l_ArrayNum, m_playerNum);
-	m_bullet[l_ArrayNum] = l_bullet;
+	l_bullet->Init(m_player->GetPosition(), m_player->GetFrontWorldMatrix(), m_playerNum);
 	//アイテムを使った状態の場合数を減らす
 	m_bulletStrikeNum--;
 	if (m_bulletStrikeNum <= 0)
@@ -85,23 +75,8 @@ void Weapon::SetWeapon()
 
 void Weapon::Render(CRenderContext& renderContext, int playernum)
 {
-	for (int i = 0;i < BULLET_NUM;i++)
-	{
-		if (m_bullet[i] != nullptr)
-		{
-			m_bullet[i]->Render(renderContext, playernum);
-		}
-	}
 }
 
 void Weapon::OnDestroy()
 {
-	for (int i = 0; i < BULLET_NUM;i++)
-	{
-		if (m_bullet[i] != nullptr)
-		{
-			DeleteGO(m_bullet[i]);
-			m_bullet[i] = nullptr;
-		}
-	}
 }

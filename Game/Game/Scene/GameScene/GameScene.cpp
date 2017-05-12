@@ -15,11 +15,6 @@ GameScene::GameScene()
 
 	m_map = NewGO<Map>(PRIORITY1);
 	m_time = NewGO<TimeSprite>(PRIORITY1);
-	m_isLoad = false;
-	for (int i = 0;i < PARTICLE_NUM;i++)
-	{
-		m_particle[i] = nullptr;
-	}
 }
 
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
@@ -36,6 +31,7 @@ GameScene::~GameScene()
 	DeleteGO(m_map);
 	DeleteGO(m_time);
 	g_gameScene = nullptr;
+	GetViewSprit().Finish();
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{
 		g_gameCamera[i]->FinishViewPort();
@@ -46,17 +42,17 @@ bool GameScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init(m_bgm_path);
-	//m_bgm->Play(true);
+	m_bgm->Play(true);
 
-	//ライトを初期化。
+	//ライトを初期化。5
 	m_light.SetAmbinetLight(CVector3::One);
 	int l_half_w = Engine().GetScreenWidth() / 2;
 	int l_half_h = Engine().GetScreenHeight() / 2;
-	g_gameCamera[0]->SetPlayer(m_map->GetPlayer(0));
-	//g_gameCamera[0]->SetViewPort(0, 0, l_half_w, l_half_h, m_map->GetPlayer(0)->GetPlayerNum());
-	//g_gameCamera[1]->SetViewPort(l_half_w, 0, l_half_w, l_half_h, m_map->GetPlayer(1)->GetPlayerNum());
-	//g_gameCamera[2]->SetViewPort(0, l_half_h, l_half_w, l_half_h, m_map->GetPlayer(2)->GetPlayerNum());
-	//g_gameCamera[3]->SetViewPort(l_half_w, l_half_h, l_half_w, l_half_h, m_map->GetPlayer(3)->GetPlayerNum());
+	g_gameCamera[0]->SetViewPort({ 0, 0, l_half_w, l_half_h }, m_map->GetPlayer(0));
+	g_gameCamera[1]->SetViewPort({ l_half_w, 0, l_half_w, l_half_h }, m_map->GetPlayer(1));
+	g_gameCamera[2]->SetViewPort({ 0, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(2));
+	g_gameCamera[3]->SetViewPort({ l_half_w, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(3));
+	GetViewSprit().Start();
 
 	return true;
 }
@@ -64,39 +60,8 @@ bool GameScene::Start()
 void GameScene::Update()
 {
 	SceneChange();
-	for (int i = 0;i < PARTICLE_NUM;i++)
-	{
-		if (m_particle[i] != nullptr && m_particle[i]->IsDelete())
-		{
-			DeleteGO(m_particle[i]);
-			m_particle[i] = nullptr;
-		}
-	}
 }
 
-/*!
-*@brief	描画関数。
-*/
-void GameScene::Render(CRenderContext& renderContext, int playernum)
-{
-	m_map->Render(renderContext, playernum);
-	for (int i = 0;i < PARTICLE_NUM;i++)
-	{
-		if (m_particle[i] != nullptr)
-		{
-			m_particle[i]->Render(renderContext, playernum);
-		}
-	}
-}
-
-/*!
-*@brief	描画関数。
-*/
-void GameScene::PostRender(CRenderContext& renderContext, int playernum)
-{
-	m_time->PostRender(renderContext, playernum);
-	m_map->PostRender(renderContext, playernum);
-}
 
 /*!
 *@brief	画面遷移関数。
@@ -185,21 +150,4 @@ void GameScene::SetActiveFlags(bool flag)
 void GameScene::OnDestroy()
 {
 
-}
-void GameScene::ParticleEmit(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition)
-{
-	int i;
-	for (i = 0;i < PARTICLE_NUM;i++)
-	{
-		if (m_particle[i] == nullptr)
-		{
-			break;
-		}
-	}
-	m_particle[i] = NewGO<CParticleEmitter>(PRIORITY0);
-	m_particle[i]->Init(random, camera, param, emitPosition);
-	for (int j = 0;j < PLAYER_NUM;j++)
-	{
-		m_particle[i]->SetCamera(g_gameCamera[j]->GetCamera(), j);
-	}
 }

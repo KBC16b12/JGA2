@@ -9,8 +9,8 @@ namespace tkEngine{
 	void CSky::Init()
 	{
 		sunPosition.Set(0.0f, 1000000.0f, 0.0f);
-		skinModelData.LoadModelData("Assets/modelData/Sky.X", NULL);
-		sunModelData.LoadModelData("Assets/modelData/sun.x", NULL);
+		skinModelData.LoadModelData("Assets/modelData/sky.x", NULL);
+		sunModelData.LoadModelData("Assets/modelData/sun.X", NULL);
 		skinModel.Init(skinModelData.GetBody());
 		light.SetAmbinetLight(CVector3(1.2f, 1.0f, 1.0f));
 		skinModel.SetLight(&light);

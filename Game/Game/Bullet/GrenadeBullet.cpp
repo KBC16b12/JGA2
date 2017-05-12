@@ -13,9 +13,9 @@ GrenadeBullet::~GrenadeBullet()
 {
 }
 
-void GrenadeBullet::Init(CVector3 moveSpeed, Weapon* weapon ,int arrayNum, int playerNum)
+void GrenadeBullet::Init(CVector3 position, CVector3 moveSpeed, int playerNum)
 {
-	Bullet::Init(moveSpeed, weapon, arrayNum, playerNum);
+	Bullet::Init(position, moveSpeed, playerNum);
 	m_characterController.SetGravity(-35.0f);
 	m_moveSpeed.y += 15.0f;
 	m_characterController.SetMoveSpeed(m_moveSpeed);
@@ -61,8 +61,9 @@ void GrenadeBullet::DethCheck()
 				l_player->Damage(m_playerNum);
 			}
 		}
-		m_weapon->Delete(m_arraynum);
-		g_gameScene->ParticleEmit(g_random, g_gameCamera[0]->GetCamera(), 
+		DeleteGO(this);
+		CParticleEmitter *l_particleEmitter = NewGO<CParticleEmitter>(PRIORITY0);
+		l_particleEmitter->Init(g_random, g_gameCamera[m_playerNum]->GetCamera(), 
 		{
 		"Assets/particle/Explosion5.png",				//!<テクスチャのファイルパス。
 		{0.0f, 0.0f, 0.0f},								//!<初速度。
@@ -84,11 +85,15 @@ void GrenadeBullet::DethCheck()
 		true,											//!<死ぬときにフェードアウトする？
 		0.3f,											//!<フェードする時間。
 		1.0f,											//!<初期アルファ値。
-		false,											//!<ビルボード？
+		true,											//!<ビルボード？
 		0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
 		1,												//!<0半透明合成、1加算合成。
 		{1.0f, 1.0f, 1.0f}								//!<乗算カラー。
 		},
 		m_position);
+		for (int i = 0;i < PLAYER_NUM;i++)
+		{
+			l_particleEmitter->AddCamera(g_gameCamera[i]->GetCamera());
+		}
 	}
 }

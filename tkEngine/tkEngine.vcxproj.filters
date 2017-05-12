@@ -84,6 +84,9 @@
     <Filter Include="Source Files\gameObject">
       <UniqueIdentifier>{ccc04095-1959-45da-98d0-f25e7e9c86ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ViewPortSprit">
+      <UniqueIdentifier>{4e93b3bb-942d-4b2b-9dd7-502d9ff329e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -298,6 +301,9 @@
     </ClCompile>
     <ClCompile Include="graphics\material\tkSkinModelMaterial.cpp">
       <Filter>Source Files\graphics\material</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewPortSprit\tkViewPortSprit.cpp">
+      <Filter>Source Files\ViewPortSprit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -568,5 +574,12 @@
     <ClInclude Include="graphics\material\tkSkinModelMaterial.h">
       <Filter>Source Files\graphics\material</Filter>
     </ClInclude>
+    <ClInclude Include="ViewPortSprit\tkViewPortSprit.h">
+      <Filter>Source Files\ViewPortSprit</Filter>
+    </ClInclude>
+    <ClInclude Include="graphics\tkSKinModelMaterial.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

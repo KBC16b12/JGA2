@@ -14,9 +14,9 @@ BoundBullet::~BoundBullet()
 {
 }
 
-void BoundBullet::Init(CVector3 movespeed, Weapon* weapon, int arrayNum, int playerNum)
+void BoundBullet::Init(CVector3 position, CVector3 movespeed, int playerNum)
 {
-	Bullet::Init(movespeed, weapon, arrayNum, playerNum);
+	Bullet::Init(position, movespeed, playerNum);
 }
 
 void BoundBullet::Move()
@@ -50,7 +50,7 @@ void BoundBullet::DethCheck()
 			//自分以外のプレイヤーに当たったら
 			if (l_distance.Length() < 3.0f)
 			{
-				m_weapon->Delete(m_arraynum);
+				DeleteGO(this);
 				l_player->Damage(m_playerNum);
 				break;
 			}
@@ -61,7 +61,7 @@ void BoundBullet::DethCheck()
 			m_timer += GameTime().GetFrameDeltaTime();
 			if (20.0f < m_timer)
 			{
-				m_weapon->Delete(m_arraynum);
+				DeleteGO(this);
 				break;
 			}
 		}

@@ -77,11 +77,12 @@ namespace tkEngine{
 			renderContext[0].SetRenderTarget(1, Dof().GetDepthRenderTarget());
 			//速度書き込み用のレンダリングターゲットを設定。
 			renderContext[0].SetRenderTarget(2, MotionBlur().GetVelocityMapRenderTarget());
-			for (GameObjectList objList : m_gameObjectListArray) {
-				for (IGameObject* obj : objList) {
-					obj->RenderWrapper(renderContext[0]);
-				}
-			}
+			//for (GameObjectList objList : m_gameObjectListArray) {
+			//	for (IGameObject* obj : objList) {
+			//		obj->RenderWrapper(renderContext[0]);
+			//	}
+			//}
+			m_viewSprit.Render(renderContext[0], m_gameObjectListArray);
 		}
 		else {
 			//マルチスレッド描画。
@@ -91,11 +92,12 @@ namespace tkEngine{
 		//深度書き込み用のレンダリングターゲットを外す。
 		renderContext[numRenderContext - 1].SetRenderTarget(1, NULL);
 		postEffect.Render(renderContext[numRenderContext-1]);
-		for (GameObjectList objList : m_gameObjectListArray) {
-			for (IGameObject* obj : objList) {
-				obj->PostRenderWrapper(renderContext[numRenderContext-1]);
-			}
-		}
+		//for (GameObjectList objList : m_gameObjectListArray) {
+		//	for (IGameObject* obj : objList) {
+		//		obj->PostRenderWrapper(renderContext[numRenderContext-1]);
+		//	}
+		//}
+		m_viewSprit.PostRender(renderContext[numRenderContext - 1], m_gameObjectListArray);
 	}
 	void CGameObjectManager::ExecuteDeleteGameObjects()
 	{
