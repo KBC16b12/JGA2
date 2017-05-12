@@ -26,6 +26,7 @@ void MapObject::Init(SMapInfo map_dat)
 	rbInfo.mass = 0.0f;
 	rbInfo.pos = m_position;
 	rbInfo.rot = m_rotation;
+
 	m_rigidBody.Create(rbInfo);
 	//ì¬‚µ‚½„‘Ì‚ğ•¨—ƒ[ƒ‹ƒh‚É’Ç‰Á‚·‚éB
 	PhysicsWorld().AddRigidBody(&m_rigidBody);
@@ -40,6 +41,7 @@ void MapObject::Update()
 {
 	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
 }
+
 
 void MapObject::Render(CRenderContext& renderContext, int cameranum)
 {

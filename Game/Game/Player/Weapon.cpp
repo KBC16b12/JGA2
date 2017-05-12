@@ -4,26 +4,26 @@
 #include "../Bullet/GrenadeBullet.h"
 #include "../Bullet/BoundBullet.h"
 #include "Player.h"
+#include "../HUD/ItemSprite.h"
 
 Weapon::Weapon()
 {
-	for (int i = 0;i < BULLET_NUM;i++)
-	{
-		m_bullet[i] = nullptr;
-	}
 	m_state = BULLETSTATE_NOMAL;
-	m_bulletStrikeNum = 30;
+	m_bulletStrikeNum = 0;
+	m_itemSprite = NewGO<ItemSprite>(PRIORITY1);
 }
 
 
 Weapon::~Weapon()
 {
+	DeleteGO(m_itemSprite);
 }
 
 void Weapon::Init(Player* player, int playerNum)
 {
 	m_player = player;
 	m_playerNum = playerNum;
+	m_itemSprite->Init(playerNum, &m_bulletStrikeNum);
 }
 
 bool Weapon::Start()
@@ -69,14 +69,7 @@ void Weapon::SetWeapon()
 	{
 		m_state = (BULLETSTATE)(g_random.GetRandInt() % BULLETSTATE_NUM);
 	} while (m_state == BULLETSTATE_NOMAL);
+	m_itemSprite->SetItem(m_state);
 	m_bulletStrikeNum = STRIKE_NUM;
 
-}
-
-void Weapon::Render(CRenderContext& renderContext, int playernum)
-{
-}
-
-void Weapon::OnDestroy()
-{
 }

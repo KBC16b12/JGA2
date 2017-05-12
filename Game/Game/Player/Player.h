@@ -112,15 +112,15 @@ private:
 	*/
 	void UpdateHPBar();
 	
-	CSkinModel				m_skinModelFirst;					//スキンモデル
+	CSkinModel				m_skinModelFirst;					//自分から見た時のモデル
 	CSkinModelDataHandle	m_skinModelDataFirst;				//スキンモデルデータ
-	CSkinModel				m_skinModelThird;
+	CSkinModel				m_skinModelThird;					//他人から見た時のモデル
 	CSkinModelDataHandle	m_skinModelDataThird;
 	CQuaternion				m_rotation;					//回転
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
 	CVector3				m_position = { 0.0f, 0.0f, 0.0f };
-	CVector3				m_respawnPosition;
+	CVector3				m_respawnPosition;					
 	CQuaternion				m_respawnRotation;
 
 	int						m_currentAnimationNo;

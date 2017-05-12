@@ -17,10 +17,7 @@ namespace tkEngine{
 	}
 	CParticleEmitter::~CParticleEmitter()
 	{
-		while (!cameraArray.empty())
-		{
-			cameraArray.pop_back();
-		}
+		cameraArray.clear();
 	}
 	void CParticleEmitter::Init(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition )
 	{
@@ -29,6 +26,7 @@ namespace tkEngine{
 		this->param = param;
 		this->emitPosition = emitPosition;
 		timer = param.intervalTime;
+		m_lifeTimer = param.lifeTime;
 	}
 	bool CParticleEmitter::Start()
 	{
@@ -38,7 +36,7 @@ namespace tkEngine{
 	{
 		if (timer >= param.intervalTime) {
 			//パーティクルを生成。
-			CParticle* p = GameObjectManager().NewGameObject<CParticle>(1);
+			CParticle* p = GameObjectManager().NewGameObject<CParticle>(2);
 			p->Init(*random, *camera, param, emitPosition);
 			for (CCamera* cam: cameraArray)
 			{
@@ -70,8 +68,8 @@ namespace tkEngine{
 
 	void CParticleEmitter::DethCheck()
 	{
-		m_lifeTimer += GameTime().GetFrameDeltaTime();
-		if (1.0f < m_lifeTimer)
+		m_lifeTimer -= GameTime().GetFrameDeltaTime();
+		if (m_lifeTimer < 0.0f)
 		{
 			DeleteGO(this);
 		}

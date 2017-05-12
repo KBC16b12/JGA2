@@ -52,18 +52,25 @@ bool Player::Start()
 	m_light.SetDiffuseLightColor(3, { l_lightColor4, l_lightColor4, l_lightColor4, 1.0f });
 	m_light.SetAmbinetLight({ 0.3f, 0.3f, 0.3f });
 
-
 	SkinModelDataResources().Load(m_skinModelDataFirst, "Assets/modelData/snowman_first.X", NULL, false, 1);
 	m_skinModelFirst.Init(m_skinModelDataFirst.GetBody());
 	m_skinModelFirst.SetLight(&m_light);	//デフォルトライトを設定。
 	SkinModelDataResources().Load(m_skinModelDataThird, "Assets/modelData/snowman1-3.X", NULL, false, 1);
 	m_skinModelThird.Init(m_skinModelDataThird.GetBody());
 	m_skinModelThird.SetLight(&m_light);	//デフォルトライトを設定。
+	m_skinModelFirst.SetShadowCasterFlag(true);
+	m_skinModelThird.SetShadowCasterFlag(true);
+	m_skinModelFirst.SetShadowReceiverFlag(true);
+	m_skinModelThird.SetShadowReceiverFlag(true);
+
 	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(0.0f));
 	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(0.5f, 1.0f, m_position);
+	
 
+	m_HPbar->SetPlayerNum(m_playernum);
+	m_killCountSprite->SetPlayerNum(m_playernum);
 	return true;
 }
 
