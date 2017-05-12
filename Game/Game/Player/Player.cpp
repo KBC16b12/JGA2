@@ -72,15 +72,6 @@ void Player::Update()
 	if (Pad(m_playernum).IsTrigger(enButtonRB1))
 	{
 		m_weapon.BulletFilling();
-		Network::GetInstance().Send(inet_addr("127.0.0.1"), "10001");
-	}
-
-	char* buf = Network::GetInstance().Recv(INADDR_ANY);
-
-	int data= -1;
-	if (sscanf(buf, "%d", &data) != EOF && 0 <= data)
-	{
-		Damage(2);
 	}
 
 	m_weapon.Update();

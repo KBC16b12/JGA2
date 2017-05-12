@@ -50,10 +50,8 @@ void Network::Send(unsigned long addr, char* str)
 
 	//送信データ設定
 	sprintf(sock.s_buf, "%s\n", str);
-	sendto(sock.s_sock, str, sizeof(str), 0, (struct sockaddr*)&sock.s_address, sizeof(sock.s_address));
+	sendto(sock.s_sock, sock.s_buf, sizeof(sock.s_buf), 0, (struct sockaddr*)&sock.s_address, sizeof(sock.s_address));
 }
-
-
 
 SocketData& Network::Search_Recv(unsigned long addr)
 {
@@ -80,12 +78,14 @@ SocketData& Network::Search_Recv(unsigned long addr)
 	return m_recv.back();
 }
 
-bool Network::IsRecvOK(SOCKET recv)
+bool Network::IsRecvOK(unsigned long addr)
 {
+	SocketData sock = Search_Recv(addr);
+
 	fd_set fdset;
 	struct timeval timeout;
 	FD_ZERO(&fdset);
-	FD_SET(recv, &fdset);
+	FD_SET(sock.s_sock, &fdset);
 
 	/* timeoutは０秒。つまりselectはすぐ戻ってくる */
 	timeout.tv_sec = 0;
@@ -93,17 +93,12 @@ bool Network::IsRecvOK(SOCKET recv)
 
 	/* readできるかチェック */
 	select(0, &fdset, NULL, NULL, &timeout);
-	return FD_ISSET(recv, &fdset);
+	return FD_ISSET(sock.s_sock, &fdset);
 }
 
 char* Network::Recv(unsigned long addr)
 {
 	SocketData sock = Search_Recv(addr);
-
-	if (!IsRecvOK(sock.s_sock))
-	{
-		return "";
-	}
 
 	//sockからデータを受信
 	recv(sock.s_sock, sock.s_buf, sizeof(sock.s_buf), 0);

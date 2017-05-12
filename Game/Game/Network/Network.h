@@ -31,6 +31,11 @@ public:
 	}
 
 	/*!
+	*@brief 戻り値がtrueなら受信OK
+	*/
+	bool IsRecvOK(unsigned long addr);
+
+	/*!
 	*@brief 送信関数
 	*/
 	void Send(unsigned long addr, char* str);
@@ -41,10 +46,6 @@ public:
 	char* Recv(unsigned long addr);
 
 private:
-	/*!
-	*@brief 戻り値がtrueなら受信OK
-	*/
-	bool IsRecvOK(SOCKET recv);
 
 	/*!
 	*@brief 送信関数の初期化関数
