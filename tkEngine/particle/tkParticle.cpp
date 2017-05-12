@@ -15,12 +15,10 @@ namespace tkEngine{
 		applyForce = CVector3::Zero;
 		texture = nullptr;
 	}
+
 	CParticle::~CParticle()
 	{
-		while (!cameraArray.empty())
-		{
-			cameraArray.pop_back();
-		}
+		cameraArray.clear();
 		primitive.Release();
 	}
 	void CParticle::Init(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition )
@@ -96,7 +94,8 @@ namespace tkEngine{
 		alphaBlendMode = param.alphaBlendMode;
 		mulColor = param.mulColor;
 		rotateZ = CMath::PI * 2.0f * (float)random.GetRandDouble();
-		rotateY = CMath::PI * 2.0f * (float)random.GetRandDouble();
+		sizeScale = param.scale;
+		size = 1.0f;
 	}
 	bool CParticle::Start()
 	{
@@ -117,8 +116,16 @@ namespace tkEngine{
 		CVector3 addPos = velocity;
 		addPos.Scale(deltaTime);
 		applyForce = CVector3::Zero;
-
 		position.Add(addPos);
+
+		mWorld = CMatrix::Identity;
+		//拡大行列の作成
+		size *= sizeScale;
+		CMatrix scaleMatrix;
+		CVector3 scaleVector = CVector3::One;
+		scaleVector.Scale(size);
+		scaleMatrix.MakeScaling(scaleVector);
+		//平行移動行列の作成
 		CMatrix mTrans;
 		mTrans.MakeTranslation(position);
 		if (isBillboard) {
@@ -128,7 +135,10 @@ namespace tkEngine{
 			qRot.SetRotation(CVector3(mCameraRot.m[2][0], mCameraRot.m[2][1], mCameraRot.m[2][2]), rotateZ);
 			CMatrix rot;
 			rot.MakeRotationFromQuaternion(qRot);
-			mWorld.Mul(mCameraRot, rot);
+			//行列の乗算
+			mWorld.Mul(mWorld, mCameraRot);
+			mWorld.Mul(mWorld, scaleMatrix);
+			mWorld.Mul(mWorld, rot);
 			mWorld.Mul(mWorld, mTrans);
 		}
 		else {
@@ -211,15 +221,25 @@ namespace tkEngine{
 	{
 		CCamera* cam = cameraArray[playerNum];
 		if (isBillboard) {
+			mWorld = CMatrix::Identity;
+			CMatrix scaleMatrix;
+			CVector3 scaleVector = CVector3::One;
+			scaleVector.Scale(size);
+			scaleMatrix.MakeScaling(scaleVector);
+			//平行移動行列の作成
 			CMatrix mTrans;
 			mTrans.MakeTranslation(position);
 			//ビルボード処理を行う。
 			const CMatrix& mCameraRot = cam->GetCameraRotation();
+			//回転行列の作成
 			CQuaternion qRot;
 			qRot.SetRotation(CVector3(mCameraRot.m[2][0], mCameraRot.m[2][1], mCameraRot.m[2][2]), rotateZ);
 			CMatrix rot;
 			rot.MakeRotationFromQuaternion(qRot);
-			mWorld.Mul(mCameraRot, rot);
+			//行列の乗算
+			mWorld.Mul(mWorld, scaleMatrix);
+			mWorld.Mul(mWorld, mCameraRot);
+			mWorld.Mul(mWorld, rot);
 			mWorld.Mul(mWorld, mTrans);
 		}
 

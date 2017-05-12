@@ -31,7 +31,7 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 	for each(SMapInfo l_map_dat in map_dat)
 	{
 		MapChip *l_mapChip = nullptr;
-		if (!strcmp("Itembox", l_map_dat.s_modelName))
+		if (!strcmp("ItemBox", l_map_dat.s_modelName))
 		{
 			l_mapChip = NewGO<Item>(PRIORITY1);
 		}

@@ -42,6 +42,10 @@ void KillCountSprite::Update()
 
 void KillCountSprite::PostRender(CRenderContext& renderContext, int playernum)
 {
+	if (m_playerNum != playernum)
+	{
+		return;
+	}
 	for (int i = 0;i < 2;i++) 
 	{
 		m_sprite[i].Draw(renderContext);

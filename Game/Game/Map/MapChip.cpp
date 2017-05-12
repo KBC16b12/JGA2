@@ -26,7 +26,11 @@ void MapChip::Init(SMapInfo map_dat)
 	//äÓñ{èÓïÒê›íË
 	m_position = map_dat.s_position;
 	m_rotation = map_dat.s_rotation;
+	CQuaternion l_rotation;
+	l_rotation.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
+	m_rotation.Multiply(l_rotation);
 	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
+	
 }
 
 bool MapChip::Start()
