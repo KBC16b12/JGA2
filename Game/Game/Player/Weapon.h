@@ -48,5 +48,8 @@ private:
 	Player*		m_player;				//参照用のプレイヤーのインスタンス
 	int			m_bulletStrikeNum;		//アイテムを使った状態の弾を打てる回数
 	int			m_playerNum;			
-	ItemSprite	*m_itemSprite;
+	ItemSprite*	m_itemSprite;
+	float		m_strikeInterval;		//弾を打ってから次の弾を打つまでのインターバル
+	bool		m_isStrike;				//弾を打てるかどうか
+
 };

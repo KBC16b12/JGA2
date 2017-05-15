@@ -8,6 +8,8 @@
 
 Weapon::Weapon()
 {
+	m_isStrike = true;
+	m_strikeInterval = 0.0f;
 	m_state = BULLETSTATE_NOMAL;
 	m_bulletStrikeNum = 0;
 	m_itemSprite = NewGO<ItemSprite>(PRIORITY1);
@@ -23,7 +25,7 @@ void Weapon::Init(Player* player, int playerNum)
 {
 	m_player = player;
 	m_playerNum = playerNum;
-	m_itemSprite->Init(playerNum, &m_bulletStrikeNum);
+	m_itemSprite->Init(playerNum);
 }
 
 bool Weapon::Start()
@@ -33,6 +35,26 @@ bool Weapon::Start()
 
 void Weapon::Update()
 {
+	if (m_isStrike)
+	{
+		//弾を打てる状態でぼたんを押したら
+		if (Pad(m_playerNum).IsPress(enButtonB))
+		{
+			BulletFilling();
+			m_isStrike = false;
+		}
+	}
+	else 
+	{
+		//次の弾を打てるまでのインターバルタイム
+		m_strikeInterval += GameTime().GetFrameDeltaTime();
+		if (0.5f < m_strikeInterval)
+		{
+			m_isStrike = true;
+			m_strikeInterval = 0.0f;
+		}
+	}
+	m_itemSprite->SetStrikeNum(m_bulletStrikeNum);
 }
 
 
@@ -52,6 +74,7 @@ void Weapon::BulletFilling()
 
 		l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
 		break;
+
 	}
 	l_bullet->Init(m_player->GetPosition(), m_player->GetFrontWorldMatrix(), m_playerNum);
 	//アイテムを使った状態の場合数を減らす
@@ -60,6 +83,7 @@ void Weapon::BulletFilling()
 	{
 		m_state = BULLETSTATE_NOMAL;
 	}
+
 }
 
 void Weapon::SetWeapon()
@@ -69,6 +93,7 @@ void Weapon::SetWeapon()
 	{
 		m_state = (BULLETSTATE)(g_random.GetRandInt() % BULLETSTATE_NUM);
 	} while (m_state == BULLETSTATE_NOMAL);
+
 	m_itemSprite->SetItem(m_state);
 	m_bulletStrikeNum = STRIKE_NUM;
 

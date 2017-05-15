@@ -8,10 +8,9 @@ public:
 
 	~ItemSprite();
 
-	void Init(int playerNum, int *bulletNum)
+	void Init(int playerNum)
 	{
 		m_playerNum = playerNum;
-		m_bulletStrikeNum = bulletNum;
 	}
 
 	void SetItem(int state);
@@ -19,6 +18,11 @@ public:
 	bool Start()override;
 
 	void Update()override;
+
+	void SetStrikeNum(int bulletNum)
+	{
+		m_bulletStrikeNum = bulletNum;
+	}
 
 	void PostRender(CRenderContext& renderContext)override;
 
@@ -32,5 +36,5 @@ private:
 	CSprite				m_countSprite1;
 	CSprite				m_countSprite10;
 	int					m_playerNum;				//プレイヤーの番号
-	int					*m_bulletStrikeNum;			//残弾数
+	int					m_bulletStrikeNum;			//残弾数
 };

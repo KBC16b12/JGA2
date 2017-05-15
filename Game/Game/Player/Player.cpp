@@ -45,6 +45,7 @@ bool Player::Start()
 	float l_lightColor1 = 0.15f;
 	float l_lightColor2 = 0.4f;
 	float l_lightColor3 = 0.2f;
+
 	float l_lightColor4 = 0.3f;
 	m_light.SetDiffuseLightColor(0, { l_lightColor1, l_lightColor1, l_lightColor1, 1.0f });
 	m_light.SetDiffuseLightColor(1, { l_lightColor2, l_lightColor2, l_lightColor2, 1.0f });
@@ -67,6 +68,7 @@ bool Player::Start()
 	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(0.5f, 1.0f, m_position);
+	m_characterController.SetGravity(-30.0f);
 	
 
 	m_HPbar->SetPlayerNum(m_playernum);
@@ -76,14 +78,10 @@ bool Player::Start()
 
 void Player::Update()
 {
-	if (Pad(m_playernum).IsTrigger(enButtonRB1))
-	{
-		m_weapon.BulletFilling();
-	}
 	m_weapon.Update();
 	UpdateHPBar();
 	m_killCountSprite->SetData(m_killCount);
-
+		
 	Move();
 
 	//ワールド行列の更新
@@ -175,7 +173,7 @@ void Player::Move()
 	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
 	{
 		m_characterController.Jump();
-		l_moveSpeed.y += 15.0f;
+		l_moveSpeed.y += 20.0f;
 	}
 
 	//決定した移動速度をキャラクタコントローラーに設定。

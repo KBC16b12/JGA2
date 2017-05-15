@@ -6,9 +6,10 @@
 ItemSprite::ItemSprite()
 {
 	m_playerNum = 0;
-	m_bulletStrikeNum = nullptr;
+	m_bulletStrikeNum = 0;
 	
 }
+
 
 
 ItemSprite::~ItemSprite()
@@ -26,8 +27,8 @@ bool ItemSprite::Start()
 		m_countTexture[i] = TextureResources().LoadEx(l_filePath);
 	}
 
-	int spriteNum1 = *m_bulletStrikeNum % 10;
-	int spriteNum10 = *m_bulletStrikeNum / 10;
+	int spriteNum1 = m_bulletStrikeNum % 10;
+	int spriteNum10 = m_bulletStrikeNum / 10;
 	m_countSprite1.Init(m_countTexture[spriteNum1]);
 	m_countSprite10.Init(m_countTexture[spriteNum10]);
 	m_itemSprite.Init(m_boundTexture);
@@ -66,15 +67,15 @@ void ItemSprite::SetItem(int state)
 void ItemSprite::Update()
 {
 
-	int spriteNum1 = *m_bulletStrikeNum % 10;
-	int spriteNum10 = *m_bulletStrikeNum / 10;
+	int spriteNum1 = m_bulletStrikeNum % 10;
+	int spriteNum10 = m_bulletStrikeNum / 10;
 	m_countSprite1.SetTexture(m_countTexture[spriteNum1]);
 	m_countSprite10.SetTexture(m_countTexture[spriteNum10]);
 }
 
 void ItemSprite::PostRender(CRenderContext& renderContext)
 {
-	if (*m_bulletStrikeNum <= 0)
+	if (m_bulletStrikeNum <= 0)
 	{
 		return;
 	}
@@ -89,7 +90,7 @@ void ItemSprite::PostRender(CRenderContext& renderContext, int playerNum)
 	{
 		return;
 	}
-	if (*m_bulletStrikeNum <= 0)
+	if (m_bulletStrikeNum <= 0)
 	{
 		return;
 	}

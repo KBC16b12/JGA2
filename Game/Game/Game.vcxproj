@@ -172,6 +172,8 @@
     <ClCompile Include="HUD\KillCountSprite.cpp" />
     <ClCompile Include="HUD\TimeSprite.cpp" />
     <ClCompile Include="Item\Item.cpp" />
+    <ClCompile Include="Item\ItemBox.cpp" />
+    <ClCompile Include="Item\ItemMaker.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="Map\Map.cpp" />
@@ -206,6 +208,8 @@
     <ClInclude Include="HUD\KillCountSprite.h" />
     <ClInclude Include="HUD\TimeSprite.h" />
     <ClInclude Include="Item\Item.h" />
+    <ClInclude Include="Item\ItemBox.h" />
+    <ClInclude Include="Item\ItemMaker.h" />
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="Map\Map.h" />
     <ClInclude Include="Map\MapChip.h" />
