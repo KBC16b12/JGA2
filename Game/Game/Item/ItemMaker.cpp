@@ -35,7 +35,7 @@ void ItemMaker::Update()
 	else
 	{
 		m_intervalTime += GameTime().GetFrameDeltaTime();
-		if (30.0f < m_intervalTime)
+		if (1.0f < m_intervalTime)
 		{
 			m_item = NewGO<ItemBox>(PRIORITY0);
 			m_item->Init(m_position, m_rotation, m_modelDataItemBox.GetBody());

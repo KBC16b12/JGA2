@@ -68,7 +68,7 @@ namespace tkEngine{
 			index
 			);
 		
-		texture = ParticleResources().LoadTexture(param.texturePath);
+		texture = ParticleResources().LoadTextureEx(param.texturePath);
 		shaderEffect = EffectManager().LoadEffect("Assets/presetShader/ColorTexPrim.fx");
 		this->camera = &camera;
 		this->random = &random;

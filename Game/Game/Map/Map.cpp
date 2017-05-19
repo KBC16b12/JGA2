@@ -39,7 +39,7 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 		{
 			m_player[l_playerNum] = NewGO<Player>(PRIORITY0);
 			m_player[l_playerNum]->SetPlayerNum(l_playerNum);
-			m_player[l_playerNum]->SetPosition(l_map_dat.s_position);
+			m_player[l_playerNum]->Init(l_map_dat.s_position, l_map_dat.s_rotation);
 			l_playerNum++;
 		}
 		else

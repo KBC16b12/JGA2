@@ -44,7 +44,7 @@ bool GameScene::Start()
 	m_bgm->Init(m_bgm_path);
 	m_bgm->Play(true);
 
-	//ライトを初期化。5
+	//ライトを初期化。
 	m_light.SetAmbinetLight(CVector3::One);
 	int l_half_w = Engine().GetScreenWidth() / 2;
 	int l_half_h = Engine().GetScreenHeight() / 2;
@@ -92,7 +92,7 @@ void GameScene::SceneChange()
 			SetActiveFlags(false);
 			return;
 		}
-		if (Pad(0).IsTrigger(enButtonA))
+		if (m_time->IsFinish())
 		{
 			//リザルトへ遷移
 			m_scenedata = enResult;

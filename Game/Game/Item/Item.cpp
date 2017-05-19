@@ -63,11 +63,12 @@ void Item::Update()
 			l_distance.Subtract(l_player->GetPosition());
 			//‚»‚Ì‹——£‚ğ•Ï”‚ÉŠi”[
 			float distance = l_distance.Length();
+			l_distance.y = 0.0f;
 			l_distance.Normalize();
 			CVector3 l_playerFrontVector = l_player->GetFrontWorldMatrix();
 			l_playerFrontVector.Normalize();
 			//—¼Ò‚ğ³‹K‰»‚µ‚Ä“àÏ‚ğŒvZ
-			if (distance < 8.0f && l_distance.Dot(l_playerFrontVector) > cos(70))
+			if (distance < 4.0f && l_distance.Dot(l_playerFrontVector) > cos(CMath::DegToRad(15)))
 			{
 				Deth(l_player);
 				break;

@@ -5,6 +5,8 @@
 #include "../Bullet/BoundBullet.h"
 #include "Player.h"
 #include "../HUD/ItemSprite.h"
+#include "../Scene/GameScene/GameScene.h"
+#include "../PincerAttack/PincerAttack.h"
 
 Weapon::Weapon()
 {
@@ -13,6 +15,7 @@ Weapon::Weapon()
 	m_state = BULLETSTATE_NOMAL;
 	m_bulletStrikeNum = 0;
 	m_itemSprite = NewGO<ItemSprite>(PRIORITY1);
+	m_pincer = NewGO<PincerAttack>(PRIORITY0);
 }
 
 
@@ -21,11 +24,11 @@ Weapon::~Weapon()
 	DeleteGO(m_itemSprite);
 }
 
-void Weapon::Init(Player* player, int playerNum)
+void Weapon::Init(int playerNum)
 {
-	m_player = player;
 	m_playerNum = playerNum;
 	m_itemSprite->Init(playerNum);
+	m_pincer->Init(playerNum);
 }
 
 bool Weapon::Start()
@@ -38,7 +41,7 @@ void Weapon::Update()
 	if (m_isStrike)
 	{
 		//弾を打てる状態でぼたんを押したら
-		if (Pad(m_playerNum).IsPress(enButtonB))
+		if (Pad(m_playerNum).IsTrigger(enButtonRB1))
 		{
 			BulletFilling();
 			m_isStrike = false;
@@ -48,7 +51,7 @@ void Weapon::Update()
 	{
 		//次の弾を打てるまでのインターバルタイム
 		m_strikeInterval += GameTime().GetFrameDeltaTime();
-		if (0.5f < m_strikeInterval)
+		if (0.2f < m_strikeInterval)
 		{
 			m_isStrike = true;
 			m_strikeInterval = 0.0f;
@@ -71,12 +74,12 @@ void Weapon::BulletFilling()
 		l_bullet = NewGO<BoundBullet>(PRIORITY1);
 		break;
 	case BULLETSTATE_GRENADE:
-
 		l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
 		break;
 
 	}
-	l_bullet->Init(m_player->GetPosition(), m_player->GetFrontWorldMatrix(), m_playerNum);
+	Player *l_player = g_gameScene->GetPlayer(m_playerNum);
+	l_bullet->Init(l_player->GetPosition(), l_player->GetFrontWorldMatrix(), m_playerNum);
 	//アイテムを使った状態の場合数を減らす
 	m_bulletStrikeNum--;
 	if (m_bulletStrikeNum <= 0)
@@ -92,9 +95,10 @@ void Weapon::SetWeapon()
 	do
 	{
 		m_state = (BULLETSTATE)(g_random.GetRandInt() % BULLETSTATE_NUM);
-	} while (m_state == BULLETSTATE_NOMAL);
+	}while (m_state == BULLETSTATE_NOMAL);
 
 	m_itemSprite->SetItem(m_state);
 	m_bulletStrikeNum = STRIKE_NUM;
 
 }
+

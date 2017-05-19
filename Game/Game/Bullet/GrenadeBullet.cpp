@@ -58,7 +58,7 @@ void GrenadeBullet::DethCheck()
 			l_distance.Subtract(m_position);
 			if (l_distance.Length() < 8.0f && m_playerNum != i)
 			{
-				l_player->Damage(m_playerNum);
+				l_player->Damage(m_playerNum, GRENADE_DAMAGE);
 			}
 		}
 		DeleteGO(this);
@@ -89,7 +89,7 @@ void GrenadeBullet::DethCheck()
 		true,											//!<ビルボード？
 		0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
 		1,												//!<0半透明合成、1加算合成。
-		{1.0f, 1.0f, 1.0f},								//!<乗算カラー。
+		{0.1f, 0.1f, 0.1f},								//!<乗算カラー。
 		0.2f,											//!<パーティクルエミッターの寿命
 		1.15f											//!<サイズスケール
 		},
@@ -120,7 +120,7 @@ void GrenadeBullet::DethCheck()
 			true,											//!<ビルボード？
 			0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
 			1,												//!<0半透明合成、1加算合成。
-			{ 1.0f, 1.0f, 1.0f },								//!<乗算カラー。
+			{ 0.1f, 0.1f, 0.1f },								//!<乗算カラー。
 			0.2f,											//!<パーティクルエミッターの寿命
 			1.15f											//!<サイズスケール
 		},

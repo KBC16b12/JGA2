@@ -67,7 +67,7 @@ void Bullet::DethCheck()
 			if (l_distance.Length() < l_playerRadius)
 			{
 				DeleteGO(this);
-				l_player->Damage(m_playerNum);
+				l_player->Damage(m_playerNum, BULLET_DAMAGE);
 				break;
 			}
 		}

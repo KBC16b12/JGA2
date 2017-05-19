@@ -63,8 +63,6 @@ bool Player::Start()
 	m_skinModelThird.SetShadowCasterFlag(true);
 	m_skinModelFirst.SetShadowReceiverFlag(true);
 	m_skinModelThird.SetShadowReceiverFlag(true);
-
-	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(0.0f));
 	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(0.5f, 1.0f, m_position);
@@ -139,7 +137,9 @@ void Player::UpdateHPBar()
 
 void Player::Move()
 {
-	float move;
+
+	float	l_angle = 0.0f;
+	float	move;
 	move = -5.0f; //移動速度
 	CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
 	CVector3 l_moveX;
@@ -167,7 +167,7 @@ void Player::Move()
 	l_moveSpeed.Add(l_moveZ);
 
 	/*アングル*/
-	m_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
+	l_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
 
 	/*ジャンプ*/
 	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
@@ -183,13 +183,15 @@ void Player::Move()
 	//実行結果を受け取る。
 	m_position = m_characterController.GetPosition();
 	m_position.y += 2.0f;
-	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(m_angle));
+	CQuaternion multi;
+	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(l_angle));
+	m_rotation.Multiply(multi);
 }
 
-void Player::Damage(int playerNum)
+void Player::Damage(int playerNum, int damage)
 {
 	//HPを減算
-	m_hp--;
+	m_hp -= damage;
 	if (m_hp <= 0)
 	{
 		//もしHPが０になり死んだ場合殺した相手のカウントアップをしリスポーンする。

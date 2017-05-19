@@ -5,6 +5,7 @@
 
 MapObject::MapObject()
 {
+	m_skyLight.SetAmbinetLight(CVector3::One);
 }
 
 
@@ -18,6 +19,10 @@ MapObject::~MapObject()
 void MapObject::Init(SMapInfo map_dat)
 {
 	MapChip::Init(map_dat);
+	if (!strcmp(map_dat.s_modelName, "skybox"))
+	{
+		m_SkinModel.SetLight(&m_skyLight);
+	}
 	m_meshCollider.CreateFromSkinModel(&m_SkinModel, m_SkinModelData.GetBody()->GetRootBoneWorldMatrix());
 	RigidBodyInfo rbInfo;
 	//剛体のコライダーを渡す。

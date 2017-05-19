@@ -1,4 +1,5 @@
 #pragma once
+#include "Player/Weapon.h"
 
 #define NUM 10
 class ItemSprite : public IGameObject
@@ -13,7 +14,7 @@ public:
 		m_playerNum = playerNum;
 	}
 
-	void SetItem(int state);
+	void SetItem(BULLETSTATE state);
 
 	bool Start()override;
 

@@ -10,6 +10,8 @@
 #define PRIORITY1 1
 #define PRIORITY2 2
 #define PLAYER_NUM 4
+#define BULLET_DAMAGE 1
+#define GRENADE_DAMAGE 2
 
 #pragma comment( lib, "WS2_32.LIB" )
 #pragma warning ( disable : 4996 )
@@ -32,9 +34,11 @@
 #include "tkEngine/Physics/tkMeshCollider.h"
 #include "tkEngine/character/tkCharacterController.h"
 #include "tkEngine/particle/tkParticleEmitter.h"
+#include "tkEngine/shape/tkSphereShape.h"
 
 
 using namespace tkEngine;
+
 #include "tkEngine/random/tkRandom.h"
 
 #include "tkEngine/Sound/tkSoundSource.h"

@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ItemSprite.h"
-#include "../Player/Weapon.h"
 
 
 ItemSprite::ItemSprite()
@@ -51,14 +50,14 @@ bool ItemSprite::Start()
 
 }
 
-void ItemSprite::SetItem(int state)
+void ItemSprite::SetItem(BULLETSTATE state)
 {
 	switch (state)
 	{
-	case Weapon::BULLETSTATE_BOUND:
+	case BULLETSTATE_BOUND:
 		m_itemSprite.SetTexture(m_boundTexture);
 		break;
-	case Weapon::BULLETSTATE_GRENADE:
+	case BULLETSTATE_GRENADE:
 		m_itemSprite.SetTexture(m_grenadeTexture);
 		break;
 	}

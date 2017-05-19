@@ -19,6 +19,6 @@ public:
 private:
 	CMeshCollider				m_meshCollider;		//メッシュコライダー。
 	CRigidBody					m_rigidBody;		//剛体。
-
+	CLight						m_skyLight;
 };
 

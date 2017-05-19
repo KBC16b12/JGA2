@@ -18,6 +18,8 @@ namespace tkEngine{
 		 *@param[in]	filePath		ファイルパス。
 		 */
 		CTexture* LoadTexture( const char* filePath );
+
+		CTexture* LoadTextureEx(const char* filePath);
 		/*!
 		*@brief	解放。
 		*/
