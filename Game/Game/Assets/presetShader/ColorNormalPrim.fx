@@ -8,6 +8,7 @@ float4x4	g_mWVP;					//ワールドビュープロジェクション行列。
 float4x4	g_worldRotationMatrix;	//ワールド行列の回転成分。
 float4x4	g_mWorld;				//ワールド行列。
 float4x4	g_mLVP;					//ライトビュープロジェクション行列。
+float		g_Dot;
 
 struct VS_INPUT{
 	float4	pos		: POSITION;
@@ -78,6 +79,25 @@ float4 PSMain( VS_OUTPUT In, uniform bool isIuminance  ) : COLOR0
 	}
 	return color;
 }
+
+/*!
+* @brief
+*/
+float4 pc_PSMain(VS_OUTPUT In) : COLOR0
+{
+	float4 color;
+	color = In.color;
+	color.w *= 2.0f;
+	float t = max( 0.0f, color.w - 1.0f);
+	color.w -= t*2.0f;
+	color.w *= g_Dot;
+	color = pow(color, 2.0f);
+	float colorScale = 2.0f;
+	color.x *= colorScale;
+	color.y *= colorScale;
+	color.z *= colorScale;
+	return color;
+}
 /*!
  * @brief	
  */
@@ -128,8 +148,8 @@ technique ColorNormalPrim
 {
     pass P0
     {          
-        VertexShader = compile vs_2_0 VSMain();
-        PixelShader  = compile ps_2_0 PSMain(false);
+        VertexShader = compile vs_3_0 VSMain();
+        PixelShader  = compile ps_3_0 PSMain(false);
     }
 }
 /*!
@@ -139,8 +159,8 @@ technique ColorNormalShadowPrim
 {
 	pass P0
 	{
-		VertexShader = compile vs_2_0 VSMainShadow();
-		PixelShader = compile ps_2_0 PSMainShadow(false);
+		VertexShader = compile vs_3_0 VSMainShadow();
+		PixelShader = compile ps_3_0 PSMainShadow(false);
 	}
 }
 /*!
@@ -150,8 +170,8 @@ technique ColorNormalPrimIuminance
 {
 	pass P0
     {          
-        VertexShader = compile vs_2_0 VSMain();
-        PixelShader  = compile ps_2_0 PSMain(true);
+        VertexShader = compile vs_3_0 VSMain();
+        PixelShader  = compile ps_3_0 PSMain(true);
 	}
 }
 /*!
@@ -161,7 +181,16 @@ technique ColorNormalShadowPrimIuminance
 {
 	pass P0
 	{
-		VertexShader = compile vs_2_0 VSMainShadow();
-		PixelShader = compile ps_2_0 PSMainShadow(true);
+		VertexShader = compile vs_3_0 VSMainShadow();
+		PixelShader = compile ps_3_0 PSMainShadow(true);
 	}
 }
+
+technique PincerEffect
+{
+	pass P0
+	{
+		VertexShader = compile vs_3_0 VSMain();
+		PixelShader = compile ps_3_0 pc_PSMain();
+	}
+};

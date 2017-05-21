@@ -7,6 +7,7 @@
 
 PincerAttackEffect::PincerAttackEffect()
 {
+	m_dot = 0.0f;
 }
 
 
@@ -19,6 +20,7 @@ bool PincerAttackEffect::Start()
 {
 	m_pEffect = tkEngine::CEngine::Instance().EffectManager().LoadEffect("Assets/presetShader/ColorNormalPrim.fx");
 	int color = 0xff0000ff;
+	int color2 = 0x000000ff;
 	CVector3 l_distance = g_gameScene->GetPlayer(m_opponentNum)->GetPosition();
 	l_distance.Subtract(g_gameScene->GetPlayer(m_playerNum)->GetPosition());
 	l_distance.y = 0.0f;
@@ -27,12 +29,12 @@ bool PincerAttackEffect::Start()
 	float vertexX = 0.2f;
 	SShapeVertex_PC vertex[] =
 	{
-		{-vertexX, vertexY, vertexZ, 1.0f, color},
+		{-vertexX, vertexY, vertexZ, 1.0f, color2},
 		{ vertexX, vertexY, vertexZ, 1.0f, color},
 		{ vertexX, -vertexY,-vertexZ, 1.0f, color},
 		{ vertexX, -vertexY,-vertexZ, 1.0f, color },
-		{-vertexX, -vertexY, -vertexZ, 1.0f, color},
-		{ -vertexX, vertexY, vertexZ, 1.0f, color },
+		{-vertexX, -vertexY, -vertexZ, 1.0f, color2},
+		{ -vertexX, vertexY, vertexZ, 1.0f, color2 },
 	};
 	int index[] = { 0, 1, 2, 3, 4, 5,};
 	m_primitive.Create(
@@ -98,9 +100,10 @@ void PincerAttackEffect::Render(CRenderContext& renderContext, int playerNum)
 
 void PincerAttackEffect::Draw(CRenderContext& renderContext, CMatrix l_wvp)
 {
-	m_pEffect->SetTechnique(renderContext, "ColorNormalPrim");
+	m_pEffect->SetTechnique(renderContext, "PincerEffect");
 	m_pEffect->Begin(renderContext);
 	m_pEffect->BeginPass(renderContext, 0);
+	m_pEffect->SetValue(renderContext, "g_Dot", &m_dot, sizeof(m_dot));
 	m_pEffect->SetValue(renderContext, "g_mWVP", &l_wvp, sizeof(l_wvp));
 	m_pEffect->SetValue(renderContext, "g_worldRotationMatrix", &m_rotationMatrix, sizeof(m_rotationMatrix));
 	m_pEffect->SetValue(
@@ -110,10 +113,16 @@ void PincerAttackEffect::Draw(CRenderContext& renderContext, CMatrix l_wvp)
 		sizeof(CLight)
 	);
 	m_pEffect->CommitChanges(renderContext);
+	renderContext.SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_SRCALPHA);
+	renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_INVSRCALPHA);
+	renderContext.SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
 	renderContext.SetVertexDeclaration(m_primitive.GetVertexDecl());
 	renderContext.SetStreamSource(0, m_primitive.GetVertexBuffer());
 	renderContext.SetIndices(m_primitive.GetIndexBuffer());
 	renderContext.DrawIndexedPrimitive(&m_primitive);
+	renderContext.SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+	renderContext.SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 	m_pEffect->EndPass(renderContext);
 	m_pEffect->End(renderContext);
 }

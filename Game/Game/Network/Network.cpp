@@ -4,7 +4,7 @@
 Network::Network()
 {
 	//DLL“Ç‚İ‚İ
-	WSAStartup(MAKEWORD(2, 0), &m_wsa);
+	WSAStartup(MAKEWORD(2, 2), &m_wsa);
 	
 	//Sendƒf[ƒ^‚Ì‰Šú‰»
 	m_send_sock = socket(AF_INET, SOCK_DGRAM, 0);

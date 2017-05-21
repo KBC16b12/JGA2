@@ -29,7 +29,7 @@ bool PincerAttack::Start()
 	{
 		if (m_playerNum != i)
 		{
-			m_pincerEffect[l_playerNum] = NewGO<PincerAttackEffect>(PRIORITY0);
+			m_pincerEffect[l_playerNum] = NewGO<PincerAttackEffect>(PRIORITY2);
 			m_pincerEffect[l_playerNum]->Init(m_playerNum, i);
 			l_playerNum++;
 		}
@@ -39,23 +39,25 @@ bool PincerAttack::Start()
 
 void PincerAttack::Shoot()
 {
-	if (!Pad(m_playerNum).IsTrigger(enButtonLB1))
-	{
-		return;
-	}
 	Player *l_player[PLAYER_NUM];
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{
 		l_player[i] = g_gameScene->GetPlayer(i);
 	}
+	for (int i = 0;i < PLAYER_NUM - 1;i++)
+	{
+		m_pincerEffect[i]->SetDot(0.4f);
+	}
 	CVector3 l_playerFront = l_player[m_playerNum]->GetFrontWorldMatrix();
 	l_playerFront.Normalize();
+	int l_pincerEffectNum = 0 - 1;
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{
 		if (m_playerNum == i)
 		{
 			continue;
 		}
+		l_pincerEffectNum++;
 		float rad = CMath::DegToRad(8);
 		//‘¼ƒvƒŒƒCƒ„[‚Æ‚Ì“àÏ‚ðŽæ‚é
 		CVector3 l_direction1 = l_player[i]->GetPosition();
@@ -84,11 +86,16 @@ void PincerAttack::Shoot()
 				continue;
 			}
 			l_direction2.Normalize();
-			if (l_direction1.Dot(l_direction2) < cos(rad))
+			float l_dot = l_direction1.Dot(l_direction2);
+			if (l_dot < cos(rad))
 			{
 				continue;
 			}
-			l_player[j]->Damage(m_playerNum, 5);
+			if (Pad(m_playerNum).IsTrigger(enButtonLB1))
+			{
+				l_player[j]->Damage(m_playerNum, 5);
+			}
+			m_pincerEffect[l_pincerEffectNum]->SetDot(1.0f);
 		}
 	}
 }

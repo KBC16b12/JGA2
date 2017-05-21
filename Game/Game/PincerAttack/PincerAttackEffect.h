@@ -17,6 +17,11 @@ public:
 
 	void Update()override;
 
+	void SetDot(float dot)
+	{
+		m_dot = dot;
+	}
+
 	void Render(CRenderContext& renderContext)override;
 
 	void Render(CRenderContext& renderContext, int playerNum)override;
@@ -27,6 +32,7 @@ private:
 private:
 	int					m_playerNum;
 	int					m_opponentNum;
+	float				m_dot;
 	CPrimitive			m_primitive;
 	CLight				m_light;
 	CEffect*			m_pEffect;

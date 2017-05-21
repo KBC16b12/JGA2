@@ -37,24 +37,25 @@ namespace tkEngine{
 			InitStep_Load,
 			InitStep_Wait,
 		};
-		CSkinModelDataHandle	skinModelData;					//!<スキンモデルデータ。
-		CSkinModel				skinModel;						//!<スキンモデル。
-		CAnimation				animation;						//!<アニメーション。
-		CLight					light;							//!<ライト。
-		CTexture				normalMap;
-		InitStep				initStep = InitStep_Load;
+		CSkinModelDataHandle		skinModelData;					//!<スキンモデルデータ。
+		CSkinModel					skinModel;						//!<スキンモデル。
+		CAnimation					animation;						//!<アニメーション。
+		CLight						light;							//!<ライト。
+		CTexture					normalMap;
+		InitStep					initStep = InitStep_Load;
 		SAtmosphericScatteringParam	atomosphereParam;			//!<大気錯乱パラメータ。
-		CVector3				sunPosition = CVector3::Zero;	//!<太陽の位置。
-		float					sunAngle = 0.0f;
-		CLight					sunLight;						//!<ライト。
-		CSkinModelDataHandle	sunModelData;					//!<太陽のモデルデータ。
-		CSkinModel				sunModel;						//!<太陽のモデル。
-		CVector3				sunDir = CVector3::Zero;		//!<太陽の方向。
-		float					deltaTimeMul = 1.0f;			//!<⊿タイムに乗算される値。
-		const CCamera*			camera = nullptr;				//!<カメラ。
-		CLight*					sceneLight = nullptr;								//!<シーンライト。
-		CVector3				dayAmbinetLight = CVector3(0.3f, 0.3f, 0.3f);		//!<日中のアンビエントライト。
-		CVector3				nightAmbinetLight = CVector3(0.1f, 0.1f, 0.1f);		//!<夜間のアンビエントライト。
+		CVector3					sunPosition = CVector3::Zero;	//!<太陽の位置。
+		float						sunAngle = 0.0f;
+		CLight						sunLight;						//!<ライト。
+		CSkinModelDataHandle		sunModelData;					//!<太陽のモデルデータ。
+		CSkinModel					sunModel;						//!<太陽のモデル。
+		CVector3					sunDir = CVector3::Zero;		//!<太陽の方向。
+		float						deltaTimeMul = 1.0f;			//!<⊿タイムに乗算される値。
+		const CCamera*				camera = nullptr;				//!<カメラ。
+		std::vector<CCamera*>		cameraVector;
+		CLight*						sceneLight = nullptr;								//!<シーンライト。
+		CVector3					dayAmbinetLight = CVector3(0.3f, 0.3f, 0.3f);		//!<日中のアンビエントライト。
+		CVector3					nightAmbinetLight = CVector3(0.1f, 0.1f, 0.1f);		//!<夜間のアンビエントライト。
 	public:
 		CSky();
 		
@@ -102,6 +103,11 @@ namespace tkEngine{
 		{
 			this->camera = &camera;
 		}
+
+		void ViewPortSetCamera(std::vector<CCamera*> camera)
+		{
+			cameraVector = camera;
+		}
 		/*!
 		 * @brief	ゲームシーンで使用しているライトを設定。
 		 *@details
@@ -135,6 +141,8 @@ namespace tkEngine{
 			return atomosphereParam;
 		}
 		void Render(CRenderContext& renderContext) override;
+
+		void Render(CRenderContext& renderContext, int playerNum) override;
 		/*!
 		 * @brief	太陽の位置を設定。
 		 */
