@@ -32,8 +32,10 @@ SocketData& Network::Search_Send(unsigned long addr)
 		}
 	}
 
+
 	SocketData sock;
 
+	sock.s_sock = socket(AF_INET, SOCK_DGRAM, 0);
 	sock.s_address.sin_family = AF_INET;
 	sock.s_address.sin_port = htons(12345);
 	sock.s_address.sin_addr.S_un.S_addr = addr;
@@ -65,6 +67,7 @@ SocketData& Network::Search_Recv(unsigned long addr)
 
 	SocketData sock;
 
+	sock.s_sock = socket(AF_INET, SOCK_DGRAM, 0);
 	sock.s_address.sin_family = AF_INET;
 	sock.s_address.sin_port = htons(12345);
 	sock.s_address.sin_addr.S_un.S_addr = addr;
