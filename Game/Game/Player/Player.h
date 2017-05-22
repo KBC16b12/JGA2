@@ -44,9 +44,10 @@ public:
 
 	/*
 	*@brief ダメージを受けた時に呼ばれる関数
-	*@brief int playerNum
+	*@brief int playerNum	当てたプレイヤーの番号
+	*@brief int damage		プレイヤーが受けるダメージ量
 	*/
-	void Damage(int playerNum);
+	void Damage(int playerNum, int damage);
 
 	/*
 	*@brief リスポーン処理
@@ -80,10 +81,17 @@ public:
 		m_weapon.SetWeapon();
 	}
 
-	void SetPosition(CVector3 position)
+	void Init(CVector3 position, CQuaternion rotation)
 	{
+		m_rotation = rotation;
 		m_position = position;
 		m_respawnPosition = position;
+		m_respawnRotation = rotation;
+		CQuaternion multi;
+		multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
+		m_rotation.Multiply(multi);
+		multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
+		m_rotation.Multiply(multi);
 	}
 
 	/*
@@ -93,7 +101,7 @@ public:
 	void SetPlayerNum(int playernum)
 	{
 		m_playernum = playernum;
-		m_weapon.Init(this, m_playernum);
+		m_weapon.Init(m_playernum);
 	}
 
 	int GetPlayerNum()
@@ -104,6 +112,11 @@ public:
 	void KillCountUp()
 	{
 		m_killCount++;
+	}
+
+	CMatrix GetWorldMatrix()
+	{
+		return m_skinModelFirst.GetWorldMatrix();
 	}
 
 private:
@@ -124,7 +137,6 @@ private:
 	CQuaternion				m_respawnRotation;
 
 	int						m_currentAnimationNo;
-	float					m_angle = 180;
 
 	KillCountSprite*		m_killCountSprite;					//キル数のスプライト
 	Bar*					m_HPbar;		//HPバー

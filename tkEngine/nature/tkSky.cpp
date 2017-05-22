@@ -86,4 +86,15 @@ namespace tkEngine{
 			renderContext.SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
 		}
 	}
+
+	void CSky::Render(CRenderContext& renderContext, int playerNum)
+	{
+		if (!cameraVector.empty())
+		{
+			renderContext.SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+			skinModel.Draw(renderContext, cameraVector[playerNum]->GetViewMatrix(), cameraVector[playerNum]->GetProjectionMatrix());
+			sunModel.Draw(renderContext, cameraVector[playerNum]->GetViewMatrix(), cameraVector[playerNum]->GetProjectionMatrix());
+			renderContext.SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+		}
+	}
 }

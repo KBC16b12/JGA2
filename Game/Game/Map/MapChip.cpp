@@ -13,16 +13,21 @@ MapChip::~MapChip()
 {
 }
 
-void MapChip::Init(SMapInfo map_dat)
+void MapChip::ModelInit(const char *modelName)
 {
 	//スキンモデルロード
 	char modelPath[1024];
-	sprintf(modelPath, "Assets/modelData/%s.x", map_dat.s_modelName);
+	sprintf(modelPath, "Assets/modelData/%s.x", modelName);
 	SkinModelDataResources().Load(m_SkinModelData, modelPath, NULL, false, 1);
 	m_SkinModel.Init(m_SkinModelData.GetBody());
 	m_SkinModel.SetShadowCasterFlag(true);
 	m_SkinModel.SetShadowReceiverFlag(true);
 	m_SkinModel.SetLight(&g_defaultLight);
+}
+
+void MapChip::Init(SMapInfo map_dat)
+{
+	ModelInit(map_dat.s_modelName);
 	//基本情報設定
 	m_position = map_dat.s_position;
 	m_rotation = map_dat.s_rotation;
@@ -30,7 +35,6 @@ void MapChip::Init(SMapInfo map_dat)
 	l_rotation.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
 	m_rotation.Multiply(l_rotation);
 	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
-	
 }
 
 bool MapChip::Start()
@@ -40,6 +44,7 @@ bool MapChip::Start()
 
 void MapChip::Update()
 {
+	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
 }
 
 void MapChip::Render(CRenderContext& renderContext, int cameranum)

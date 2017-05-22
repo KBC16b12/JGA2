@@ -5,6 +5,7 @@
 
 MapObject::MapObject()
 {
+	m_skyLight.SetAmbinetLight(CVector3::One);
 }
 
 
@@ -32,18 +33,3 @@ void MapObject::Init(SMapInfo map_dat)
 	PhysicsWorld().AddRigidBody(&m_rigidBody);
 }
 
-bool MapObject::Start()
-{
-	return true;
-}
-
-void MapObject::Update()
-{
-	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
-}
-
-
-void MapObject::Render(CRenderContext& renderContext, int cameranum)
-{
-	MapChip::Render(renderContext, cameranum);
-}

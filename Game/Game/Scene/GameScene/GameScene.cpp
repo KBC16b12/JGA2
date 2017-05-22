@@ -36,6 +36,7 @@ GameScene::~GameScene()
 	{
 		g_gameCamera[i]->FinishViewPort();
 	}
+	Sky().SetDisable();
 }
 
 bool GameScene::Start()
@@ -44,8 +45,6 @@ bool GameScene::Start()
 	m_bgm->Init(m_bgm_path);
 	m_bgm->Play(true);
 
-	//ライトを初期化。5
-	m_light.SetAmbinetLight(CVector3::One);
 	int l_half_w = Engine().GetScreenWidth() / 2;
 	int l_half_h = Engine().GetScreenHeight() / 2;
 	g_gameCamera[0]->SetViewPort({ 0, 0, l_half_w, l_half_h }, m_map->GetPlayer(0));
@@ -53,7 +52,27 @@ bool GameScene::Start()
 	g_gameCamera[2]->SetViewPort({ 0, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(2));
 	g_gameCamera[3]->SetViewPort({ l_half_w, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(3));
 	GetViewSprit().Start();
-
+	//m_light.SetDiffuseLightDirection(0, CVector3(0.707f, 0.0f, -0.707f));
+	//m_light.SetDiffuseLightDirection(1, CVector3(-0.707f, 0.0f, -0.707f));
+	//m_light.SetDiffuseLightDirection(2, CVector3(0.0f, 0.707f, 0.707f));
+	//m_light.SetDiffuseLightDirection(3, CVector3(0.0f, -0.707f, 0.0f));
+	//m_light.SetDiffuseLightColor(0, CVector4(2.0f, 2.0f, 2.0f, 10.0f));
+	//m_light.SetDiffuseLightColor(1, CVector4(0.8f, 0.8f, 0.8f, 1.0f));
+	//m_light.SetDiffuseLightColor(2, CVector4(0.8f, 0.8f, 0.8f, 1.0f));
+	//m_light.SetDiffuseLightColor(3, CVector4(0.8f, 0.8f, 0.8f, 1.0f));
+	//m_light.SetLimLightColor(CVector4(2.0f, 2.0f, 2.0f, 1.0f));
+	//m_light.SetLimLightDirection(CVector3(0.0f, 0.0f, -1.0f));
+	//Sky().SetSceneLight(m_light);
+	//Sky().SetLuminance({ 10.5f, 10.5f, 10.5f });
+	//Sky().SetNightAmbientLight({ 0.05f, 0.05f, 0.05f });
+	//Sky().SetDayAmbientLight({ 0.7f, 0.7f, 0.7f });
+	//Sky().SetEnable(&g_gameCamera[0]->GetCamera(), &m_light);
+	//std::vector<CCamera*> l_cameraVector;
+	//for (int i = 0;i < PLAYER_NUM;i++)
+	//{
+	//	l_cameraVector.push_back(&g_gameCamera[i]->GetCamera());
+	//}
+	//Sky().ViewPortSetCamera(l_cameraVector);
 	return true;
 }
 
@@ -92,7 +111,7 @@ void GameScene::SceneChange()
 			SetActiveFlags(false);
 			return;
 		}
-		if (Pad(0).IsTrigger(enButtonA))
+		if (m_time->IsFinish())
 		{
 			//リザルトへ遷移
 			m_scenedata = enResult;

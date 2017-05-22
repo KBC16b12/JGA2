@@ -25,8 +25,14 @@ public:
 
 	void PostRender(CRenderContext& renderContext);
 
+	bool IsFinish()
+	{
+		return m_isFinish;
+	}
+
 private:
-	int m_time;				//タイマー
+	float m_time;				//タイマー
 	CSprite						m_sprite[3];
 	CTexture*					m_texture[10];
+	bool						m_isFinish;
 };

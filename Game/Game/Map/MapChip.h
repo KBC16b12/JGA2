@@ -53,6 +53,12 @@ public:
 	}
 
 protected:
+	/*
+	*@brief 読み込みなどモデルの初期化関数
+	*/
+	virtual void ModelInit(const char * modelName);
+
+protected:
 	CSkinModel					m_SkinModel;		//スキンモデル
 	CSkinModelDataHandle		m_SkinModelData;	//スキンモデルのハンドル
 	CVector3					m_position;			//座標

@@ -63,6 +63,9 @@
     <Filter Include="Source Files\Bullet">
       <UniqueIdentifier>{85351ead-5cde-4f37-9da2-2cbfeb3a640e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\PincerAttack">
+      <UniqueIdentifier>{ab7e5000-8159-4e45-bb9d-8793dd57e072}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -146,6 +149,18 @@
     <ClCompile Include="HUD\ItemSprite.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
+    <ClCompile Include="Item\ItemMaker.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Item\ItemBox.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="PincerAttack\PincerAttack.cpp">
+      <Filter>Source Files\PincerAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="PincerAttack\PincerAttackEffect.cpp">
+      <Filter>Source Files\PincerAttack</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -228,6 +243,18 @@
     </ClInclude>
     <ClInclude Include="HUD\ItemSprite.h">
       <Filter>Source Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Item\ItemMaker.h">
+      <Filter>Source Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Item\ItemBox.h">
+      <Filter>Source Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="PincerAttack\PincerAttack.h">
+      <Filter>Source Files\PincerAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="PincerAttack\PincerAttackEffect.h">
+      <Filter>Source Files\PincerAttack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

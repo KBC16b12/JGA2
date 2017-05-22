@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "BoundBullet.h"
-#include "../Scene/GameScene/GameScene.h"
-#include "../Player/Player.h"
+#include "Scene/GameScene/GameScene.h"
+#include "Player/Player.h"
 
 
 BoundBullet::BoundBullet()
@@ -51,7 +51,7 @@ void BoundBullet::DethCheck()
 			if (l_distance.Length() < 3.0f)
 			{
 				DeleteGO(this);
-				l_player->Damage(m_playerNum);
+				l_player->Damage(m_playerNum, BULLET_DAMAGE);
 				break;
 			}
 		}

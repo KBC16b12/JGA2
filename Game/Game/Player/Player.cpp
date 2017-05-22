@@ -45,6 +45,7 @@ bool Player::Start()
 	float l_lightColor1 = 0.15f;
 	float l_lightColor2 = 0.4f;
 	float l_lightColor3 = 0.2f;
+
 	float l_lightColor4 = 0.3f;
 	m_light.SetDiffuseLightColor(0, { l_lightColor1, l_lightColor1, l_lightColor1, 1.0f });
 	m_light.SetDiffuseLightColor(1, { l_lightColor2, l_lightColor2, l_lightColor2, 1.0f });
@@ -62,11 +63,10 @@ bool Player::Start()
 	m_skinModelThird.SetShadowCasterFlag(true);
 	m_skinModelFirst.SetShadowReceiverFlag(true);
 	m_skinModelThird.SetShadowReceiverFlag(true);
-
-	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(0.0f));
 	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(0.5f, 1.0f, m_position);
+	m_characterController.SetGravity(-30.0f);
 	
 
 	m_HPbar->SetPlayerNum(m_playernum);
@@ -76,28 +76,10 @@ bool Player::Start()
 
 void Player::Update()
 {
-	if (Pad(m_playernum).IsTrigger(enButtonRB1))
-	{
-		m_weapon.BulletFilling();
-
-		Network::GetInstance().Send(inet_addr("127.0.0.1"), "1");
-	}
-
-	if (Network::GetInstance().IsRecvOK(INADDR_ANY))
-	{
-		int data = -1;
-		sscanf(Network::GetInstance().Recv(INADDR_ANY), "%d", &data);
-
-		if (0 <= data)
-		{
-			Damage(2);
-		}
-	}
-
 	m_weapon.Update();
 	UpdateHPBar();
 	m_killCountSprite->SetData(m_killCount);
-
+		
 	Move();
 
 	//ワールド行列の更新
@@ -155,7 +137,9 @@ void Player::UpdateHPBar()
 
 void Player::Move()
 {
-	float move;
+
+	float	l_angle = 0.0f;
+	float	move;
 	move = -5.0f; //移動速度
 	CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
 	CVector3 l_moveX;
@@ -183,13 +167,13 @@ void Player::Move()
 	l_moveSpeed.Add(l_moveZ);
 
 	/*アングル*/
-	m_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
+	l_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
 
 	/*ジャンプ*/
 	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
 	{
 		m_characterController.Jump();
-		l_moveSpeed.y += 15.0f;
+		l_moveSpeed.y += 20.0f;
 	}
 
 	//決定した移動速度をキャラクタコントローラーに設定。
@@ -199,13 +183,15 @@ void Player::Move()
 	//実行結果を受け取る。
 	m_position = m_characterController.GetPosition();
 	m_position.y += 2.0f;
-	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(m_angle));
+	CQuaternion multi;
+	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(l_angle));
+	m_rotation.Multiply(multi);
 }
 
-void Player::Damage(int playerNum)
+void Player::Damage(int playerNum, int damage)
 {
 	//HPを減算
-	m_hp--;
+	m_hp -= damage;
 	if (m_hp <= 0)
 	{
 		//もしHPが０になり死んだ場合殺した相手のカウントアップをしリスポーンする。
