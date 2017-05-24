@@ -11,6 +11,7 @@ struct SocketData
 
 class Network
 {
+private:
 	/*!
 	*@brief	コンストラクタ。
 	*/
@@ -21,9 +22,7 @@ class Network
 	*/
 	~Network();
 public:
-	/*!
-	*@brief	インスタンス取得
-	*/
+
 	static Network& GetInstance()
 	{
 		static Network inst;
@@ -31,35 +30,29 @@ public:
 	}
 
 	/*!
-	*@brief 戻り値がtrueなら受信OK
+	*@brief 受信関数
 	*/
-	bool IsRecvOK(unsigned long addr);
+	char* Recv(ULONG addr, int port);
 
 	/*!
 	*@brief 送信関数
 	*/
-	void Send(unsigned long addr, char* str);
-
-	/*!
-	*@brief 受信関数
-	*/
-	char* Recv(unsigned long addr);
+	void Send(ULONG addr, int port, char buf[BUFFER_SIZE]);
 
 private:
+	/*!
+	*@brief 受信リスト探索関数
+	*/
+	SocketData* SearchRecv(ULONG addr, int port);
 
 	/*!
-	*@brief 送信関数の初期化関数
+	*@brief	送信リスト探索関数
 	*/
-	SocketData& Search_Send(unsigned long addr);
+	SocketData* SearchSend(ULONG addr, int port);
 
-	/*!
-	*@brief 受信関数の初期化関数
-	*/
-	SocketData& Search_Recv(unsigned long addr);
+private:
+	WSAData									m_wsa;
 
-	WSAData						m_wsa;
-
-	std::vector<SocketData>		m_send;
-	std::vector<SocketData>		m_recv;
+	std::vector<SocketData>					m_recv;
+	std::vector<SocketData>					m_send;
 };
-

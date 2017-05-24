@@ -124,7 +124,17 @@ private:
 	*@brief	HPバー更新関数。
 	*/
 	void UpdateHPBar();
-	
+
+	/*!
+	*@brief	キー入力情報出力。
+	*/
+	void KeyOutput();
+
+	/*!
+	*@brief	生データ出力。
+	*/
+	void DataOutput();
+
 	CSkinModel				m_skinModelFirst;					//自分から見た時のモデル
 	CSkinModelDataHandle	m_skinModelDataFirst;				//スキンモデルデータ
 	CSkinModel				m_skinModelThird;					//他人から見た時のモデル

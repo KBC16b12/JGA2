@@ -1,109 +1,93 @@
 #include "stdafx.h"
 #include "Network.h"
 
+
 Network::Network()
 {
 	//DLL読み込み
-	WSAStartup(MAKEWORD(2, 0), &m_wsa);
+	WSAStartup(MAKEWORD(2, 2), &m_wsa);
 }
 
 Network::~Network()
 {
-	//ソケット開放
-	for each(SocketData data in m_send)
-	{
-		closesocket(data.s_sock);
-	}
-	for each(SocketData data in m_recv)
-	{
-		closesocket(data.s_sock);
-	}
+	closesocket(m_recv.back().s_sock);
 
 	WSACleanup();
 }
 
-SocketData& Network::Search_Send(unsigned long addr)
+SocketData* Network::SearchRecv(ULONG addr, int port)
 {
-	for each(SocketData data in m_send)
+	for (int i = 0; i < (int)m_recv.size(); i++)
 	{
-		if (data.s_address.sin_addr.S_un.S_addr == addr)
+		if (m_recv.back().s_address.sin_port == htons(port) &&
+			m_recv.back().s_address.sin_addr.S_un.S_addr == addr)
 		{
-			return data;
-		}
-	}
-
-
-	SocketData sock;
-
-	sock.s_sock = socket(AF_INET, SOCK_DGRAM, 0);
-	sock.s_address.sin_family = AF_INET;
-	sock.s_address.sin_port = htons(12345);
-	sock.s_address.sin_addr.S_un.S_addr = addr;
-
-	m_send.push_back(sock);
-
-	setsockopt(m_send.back().s_sock, SOL_SOCKET, SO_BROADCAST, m_send.back().s_buf, sizeof(m_send.back().s_buf));
-	return m_send.back();
-}
-
-void Network::Send(unsigned long addr, char* str)
-{
-	SocketData sock = Search_Send(addr);
-
-	//送信データ設定
-	sprintf(sock.s_buf, "%s\n", str);
-	sendto(sock.s_sock, sock.s_buf, sizeof(sock.s_buf), 0, (struct sockaddr*)&sock.s_address, sizeof(sock.s_address));
-}
-
-SocketData& Network::Search_Recv(unsigned long addr)
-{
-	for each(SocketData data in m_recv)
-	{
-		if (data.s_address.sin_addr.S_un.S_addr == addr)
-		{
-			return data;
+			return &m_recv[i];
 		}
 	}
 
 	SocketData sock;
-
-	sock.s_sock = socket(AF_INET, SOCK_DGRAM, 0);
-	sock.s_address.sin_family = AF_INET;
-	sock.s_address.sin_port = htons(12345);
-	sock.s_address.sin_addr.S_un.S_addr = addr;
 
 	m_recv.push_back(sock);
 
+	m_recv.back().s_sock = socket(AF_INET, SOCK_DGRAM, 0);
+
+	m_recv.back().s_address.sin_family = AF_INET;
+	m_recv.back().s_address.sin_port = htons(port);
+	m_recv.back().s_address.sin_addr.S_un.S_addr = addr;
+
 	bind(m_recv.back().s_sock, (struct sockaddr *)&m_recv.back().s_address, sizeof(m_recv.back().s_address));
 
-	memset(m_recv.back().s_buf, NULL, sizeof(m_recv.back().s_buf));
+	u_long val = 1;
+	ioctlsocket(m_recv.back().s_sock, FIONBIO, &val);
 
-	return m_recv.back();
+	return &m_recv.back();
 }
 
-bool Network::IsRecvOK(unsigned long addr)
+char* Network::Recv(ULONG addr, int port)
 {
-	SocketData sock = Search_Recv(addr);
+	SocketData* net = SearchRecv(addr, port);
 
-	fd_set fdset;
-	struct timeval timeout;
-	FD_ZERO(&fdset);
-	FD_SET(sock.s_sock, &fdset);
+	memset(net->s_buf, NULL, sizeof(net->s_buf));
 
-	/* timeoutは０秒。つまりselectはすぐ戻ってくる */
-	timeout.tv_sec = 0;
-	timeout.tv_usec = 0;
+	if (recv(net->s_sock, net->s_buf, sizeof(net->s_buf), 0) < 1)
+	{
+		return "";
+	}
 
-	/* readできるかチェック */
-	select(0, &fdset, NULL, NULL, &timeout);
-	return FD_ISSET(sock.s_sock, &fdset);
+	return net->s_buf;
 }
 
-char* Network::Recv(unsigned long addr)
+SocketData * Network::SearchSend(ULONG addr, int port)
 {
-	SocketData sock = Search_Recv(addr);
+	for (int i = 0; i < (int)m_send.size(); i++)
+	{
+		if (m_send.back().s_address.sin_port == htons(port) &&
+			m_send.back().s_address.sin_addr.S_un.S_addr == addr)
+		{
+			return &m_send[i];
+		}
+	}
 
-	//sockからデータを受信
-	recv(sock.s_sock, sock.s_buf, sizeof(sock.s_buf), 0);
-	return sock.s_buf;
+	SocketData sock;
+
+	m_send.push_back(sock);
+
+	m_send.back().s_sock = socket(AF_INET, SOCK_DGRAM, 0);
+
+	m_send.back().s_address.sin_family = AF_INET;
+	m_send.back().s_address.sin_port = htons(port);
+	m_send.back().s_address.sin_addr.S_un.S_addr = addr;
+
+	return &m_send.back();
+}
+
+
+void Network::Send(ULONG addr, int port, char buf[BUFFER_SIZE])
+{
+	SocketData* net = SearchSend(addr, port);
+
+	strcpy(net->s_buf, buf);
+	strcat(net->s_buf, "\n");
+	sendto(net->s_sock, net->s_buf, sizeof(net->s_buf), 0, (struct sockaddr *)&net->s_address, sizeof(net->s_address));
 }

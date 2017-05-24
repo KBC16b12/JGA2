@@ -4,6 +4,7 @@
 #include "../Camera/GameCamera.h"
 #include "../HUD/KillCountSprite.h"
 #include "../Scene/GameScene/GameScene.h"
+#include "../Network/Network.h"
 
 Player *player;
 Player::Player()
@@ -133,11 +134,11 @@ void Player::UpdateHPBar()
 		m_HPbar->SetBarPath("Assets/sprite/Red.png");
 	}
 	m_HPbar->SetData(m_hp, m_maxhp);
+	
 }
 
 void Player::Move()
 {
-
 	float	l_angle = 0.0f;
 	float	move;
 	move = -5.0f; //ˆÚ“®‘¬“x
@@ -209,3 +210,10 @@ void Player::Respawn()
 	m_rotation = m_respawnRotation;
 }
 
+void Player::KeyOutput()
+{
+}
+
+void Player::DataOutput()
+{
+}

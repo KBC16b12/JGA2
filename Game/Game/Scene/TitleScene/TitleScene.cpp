@@ -54,8 +54,8 @@ void TitleScene::SceneChange()
 			m_runstat = enRun;
 		}
 		break;
-	case enRun:
-		if (Pad(0).IsTrigger(enButtonA))
+	case enRun:/*
+		if (Pad(0).IsTrigger(enButtonB))
 		{
 			m_scenedata = enSolo;
 
@@ -63,7 +63,7 @@ void TitleScene::SceneChange()
 
 			g_Fade->StartFadeOut();
 			return;
-		}
+		}*/
 		if (Pad(0).IsTrigger(enButtonB))
 		{
 			m_scenedata = enChar;
