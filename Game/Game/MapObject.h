@@ -9,6 +9,12 @@ public:
 
 	~MapObject();
 
+	bool Start();
+
+	void Update();
+
+	void Render(CRenderContext& renderContext, int cameraNum);
+
 
 	/*!
 	*@brief ‰Šú‰»ŠÖ”

@@ -36,12 +36,7 @@ void GrenadeBullet::Move()
 
 void GrenadeBullet::DethCheck()
 {
-<<<<<<< HEAD
-	//‰½‚©•¨‚É“–‚½‚Á‚½‚çÁ‹Ž‚·‚é
-	//if (m_characterController.IsCollision())
-=======
 	bool l_isDelete = false;
->>>>>>> 8e4c5f92629943f61d2cd8de41d06e3215065f33
 	{
 		//’e‚ð‘Å‚Á‚½ƒvƒŒƒCƒ„[‚Æ‚Ì‹——£‚ðŒvŽZ
 		Player* l_player = g_gameScene->GetPlayer(m_playerNum);

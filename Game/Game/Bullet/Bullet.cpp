@@ -30,8 +30,6 @@ void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum)
 	m_characterController.Init(0.3f, 0.3f, m_position);
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 	m_characterController.SetGravity(0.0f);
-	m_weapon = weapon;
-	m_arraynum = arrayNum;
 }
 
 bool Bullet::Start()
