@@ -38,7 +38,7 @@ bool MapObject::Start()
 
 void MapObject::Update()
 {
-	m_SkinModel.Update(m_position, m_rotation, m_scale);
+	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
 }
 
 void MapObject::Render(CRenderContext& renderContext, int cameranum)

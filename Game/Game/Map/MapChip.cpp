@@ -7,7 +7,6 @@ MapChip::MapChip()
 	//èâä˙âª
 	m_position = CVector3::Zero;
 	m_rotation = CQuaternion::Identity;
-	m_scale = CVector3::Zero;
 }
 
 MapChip::~MapChip()
@@ -27,8 +26,8 @@ void MapChip::Init(SMapInfo map_dat)
 	//äÓñ{èÓïÒê›íË
 	m_position = map_dat.s_position;
 	m_rotation = map_dat.s_rotation;
-	m_scale = map_dat.s_scale;
-	m_SkinModel.Update(m_position, m_rotation, m_scale);
+	m_rotation.SetRotation(CVector3::AxisY, CMath::DegToRad(0));
+	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
 }
 
 bool MapChip::Start()

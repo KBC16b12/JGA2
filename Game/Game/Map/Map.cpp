@@ -3,6 +3,7 @@
 #include "../MapObject.h"
 #include "../Camera/GameCamera.h"
 #include "../Item/Item.h"
+#include "../Trap.h"
 
 Map::Map()
 {
@@ -28,12 +29,28 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 		{
 			l_mapChip = NewGO<Item>(PRIORITY1);
 		}
+		else if (!strcmp("torabasami", l_map_dat.s_modelName))
+		{
+			l_mapChip = NewGO<TrapA>(PRIORITY1);
+		}
 		else
 		{
 			l_mapChip = NewGO<MapObject>(PRIORITY1);
 		}
 		m_mapchip.push_back(l_mapChip);
 		m_mapchip.back()->Init(l_map_dat);
+
+		/*MapChip *l_mapChip2;
+		if (!strcmp("torabasami", l_map_dat.s_modelName))
+		{
+			l_mapChip2 = NewGO<TrapA>(PRIORITY1);
+		}
+		else
+		{
+			l_mapChip2 = NewGO<MapObject>(PRIORITY1);
+		}
+		m_mapchip.push_back(l_mapChip2);
+		m_mapchip.back()->Init(l_map_dat);*/
 	}
 }
 

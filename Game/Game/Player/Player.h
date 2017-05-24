@@ -49,6 +49,8 @@ public:
 	*/
 	void Damage(int playerNum);
 
+	void Trap();
+
 	/*
 	*@brief リスポーン処理
 	*/
@@ -102,11 +104,12 @@ public:
 		m_killCount++;
 	}
 
-	CVector3 Getpos()
-	{
-		return m_position;
-	}
+	void Startup();
 
+	bool IsStup()
+	{
+		return Stup;
+	}
 private:
 	/*!
 	*@brief	HPバー更新関数。
@@ -124,13 +127,16 @@ private:
 
 	int						m_currentAnimationNo;
 	float					m_angle = 180;
-
+	float					move = -5.0f;	//移動速度
+	bool					Stup = false;
 	KillCountSprite*		m_killCountSprite;					//キル数のスプライト
 	Bar*					m_HPbar;		//HPバー
 	int						m_hp;			//HP
 	int						m_maxhp;		//最大HP
 	int						m_playernum;
 	int						m_killCount;
+	int						m_time = 75;
+	int						Ctime = 100;
 	Weapon					m_weapon;
 };
 

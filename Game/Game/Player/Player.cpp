@@ -4,11 +4,10 @@
 #include "../Camera/GameCamera.h"
 #include "../HUD/KillCountSprite.h"
 #include "../Scene/GameScene/GameScene.h"
-
+#include "../Trap.h"
 
 Player* g_player;
-
-//Player *player;
+TrapA g_trap;
 
 Player::Player()
 {
@@ -107,14 +106,14 @@ void Player::UpdateHPBar()
 
 void Player::Move()
 {
-	float move;
-	move = -5.0f; //移動速度
 	CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
 	CVector3 l_moveX;
 	CVector3 l_moveZ;
 	l_moveSpeed.x = 0.0f;
 	l_moveSpeed.z = 0.0f;
 	CMatrix l_pmatrix = m_skinModel.GetWorldMatrix();
+
+	Trap();
 
 	l_moveX.x = l_pmatrix.m[0][0];
 	l_moveX.y = l_pmatrix.m[0][1];
@@ -136,13 +135,13 @@ void Player::Move()
 
 	/*アングル*/
 	m_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
-
+	m_angle -= Pad(m_playernum).GetRStickYF() * 5.0f;
 
 	/*ジャンプ*/
 	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
 	{
 		m_characterController.Jump();
-		l_moveSpeed.y += 15.0f;
+		l_moveSpeed.y = move * -2.0f;
 	}
 
 	//決定した移動速度をキャラクタコントローラーに設定。
@@ -165,6 +164,36 @@ void Player::Damage(int playerNum)
 		g_gameScene->GetPlayer(playerNum)->KillCountUp();
 		Respawn();
 	}
+}
+
+void Player::Trap()
+{
+	if (Stup == true)
+	{
+		m_time--;
+		if (m_time > 0)
+		{
+			move = 0.0f;
+		}
+
+		if (m_time < 0)
+		{
+			Ctime--;
+			if (Ctime > 0)
+			{
+				move = -5.0f;
+				Stup = false;
+			}
+		}
+	}
+}
+
+void Player::Startup()
+{
+	Stup = true;
+	m_time = 75;
+	Ctime = 100;
+	move = -5.0f;
 }
 
 void Player::Respawn()
