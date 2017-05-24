@@ -5,17 +5,14 @@
 #include "../HUD/KillCountSprite.h"
 #include "../Scene/GameScene/GameScene.h"
 #include "../Trap.h"
-
-Player* g_player;
-TrapA g_trap;
+#include "../Network/Network.h"
 
 Player::Player()
 {
-	m_respawnPosition = m_position;
+	m_respawnPosition = CVector3::Zero;
 	//HP設定
 	m_maxhp = m_hp = 15;
 	m_killCount = 0;
-
 	m_HPbar = NewGO<Bar>(PRIORITY1);
 	m_HPbar->SetBarPos({ -592.95f, 320.0f });
 	m_HPbar->SetBarMaxSize({ 230.5f, 14.2f });
@@ -37,47 +34,80 @@ Player::~Player()
 
 bool Player::Start()
 {
-	m_skinModelData.LoadModelData("Assets/modelData/snowman.X", NULL);
-	m_skinModel.Init(&m_skinModelData);
-	g_defaultLight.SetAmbinetLight(CVector3::One);
-	m_skinModel.SetLight(&g_defaultLight);	//デフォルトライトを設定。
-	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(0.0f));
+	//m_light.SetDiffuseLightDirection(0, { 0.707f, 0.0f, -0.707f });
+	//m_light.SetDiffuseLightDirection(1, { -0.707f, 0.0f, -0.707f });
+	//m_light.SetDiffuseLightDirection(2, { 0.0f, 0.707f, -0.707f });
+	//m_light.SetDiffuseLightDirection(3, { 0.0f, -0.707f, -0.707f });
+	m_light.SetDiffuseLightDirection(0, { 0.0f, 1.0f, 0.0f });
+	m_light.SetDiffuseLightDirection(1, { 0.0f, -1.0f, 0.0f });
+	m_light.SetDiffuseLightDirection(2, { 0.0f, 0.707f, -0.707f });
+	m_light.SetDiffuseLightDirection(3, { 0.0f, -0.707f, -0.707f });
+
+	float l_lightColor1 = 0.15f;
+	float l_lightColor2 = 0.4f;
+	float l_lightColor3 = 0.2f;
+
+	float l_lightColor4 = 0.3f;
+	m_light.SetDiffuseLightColor(0, { l_lightColor1, l_lightColor1, l_lightColor1, 1.0f });
+	m_light.SetDiffuseLightColor(1, { l_lightColor2, l_lightColor2, l_lightColor2, 1.0f });
+	m_light.SetDiffuseLightColor(2, { l_lightColor3, l_lightColor3, l_lightColor3, 1.0f });
+	m_light.SetDiffuseLightColor(3, { l_lightColor4, l_lightColor4, l_lightColor4, 1.0f });
+	m_light.SetAmbinetLight({ 0.3f, 0.3f, 0.3f });
+
+	SkinModelDataResources().Load(m_skinModelDataFirst, "Assets/modelData/snowman_first.X", NULL, false, 1);
+	m_skinModelFirst.Init(m_skinModelDataFirst.GetBody());
+	m_skinModelFirst.SetLight(&m_light);	//デフォルトライトを設定。
+	SkinModelDataResources().Load(m_skinModelDataThird, "Assets/modelData/snowman1-3.X", NULL, false, 1);
+	m_skinModelThird.Init(m_skinModelDataThird.GetBody());
+	m_skinModelThird.SetLight(&m_light);	//デフォルトライトを設定。
+	m_skinModelFirst.SetShadowCasterFlag(true);
+	m_skinModelThird.SetShadowCasterFlag(true);
+	m_skinModelFirst.SetShadowReceiverFlag(true);
+	m_skinModelThird.SetShadowReceiverFlag(true);
 	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(0.5f, 1.0f, m_position);
+	m_characterController.SetGravity(-30.0f);
+	
 
+	m_HPbar->SetPlayerNum(m_playernum);
+	m_killCountSprite->SetPlayerNum(m_playernum);
 	return true;
 }
 
 void Player::Update()
 {
-	if (Pad(m_playernum).IsTrigger(enButtonRB1))
-	{
-		m_weapon.BulletFilling();
-	}
 	m_weapon.Update();
 	UpdateHPBar();
 	m_killCountSprite->SetData(m_killCount);
-
+		
 	Move();
 
 	//ワールド行列の更新
-	m_skinModel.Update(m_position, m_rotation, { 5.0f,5.0f,5.0f });
+	m_skinModelFirst.Update(m_position, m_rotation, CVector3::One);
+	m_skinModelThird.Update(m_position, m_rotation, { 5.0f,5.0f,5.0f });
 	//アニメーションの更新
 	m_Animation.Update(1.0f / 50.0f);
 }
 
 void Player::Render(CRenderContext& renderContext, int playernum)
 {
-	m_skinModel.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
-	m_weapon.Render(renderContext, playernum);
+	//自分のカメラからは一人称視点のモデルを、他のカメラからは3人称視点のモデルを描画する。
+	if (m_playernum == playernum)
+	{
+		m_skinModelFirst.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
+	}
+	else
+	{
+		m_skinModelThird.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
+	}
 }
 
-void Player::PostRender(CRenderContext& renderContext, int playernum)
+void Player::Render(CRenderContext& renderContext)
 {
-	m_HPbar->PostRender(renderContext, playernum);
-	m_killCountSprite->PostRender(renderContext, playernum);
+	m_skinModelFirst.Draw(renderContext, g_gameCamera[0]->GetViewMatrix(), g_gameCamera[0]->GetProjectionMatrix());
 }
+
 
 void Player::UpdateHPBar()
 {
@@ -86,13 +116,15 @@ void Player::UpdateHPBar()
 		return;
 	}
 
+	float hp_per = (float)m_hp / (float)m_maxhp * 100.0f;
+
 	//HP50%以上
-	if (50.0f < (float)m_hp / (float)m_maxhp * 100.0f)
+	if (50.0f < hp_per)
 	{
 		m_HPbar->SetBarPath("Assets/sprite/Green.png");
 	}
-	//HP10%以上50%以下
-	else if (10.0f < (float)m_hp / (float)m_maxhp * 100.0f)
+	//HP10%以上50%未満
+	else if (10.0f < hp_per)
 	{
 		m_HPbar->SetBarPath("Assets/sprite/Blue.png");
 	}
@@ -102,16 +134,20 @@ void Player::UpdateHPBar()
 		m_HPbar->SetBarPath("Assets/sprite/Red.png");
 	}
 	m_HPbar->SetData(m_hp, m_maxhp);
+	
 }
 
 void Player::Move()
 {
+	float	l_angle = 0.0f;
+	float	move;
+	move = -5.0f; //移動速度
 	CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
 	CVector3 l_moveX;
 	CVector3 l_moveZ;
 	l_moveSpeed.x = 0.0f;
 	l_moveSpeed.z = 0.0f;
-	CMatrix l_pmatrix = m_skinModel.GetWorldMatrix();
+	CMatrix l_pmatrix = m_skinModelFirst.GetWorldMatrix();
 
 	Trap();
 
@@ -134,8 +170,7 @@ void Player::Move()
 	l_moveSpeed.Add(l_moveZ);
 
 	/*アングル*/
-	m_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
-	m_angle -= Pad(m_playernum).GetRStickYF() * 5.0f;
+	l_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
 
 	/*ジャンプ*/
 	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
@@ -150,14 +185,16 @@ void Player::Move()
 	m_characterController.Execute(GameTime().GetFrameDeltaTime());
 	//実行結果を受け取る。
 	m_position = m_characterController.GetPosition();
-
-	m_rotation.SetRotation(CVector3(0.0f, 1.0f, 0.0f), CMath::DegToRad(m_angle));
+	m_position.y += 2.0f;
+	CQuaternion multi;
+	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(l_angle));
+	m_rotation.Multiply(multi);
 }
 
-void Player::Damage(int playerNum)
+void Player::Damage(int playerNum, int damage)
 {
 	//HPを減算
-	m_hp--;
+	m_hp -= damage;
 	if (m_hp <= 0)
 	{
 		//もしHPが０になり死んだ場合殺した相手のカウントアップをしリスポーンする。
@@ -203,4 +240,12 @@ void Player::Respawn()
 	m_position = m_respawnPosition;
 	m_characterController.SetPosition(m_position);
 	m_rotation = m_respawnRotation;
+}
+
+void Player::KeyOutput()
+{
+}
+
+void Player::DataOutput()
+{
 }

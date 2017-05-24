@@ -1,8 +1,10 @@
 #pragma once
 
 class Player;
-class Map;
 class TimeSprite;
+#include "../../Map/Map.h"
+
+#define PARTICLE_NUM 20
 
 /*!
  *@brief	ゲームシーン。
@@ -40,16 +42,9 @@ public:
 	 */
 	void Update() override;
 
-	/*!
-	*@brief	描画関数。
-	*/
-	void Render(CRenderContext& renderContext, int playernum)override;
-
-	void PostRender(CRenderContext& renderContext, int playernum)override;
-
 	Player* const GetPlayer(int playernum)
 	{
-		return m_player[playernum];
+		return m_map->GetPlayer(playernum);
 	}
 
 	void SetActiveFlags(bool flag);
@@ -63,7 +58,7 @@ private:
 	*/
 	void SceneChange();
 
-
+	bool						m_isLoad;
 	char*						m_bgm_path;						//BGMのファイルパス
 	CSoundSource*				m_bgm;							//BGMソース。
 	Player*						m_player[PLAYER_NUM];			//プレイヤ

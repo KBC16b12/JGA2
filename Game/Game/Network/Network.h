@@ -1,9 +1,17 @@
 #pragma once
 
-#define BUFFER_SIZE 2048
+#define BUFFER_SIZE 100
+
+struct SocketData
+{
+	SOCKET					s_sock;
+	struct sockaddr_in		s_address;
+	char					s_buf[BUFFER_SIZE];
+};
+
 class Network
 {
-public:
+private:
 	/*!
 	*@brief	コンストラクタ。
 	*/
@@ -13,32 +21,38 @@ public:
 	*@brief	デストラクタ。
 	*/
 	~Network();
+public:
 
-	/*!
-	*@brief 初期化関数
-	*/
-	void Init(char* addr);
-
-	/*!
-	*@brief 送信関数
-	*/
-	void Send(char* str);
+	static Network& GetInstance()
+	{
+		static Network inst;
+		return inst;
+	}
 
 	/*!
 	*@brief 受信関数
 	*/
-	char* Recv();
+	char* Recv(ULONG addr, int port);
+
+	/*!
+	*@brief 送信関数
+	*/
+	void Send(ULONG addr, int port, char buf[BUFFER_SIZE]);
 
 private:
-	WSAData					m_wsa;
+	/*!
+	*@brief 受信リスト探索関数
+	*/
+	SocketData* SearchRecv(ULONG addr, int port);
 
-	SOCKET					m_send_sock;
-	struct sockaddr_in		m_send_addr;
-	char					m_send_buf[BUFFER_SIZE];
+	/*!
+	*@brief	送信リスト探索関数
+	*/
+	SocketData* SearchSend(ULONG addr, int port);
 
-	SOCKET					m_recv_sock;
-	struct sockaddr_in		m_recv_addr;
-	char					m_recv_buf[BUFFER_SIZE];
+private:
+	WSAData									m_wsa;
 
+	std::vector<SocketData>					m_recv;
+	std::vector<SocketData>					m_send;
 };
-

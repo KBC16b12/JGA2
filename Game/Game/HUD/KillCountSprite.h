@@ -26,14 +26,22 @@ public:
 		m_killcount = killCount;
 	}
 
+	void SetPlayerNum(int playerNum)
+	{
+		m_playerNum = playerNum;
+	}
+
 	/*
 	*@brief 描画関数
 	*@brief playernum どのプレイヤーの視点で描画したいか
 	*/
 	void PostRender(CRenderContext& renderContext, int playernum)override;
 
+	void PostRender(CRenderContext& renderContext)override;
+
 private:
 	CTexture*					m_texture[10];
 	CSprite						m_sprite[2];
 	int							m_killcount;		//キル数
+	int							m_playerNum;
 };

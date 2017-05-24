@@ -15,7 +15,7 @@ namespace tkEngine{
 	class CCharacterController{
 	public:
 		CCharacterController() {
-
+		
 		}
 		~CCharacterController()
 		{
@@ -28,7 +28,7 @@ namespace tkEngine{
 		/*!
 		 * @brief	実行。
 		 */
-		void Execute(float deltaTime);
+		CVector3 Execute(float deltaTime);
 		/*!
 		 * @brief	座標を取得。
 		 */
@@ -79,17 +79,6 @@ namespace tkEngine{
 		{
 			return m_isOnGround;
 		}
-		/*
-		* @brief	何か物に当たったか
-		*/
-		bool IsCollision() const
-		{
-			return m_isCollision;
-		}
-		void SetCollisionFlg(bool collision)
-		{
-			m_isCollision = collision;
-		}
 		/*!
 		* @brief	コライダーを取得。
 		*/
@@ -110,6 +99,11 @@ namespace tkEngine{
 		CRigidBody* GetRigidBody()
 		{
 			return &m_rigidBody;
+		}
+
+		bool IsCollision()
+		{
+			return m_isCollision;
 		}
 		/*!
 		* @brief	剛体を物理エンジンから削除。。

@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "MapObject.h"
 #include "Camera/GameCamera.h"
-
+#include "Map/MapChip.h"
 
 MapObject::MapObject()
 {
+	m_skyLight.SetAmbinetLight(CVector3::One);
 }
 
 
@@ -26,6 +27,7 @@ void MapObject::Init(SMapInfo map_dat)
 	rbInfo.mass = 0.0f;
 	rbInfo.pos = m_position;
 	rbInfo.rot = m_rotation;
+
 	m_rigidBody.Create(rbInfo);
 	//ì¬‚µ‚½„‘Ì‚ğ•¨—ƒ[ƒ‹ƒh‚É’Ç‰Á‚·‚éB
 	PhysicsWorld().AddRigidBody(&m_rigidBody);

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../Network/Network.h"
 #include "Weapon.h"
 class KillCountSprite;
 class Bar;
@@ -37,7 +38,7 @@ public:
 	*/
 	void Render(CRenderContext& renderContext, int cameranum)override;
 
-	void PostRender(CRenderContext& renderContext, int cameranum)override;
+	void Render(CRenderContext& renderContext)override;
 
 	void Move();
 
@@ -45,9 +46,10 @@ public:
 
 	/*
 	*@brief ダメージを受けた時に呼ばれる関数
-	*@brief int playerNum
+	*@brief int playerNum	当てたプレイヤーの番号
+	*@brief int damage		プレイヤーが受けるダメージ量
 	*/
-	void Damage(int playerNum);
+	void Damage(int playerNum, int damage);
 
 	void Trap();
 
@@ -68,7 +70,7 @@ public:
 	CVector3 GetFrontWorldMatrix()
 	{
 		CVector3 l_frontWorldMatrix;
-		CMatrix l_worldMatrix = m_skinModel.GetWorldMatrix();
+		CMatrix l_worldMatrix = m_skinModelFirst.GetWorldMatrix();
 		l_frontWorldMatrix.x = l_worldMatrix.m[2][0];
 		l_frontWorldMatrix.y = l_worldMatrix.m[2][1];
 		l_frontWorldMatrix.z = l_worldMatrix.m[2][2];
@@ -84,6 +86,19 @@ public:
 		m_weapon.SetWeapon();
 	}
 
+	void Init(CVector3 position, CQuaternion rotation)
+	{
+		m_rotation = rotation;
+		m_position = position;
+		m_respawnPosition = position;
+		m_respawnRotation = rotation;
+		CQuaternion multi;
+		multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
+		m_rotation.Multiply(multi);
+		multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
+		m_rotation.Multiply(multi);
+	}
+
 	/*
 	プレイヤーの番号をセットする関数
 	プレイヤーの番号とカメラの番号は同じ
@@ -91,10 +106,10 @@ public:
 	void SetPlayerNum(int playernum)
 	{
 		m_playernum = playernum;
-		m_weapon.Init(this, m_playernum);
+		m_weapon.Init(m_playernum);
 	}
 
-	int GetPlayerNUm()
+	int GetPlayerNum()
 	{
 		return m_playernum;
 	}
@@ -110,19 +125,36 @@ public:
 	{
 		return Stup;
 	}
+	CMatrix GetWorldMatrix()
+	{
+		return m_skinModelFirst.GetWorldMatrix();
+	}
+
 private:
 	/*!
 	*@brief	HPバー更新関数。
 	*/
 	void UpdateHPBar();
-	
-	CSkinModel				m_skinModel;					//スキンモデル
-	CSkinModelData			m_skinModelData;				//スキンモデルデータ
-	CQuaternion				m_rotation;						//回転
+
+	/*!
+	*@brief	キー入力情報出力。
+	*/
+	void KeyOutput();
+
+	/*!
+	*@brief	生データ出力。
+	*/
+	void DataOutput();
+
+	CSkinModel				m_skinModelFirst;					//自分から見た時のモデル
+	CSkinModelDataHandle	m_skinModelDataFirst;				//スキンモデルデータ
+	CSkinModel				m_skinModelThird;					//他人から見た時のモデル
+	CSkinModelDataHandle	m_skinModelDataThird;
+	CQuaternion				m_rotation;					//回転
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
-	CVector3				m_position = { 0.0f, 40.0f, 0.0f };
-	CVector3				m_respawnPosition;
+	CVector3				m_position = { 0.0f, 0.0f, 0.0f };
+	CVector3				m_respawnPosition;					
 	CQuaternion				m_respawnRotation;
 
 	int						m_currentAnimationNo;
@@ -138,5 +170,6 @@ private:
 	int						m_time = 75;
 	int						Ctime = 100;
 	Weapon					m_weapon;
+	CLight					m_light;
 };
 

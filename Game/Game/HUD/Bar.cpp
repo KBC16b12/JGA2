@@ -195,6 +195,17 @@ void Bar::Bar_Damage()
 
 void Bar::PostRender(CRenderContext& renderContext, int playernum)
 {
+	if (m_playerNum != playernum)
+	{
+		return;
+	}
+	m_Gauge.Draw(renderContext);
+	m_BarBack.Draw(renderContext);
+	m_Bar.Draw(renderContext);
+}
+
+void Bar::PostRender(CRenderContext& renderContext)
+{
 	m_Gauge.Draw(renderContext);
 	m_BarBack.Draw(renderContext);
 	m_Bar.Draw(renderContext);

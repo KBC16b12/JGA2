@@ -22,8 +22,17 @@ public:
 	*@brief playernum どのプレイヤーの視点で描画したいか
 	*/
 	void PostRender(CRenderContext& renderContext, int playernum);
+
+	void PostRender(CRenderContext& renderContext);
+
+	bool IsFinish()
+	{
+		return m_isFinish;
+	}
+
 private:
-	int m_time;				//タイマー
+	float m_time;				//タイマー
 	CSprite						m_sprite[3];
 	CTexture*					m_texture[10];
+	bool						m_isFinish;
 };

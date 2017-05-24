@@ -53,13 +53,13 @@ namespace tkEngine{
 				1.0f
 			};
 			renderContext[0].SetViewport(vp);
-			renderContext[0].SetRenderState(RS_CULLMODE, CULL_CCW);
-			renderContext[0].SetRenderState(RS_ALPHABLENDENABLE, TRUE);
-			renderContext[0].SetRenderState(RS_SRCBLEND, BLEND_ONE);
-			renderContext[0].SetRenderState(RS_DESTBLEND, BLEND_ZERO);
-			renderContext[0].SetRenderState(RS_ALPHATESTENABLE, FALSE);
-			renderContext[0].SetRenderState(RS_ZWRITEENABLE, TRUE);
-			renderContext[0].SetRenderState(RS_ZENABLE, TRUE);
+			renderContext[0].SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+			renderContext[0].SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+			renderContext[0].SetRenderState(D3DRS_SRCBLEND, BLEND_ONE);
+			renderContext[0].SetRenderState(D3DRS_DESTBLEND, BLEND_ZERO);
+			renderContext[0].SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+			renderContext[0].SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
+			renderContext[0].SetRenderState(D3DRS_ZENABLE, TRUE);
 		}
 		//プリレンダリング。
 		preRender.Render(renderContext[0]);
@@ -77,11 +77,12 @@ namespace tkEngine{
 			renderContext[0].SetRenderTarget(1, Dof().GetDepthRenderTarget());
 			//速度書き込み用のレンダリングターゲットを設定。
 			renderContext[0].SetRenderTarget(2, MotionBlur().GetVelocityMapRenderTarget());
-			for (GameObjectList objList : m_gameObjectListArray) {
-				for (IGameObject* obj : objList) {
-					obj->RenderWrapper(renderContext[0]);
-				}
-			}
+			//for (GameObjectList objList : m_gameObjectListArray) {
+			//	for (IGameObject* obj : objList) {
+			//		obj->RenderWrapper(renderContext[0]);
+			//	}
+			//}
+			m_viewSprit.Render(renderContext[0], m_gameObjectListArray);
 		}
 		else {
 			//マルチスレッド描画。
@@ -91,11 +92,12 @@ namespace tkEngine{
 		//深度書き込み用のレンダリングターゲットを外す。
 		renderContext[numRenderContext - 1].SetRenderTarget(1, NULL);
 		postEffect.Render(renderContext[numRenderContext-1]);
-		for (GameObjectList objList : m_gameObjectListArray) {
-			for (IGameObject* obj : objList) {
-				obj->PostRenderWrapper(renderContext[numRenderContext-1]);
-			}
-		}
+		//for (GameObjectList objList : m_gameObjectListArray) {
+		//	for (IGameObject* obj : objList) {
+		//		obj->PostRenderWrapper(renderContext[numRenderContext-1]);
+		//	}
+		//}
+		m_viewSprit.PostRender(renderContext[numRenderContext - 1], m_gameObjectListArray);
 	}
 	void CGameObjectManager::ExecuteDeleteGameObjects()
 	{

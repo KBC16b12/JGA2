@@ -39,6 +39,7 @@ namespace tkEngine{
 		}
 		return tex;
 	}
+
 	CTexture* CTextureResources::LoadEx(const char* filePath, unsigned int color)
 	{
 		int hash = CUtil::MakeHash(filePath);

@@ -26,8 +26,8 @@ void InitTkEngine( HINSTANCE hInst )
 	initParam.frameBufferHeight = 720;
 	initParam.frameBufferWidth = 1280;
 	//Bloom
-	initParam.graphicsConfig.bloomConfig.isEnable = false;
-	initParam.graphicsConfig.edgeRenderConfig.isEnable = false;
+	initParam.graphicsConfig.bloomConfig.isEnable = true;
+	initParam.graphicsConfig.edgeRenderConfig.isEnable = true;
 	initParam.graphicsConfig.edgeRenderConfig.idMapWidth = initParam.frameBufferWidth;
 	initParam.graphicsConfig.edgeRenderConfig.idMapHeight = initParam.frameBufferHeight;
 	//Shadow
@@ -46,6 +46,7 @@ void InitTkEngine( HINSTANCE hInst )
 	//AA
 	initParam.graphicsConfig.aaConfig.isEnable = false;
 	initParam.graphicsConfig.motionBlurConfig.isEnable = false;
+
 	//乱数初期化。
 	g_random.Init((unsigned long)time(NULL));
 
@@ -82,7 +83,7 @@ int WINAPI wWinMain(
 
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{
-		g_gameCamera[i] = NewGO<GameCamera>(PRIORITY0);
+		g_gameCamera[i] = NewGO<GameCamera>(PRIORITY1);
 	}
 	//タイトルシーンの作成。
 	NewGO<TitleScene>(PRIORITY1)->Init(enRun);

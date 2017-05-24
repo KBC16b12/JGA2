@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MapChip.h"
+class Player;
 
 class Map : public IGameObject
 {
@@ -35,16 +36,11 @@ public:
 	*@brief	更新関数。
 	*/
 	void Update() override;
-	
-	/*!
-	*@brief	遅延描画関数。
-	@details
-	* ポストエフェクトの後で実行されます。HUDなどポストエフェクトの影響を受けたくない描画物はここでレンダリングしてください。
-	*@param[in]		renderContext		レンダリングコンテキスト。
-	*/
-	void Render(CRenderContext& renderContext, int playernum) override;
 
-	void PostRender(CRenderContext& renderContext, int playernum) override;
+	Player* GetPlayer(int playerNum)
+	{
+		return m_player[playerNum];
+	}
 
 	const std::vector<MapChip*>& GetMap()
 	{
@@ -52,7 +48,8 @@ public:
 	}
 
 private:
-
+	bool						m_isLoad;
+	Player*						m_player[PLAYER_NUM];
 	std::vector<MapChip*>		m_mapchip;			//マップチップリスト
 };
 

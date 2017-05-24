@@ -1,19 +1,22 @@
 #pragma once
 
+class ItemSprite;
 class Bullet;
 class Player;
-#define BULLET_NUM 100
+class PincerAttack;
 #define STRIKE_NUM 30
 
+enum BULLETSTATE
+{
+	BULLETSTATE_NOMAL,
+	BULLETSTATE_GRENADE,
+	BULLETSTATE_BOUND,
+	BULLETSTATE_NUM,
+};
 class Weapon : public IGameObject
 {
 public:
-	enum BULLETSTATE
-	{
-		BULLETSTATE_NOMAL,
-		BULLETSTATE_GRENADE,
-		BULLETSTATE_NUM
-	};
+
 	Weapon();
 
 	~Weapon();
@@ -21,14 +24,14 @@ public:
 	/*
 	*@brief 初期化関数
 	*/
-	void Init(Player* player, int playerNum);
+	void Init(int playerNum);
 
-	bool Start();
+	bool Start()override;
 
 	/*
 	*@brief 更新処理
 	*/
-	void Update();
+	void Update()override;
 
 	/*
 	*@brief 弾を打ち出す関数
@@ -40,32 +43,14 @@ public:
 	*/
 	void SetWeapon();
 
-	void OnDestroy()override;
-
-	/*
-	*@brief bulletを消す関数
-	*@brief bullet側で呼び出す
-	*@brief arraynum 消したいbulletの要素数
-	*/
-	void Delete(int arraynum)
-	{
-		if (m_bullet[arraynum] != nullptr)
-		{
-			DeleteGO((IGameObject*)m_bullet[arraynum]);
-			m_bullet[arraynum] = nullptr;
-		}
-	}
-
-	/*
-	*@brief 描画関数
-	*@brief playernum どのプレイヤーの視点で描画したいか
-	*/
-	void Render(CRenderContext& renderContext, int playernum);
 
 private:
-	BULLETSTATE m_state;			//どのアイテムを使ってるかの状態を表す変数(NOMALはない状態)
-	Player* m_player;				//参照用のプレイヤーのインスタンス
-	Bullet* m_bullet[BULLET_NUM];	//弾を管理してる配列
-	int		m_bulletStrikeNum;		//アイテムを使った状態の弾を打てる回数
-	int		m_playerNum;			
+	BULLETSTATE m_state;				//どのアイテムを使ってるかの状態を表す変数(NOMALはない状態)
+	int			m_bulletStrikeNum;		//アイテムを使った状態の弾を打てる回数
+	int			m_playerNum;			
+	ItemSprite*	m_itemSprite;
+	float		m_strikeInterval;		//弾を打ってから次の弾を打つまでのインターバル
+	bool		m_isStrike;				//弾を打てるかどうか
+	PincerAttack* m_pincer;
+
 };

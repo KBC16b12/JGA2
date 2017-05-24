@@ -72,7 +72,7 @@ namespace tkEngine {
 		/*!
 		*@brief	ライトを設定。
 		*/
-		void SetLight(CLight* light)
+		void SetLight(const CLight* light)
 		{
 			m_light = light;
 		}
@@ -144,15 +144,13 @@ namespace tkEngine {
 			m_fogParam[1] = param1;
 		}
 		/*!
-		* @brief	大気錯乱シミュレーションの種類を設定。。
+		* @brief	大気錯乱シミュレーションの種類を設定。
 		*@param[in]	func		大気錯乱シミュレーションの種類。EAtomosphereFuncを参照。
-		*@param[in]	param		大気錯乱シミュレーションで使用するパラメータ。
 		*/
-		void SetAtomosphereParam( EAtomosphereFunc func, const SAtmosphericScatteringParam& param)
+		void SetAtomosphereParam( EAtomosphereFunc func)
 		{
 			TK_ASSERT(func < enAtomosphereFuncNum, "func is invalid");
 			m_atomosphereFunc = func;
-			m_atomosphereParam = &param;
 		}
 		/*!
 		* @brief	ワールド行列を取得。
@@ -168,7 +166,13 @@ namespace tkEngine {
 		{
 			return m_skinModelData->GetOrgMeshFirst();
 		}
-		
+		/*!
+		* @brief	メッシュリストを取得。
+		*/
+		const std::vector<LPD3DXMESH>& GetMeshList() const
+		{
+			return m_skinModelData->GetMeshList();
+		}
 		/*!
 		* @brief	骨のワールド行列を検索
 		*@details
@@ -180,6 +184,19 @@ namespace tkEngine {
 		{
 			return m_skinModelData->FindBoneWorldMatrix(boneName);
 		}
+		/*!
+		* @brief	ステルスフラグを設定。
+		*/
+		void SetStealth(bool flag)
+		{
+			m_isStealth = flag;
+		}
+		/*!
+		* @brief	シャドウマップにエントリー。
+		* @details
+		*  Update関数を呼び出すと自動的に呼ばれます。シャドウマップへのエントリーだけを行いたい場合に使用してください。
+		*/
+		void EntryShadowMap();
 	private:
 		/*!
 		* @brief	シェーダ定の数ハンドルを初期化。
@@ -194,7 +211,7 @@ namespace tkEngine {
 			D3DXMATRIX* rotationMatrix,
 			D3DXMATRIX* viewMatrix,
 			D3DXMATRIX* projMatrix,
-			CLight* light,
+			const CLight* light,
 			bool isInstancingDraw,
 			bool isDrawToShadowMap
 		);
@@ -211,6 +228,7 @@ namespace tkEngine {
 		);
 		//DrawMeshContainerから呼ばれるインスタンシング描画の共通処理。
 		void DrawMeshContainer_InstancingDrawCommon(IDirect3DDevice9* pd3dDevice, D3DXMESHCONTAINER_DERIVED* meshContainer, int materialID);		
+		void SetupMaterialCommonParameter(CSkinModelMaterial& material, D3DXMATRIX& viewMatrix, D3DXMATRIX& viewProj, bool isDrawToShadowMap);
 	public:
 		/*!
 		*@brief	シャドウマップに描画
@@ -260,7 +278,7 @@ namespace tkEngine {
 		CSkinModelData*					m_skinModelData;	//!<スキンモデルデータ。
 		CEffect*						m_pEffect;			//!<エフェクト。
 		CAnimation						m_animation;		//!<アニメーション。
-		CLight*							m_light;			//!<ライト。
+		const CLight*					m_light;			//!<ライト。
 		static const int MAX_MATRIX_PALLET = 128;	//!<マトリクスパレットの最大数。
 		D3DXMATRIX						m_boneMatrixPallet[MAX_MATRIX_PALLET];	//!<マトリクスパレット。
 		bool							m_isShadowReceiver;					//!<シャドウレシーバー。
@@ -274,8 +292,9 @@ namespace tkEngine {
 		bool							m_hasNormalMap;						//!<法線マップを保持している？
 		bool							m_hasSpecMap;						//!<スペきゅらマップを保持している？
 		bool							m_isWriteVelocityMap = true;		//!<速度マップに書き込む？
-		EAtomosphereFunc					m_atomosphereFunc = enAtomosphereFuncNone;	//!<大気錯乱シミュレーションの種類。
-		const SAtmosphericScatteringParam*	m_atomosphereParam = nullptr;			//!<大気錯乱シミュレーションで使用するパラメータ。
+		bool							m_isStealth = false;				//!<ステルス迷彩？
+		EAtomosphereFunc					m_atomosphereFunc = enAtomosphereFuncObjectFromAtomosphere;	//!<大気錯乱シミュレーションの種類。
+
 	};
 }
 

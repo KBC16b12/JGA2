@@ -6,6 +6,7 @@
 #define _CGAMEOBJECTMANAGER_H_
 
 #include "tkEngine/gameObject/tkGameObject.h"
+#include "tkEngine/ViewPortSprit/tkViewPortSprit.h"
 #include "tkEngine/util/tkUtil.h"
 
 namespace tkEngine{
@@ -86,7 +87,6 @@ namespace tkEngine{
 					//削除リストに入っていたらそこから除去する。
 					go->m_isDead = false;
 				}
-				
 			}
 		}
 		/*!
@@ -102,7 +102,6 @@ namespace tkEngine{
 			TK_ASSERT( prio <= m_gameObjectPriorityMax, "ゲームオブジェクトの優先度の最大数が大きすぎます。");
 			T* newObject = new T();
 			newObject->Awake();
-
 			newObject->SetMarkNewFromGameObjectManager();
 			unsigned int hash = MakeGameObjectNameKey(objectName);
 			m_gameObjectListArray.at(prio).push_back(newObject);
@@ -115,13 +114,36 @@ namespace tkEngine{
 		 */
 		void DeleteGameObject( IGameObject* gameObject )
 		{
-			if (gameObject->m_isRegist) {
+			if (gameObject != nullptr
+				&& gameObject->m_isRegist
+			) {
 				gameObject->SetDeadMark();
 				gameObject->OnDestroy();
 				gameObject->m_isRegist = false;
 				gameObject->m_isRegistDeadList = true;
 				m_deleteObjectArray[m_currentDeleteObjectBufferNo].at(gameObject->GetPriority()).push_back(gameObject);
 			}
+		}
+		/*!
+		*@brief	指定したタグのいずれかがが含まれるゲームオブジェクトを検索して、見つかった場合指定されたコールバック関数を呼び出す。
+		*/
+		
+		void FindGameObjectsWithTag(unsigned int tags, void (*func)(IGameObject* go) )
+		{
+			for (auto& goList : m_gameObjectListArray) {
+				for (auto& go : goList) {
+					unsigned int goTags = go->GetTags();
+					if ((goTags & tags) != 0) {
+						(*func)(go);
+					}
+				}
+			}
+			
+		}
+
+		CViewPortSprit& GetViewSprit()
+		{
+			return m_viewSprit;
 		}
 	private:
 		/*!
@@ -135,11 +157,19 @@ namespace tkEngine{
 		GameObjectPrio				m_gameObjectPriorityMax;	//!<ゲームオブジェクトの優先度の最大数。
 		int m_currentDeleteObjectBufferNo = 0;					//!<現在の削除オブジェクトのバッファ番号。
 		static const unsigned char 			GAME_OBJECT_PRIO_MAX = 255;		//!<ゲームオブジェクトの優先度の最大値。
+		CViewPortSprit				m_viewSprit;				//!<画面分割するインスタンス
 	};
 
 	static inline CGameObjectManager& GameObjectManager()
 	{
 		return CGameObjectManager::Instance();
+	}
+	/*
+	*@brief ViewPortSpritのゲッター
+	*/
+	static inline CViewPortSprit& GetViewSprit()
+	{
+		return GameObjectManager().GetViewSprit();
 	}
 	/*!
 	 *@brief	ゲームオブジェクト生成のヘルパー関数。
@@ -169,6 +199,13 @@ namespace tkEngine{
 	static inline void AddGO(int priority, IGameObject* go, const char* objectName = nullptr)
 	{
 		GameObjectManager().AddGameObject(priority, go, objectName);
+	}
+	/*!
+	*@brief	指定したタグのいずれかがが含まれるゲームオブジェクトを検索して、見つかった場合指定されたコールバック関数を呼び出す。
+	*/
+	static inline 	void FindGameObjectsWithTag(unsigned int tags, void (*func)(IGameObject* go))
+	{
+		GameObjectManager().FindGameObjectsWithTag(tags, func);
 	}
 }
 #endif // _CGAMEOBJECTMANAGER_H_

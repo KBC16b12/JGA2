@@ -5,11 +5,11 @@
 #ifndef _TKPARTICLEEMITTER_H_
 #define _TKPARTICLEEMITTER_H_
 
+#include "tkParticle.h"
 
 namespace tkEngine{
 	class CCamera;
 	class CRandom;
-	class CParticle;
 	/*!
 	* @brief	パーティクル生成パラメータ
 	*/
@@ -23,6 +23,7 @@ namespace tkEngine{
 			brightness = 1.0f;
 			isBillboard = true;
 			mulColor = CVector3::Zero;
+			lifeTime = 2.0f;
 		}
 		const char* texturePath;						//!<テクスチャのファイルパス。
 		CVector3	initVelocity;						//!<初速度。
@@ -43,6 +44,8 @@ namespace tkEngine{
 		float		brightness;							//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
 		int			alphaBlendMode;						//!<0半透明合成、1加算合成。
 		CVector3	mulColor;							//!<乗算カラー。
+		float		lifeTime;							//!<パーティクルエミッターの寿命
+		float		scale;								//!<拡大倍率。変わらないなら1.0f
 	};
 	/*!
 	 * @brief	パーティクルの発生機
@@ -68,12 +71,24 @@ namespace tkEngine{
 		void Init(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition);
 		bool Start() override ;
 		void Update() override;
-		void Render( CRenderContext& renderContext ) override;
+		
+		void DethCheck();
+
+		/*
+		*@brief 描画するカメラを追加
+		カメラの台数分だけ実行
+		*/
+		void AddCamera(CCamera& cam)
+		{
+			cameraArray.push_back(&cam);
+		}
+
 		/*!
 		*@brief	パーティクルに力を加える。
 		*@param[in]	applyForce		乱数生成に使用する乱数生成機。
 		*/
 		void ApplyForce(const CVector3& applyForce);
+
 	private:
 		float					timer;			//!<タイマー
 		CRandom*				random;			//!<乱数生成機。
@@ -82,6 +97,8 @@ namespace tkEngine{
 		CVector3				emitPosition;	//!<エミッターの座標。
 		std::list<CParticle*>	particleList;	//!<パーティクルのリスト。
 		std::list<CParticle*>	deleteParticleList;	//!<削除されたパーティクルのリスト。
+		float					m_lifeTimer;
+		std::vector<CCamera*>	cameraArray;
 	};
 }
 

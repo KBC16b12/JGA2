@@ -5,7 +5,7 @@
 #include "tkEngine/tkEnginePreCompile.h"
 #include "tkEngine/graphics/tkSkinModelData.h"
 #include "tkEngine/graphics/tkAnimation.h"
-#include "tkEngine/graphics/tkSkinModelMaterial.h"
+#include "tkEngine/graphics/material/tkSkinModelMaterial.h"
 
 int refCount = 0;
 #ifndef SAFE_DELETE
@@ -53,6 +53,7 @@ namespace {
 		SAFE_DELETE_ARRAY(pMeshContainer->Name);
 		SAFE_DELETE_ARRAY(pMeshContainer->pAdjacency);
 		SAFE_DELETE_ARRAY(pMeshContainer->pMaterials);
+		SAFE_DELETE_ARRAY(pMeshContainer->materials);
 		SAFE_DELETE_ARRAY(pMeshContainer->pBoneOffsetMatrices);
 
 		// release all the allocated textures
@@ -386,12 +387,22 @@ namespace {
 
 					//マテリアルを生成。
 					//マテリアル名はディフューズテクスチャの名前。
-					pMeshContainer->materials[iMaterial].SetMaterialName(pMeshContainer->pMaterials[iMaterial].pTextureFilename);
 					pMeshContainer->textures[iMaterial].SetTextureDX(pMeshContainer->ppTextures[iMaterial]);
-					pMeshContainer->materials[iMaterial].SetTexture("g_diffuseTexture", &pMeshContainer->textures[iMaterial]);
+					//ここから新規マテリアルの処理。
+					pMeshContainer->materials[iMaterial].Init(
+						"SkinModel",	//デフォルトテクニックを割り当てる。
+						pMeshContainer->pMaterials[iMaterial].pTextureFilename	//マテリアルの名前はテクスチャの名前。
+					);
+					pMeshContainer->materials[iMaterial].SetTexture(CSkinModelMaterial::enTextureShaderHandle_DiffuseMap, pMeshContainer->textures[iMaterial]);
+					m_skinModelData->AddSkinModelMaterial(&pMeshContainer->materials[iMaterial]);
+					if (pSkinInfo == NULL) {
+						//テクニックを設定。
+						pMeshContainer->materials[iMaterial].SetTechnique(CSkinModelMaterial::enTecShaderHandle_NoSkinModel);
+					}
 					// don't remember a pointer into the dynamic memory, just forget the name after loading
 					pMeshContainer->pMaterials[iMaterial].pTextureFilename = NULL;
-					m_skinModelData->AddSkinModelMaterial(&pMeshContainer->materials[iMaterial]);
+					
+					
 				}
 			}
 		}
@@ -697,9 +708,19 @@ namespace tkEngine{
 		else {
 			SAFE_RELEASE(m_animController);
 		}
+		//メッシュリストを作成。
+		CreateMeshList();
 		m_isLoadEnd = true;
 	}
-	
+	void CSkinModelData::LoadModelDataAsync(const char* filePath, CAnimation* anim)
+	{
+		m_isLoadEnd = false;
+		//読み込みスレッドを立てる。
+		m_loadThread = std::thread([this, filePath, anim]{
+			this->LoadModelData(filePath, anim);
+			m_isLoadEnd = true;
+		});
+	}
 	void CSkinModelData::CloneSkeleton(LPD3DXFRAME& dstFrame, LPD3DXFRAME srcFrame)
 	{
 		//名前と行列をコピー。
@@ -787,12 +808,21 @@ namespace tkEngine{
 	{
 		UpdateFrameMatrices(m_frameRoot, r_cast<const D3DXMATRIX*>(&matWorld));
 	}
-	void CSkinModelData::CreateInstancingDrawData( int numInstance, SVertexElement* vertexElement )
+	void CSkinModelData::CreateInstancingDrawData( int numInstance, D3DVERTEXELEMENT9* vertexElement )
 	{
 		m_numInstance = numInstance;
 		CreateInstancingDrawData(m_frameRoot, numInstance, vertexElement);
+		//シェーダーテクニックをインスタンシング描画用に変更する。
+		for (auto& mat : m_materials) {
+			if (mat->GetTechnique() == CSkinModelMaterial::enTecShaderHandle_SkinModel) {
+				mat->SetTechnique(CSkinModelMaterial::enTecShaderHandle_SkinModelInstancing);
+			}
+			else if (mat->GetTechnique() == CSkinModelMaterial::enTecShaderHandle_NoSkinModel) {
+				mat->SetTechnique(CSkinModelMaterial::enTecShaderHandle_NoSkinModelInstancing);
+			}
+		}
 	}
-	bool CSkinModelData::CreateInstancingDrawData( LPD3DXFRAME frame, int numInstance, SVertexElement* vertexElement )
+	bool CSkinModelData::CreateInstancingDrawData( LPD3DXFRAME frame, int numInstance, D3DVERTEXELEMENT9* vertexElement )
 	{
 		if(frame->pMeshContainer){
 			
@@ -866,8 +896,37 @@ namespace tkEngine{
 		
 		return nullptr;
 	}
+	void CSkinModelData::CreateMeshList()
+	{
+		CSkinModelData* _this = this;
+		auto cb = [this](LPD3DXMESH mesh)
+		{
+			m_meshList.push_back(mesh);
+		};
+		QueryMeshes(m_frameRoot, cb);
+	}
+	void CSkinModelData::QueryMeshes(LPD3DXFRAME frame, QueryMeshCallback cb)
+	{
+		LPD3DXMESHCONTAINER pMeshContainer;
+		pMeshContainer = frame->pMeshContainer;
+		while (pMeshContainer != NULL)
+		{
+			D3DXFRAME_DERIVED* _frame = (D3DXFRAME_DERIVED*)frame;
+			cb(pMeshContainer->MeshData.pMesh);
+			pMeshContainer = pMeshContainer->pNextMeshContainer;
+		}
+		if (frame->pFrameSibling != NULL)
+		{
+			QueryMeshes(frame->pFrameSibling, cb);
+		}
+		if (frame->pFrameFirstChild != NULL)
+		{
+			QueryMeshes(frame->pFrameFirstChild, cb);
+		}
+	}
 	LPD3DXMESH CSkinModelData::GetOrgMeshFirst() const
 	{
+		
 		return GetOrgMesh(m_frameRoot);
 	}
 	
@@ -900,10 +959,11 @@ namespace tkEngine{
 		}
 		return nullptr;
 	}
+	
 	CSkinModelMaterial* CSkinModelData::FindMaterial(const char* matName)
 	{
 		for (CSkinModelMaterial* mat : m_materials) {
-			if (strcmp(mat->GetMaterialName(), matName) == 0) {
+			if (strcmp(mat->GetName(), matName) == 0) {
 				return mat;
 			}
 		}

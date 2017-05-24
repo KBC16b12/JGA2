@@ -26,100 +26,6 @@ namespace tkEngine{
 			float v[2];
 		};
 		/*!
-		* @brief	ベクトルを加算。
-		*/
-		void Add(const CVector2& v)
-		{
-			x += v.x;
-			y += v.y;
-		}
-		void Add(const CVector2& v0, const CVector2& v1)
-		{
-			x = v0.x + v1.x;
-			y = v0.y + v1.y;
-		}
-		/*!
-		* @brief	ベクトルを減算。
-		*/
-		void Subtract(const CVector2& v)
-		{
-			x -= v.x;
-			y -= v.y;
-		}
-		void Subtract(const CVector2& v0, const CVector2& v1)
-		{
-			x = v0.x - v1.x;
-			y = v0.y - v1.y;
-		}
-		/*!
-		* @brief	内積。
-		*/
-		float Dot(const CVector2& v) const
-		{
-			return x * v.x + y * v.y;
-		}
-		/*!
-		* @brief	長さを取得
-		*/
-		float Length() const
-		{
-			return sqrt(LengthSq());
-		}
-		/*!
-		* @brief	長さの二乗を取得
-		*/
-		float LengthSq() const
-		{
-			return x * x + y * y;
-		}
-		/*!
-		* @brief	拡大。
-		*/
-		void Scale(float s)
-		{
-			x *= s;
-			y *= s;
-		}
-		/*!
-		* @brief	法線を正規化。
-		*/
-		void Normalize()
-		{
-			float len = Length();
-			if (len > 0.0f) {
-				x /= len;
-				y /= len;
-			}
-			else {
-				x = 0.0f;
-				y = 0.0f;
-			}
-		}
-		/*!
-		* @brief	除算。
-		*/
-		void Div(float d)
-		{
-			x /= d;
-			y /= d;
-		}
-		/*!
-		* @brief	最大値を設定。
-		*/
-		void Max(const CVector2& vMax)
-		{
-			x = max(x, vMax.x);
-			y = max(y, vMax.y);
-		}
-		/*!
-		* @brief	最小値を設定。
-		*/
-		void Min(const CVector2& vMin)
-		{
-			x = min(x, vMin.x);
-			y = min(y, vMin.y);
-		}
-		/*!
 		* @brief	線形補間。
 		*@details
 		* this = v0 + (v1-v0) * t;
@@ -243,7 +149,7 @@ namespace tkEngine{
 		 */
 		void Cross(const CVector3& v)
 		{
-			float _x = ( x * v.z ) - ( v.y * z );
+			float _x = ( y * v.z ) - ( v.y * z );
 			float _y = ( z * v.x ) - ( v.z * x );
 			float _z = ( x * v.y ) - ( v.x * y );
 			x = _x;
@@ -367,9 +273,17 @@ namespace tkEngine{
 		}
 		/*!
 		*@brief	ベクトルを設定。
+		*/
+		void Set(const CVector4& v)
+		{
+			*this = v;
+		}
+		/*!
+		*@brief	ベクトルを設定。
 		*@details
 		* wには1.0が格納されます。
 		*/
+		
 		void Set(const CVector3& v)
 		{
 			this->x = v.x;

@@ -42,6 +42,9 @@ namespace tkEngine{
 		float			brightness;					//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
 		int				alphaBlendMode;				//!<0半透明合成、1加算合成。
 		CVector3		mulColor;					//!<乗算カラー。
+		float			size;						//!<テクスチャのサイズ
+		float			sizeScale;					//!<拡大倍率
+		std::vector<CCamera*> cameraArray;
 	public:
 		CParticle();
 		~CParticle();
@@ -49,6 +52,14 @@ namespace tkEngine{
 		bool Start() override ;
 		void Update() override;
 		void Render( CRenderContext& renderContext ) override;
+
+		void Render(CRenderContext& renderContext, int playerNum)override;
+
+		void AddCamera(CCamera& cam)
+		{
+			cameraArray.push_back(&cam);
+		}
+
 		/*!
 		*@brief	パーティクルに力を加える。
 		*@param[in]	applyForce		乱数生成に使用する乱数生成機。

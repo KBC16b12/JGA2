@@ -6,7 +6,7 @@
 */
 TimeSprite::TimeSprite()
 {
-	m_time = 999;
+	m_time = 999.0f;
 	for (int i = 0;i < 10;i++) {
 		char cp[60];
 		sprintf(cp, "Assets/sprite/NewNumber/%d.png", i);
@@ -17,6 +17,7 @@ TimeSprite::TimeSprite()
 		m_sprite[i].SetPosition({ -50.0f + i * 50,320.0f });
 		m_sprite[i].SetSize({ 50.0f,50.0f });
 	}
+	m_isFinish = false;
 }
 
 
@@ -31,14 +32,18 @@ bool TimeSprite::Start()
 
 void TimeSprite::Update()
 {
-	if (m_time > 0) {
-		m_time--;
+	if (m_time > 0.0f) {
+		m_time -= GameTime().GetFrameDeltaTime();
+	}
+	else
+	{
+		m_isFinish = true;
 	}
 	int l_n1 = 0, l_n10 = 0, l_n100 = 0;
 
-	l_n100 = m_time / 100;			//3Œ…–Ú‚Ì”š
-	l_n10 = (m_time % 100) / 10;	//2Œ…–Ú‚Ì”š
-	l_n1 = m_time % 10;			    //1Œ…–Ú‚Ì”š
+	l_n100 = (int)m_time / 100;			//3Œ…–Ú‚Ì”š
+	l_n10 = ((int)m_time % 100) / 10;	//2Œ…–Ú‚Ì”š
+	l_n1 = (int)m_time % 10;			    //1Œ…–Ú‚Ì”š
 
 	m_sprite[0].SetTexture(m_texture[l_n100]);
 	m_sprite[1].SetTexture(m_texture[l_n10]);
@@ -46,6 +51,14 @@ void TimeSprite::Update()
 }
 
 void TimeSprite::PostRender(CRenderContext& renderContext, int playernum)
+{
+	for (int i = 0;i < 3;i++)
+	{
+		m_sprite[i].Draw(renderContext);
+	}
+}
+
+void TimeSprite::PostRender(CRenderContext& renderContext)
 {
 	for (int i = 0;i < 3;i++)
 	{

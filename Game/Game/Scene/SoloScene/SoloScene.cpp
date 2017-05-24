@@ -52,7 +52,7 @@ void SoloScene::SceneChange()
 			m_runstat = enRun;
 		}
 		break;
-	case enRun:
+	case enRun:/*
 		if (Pad(0).IsTrigger(enButtonStart))
 		{
 			m_scenedata = enTitle;
@@ -70,7 +70,7 @@ void SoloScene::SceneChange()
 
 			g_Fade->StartFadeOut();
 			return;
-		}
+		}*/
 		if (Pad(0).IsTrigger(enButtonB))
 		{
 			m_scenedata = enRanking;

@@ -65,6 +65,8 @@
     </Filter>
     <Filter Include="Source Files\TRAP">
       <UniqueIdentifier>{87f3a8d0-0a85-4397-a9a8-da00b7fe34ea}</UniqueIdentifier>
+    <Filter Include="Source Files\PincerAttack">
+      <UniqueIdentifier>{ab7e5000-8159-4e45-bb9d-8793dd57e072}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -145,6 +147,23 @@
     </ClCompile>
     <ClCompile Include="Trap.cpp">
       <Filter>Source Files\TRAP</Filter>
+    <ClCompile Include="Bullet\BoundBullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="HUD\ItemSprite.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
+    <ClCompile Include="Item\ItemMaker.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="Item\ItemBox.cpp">
+      <Filter>Source Files\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="PincerAttack\PincerAttack.cpp">
+      <Filter>Source Files\PincerAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="PincerAttack\PincerAttackEffect.cpp">
+      <Filter>Source Files\PincerAttack</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -225,6 +244,23 @@
     </ClInclude>
     <ClInclude Include="Trap.h">
       <Filter>Source Files\TRAP</Filter>
+    <ClInclude Include="Bullet\BoundBullet.h">
+      <Filter>Source Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD\ItemSprite.h">
+      <Filter>Source Files\HUD</Filter>
+    </ClInclude>
+    <ClInclude Include="Item\ItemMaker.h">
+      <Filter>Source Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Item\ItemBox.h">
+      <Filter>Source Files\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="PincerAttack\PincerAttack.h">
+      <Filter>Source Files\PincerAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="PincerAttack\PincerAttackEffect.h">
+      <Filter>Source Files\PincerAttack</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

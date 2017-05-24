@@ -18,24 +18,15 @@ public:
 
 	/*
 	*@brief 弾の初期化処理
-	*@brief position プレイヤーのポジション
-	*@brief moveSpeed
+	*@brief position		弾が発射される座標
+	*@brief moveSpeed		飛ぶ方向
+	*@brief playerNum		この弾を打ったプレイヤーの番号
 	*/
-	virtual void Init(Weapon *weapon, int arrayNum, int playerNum);
-
-
+	virtual void Init(CVector3 position, CVector3 movespeed, int playerNum);
 	/*
 	*@brief 更新処理
 	*/
 	virtual void Update()override;
-
-
-	/*
-	*@brief 弾の動きの処理
-	*/
-	virtual void Move();
-
-	virtual void DethCheck();
 	/*
 	*@brief 描画関数
 	*/
@@ -48,13 +39,20 @@ public:
 	void Render(CRenderContext& renderContext, int playernum)override;
 
 protected:
-	//CCharacterController	m_characterController;
+	/*
+	*@brief 弾の動きの処理
+	*/
+	virtual void Move();
+
+	virtual void DethCheck();
+
+
+protected:
+	CCharacterController	m_characterController;
 	CVector3				m_position;
 	CVector3				m_moveSpeed;
 	CSkinModel				m_skinModel;
 	CSkinModelDataHandle	m_modelData;
 	CLight					m_light;
-	Weapon*					m_weapon;
-	int						m_arraynum;
 	int						m_playerNum;
 };

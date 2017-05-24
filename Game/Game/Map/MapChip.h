@@ -43,8 +43,20 @@ public:
 	*@brief	描画関数。
 	*@param[in]		renderContext		レンダリングコンテキスト。
 	*/
+	void Render(CRenderContext& renderContext) override;
 
 	void Render(CRenderContext& renderContext, int cameranum) override;
+
+	bool IsLoadEnd()
+	{
+		return m_SkinModelData.IsLoadEnd();
+	}
+
+protected:
+	/*
+	*@brief 読み込みなどモデルの初期化関数
+	*/
+	virtual void ModelInit(const char * modelName);
 
 protected:
 	CSkinModel					m_SkinModel;		//スキンモデル

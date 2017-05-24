@@ -12,18 +12,11 @@ float4x3    g_mWorldMatrixArray[MAX_MATRICES] : WORLDMATRIXARRAY;
 float4x4    g_mViewProj : VIEWPROJECTION;
 float		g_numBone;			//骨の数。
 float4x4	g_worldMatrix;			//!<ワールド行列。
-float4x4	g_rotationMatrix;		//!<回転行列。
-float4x4	g_viewMatrixRotInv;		//!<カメラの回転行列の逆行列。
 float4x4	g_mViewProjLastFrame;	//!<1フレーム前のビュープロジェクション行列。
 float4		g_fogParam;				//フォグのパラメータ。xにフォグが掛かり始める深度。yにフォグが完全にかかる深度。zはフォグを計算するかどうかのフラグ。
 
-float2		g_farNear;	//遠平面と近平面。xに遠平面、yに近平面。
 
-const int AtomosphereFuncNone = 0;						//大気錯乱シミュレーションなし。
-const int AtomosphereFuncObjectFromAtomosphere = 1;		//オブジェクトを大気圏から見た場合の大気錯乱シミュレーション。
-const int AtomosphereFuncSkyFromAtomosphere = 2;		//空を大気圏から見た場合の大気錯乱シミュレーション。
 int4 g_flags;				//xに法線マップ、yはシャドウレシーバー、zはリムライト、wはスペキュラマップ。
-int4 g_flags2;				//xに速度マップへの書き込み、yは大気錯乱シミュレーション種類。
 
 texture g_diffuseTexture;		//ディフューズテクスチャ。
 sampler g_diffuseTextureSampler = 
@@ -61,6 +54,16 @@ sampler_state
     MipFilter = Linear;
 };
 
+//シーンテクスチャ
+texture g_sceneTexture;		//シーンテクスチャ。
+sampler g_sceneTextureSampler = 
+sampler_state
+{
+	Texture = <g_sceneTexture>;
+	MinFilter = Linear;
+    MagFilter = Linear;
+    MipFilter = Linear;
+};
 
 /*!
  * @brief	入力頂点
@@ -122,37 +125,6 @@ struct PSOutput{
 	float4  velocity 	: COLOR2;		//レンダリングターゲット2に書き込み。
 };
 
-/*!
- * @brief	大気錯乱パラメータ。
- */
-struct SAtmosphericScatteringParam{
-	float3 v3LightPos;
-	float3 v3LightDirection;
-	float3 v3InvWavelength;	// 1 / pow(wavelength, 4) for the red, green, and blue channels
-	float fCameraHeight;		// The camera's current height
-	float fCameraHeight2;		// fCameraHeight^2
-	float fOuterRadius;		// The outer (atmosphere) radius
-	float fOuterRadius2;		// fOuterRadius^2
-	float fInnerRadius;		// The inner (planetary) radius
-	float fInnerRadius2;		// fInnerRadius^2
-	float fKrESun;				// Kr * ESun
-	float fKmESun;				// Km * ESun
-	float fKr4PI;				// Kr * 4 * PI
-	float fKm4PI;				// Km * 4 * PI
-	float fScale;				// 1 / (fOuterRadius - fInnerRadius)
-	float fScaleOverScaleDepth;// fScale / fScaleDepth
-	float g;
-	float g2;
-};
-
-SAtmosphericScatteringParam g_atmosParam;
-
-// The scale depth (the altitude at which the average atmospheric density is found)
-const float fScaleDepth = 0.25;
-const float fInvScaleDepth = 4;
-
-const int nSamples = 2;
-const float fSamples = 2.0f;
 
 
 
@@ -370,8 +342,9 @@ void CalcWorldPosAndNormal( VS_INPUT In, out float3 Pos, out float3 Normal, out 
  *@brief	頂点シェーダー。
  *@param[in]	In			入力頂点。
  *@param[in]	hasSkin		スキンあり？
+ *@param[in]	doStealth	ステルス？
  */
-VS_OUTPUT VSMain( VS_INPUT In, uniform bool hasSkin )
+VS_OUTPUT VSMain( VS_INPUT In, uniform bool hasSkin, uniform bool doStealth )
 {
 	VS_OUTPUT o = (VS_OUTPUT)0;
 	float3 Pos, Normal, Tangent;
@@ -384,15 +357,17 @@ VS_OUTPUT VSMain( VS_INPUT In, uniform bool hasSkin )
 	}
 	o.worldPos_depth.xyz = Pos.xyz;
 
-
     o.Pos = mul(float4(Pos.xyz, 1.0f), g_mViewProj);
     o.worldPos_depth.w = o.Pos.w;
-    o.Normal = normalize(Normal);
-    o.Tangent = normalize(Tangent);
     o.Tex0 = In.Tex0;
     o.velocity = mul(float4(Pos.xyz, 1.0f), g_mViewProjLastFrame);
     o.screenPos = o.Pos;
-    CalcMieAndRayleighColors( o.mieColor, o.rayColor, o.posToCameraDir, o.worldPos_depth.xyz );
+    if(doStealth == false){
+		//ここらへんはステルス迷彩のときは計算しなくていいのでカット。
+    	o.Normal = normalize(Normal);
+	    o.Tangent = normalize(Tangent);
+	    CalcMieAndRayleighColors( o.mieColor, o.rayColor, o.posToCameraDir, o.worldPos_depth.xyz );
+	}
 	return o;
 }
 /*!
@@ -515,6 +490,30 @@ PSOutput PSMain( VS_OUTPUT In )
 	return psOut;
 }
 /*!
+ * @brief	ステルス迷彩用のシェーダー。
+ */
+PSOutput PSStealthMain(VS_OUTPUT In)
+{
+	float4 color = 0.0f;
+	float4 diffuseColor = tex2D(g_diffuseTextureSampler, In.Tex0);
+	color = diffuseColor;
+	
+	PSOutput psOut = (PSOutput)0;
+	psOut.color = color;
+	psOut.depth = In.worldPos_depth.w;
+	if(g_flags2.x){
+		psOut.velocity.xy = In.velocity.xy / In.velocity.w-In.screenPos.xy / In.screenPos.w;
+		psOut.velocity.xy *= 0.5f;
+		psOut.velocity.xy += 0.5f;
+		psOut.velocity.zw = 0.0f;
+	}else{
+		//速度なし。
+		psOut.velocity = 0.5f;
+	}
+	
+	return psOut;
+}
+/*!
  * @brief	空描画用の頂点シェーダー。
  */
 VS_OUTPUT VSSkyMain(VS_INPUT In)
@@ -540,13 +539,25 @@ VS_OUTPUT VSSkyMain(VS_INPUT In)
 PSOutput PSSkyMain(VS_OUTPUT In){
 	float4 diffuseColor = texCUBE(g_skyCubeMapSampler, In.Normal * -1.0f);
 	float4 color = 0;
-
+	//空のテクスチャを白黒化
+	float3 monochrome = float3(0.29900f, 0.58700f, 0.11400f );
+	float Y  =  dot(monochrome, diffuseColor);
+	//白黒化したテクスチャをn乗して白に近い成分だけ抜き出す。
+	float cloudRate = pow(Y, 3.0f );
 	color = In.rayColor + 0.25f * In.mieColor;
-	float t = pow( 1.0f - min(1.0f, length(color)), 10.0f );
-	color += diffuseColor * t ;
-	
+	//大気の色もモノクロ化
+	float colorY = max( 0.0f, dot(monochrome, color) );
+	//このtは夜になると1.0fに近づいてくる。
+//	float nightRate = pow( 1.0f - min(1.0f, colorY), 1.0f );
+	float nightRate = max( 0.0f, dot(float3(0.0f, 1.0f, 0.0f ), g_atmosParam.v3LightDirection ));
+	//夜空の色
+//	color.xyz += float3(0.0f, 0.0f, 0.1f ) * nightRate ;
+	//雲の色。昼間は1.0fで夜間は0.3f
+	float cloudColor = lerp(3.0f, 0.1f,pow( 1.0f - nightRate, 3.0f));
+	//空の色と雲の色との間を雲率で線形補完。
+	color.xyz = lerp( color.xyz, cloudColor, cloudRate ) ;
 	PSOutput psOut = (PSOutput)0;
-	psOut.color = color;
+	psOut.color = color * 1.1f;
 	psOut.depth = In.worldPos_depth.w;
 	if(g_flags2.x){
 		psOut.velocity.xy = In.velocity.xy / In.velocity.w-In.screenPos.xy / In.screenPos.w;
@@ -613,6 +624,150 @@ float4 PSMainRenderShadowMap( VS_OUTPUT_RENDER_SHADOW_MAP In ) : COLOR
 	return float4(z, z*z+0.25f*(dx*dx+dy*dy), 0.0f, 1.0f);
 }
 
+texture g_splatMap;			//Splatmap
+sampler g_splatMapSampler = 
+sampler_state
+{
+	Texture = <g_splatMap>;
+	MipFilter = LINEAR;
+	MinFilter = LINEAR;
+	MagFilter = LINEAR;
+	AddressU = Wrap;
+	AddressV = Wrap;
+};
+texture g_terrainTex0;
+texture g_terrainTex1;
+texture g_terrainTex2;
+texture g_terrainTex3;
+float4 g_terrainRect;	//!<地形をXZ平面で見た矩形。
+
+sampler g_terrainTexSampler[4] = {
+	sampler_state
+	{
+		Texture = <g_terrainTex0>;
+		MipFilter = LINEAR;
+		MinFilter = LINEAR;
+		MagFilter = LINEAR;
+		AddressU = Wrap;
+		AddressV = Wrap;
+	},
+	sampler_state
+	{
+		Texture = <g_terrainTex1>;
+		MipFilter = LINEAR;
+		MinFilter = LINEAR;
+		MagFilter = LINEAR;
+		AddressU = Wrap;
+		AddressV = Wrap;
+	},
+	sampler_state
+	{
+		Texture = <g_terrainTex2>;
+		MipFilter = LINEAR;
+		MinFilter = LINEAR;
+		MagFilter = LINEAR;
+		AddressU = Wrap;
+		AddressV = Wrap;
+	},
+	sampler_state
+	{
+		Texture = <g_terrainTex3>;
+		MipFilter = LINEAR;
+		MinFilter = LINEAR;
+		MagFilter = LINEAR;
+		AddressU = Wrap;
+		AddressV = Wrap;
+	},
+};
+
+texture g_terrainNormalMap0;
+texture g_terrainNormalMap1;
+texture g_terrainNormalMap2;
+texture g_terrainNormalMap3;
+sampler g_terrainNormalMapSampler[4] = {
+	sampler_state
+	{
+		Texture = <g_terrainNormalMap0>;
+		MipFilter = LINEAR;
+		MinFilter = LINEAR;
+		MagFilter = LINEAR;
+		AddressU = Wrap;
+		AddressV = Wrap;
+	},
+	sampler_state
+	{
+		Texture = <g_terrainNormalMap1>;
+		MipFilter = LINEAR;
+		MinFilter = LINEAR;
+		MagFilter = LINEAR;
+		AddressU = Wrap;
+		AddressV = Wrap;
+	},
+	sampler_state
+	{
+		Texture = <g_terrainNormalMap2>;
+		MipFilter = LINEAR;
+		MinFilter = LINEAR;
+		MagFilter = LINEAR;
+		AddressU = Wrap;
+		AddressV = Wrap;
+	},
+	sampler_state
+	{
+		Texture = <g_terrainNormalMap3>;
+		MipFilter = LINEAR;
+		MinFilter = LINEAR;
+		MagFilter = LINEAR;
+		AddressU = Wrap;
+		AddressV = Wrap;
+	},
+};
+/*!
+ *@brief	地形用ピクセルシェーダー。
+ */
+PSOutput PSTerrain(VS_OUTPUT In) : COLOR
+{
+	//スプラットマップのUV座標を求める。
+	float2 splatMapUV;
+	splatMapUV.x = (In.worldPos_depth.x - g_terrainRect.x) / (g_terrainRect.y-g_terrainRect.x);
+	splatMapUV.y = (In.worldPos_depth.z - g_terrainRect.z) / (g_terrainRect.w-g_terrainRect.z);
+	float4 splatMap = tex2D(g_splatMapSampler, splatMapUV);
+	float t = splatMap.r + splatMap.g + splatMap.b /*+ splatMap.w*/;
+	float4 weights = float4(splatMap.r/t, splatMap.g/t, splatMap.b/t, splatMap.w/t);
+	
+	float4 diffuseColor = tex2D(g_terrainTexSampler[0], In.Tex0) * weights.x;
+	diffuseColor += tex2D(g_terrainTexSampler[1], In.Tex0) * weights.y;
+	diffuseColor += tex2D(g_terrainTexSampler[2], In.Tex0) * weights.z;
+	//diffuseColor += tex2D(g_terrainTexSampler[3], In.Tex0) * weights.w;
+	float4 color = diffuseColor;
+	
+	float3 normal = normalize(In.Normal);
+	//ディwwwwwフューズライト
+	float4 lig = DiffuseLight(normal);
+	//影
+	lig *= CalcShadow(In.worldPos_depth.xyz);
+	color *= lig;
+	
+	//大気錯乱。
+	color = In.rayColor + color * In.mieColor;
+	
+	//ポイントライト。
+	color.xyz += diffuseColor.xyz * PointLight(normal, In.worldPos_depth.xyz, 0);
+	//アンビエントライトを加算。
+	color.xyz += diffuseColor.xyz * g_light.ambient.xyz;
+	
+	PSOutput psOut = (PSOutput)0;
+	psOut.velocity.xy = In.velocity.xy / In.velocity.w-In.screenPos.xy / In.screenPos.w;
+	psOut.velocity.xy *= 0.5f;
+	psOut.velocity.xy += 0.5f;
+	psOut.velocity.zw = 0.0f;
+	
+	psOut.color = color;
+	psOut.depth = In.worldPos_depth.w;
+	
+	return psOut;
+}
+
 /*!
  *@brief	スキンありモデル用のテクニック。
  */
@@ -620,7 +775,7 @@ technique SkinModel
 {
     pass p0
     {
-        VertexShader = compile vs_3_0 VSMain(true);
+        VertexShader = compile vs_3_0 VSMain(true, false);
         PixelShader = compile ps_3_0 PSMain();
     }
 }
@@ -631,7 +786,7 @@ technique NoSkinModel
 {
 	pass p0
 	{
-		VertexShader = compile vs_3_0 VSMain(false);
+		VertexShader = compile vs_3_0 VSMain(false, false);
 		PixelShader = compile ps_3_0 PSMain();
 	}
 }
@@ -705,5 +860,25 @@ technique Sky{
 	{
 		VertexShader =  compile vs_3_0 VSSkyMain();
 		PixelShader = compile ps_3_0 PSSkyMain();
+	}
+}
+/*!
+ * @brief	スキンありステルス。
+ */
+technique StealthSkin{
+	pass p0
+	{
+		VertexShader =  compile vs_3_0 VSMain(true, true);
+		PixelShader = compile ps_3_0 PSStealthMain();
+	}
+}
+/*!
+ *@brief	地形
+ */
+technique Terrain{
+	pass p0
+	{
+		VertexShader = compile vs_3_0 VSMain(false, false);
+		PixelShader = compile ps_3_0 PSTerrain();
 	}
 }

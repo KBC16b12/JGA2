@@ -50,6 +50,8 @@ public:
 	*/
 	void PostRender(CRenderContext& renderContext, int playernum);
 
+	void PostRender(CRenderContext& renderContext);
+
 	/*!
 	*@brief	どの向きに減るかを設定。
 	*/
@@ -143,6 +145,11 @@ public:
 		m_Gauge.SetSize(size);
 	}
 
+	//このHUDを持ってるプレイヤーの番号を設定
+	void SetPlayerNum(int playerNum)
+	{
+		m_playerNum = playerNum;
+	}
 private:
 	/*!
 	*@brief	バーの更新関数。
@@ -198,6 +205,7 @@ private:
 	EnState				m_state;		//ダメージ演出ステータス
 
 	enBarQuarter		m_Quarter;		//どちらに減っていくか
+	int					m_playerNum;
 };
 
 
