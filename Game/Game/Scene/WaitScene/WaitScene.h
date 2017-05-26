@@ -1,4 +1,7 @@
 #pragma once
+
+#define JOIN_NUM 4
+
 class WaitScene : public IGameObject
 {
 public:
@@ -41,6 +44,11 @@ public:
 	void PostRender(CRenderContext& renderContext) override;
 
 private:
+
+	void Host();
+
+	void Join();
+
 	/*!
 	*@brief	‰æ–Ê‘JˆÚŠÖ”B
 	*/
@@ -56,5 +64,9 @@ private:
 	SceneData					m_scenedata;
 
 	bool						m_isHost;
+
+	ULONG						m_addressList[JOIN_NUM];
+
+	int							m_IPcount;
 };
 

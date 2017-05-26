@@ -1,4 +1,5 @@
 #pragma once
+
 class JoinScene : public IGameObject
 {
 public:
@@ -54,5 +55,7 @@ private:
 	RunStat						m_runstat = enFadeIn;
 
 	SceneData					m_scenedata;
+
+	bool						m_isHost;
 };
 

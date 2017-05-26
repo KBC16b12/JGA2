@@ -64,7 +64,7 @@ void TitleScene::SceneChange()
 			g_Fade->StartFadeOut();
 			return;
 		}*/
-		if (Pad(0).IsTrigger(enButtonB))
+		if (Pad(0).IsTrigger(enButtonA))
 		{
 			m_scenedata = enChar;
 

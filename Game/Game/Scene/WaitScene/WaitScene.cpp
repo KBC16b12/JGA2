@@ -3,6 +3,7 @@
 #include "../GameScene/GameScene.h"
 #include "../JoinScene/JoinScene.h"
 #include "../WaitScene/WaitScene.h"
+#include "../../Network/Network.h"
 
 namespace
 {
@@ -17,6 +18,8 @@ WaitScene::WaitScene()
 	m_SampleTex = TextureResources().LoadEx("Assets/sprite/Wait.png");
 	m_Sample.Init(m_SampleTex);
 	m_Sample.SetSize({ (float)Engine().GetScreenWidth(),(float)Engine().GetScreenHeight() });
+
+	m_IPcount = 0;
 }
 
 WaitScene::~WaitScene()
@@ -42,6 +45,18 @@ bool WaitScene::Start()
 void WaitScene::Update()
 {
 	SceneChange();
+
+	m_isHost ? Host() : Join();
+}
+
+void WaitScene::Host()
+{
+
+}
+
+void WaitScene::Join()
+{
+
 }
 
 void WaitScene::PostRender(CRenderContext& renderContext)

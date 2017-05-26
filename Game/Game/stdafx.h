@@ -13,6 +13,8 @@
 #define BULLET_DAMAGE 1
 #define GRENADE_DAMAGE 2
 
+#define DEFAULT_PORT 10000
+
 #pragma comment( lib, "WS2_32.LIB" )
 #pragma warning ( disable : 4996 )
 

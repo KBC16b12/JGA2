@@ -12,7 +12,6 @@ GameScene* g_gameScene = nullptr;
 
 GameScene::GameScene()
 {
-
 	m_map = NewGO<Map>(PRIORITY1);
 	m_time = NewGO<TimeSprite>(PRIORITY1);
 }

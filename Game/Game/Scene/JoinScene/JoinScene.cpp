@@ -69,6 +69,19 @@ void JoinScene::SceneChange()
 			m_runstat = enFadeOut;
 
 			g_Fade->StartFadeOut();
+
+			m_isHost = true;
+			return;
+		}
+		if (Pad(0).IsTrigger(enButtonB))
+		{
+			m_scenedata = enWait;
+
+			m_runstat = enFadeOut;
+
+			g_Fade->StartFadeOut();
+
+			m_isHost = false;
 			return;
 		}
 		break;
@@ -81,7 +94,7 @@ void JoinScene::SceneChange()
 				NewGO<TitleScene>(PRIORITY1);
 				break;
 			case enWait:
-				NewGO<WaitScene>(PRIORITY1);
+				NewGO<WaitScene>(PRIORITY1)->Init(m_isHost);
 				break;
 			default:
 				break;

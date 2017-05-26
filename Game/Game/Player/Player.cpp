@@ -88,6 +88,9 @@ void Player::Update()
 	m_skinModelThird.Update(m_position, m_rotation, { 5.0f,5.0f,5.0f });
 	//アニメーションの更新
 	m_Animation.Update(1.0f / 50.0f);
+
+	KeyOutput();
+	DataOutput();
 }
 
 void Player::Render(CRenderContext& renderContext, int playernum)
@@ -212,6 +215,7 @@ void Player::Respawn()
 
 void Player::KeyOutput()
 {
+	Network::GetInstance().Send(inet_addr("127.0.0.1"), DEFAULT_PORT + m_playernum, "1");
 }
 
 void Player::DataOutput()

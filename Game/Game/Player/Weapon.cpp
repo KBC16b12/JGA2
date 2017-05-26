@@ -7,6 +7,7 @@
 #include "../HUD/ItemSprite.h"
 #include "../Scene/GameScene/GameScene.h"
 #include "../PincerAttack/PincerAttack.h"
+#include "../Network/Network.h"
 
 Weapon::Weapon()
 {
@@ -40,7 +41,7 @@ void Weapon::Update()
 {
 	if (m_isStrike)
 	{
-		//’e‚ğ‘Å‚Ä‚éó‘Ô‚Å‚Ú‚½‚ñ‚ğ‰Ÿ‚µ‚½‚ç
+			//’e‚ğ‘Å‚Ä‚éó‘Ô‚Å‚Ú‚½‚ñ‚ğ‰Ÿ‚µ‚½‚ç
 		if (Pad(m_playerNum).IsTrigger(enButtonRB1))
 		{
 			BulletFilling();
