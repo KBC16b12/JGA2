@@ -44,6 +44,11 @@ void MenuScene::PostRender(CRenderContext& renderContext)
 	m_Sample.Draw(renderContext);
 }
 
+void MenuScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_Sample.Draw(renderContext);
+}
+
 void MenuScene::SceneChange()
 {
 	switch (m_runstat)

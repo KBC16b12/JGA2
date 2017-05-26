@@ -43,6 +43,8 @@ public:
 	*/
 	void PostRender(CRenderContext& renderContext) override;
 
+	void PostRender(CRenderContext& renderContext, int cameraNum) override;
+
 private:
 
 	void Host();

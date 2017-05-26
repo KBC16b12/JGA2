@@ -193,9 +193,6 @@
     <ClInclude Include="Scene\TitleScene\TitleScene.h">
       <Filter>Source Files\Scene\Title</Filter>
     </ClInclude>
-    <ClInclude Include="Scene\SoloScene\SoloScene.h">
-      <Filter>Source Files\Scene\Solo</Filter>
-    </ClInclude>
     <ClInclude Include="Map\Map.h">
       <Filter>Source Files\Map</Filter>
     </ClInclude>
@@ -255,6 +252,9 @@
     </ClInclude>
     <ClInclude Include="PincerAttack\PincerAttackEffect.h">
       <Filter>Source Files\PincerAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene\SoloScene\SoloScene.h">
+      <Filter>Source Files\Scene\Solo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

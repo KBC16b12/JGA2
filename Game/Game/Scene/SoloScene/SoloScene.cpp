@@ -37,6 +37,11 @@ void SoloScene::PostRender(CRenderContext& renderContext)
 	m_Sample.Draw(renderContext);
 }
 
+void SoloScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_Sample.Draw(renderContext);
+}
+
 /*!
 *@brief	‰æ–Ê‘JˆÚŠÖ”B
 */

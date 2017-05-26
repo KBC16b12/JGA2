@@ -50,7 +50,7 @@ bool GameScene::Start()
 	g_gameCamera[1]->SetViewPort({ l_half_w, 0, l_half_w, l_half_h }, m_map->GetPlayer(1));
 	g_gameCamera[2]->SetViewPort({ 0, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(2));
 	g_gameCamera[3]->SetViewPort({ l_half_w, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(3));
-	GetViewSprit().Start();
+	//GetViewSprit().Start();
 	//m_light.SetDiffuseLightDirection(0, CVector3(0.707f, 0.0f, -0.707f));
 	//m_light.SetDiffuseLightDirection(1, CVector3(-0.707f, 0.0f, -0.707f));
 	//m_light.SetDiffuseLightDirection(2, CVector3(0.0f, 0.707f, 0.707f));

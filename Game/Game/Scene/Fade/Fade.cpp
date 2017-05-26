@@ -57,3 +57,8 @@ void Fade::PostRender( CRenderContext& renderContext )
 {
 	m_sprite.Draw(renderContext);
 }
+
+void Fade::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_sprite.Draw(renderContext);
+}

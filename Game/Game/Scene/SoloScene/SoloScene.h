@@ -35,6 +35,8 @@ public:
 	*/
 	void PostRender(CRenderContext& renderContext) override;
 
+	void PostRender(CRenderContext& renderContext, int cameraNum) override;
+
 private:
 	/*!
 	*@brief	‰æ–Ê‘JˆÚŠÖ”B

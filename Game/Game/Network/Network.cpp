@@ -10,7 +10,14 @@ Network::Network()
 
 Network::~Network()
 {
-	closesocket(m_recv.back().s_sock);
+	for each(SocketData sock in m_recv)
+	{
+		closesocket(sock.s_sock);
+	}
+	for each(SocketData sock in m_send)
+	{
+		closesocket(sock.s_sock);
+	}
 
 	WSACleanup();
 }

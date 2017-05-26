@@ -41,6 +41,12 @@ void JoinScene::PostRender(CRenderContext& renderContext)
 	m_Sample.Draw(renderContext);
 }
 
+void JoinScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_Sample.Draw(renderContext);
+}
+
+
 void JoinScene::SceneChange()
 {
 	switch (m_runstat)

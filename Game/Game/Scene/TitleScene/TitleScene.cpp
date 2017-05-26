@@ -40,6 +40,11 @@ void TitleScene::PostRender(CRenderContext& renderContext)
 	m_Title.Draw(renderContext);
 }
 
+void TitleScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_Title.Draw(renderContext);
+}
+
 /*!
 *@brief	‰æ–Ê‘JˆÚŠÖ”B
 */

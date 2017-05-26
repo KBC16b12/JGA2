@@ -64,6 +64,11 @@ void WaitScene::PostRender(CRenderContext& renderContext)
 	m_Sample.Draw(renderContext);
 }
 
+void WaitScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_Sample.Draw(renderContext);
+}
+
 void WaitScene::SceneChange()
 {
 	switch (m_runstat)
