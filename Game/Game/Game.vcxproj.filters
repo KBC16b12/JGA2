@@ -66,9 +66,6 @@
     <Filter Include="Source Files\PincerAttack">
       <UniqueIdentifier>{ab7e5000-8159-4e45-bb9d-8793dd57e072}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\gimmick">
-      <UniqueIdentifier>{c31d3dd7-a2f6-4636-aee0-f6f3bad1d5b5}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -164,12 +161,6 @@
     <ClCompile Include="PincerAttack\PincerAttackEffect.cpp">
       <Filter>Source Files\PincerAttack</Filter>
     </ClCompile>
-    <ClCompile Include="Mimikku.cpp">
-      <Filter>Source Files\gimmick</Filter>
-    </ClCompile>
-    <ClCompile Include="Trap.cpp">
-      <Filter>Source Files\gimmick</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -201,9 +192,6 @@
     </ClInclude>
     <ClInclude Include="Scene\TitleScene\TitleScene.h">
       <Filter>Source Files\Scene\Title</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene\SoloScene\SoloScene.h">
-      <Filter>Source Files\Scene\Solo</Filter>
     </ClInclude>
     <ClInclude Include="Map\Map.h">
       <Filter>Source Files\Map</Filter>
@@ -265,11 +253,8 @@
     <ClInclude Include="PincerAttack\PincerAttackEffect.h">
       <Filter>Source Files\PincerAttack</Filter>
     </ClInclude>
-    <ClInclude Include="Mimikku.h">
-      <Filter>Source Files\gimmick</Filter>
-    </ClInclude>
-    <ClInclude Include="Trap.h">
-      <Filter>Source Files\gimmick</Filter>
+    <ClInclude Include="Scene\SoloScene\SoloScene.h">
+      <Filter>Source Files\Scene\Solo</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

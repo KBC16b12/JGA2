@@ -1,4 +1,7 @@
 #pragma once
+
+#define JOIN_NUM 4
+
 class WaitScene : public IGameObject
 {
 public:
@@ -15,7 +18,7 @@ public:
 	/*!
 	*@brief 初期化関数
 	*/
-	void Init(bool isHost);
+	void Init(bool isHost, CharData character);
 
 	/*!
 	*@brief	開始関数。
@@ -40,7 +43,14 @@ public:
 	*/
 	void PostRender(CRenderContext& renderContext) override;
 
+	void PostRender(CRenderContext& renderContext, int cameraNum) override;
+
 private:
+
+	void Host();
+
+	void Join();
+
 	/*!
 	*@brief	画面遷移関数。
 	*/
@@ -56,5 +66,11 @@ private:
 	SceneData					m_scenedata;
 
 	bool						m_isHost;
+
+	ULONG						m_addressList[JOIN_NUM];
+
+	int							m_IPcount;
+
+	CharData					m_char;
 };
 

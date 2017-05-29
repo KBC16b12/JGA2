@@ -7,6 +7,7 @@ namespace tkEngine
 	CViewPortSprit::CViewPortSprit()
 	{
 		m_isSprit = false;
+		m_cameraNum = 0;
 	}
 
 	CViewPortSprit::~CViewPortSprit()
@@ -35,7 +36,7 @@ namespace tkEngine
 			//‰æ–Ê•ªŠ„‚µ‚Ä‚¢‚È‚¢ê‡•’Ê‚É•`‰æ‚·‚é
 			for (GameObjectList objList : objectList) {
 				for (IGameObject* obj : objList) {
-					obj->RenderWrapper(renderContext);
+					obj->RenderWrapper(renderContext, m_cameraNum);
 				}
 			}
 		}
@@ -62,7 +63,7 @@ namespace tkEngine
 		{
 			for (GameObjectList objList : objectList) {
 				for (IGameObject* obj : objList) {
-					obj->PostRenderWrapper(renderContext);
+					obj->PostRenderWrapper(renderContext, m_cameraNum);
 				}
 			}
 		}

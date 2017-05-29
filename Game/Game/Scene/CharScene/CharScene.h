@@ -39,6 +39,8 @@ public:
 	*@param[in]		renderContext		レンダリングコンテキスト。
 	*/
 	void PostRender(CRenderContext& renderContext) override;
+
+	void PostRender(CRenderContext& renderContext, int cameraNum) override;
 private:
 	/*!
 	*@brief	画面遷移関数。
@@ -55,5 +57,7 @@ private:
 	SceneData					m_scenedata;
 
 	bool						m_isMulti;
+
+	CharData					m_char;
 };
 

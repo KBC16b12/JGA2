@@ -22,9 +22,16 @@ namespace Status
 		enChar
 	};
 
-	struct SMapInfo {
+	struct SMapInfo 
+	{
 		const char*	s_modelName;
 		CVector3	s_position;
 		CQuaternion	s_rotation;
+	};
+
+	enum CharData 
+	{
+		enChar001,
+		enChar002,
 	};
 };

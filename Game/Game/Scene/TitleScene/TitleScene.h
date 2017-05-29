@@ -40,6 +40,8 @@ public:
 	*@param[in]		renderContext		レンダリングコンテキスト。
 	*/
 	void PostRender( CRenderContext& renderContext ) override;
+
+	void PostRender(CRenderContext& renderContext, int cameraNum) override;
 private:
 	/*!
 	*@brief	画面遷移関数。

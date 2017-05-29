@@ -36,6 +36,11 @@ void RankingScene::PostRender(CRenderContext& renderContext)
 	m_Sample.Draw(renderContext);
 }
 
+void RankingScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_Sample.Draw(renderContext);
+}
+
 void RankingScene::SceneChange()
 {
 	switch (m_runstat)

@@ -88,6 +88,9 @@ void Player::Update()
 	m_skinModelThird.Update(m_position, m_rotation, { 5.0f,5.0f,5.0f });
 	//アニメーションの更新
 	m_Animation.Update(1.0f / 50.0f);
+
+	KeyOutput();
+	DataOutput();
 }
 
 void Player::Render(CRenderContext& renderContext, int playernum)
@@ -172,11 +175,15 @@ void Player::Move()
 	l_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
 
 	/*ジャンプ*/
-	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
+	//仕様から一応削除
+	/*if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
 	{
 		m_characterController.Jump();
 		l_moveSpeed.y = move * -2.0f;
 	}
+		l_moveSpeed.y += 20.0f;
+	}*/
+
 
 	//決定した移動速度をキャラクタコントローラーに設定。
 	m_characterController.SetMoveSpeed(l_moveSpeed);
@@ -256,4 +263,5 @@ void Player::KeyOutput()
 
 void Player::DataOutput()
 {
+	
 }

@@ -49,6 +49,11 @@ namespace tkEngine
 			m_viewPortParam.push_back(param);
 		}
 
+		void SetCameraNum(int cameraNum)
+		{
+			m_cameraNum = cameraNum;
+		}
+
 		//‰æ–Ê•ªŠ„ŠJn
 		void Start()
 		{
@@ -66,6 +71,7 @@ namespace tkEngine
 		void Release();
 
 	private:
+		int	m_cameraNum;
 		bool m_isSprit;									//‰æ–Ê•ªŠ„‚·‚é‚©
 		std::vector<ViewPortParam> m_viewPortParam;		//‰æ–Ê•ªŠ„‚·‚éÛ‚Ìî•ñ
 	};

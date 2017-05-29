@@ -36,6 +36,11 @@ void ResultScene::PostRender(CRenderContext& renderContext)
 	m_Sample.Draw(renderContext);
 }
 
+void ResultScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_Sample.Draw(renderContext);
+}
+
 void ResultScene::SceneChange()
 {
 	switch (m_runstat)

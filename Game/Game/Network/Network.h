@@ -34,10 +34,20 @@ public:
 	*/
 	char* Recv(ULONG addr, int port);
 
+	/*
+	*@送信元確認関数
+	*/
+	char* RecvFrom();
+
 	/*!
 	*@brief 送信関数
 	*/
 	void Send(ULONG addr, int port, char buf[BUFFER_SIZE]);
+
+	/*!
+	*@brief 自分のアドレス取得
+	*/
+	char* GetByMyAddress();
 
 private:
 	/*!

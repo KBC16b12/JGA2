@@ -51,6 +51,12 @@ void CharScene::PostRender(CRenderContext& renderContext)
 	m_Sample.Draw(renderContext);
 }
 
+void CharScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_Sample.Draw(renderContext);
+}
+
+
 void CharScene::SceneChange()
 {
 	switch (m_runstat)
@@ -80,6 +86,19 @@ void CharScene::SceneChange()
 			m_runstat = enFadeOut;
 
 			g_Fade->StartFadeOut();
+
+			m_char = enChar001;
+			return;
+		}
+		if (Pad(0).IsTrigger(enButtonB))
+		{
+			m_scenedata = (m_isMulti ? enJoin : enGame);
+
+			m_runstat = enFadeOut;
+
+			g_Fade->StartFadeOut();
+
+			m_char = enChar002;
 			return;
 		}
 		break;
@@ -93,7 +112,7 @@ void CharScene::SceneChange()
 				g_gameScene->Init(n_solo_map_dat, "Assets/sound/GameBGM2.wav");
 				break;
 			case enJoin:
-				NewGO<JoinScene>(PRIORITY1);
+				NewGO<JoinScene>(PRIORITY1)->Init(m_char);
 				break;
 			case enTitle:
 				NewGO<TitleScene>(PRIORITY1);

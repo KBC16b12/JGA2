@@ -40,6 +40,11 @@ void TitleScene::PostRender(CRenderContext& renderContext)
 	m_Title.Draw(renderContext);
 }
 
+void TitleScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_Title.Draw(renderContext);
+}
+
 /*!
 *@brief	‰æ–Ê‘JˆÚŠÖ”B
 */
@@ -64,7 +69,7 @@ void TitleScene::SceneChange()
 			g_Fade->StartFadeOut();
 			return;
 		}*/
-		if (Pad(0).IsTrigger(enButtonB))
+		if (Pad(0).IsTrigger(enButtonA))
 		{
 			m_scenedata = enChar;
 

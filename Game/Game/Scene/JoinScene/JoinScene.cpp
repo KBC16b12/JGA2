@@ -27,6 +27,11 @@ bool JoinScene::Start()
 	return true;
 }
 
+void JoinScene::Init(CharData character)
+{
+	m_char = character;
+}
+
 void JoinScene::Update()
 {
 	SceneChange();
@@ -40,6 +45,12 @@ void JoinScene::PostRender(CRenderContext& renderContext)
 {
 	m_Sample.Draw(renderContext);
 }
+
+void JoinScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	m_Sample.Draw(renderContext);
+}
+
 
 void JoinScene::SceneChange()
 {
@@ -69,6 +80,19 @@ void JoinScene::SceneChange()
 			m_runstat = enFadeOut;
 
 			g_Fade->StartFadeOut();
+
+			m_isHost = true;
+			return;
+		}
+		if (Pad(0).IsTrigger(enButtonB))
+		{
+			m_scenedata = enWait;
+
+			m_runstat = enFadeOut;
+
+			g_Fade->StartFadeOut();
+
+			m_isHost = false;
 			return;
 		}
 		break;
@@ -81,7 +105,7 @@ void JoinScene::SceneChange()
 				NewGO<TitleScene>(PRIORITY1);
 				break;
 			case enWait:
-				NewGO<WaitScene>(PRIORITY1);
+				NewGO<WaitScene>(PRIORITY1)->Init(m_isHost, m_char);
 				break;
 			default:
 				break;

@@ -1,4 +1,5 @@
 #pragma once
+
 class JoinScene : public IGameObject
 {
 public:
@@ -23,6 +24,11 @@ public:
 	bool Start() override;
 
 	/*!
+	*@brief 初期化関数
+	*/
+	void Init(CharData character);
+
+	/*!
 	*@brief	更新関数。
 	*/
 	void Update() override;
@@ -40,6 +46,8 @@ public:
 	*/
 	void PostRender(CRenderContext& renderContext) override;
 
+	void PostRender(CRenderContext& renderContext, int cameraNum) override;
+
 private:
 	/*!
 	*@brief	画面遷移関数。
@@ -54,5 +62,9 @@ private:
 	RunStat						m_runstat = enFadeIn;
 
 	SceneData					m_scenedata;
+
+	bool						m_isHost;
+
+	CharData					m_char;
 };
 
