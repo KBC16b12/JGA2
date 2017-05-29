@@ -30,7 +30,6 @@ void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum)
 	m_characterController.Init(0.3f, 0.3f, m_position);
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 	m_characterController.SetGravity(0.0f);
-
 }
 
 bool Bullet::Start()
@@ -74,7 +73,7 @@ void Bullet::DethCheck()
 		else
 		{
 			//弾を打ったプレイヤーとある程度離れていればオブジェクトと衝突して消滅
-			if (l_playerRadius < l_distance.Length() && m_characterController.IsCollision())
+			if (100.0f < l_distance.Length()/* && m_characterController.IsCollision()*/)
 			{
 				DeleteGO(this);
 				break;

@@ -169,7 +169,3 @@ void GameScene::SetActiveFlags(bool flag)
 	m_map->SetActiveFlag(flag);
 }
 
-void GameScene::OnDestroy()
-{
-
-}

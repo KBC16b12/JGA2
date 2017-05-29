@@ -42,12 +42,16 @@ public:
 
 	void Move();
 
+
+
 	/*
 	*@brief ダメージを受けた時に呼ばれる関数
 	*@brief int playerNum	当てたプレイヤーの番号
 	*@brief int damage		プレイヤーが受けるダメージ量
 	*/
 	void Damage(int playerNum, int damage);
+
+	void Trap();
 
 	/*
 	*@brief リスポーン処理
@@ -58,6 +62,7 @@ public:
 	{
 		return m_position;
 	}
+
 
 	/*
 	*@brief プレイヤーの前方のワールド行列
@@ -100,10 +105,18 @@ public:
 		m_killCount++;
 	}
 
+	void Startup();
+
+	bool IsStup()
+	{
+		return Stup;
+	}
 	CMatrix GetWorldMatrix()
 	{
 		return m_skinModelFirst.GetWorldMatrix();
 	}
+
+	void Eaten();
 
 private:
 	/*!
@@ -133,13 +146,17 @@ private:
 	CQuaternion				m_respawnRotation;
 
 	int						m_currentAnimationNo;
-
+	float					m_angle = 180;
+	float					move = -5.0f;	//移動速度
+	bool					Stup = false;
 	KillCountSprite*		m_killCountSprite;					//キル数のスプライト
 	Bar*					m_HPbar;		//HPバー
 	int						m_hp;			//HP
 	int						m_maxhp;		//最大HP
 	int						m_playernum;
 	int						m_killCount;
+	int						m_time = 30;
+	int						Ctime = 15;
 	Weapon					m_weapon;
 	CLight					m_light;
 };

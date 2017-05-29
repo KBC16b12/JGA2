@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ItemMaker.h"
 #include "ItemBox.h"
+#include "../Mimikku.h"
 
 ItemMaker::ItemMaker()
 {
@@ -38,6 +39,7 @@ void ItemMaker::Update()
 		if (1.0f < m_intervalTime)
 		{
 			m_item = NewGO<ItemBox>(PRIORITY0);
+			m_item = NewGO<Mimikku>(PRIORITY0);
 			m_item->Init(m_position, m_rotation, m_modelDataItemBox.GetBody());
 			m_intervalTime = 0.0f;
 		}

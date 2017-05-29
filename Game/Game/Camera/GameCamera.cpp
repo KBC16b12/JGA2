@@ -3,6 +3,8 @@
 #include "../Scene/GameScene/GameScene.h"
 #include "../Player/Player.h"
 
+//extern GameScene* g_player;
+extern Player* g_player;
 GameCamera* g_gameCamera[PLAYER_NUM];
 
 GameCamera::GameCamera()
@@ -15,6 +17,7 @@ GameCamera::GameCamera()
 	m_camera.SetPosition(m_position);
 	m_camera.SetTarget(m_look_position);
 	m_camera.SetUp(CVector3::AxisY);
+
 	m_camera.Update();
 	m_angle = 0.0f;
 	m_isViewport = false;
@@ -28,7 +31,6 @@ GameCamera::~GameCamera()
 void GameCamera::Update()
 {
 	SetPos();
-	Move();
 	m_camera.Update();
 }
 
@@ -45,20 +47,6 @@ void GameCamera::SetPos()
 	m_camera.SetTarget(l_tarbget);
 }
 
-void GameCamera::Move()
-{
-	CVector3 C_moveX;
-	CVector3 C_moveY;
-
-	if (Pad(0).GetRStickXF() > 0.0f)
-	{
-		;
-	}
-	if (Pad(0).GetRStickXF() < 0.0f)
-	{
-		;
-	}
-}
 
 void GameCamera::Render(CRenderContext& renderContext)
 {

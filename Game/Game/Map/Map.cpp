@@ -2,6 +2,8 @@
 #include "Map.h"
 #include "../MapObject.h"
 #include "../Camera/GameCamera.h"
+#include "../Item/Item.h"
+#include "../Trap.h"
 #include "../Item/ItemMaker.h"
 #include "../Player/Player.h"
 
@@ -41,6 +43,10 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 			m_player[l_playerNum]->SetPlayerNum(l_playerNum);
 			m_player[l_playerNum]->Init(l_map_dat.s_position, l_map_dat.s_rotation);
 			l_playerNum++;
+		}
+		else if (!strcmp("torabasami", l_map_dat.s_modelName))
+		{
+			l_mapChip = NewGO<TrapA>(PRIORITY1);
 		}
 		else
 		{

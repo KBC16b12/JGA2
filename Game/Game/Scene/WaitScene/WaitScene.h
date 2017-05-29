@@ -18,7 +18,7 @@ public:
 	/*!
 	*@brief ‰Šú‰»ŠÖ”
 	*/
-	void Init(bool isHost);
+	void Init(bool isHost, CharData character);
 
 	/*!
 	*@brief	ŠJnŠÖ”B
@@ -70,5 +70,7 @@ private:
 	ULONG						m_addressList[JOIN_NUM];
 
 	int							m_IPcount;
+
+	CharData					m_char;
 };
 

@@ -39,7 +39,6 @@ public:
 	void Render(CRenderContext& renderContext, int playernum)override;
 
 protected:
-
 	/*
 	*@brief ’e‚Ì“®‚«‚Ìˆ—
 	*/

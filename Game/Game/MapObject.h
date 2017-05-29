@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Map/MapChip.h"
-
 class MapObject : public MapChip
 {
 public:
@@ -9,6 +8,12 @@ public:
 
 
 	~MapObject();
+
+	bool Start();
+
+	void Update();
+
+	void Render(CRenderContext& renderContext, int cameraNum);
 
 
 	/*!

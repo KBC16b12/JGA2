@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Map/MapChip.h"
 
 /*
@@ -7,7 +6,6 @@
 */
 
 class Player;
-
 class Item : public IGameObject
 {
 public:

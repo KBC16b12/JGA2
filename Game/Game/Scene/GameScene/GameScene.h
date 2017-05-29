@@ -49,7 +49,8 @@ public:
 
 	void SetActiveFlags(bool flag);
 
-	void OnDestroy();
+	Player* g_player;
+
 
 private:
 	/*!
@@ -60,8 +61,10 @@ private:
 	bool						m_isLoad;
 	char*						m_bgm_path;						//BGMのファイルパス
 	CSoundSource*				m_bgm;							//BGMソース。
+	Player*						m_player[PLAYER_NUM];			//プレイヤ
 	Map*						m_map;							//マップ
-	CLight						m_light;								//!<ライト。
+	CCamera						m_camera;						//!<カメラ。
+	CLight						m_light;						//!<ライト。
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
 	SceneData					m_scenedata;					//画面遷移データ
 	TimeSprite*					m_time;

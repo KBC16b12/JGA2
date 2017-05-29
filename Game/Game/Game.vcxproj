@@ -178,6 +178,7 @@
     <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="Map\Map.cpp" />
     <ClCompile Include="Map\MapChip.cpp" />
+    <ClCompile Include="Mimikku.cpp" />
     <ClCompile Include="Network\Network.cpp" />
     <ClCompile Include="PincerAttack\PincerAttack.cpp" />
     <ClCompile Include="PincerAttack\PincerAttackEffect.cpp" />
@@ -199,6 +200,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Trap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bullet\BoundBullet.h" />
@@ -215,6 +217,7 @@
     <ClInclude Include="MapObject.h" />
     <ClInclude Include="Map\Map.h" />
     <ClInclude Include="Map\MapChip.h" />
+    <ClInclude Include="Mimikku.h" />
     <ClInclude Include="Network\Network.h" />
     <ClInclude Include="PincerAttack\PincerAttack.h" />
     <ClInclude Include="PincerAttack\PincerAttackEffect.h" />
@@ -232,6 +235,7 @@
     <ClInclude Include="Scene\WaitScene\WaitScene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stuNamespace.h" />
+    <ClInclude Include="Trap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

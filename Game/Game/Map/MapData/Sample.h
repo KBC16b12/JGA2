@@ -1,4 +1,4 @@
-﻿//ground
+//ground
 {
 	"ground",
 	CVector3(0.00f, 0.00f, 0.00f),             //平行移動

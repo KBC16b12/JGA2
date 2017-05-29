@@ -4,9 +4,9 @@
 #include "../Camera/GameCamera.h"
 #include "../HUD/KillCountSprite.h"
 #include "../Scene/GameScene/GameScene.h"
+#include "../Trap.h"
 #include "../Network/Network.h"
 
-Player *player;
 Player::Player()
 {
 	m_respawnPosition = CVector3::Zero;
@@ -181,7 +181,6 @@ void Player::UpdateHPBar()
 void Player::Move()
 {
 	float	l_angle = 0.0f;
-	float	move;
 	move = -5.0f; //移動速度
 	if (Pad(m_playernum).IsPress(enButtonLB2))
 	{
@@ -193,6 +192,8 @@ void Player::Move()
 	l_moveSpeed.x = 0.0f;
 	l_moveSpeed.z = 0.0f;
 	CMatrix l_pmatrix = m_skinModelFirst.GetWorldMatrix();
+
+	Trap();
 
 	l_moveX.x = l_pmatrix.m[0][0];
 	l_moveX.y = l_pmatrix.m[0][1];
@@ -216,11 +217,15 @@ void Player::Move()
 	l_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
 
 	/*ジャンプ*/
-	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
+	//仕様から一応削除
+	/*if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
 	{
 		m_characterController.Jump();
-		l_moveSpeed.y += 20.0f;
+		l_moveSpeed.y = move * -2.0f;
 	}
+		l_moveSpeed.y += 20.0f;
+	}*/
+
 
 	//決定した移動速度をキャラクタコントローラーに設定。
 	m_characterController.SetMoveSpeed(l_moveSpeed);
@@ -246,6 +251,45 @@ void Player::Damage(int playerNum, int damage)
 	}
 }
 
+void Player::Trap()
+{
+	if (Stup == true)
+	{
+		m_time--;
+		if (m_time > 0)
+		{
+			move = 0.0f;
+		}
+
+		if (m_time < 0)
+		{
+			Ctime--;
+			if (Ctime > 0)
+			{
+				move = -5.0f;
+				Stup = false;
+			}
+		}
+
+		//Stup = true;
+	}
+
+	//m_time = 30;
+}
+
+void Player::Startup()
+{
+	Stup = true;
+	m_time = 30;
+	Ctime = 15;
+	move = -5.0f;
+}
+
+void Player::Eaten()
+{
+	m_hp -= 3;
+}
+
 void Player::Respawn()
 {
 	//HPを回復して座標を初期化
@@ -257,9 +301,9 @@ void Player::Respawn()
 
 void Player::KeyOutput()
 {
-	Network::GetInstance().Send(inet_addr("127.0.0.1"), DEFAULT_PORT + m_playernum, "1");
 }
 
 void Player::DataOutput()
 {
+	
 }
