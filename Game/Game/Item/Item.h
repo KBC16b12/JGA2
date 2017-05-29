@@ -6,7 +6,6 @@
 */
 
 class Player;
-
 class Item : public IGameObject
 {
 public:

@@ -140,7 +140,6 @@ void Player::UpdateHPBar()
 void Player::Move()
 {
 	float	l_angle = 0.0f;
-	float	move;
 	move = -5.0f; //ˆÚ“®‘¬“x
 	CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
 	CVector3 l_moveX;
@@ -222,15 +221,24 @@ void Player::Trap()
 				Stup = false;
 			}
 		}
+
+		//Stup = true;
 	}
+
+	//m_time = 30;
 }
 
 void Player::Startup()
 {
 	Stup = true;
-	m_time = 75;
-	Ctime = 100;
+	m_time = 30;
+	Ctime = 15;
 	move = -5.0f;
+}
+
+void Player::Eaten()
+{
+	m_hp -= 3;
 }
 
 void Player::Respawn()

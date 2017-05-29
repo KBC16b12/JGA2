@@ -55,8 +55,9 @@ void TrapA::Update()
 		{
 			l_player->Startup();
 			m_stup = true;
+			SetActiveFlag(false);
 		}
-
+	
 	}
 }
 

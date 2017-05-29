@@ -63,10 +63,11 @@
     <Filter Include="Source Files\Bullet">
       <UniqueIdentifier>{85351ead-5cde-4f37-9da2-2cbfeb3a640e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\TRAP">
-      <UniqueIdentifier>{87f3a8d0-0a85-4397-a9a8-da00b7fe34ea}</UniqueIdentifier>
     <Filter Include="Source Files\PincerAttack">
       <UniqueIdentifier>{ab7e5000-8159-4e45-bb9d-8793dd57e072}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gimmick">
+      <UniqueIdentifier>{c31d3dd7-a2f6-4636-aee0-f6f3bad1d5b5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -145,8 +146,6 @@
     <ClCompile Include="Item\Item.cpp">
       <Filter>Source Files\Item</Filter>
     </ClCompile>
-    <ClCompile Include="Trap.cpp">
-      <Filter>Source Files\TRAP</Filter>
     <ClCompile Include="Bullet\BoundBullet.cpp">
       <Filter>Source Files\Bullet</Filter>
     </ClCompile>
@@ -164,6 +163,12 @@
     </ClCompile>
     <ClCompile Include="PincerAttack\PincerAttackEffect.cpp">
       <Filter>Source Files\PincerAttack</Filter>
+    </ClCompile>
+    <ClCompile Include="Mimikku.cpp">
+      <Filter>Source Files\gimmick</Filter>
+    </ClCompile>
+    <ClCompile Include="Trap.cpp">
+      <Filter>Source Files\gimmick</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,8 +247,6 @@
     <ClInclude Include="Player\Weapon.h">
       <Filter>Source Files\Player</Filter>
     </ClInclude>
-    <ClInclude Include="Trap.h">
-      <Filter>Source Files\TRAP</Filter>
     <ClInclude Include="Bullet\BoundBullet.h">
       <Filter>Source Files\Bullet</Filter>
     </ClInclude>
@@ -261,6 +264,12 @@
     </ClInclude>
     <ClInclude Include="PincerAttack\PincerAttackEffect.h">
       <Filter>Source Files\PincerAttack</Filter>
+    </ClInclude>
+    <ClInclude Include="Mimikku.h">
+      <Filter>Source Files\gimmick</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap.h">
+      <Filter>Source Files\gimmick</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

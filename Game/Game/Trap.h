@@ -30,5 +30,5 @@ private:
 	CMeshCollider				m_meshCollider;			//メッシュコライダー。
 	CRigidBody					m_rigidBody;			//剛体。
 	bool						Flg;
-	float						l_playerRadiusF = 5.0f;
+	float						l_playerRadiusF = 3.0f;
 };

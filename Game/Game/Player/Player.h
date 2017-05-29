@@ -130,6 +130,8 @@ public:
 		return m_skinModelFirst.GetWorldMatrix();
 	}
 
+	void Eaten();
+
 private:
 	/*!
 	*@brief	HPバー更新関数。
@@ -167,8 +169,8 @@ private:
 	int						m_maxhp;		//最大HP
 	int						m_playernum;
 	int						m_killCount;
-	int						m_time = 75;
-	int						Ctime = 100;
+	int						m_time = 30;
+	int						Ctime = 15;
 	Weapon					m_weapon;
 	CLight					m_light;
 };
