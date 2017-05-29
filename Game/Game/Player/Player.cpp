@@ -174,11 +174,12 @@ void Player::Move()
 	l_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
 
 	/*ジャンプ*/
-	if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
+	//仕様から一応削除
+	/*if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
 	{
 		m_characterController.Jump();
 		l_moveSpeed.y += 20.0f;
-	}
+	}*/
 
 	//決定した移動速度をキャラクタコントローラーに設定。
 	m_characterController.SetMoveSpeed(l_moveSpeed);
@@ -215,9 +216,9 @@ void Player::Respawn()
 
 void Player::KeyOutput()
 {
-	Network::GetInstance().Send(inet_addr("127.0.0.1"), DEFAULT_PORT + m_playernum, "1");
 }
 
 void Player::DataOutput()
 {
+	
 }

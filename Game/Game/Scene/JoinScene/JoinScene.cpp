@@ -27,6 +27,11 @@ bool JoinScene::Start()
 	return true;
 }
 
+void JoinScene::Init(CharData character)
+{
+	m_char = character;
+}
+
 void JoinScene::Update()
 {
 	SceneChange();
@@ -100,7 +105,7 @@ void JoinScene::SceneChange()
 				NewGO<TitleScene>(PRIORITY1);
 				break;
 			case enWait:
-				NewGO<WaitScene>(PRIORITY1)->Init(m_isHost);
+				NewGO<WaitScene>(PRIORITY1)->Init(m_isHost, m_char);
 				break;
 			default:
 				break;

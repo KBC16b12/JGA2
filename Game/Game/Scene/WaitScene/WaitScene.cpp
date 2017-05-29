@@ -29,9 +29,10 @@ WaitScene::~WaitScene()
 	DeleteGO(m_bgm);
 }
 
-void WaitScene::Init(bool isHost)
+void WaitScene::Init(bool isHost, CharData character)
 {
 	m_isHost = isHost;
+	m_char = character;
 }
 
 bool WaitScene::Start()

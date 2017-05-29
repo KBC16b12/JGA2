@@ -24,6 +24,11 @@ public:
 	bool Start() override;
 
 	/*!
+	*@brief ‰Šú‰»ŠÖ”
+	*/
+	void Init(CharData character);
+
+	/*!
 	*@brief	XVŠÖ”B
 	*/
 	void Update() override;
@@ -59,5 +64,7 @@ private:
 	SceneData					m_scenedata;
 
 	bool						m_isHost;
+
+	CharData					m_char;
 };
 

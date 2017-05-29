@@ -57,5 +57,7 @@ private:
 	SceneData					m_scenedata;
 
 	bool						m_isMulti;
+
+	CharData					m_char;
 };
 
