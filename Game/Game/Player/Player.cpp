@@ -11,7 +11,7 @@ Player::Player()
 {
 	m_respawnPosition = CVector3::Zero;
 	//HPê›íË
-	m_maxhp = m_hp = 15;
+	m_maxhp = m_hp = 4;
 	m_killCount = 0;
 	m_HPbar = NewGO<Bar>(PRIORITY1);
 	m_HPbar->SetBarPos({ -592.95f, 320.0f });
@@ -52,7 +52,6 @@ bool Player::Start()
 	m_light.SetDiffuseLightColor(1, { l_lightColor2, l_lightColor2, l_lightColor2, 1.0f });
 	m_light.SetDiffuseLightColor(2, { l_lightColor3, l_lightColor3, l_lightColor3, 1.0f });
 	m_light.SetDiffuseLightColor(3, { l_lightColor4, l_lightColor4, l_lightColor4, 1.0f });
-	m_light.SetAmbinetLight({ 0.3f, 0.3f, 0.3f });
 
 	SkinModelDataResources().Load(m_skinModelDataFirst, "Assets/modelData/snowman_first.X", NULL, false, 1);
 	m_skinModelFirst.Init(m_skinModelDataFirst.GetBody());
@@ -72,7 +71,46 @@ bool Player::Start()
 
 	m_HPbar->SetPlayerNum(m_playernum);
 	m_killCountSprite->SetPlayerNum(m_playernum);
+	m_skinModelFirst.SetFresnelFlag(true);
+	m_skinModelThird.SetFresnelFlag(true);
 	return true;
+}
+
+void Player::Init(CVector3 position, CQuaternion rotation)
+{
+	m_rotation = rotation;
+	m_position = position;
+	m_respawnPosition = position;
+	m_respawnRotation = rotation;
+	CQuaternion multi;
+	multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
+	m_rotation.Multiply(multi);
+	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
+	m_rotation.Multiply(multi);
+}
+
+void Player::SetPlayerNum(int playernum)
+{
+	m_playernum = playernum;
+	m_weapon.Init(m_playernum);
+	float l_lightColor = 0.3f;
+	float l_playerColor = 1.0f;
+	CVector3 l_ambinetLight = { l_lightColor, 0.3f, 0.3f };
+	switch (m_playernum)
+	{
+	case 0:
+		break;
+	case 1:
+		l_ambinetLight.x = l_playerColor;
+		break;
+	case 2:
+		l_ambinetLight.y = l_playerColor;
+		break;
+	case 3:
+		l_ambinetLight.z = l_playerColor;
+		break;
+	}
+	m_light.SetAmbinetLight(l_ambinetLight);
 }
 
 void Player::Update()
@@ -145,6 +183,10 @@ void Player::Move()
 	float	l_angle = 0.0f;
 	float	move;
 	move = -5.0f; //à⁄ìÆë¨ìx
+	if (Pad(m_playernum).IsPress(enButtonLB2))
+	{
+		move *= 0.1f;
+	}
 	CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
 	CVector3 l_moveX;
 	CVector3 l_moveZ;

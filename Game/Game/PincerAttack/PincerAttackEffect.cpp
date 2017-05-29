@@ -53,6 +53,10 @@ bool PincerAttackEffect::Start()
 
 void PincerAttackEffect::Update()
 {
+	if (g_gameScene == nullptr)
+	{
+		return;
+	}
 	m_worldMatrix = CMatrix::Identity;
 	CVector3 l_trans = g_gameScene->GetPlayer(m_playerNum)->GetPosition();
 	l_trans.Add(g_gameScene->GetPlayer(m_opponentNum)->GetPosition());

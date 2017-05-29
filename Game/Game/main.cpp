@@ -44,7 +44,7 @@ void InitTkEngine( HINSTANCE hInst )
 	//DOF
 	initParam.graphicsConfig.dofConfig.isEnable = false;
 	//AA
-	initParam.graphicsConfig.aaConfig.isEnable = false;
+	initParam.graphicsConfig.aaConfig.isEnable = true;
 	initParam.graphicsConfig.motionBlurConfig.isEnable = false;
 
 	//—”‰Šú‰»B

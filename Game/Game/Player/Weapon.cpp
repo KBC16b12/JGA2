@@ -23,6 +23,7 @@ Weapon::Weapon()
 Weapon::~Weapon()
 {
 	DeleteGO(m_itemSprite);
+	DeleteGO(m_pincer);
 }
 
 void Weapon::Init(int playerNum)
@@ -42,7 +43,7 @@ void Weapon::Update()
 	if (m_isStrike)
 	{
 			//’e‚ğ‘Å‚Ä‚éó‘Ô‚Å‚Ú‚½‚ñ‚ğ‰Ÿ‚µ‚½‚ç
-		if (Pad(m_playerNum).IsTrigger(enButtonRB1))
+		if (Pad(m_playerNum).IsPress(enButtonRB1))
 		{
 			BulletFilling();
 			m_isStrike = false;

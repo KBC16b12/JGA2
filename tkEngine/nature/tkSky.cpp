@@ -31,8 +31,8 @@ namespace tkEngine{
 	void CSky::Update()
 	{
 		if (camera != nullptr) {
-			sunAngle += 0.02f * GameTime().GetFrameDeltaTime() * deltaTimeMul;
-			
+			//sunAngle += 0.02f * GameTime().GetFrameDeltaTime() * deltaTimeMul;
+			sunAngle = CMath::PI * 0.25f;
 			//Xé≤âÒì]ÅB
 			sunPosition.Set(0.0f, sinf(sunAngle), cosf(sunAngle));
 			//Zé≤âÒì]ÅB

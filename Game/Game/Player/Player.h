@@ -81,28 +81,14 @@ public:
 		m_weapon.SetWeapon();
 	}
 
-	void Init(CVector3 position, CQuaternion rotation)
-	{
-		m_rotation = rotation;
-		m_position = position;
-		m_respawnPosition = position;
-		m_respawnRotation = rotation;
-		CQuaternion multi;
-		multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
-		m_rotation.Multiply(multi);
-		multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
-		m_rotation.Multiply(multi);
-	}
+	void Init(CVector3 position, CQuaternion rotation);
 
 	/*
 	プレイヤーの番号をセットする関数
 	プレイヤーの番号とカメラの番号は同じ
 	*/
-	void SetPlayerNum(int playernum)
-	{
-		m_playernum = playernum;
-		m_weapon.Init(m_playernum);
-	}
+	void SetPlayerNum(int playernum);
+
 
 	int GetPlayerNum()
 	{
