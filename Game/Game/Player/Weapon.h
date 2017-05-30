@@ -43,7 +43,7 @@ public:
 	*/
 	void SetWeapon();
 
-
+	void OnDestroy() override;
 private:
 	BULLETSTATE m_state;				//どのアイテムを使ってるかの状態を表す変数(NOMALはない状態)
 	int			m_bulletStrikeNum;		//アイテムを使った状態の弾を打てる回数

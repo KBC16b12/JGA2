@@ -22,10 +22,13 @@ Weapon::Weapon()
 
 Weapon::~Weapon()
 {
+	
+}
+void Weapon::OnDestroy()
+{
 	DeleteGO(m_itemSprite);
 	DeleteGO(m_pincer);
 }
-
 void Weapon::Init(int playerNum)
 {
 	m_playerNum = playerNum;
