@@ -38,7 +38,7 @@ void BoundBullet::Move()
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 }
 
-void BoundBullet::DethCheck()
+void BoundBullet::DeathCheck()
 {
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{

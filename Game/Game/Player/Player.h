@@ -2,6 +2,7 @@
 
 #include "../Network/Network.h"
 #include "Weapon.h"
+#include "PlayerRecovery.h"
 class KillCountSprite;
 class Bar;
 
@@ -134,6 +135,7 @@ private:
 	*/
 	void DataOutput();
 
+private:
 	CSkinModel				m_skinModelFirst;					//自分から見た時のモデル
 	CSkinModelDataHandle	m_skinModelDataFirst;				//スキンモデルデータ
 	CSkinModel				m_skinModelThird;					//他人から見た時のモデル
@@ -159,5 +161,6 @@ private:
 	int						Ctime = 15;
 	Weapon					m_weapon;
 	CLight					m_light;
+	PlayerRecovery			m_recovery;
 };
 

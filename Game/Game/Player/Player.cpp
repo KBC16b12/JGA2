@@ -24,6 +24,7 @@ Player::Player()
 	m_HPbar->SetData(m_hp, m_maxhp);
 	m_HPbar->SetBerQuarter(Bar::enBarQuarter::enQuaLeft);
 	m_killCountSprite = NewGO<KillCountSprite>(PRIORITY1);
+
 }
 
 Player::~Player()
@@ -65,7 +66,7 @@ bool Player::Start()
 	m_skinModelThird.SetShadowReceiverFlag(true);
 	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
-	m_characterController.Init(0.5f, 1.0f, m_position);
+	m_characterController.Init(1.7f, 1.0f, m_position);
 	m_characterController.SetGravity(-30.0f);
 	
 
@@ -82,11 +83,13 @@ void Player::Init(CVector3 position, CQuaternion rotation)
 	m_position = position;
 	m_respawnPosition = position;
 	m_respawnRotation = rotation;
+
 	CQuaternion multi;
 	multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
 	m_rotation.Multiply(multi);
 	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
 	m_rotation.Multiply(multi);
+	m_recovery.Init(&m_hp, m_maxhp);
 }
 
 void Player::SetPlayerNum(int playernum)
@@ -118,7 +121,7 @@ void Player::Update()
 	m_weapon.Update();
 	UpdateHPBar();
 	m_killCountSprite->SetData(m_killCount);
-		
+	m_recovery.Update();
 	Move();
 
 	//ワールド行列の更新
@@ -181,11 +184,7 @@ void Player::UpdateHPBar()
 void Player::Move()
 {
 	float	l_angle = 0.0f;
-	move = -5.0f; //移動速度
-	if (Pad(m_playernum).IsPress(enButtonLB2))
-	{
-		move *= 0.1f;
-	}
+	move = -10.0f; //移動速度
 	CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
 	CVector3 l_moveX;
 	CVector3 l_moveZ;
@@ -233,7 +232,7 @@ void Player::Move()
 	m_characterController.Execute(GameTime().GetFrameDeltaTime());
 	//実行結果を受け取る。
 	m_position = m_characterController.GetPosition();
-	m_position.y += 2.0f;
+	m_position.y += 3.4f;
 	CQuaternion multi;
 	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(l_angle));
 	m_rotation.Multiply(multi);
@@ -248,6 +247,10 @@ void Player::Damage(int playerNum, int damage)
 		//もしHPが０になり死んだ場合殺した相手のカウントアップをしリスポーンする。
 		g_gameScene->GetPlayer(playerNum)->KillCountUp();
 		Respawn();
+	}
+	else
+	{
+		m_recovery.Hit();
 	}
 }
 
@@ -287,7 +290,16 @@ void Player::Startup()
 
 void Player::Eaten()
 {
-	m_hp -= 3;
+	m_hp -= 1;
+	if (m_hp <= 0)
+	{
+
+		Respawn();
+	}
+	else
+	{
+		m_recovery.Hit();
+	}
 }
 
 void Player::Respawn()

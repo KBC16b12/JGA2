@@ -34,7 +34,7 @@ void GrenadeBullet::Move()
 	m_position = m_characterController.GetPosition();
 }
 
-void GrenadeBullet::DethCheck()
+void GrenadeBullet::DeathCheck()
 {
 	bool l_isDelete = false;
 	{
@@ -58,10 +58,12 @@ void GrenadeBullet::DethCheck()
 			l_distance.Subtract(m_position);
 			if (l_distance.Length() < 8.0f && m_playerNum != i)
 			{
-				l_player->Damage(m_playerNum, GRENADE_DAMAGE);
+				l_player->Damage(m_playerNum, BULLET_DAMAGE);
 			}
 		}
 		DeleteGO(this);
+		CVector3 l_emitPosition = m_position;
+		l_emitPosition.y += 2.0f;
 		CParticleEmitter *l_particleEmitter = NewGO<CParticleEmitter>(PRIORITY0);
 		l_particleEmitter->Init(g_random, g_gameCamera[m_playerNum]->GetCamera(), 
 		{
@@ -93,7 +95,7 @@ void GrenadeBullet::DethCheck()
 		0.15f,											//!<パーティクルエミッターの寿命
 		1.2f											//!<サイズスケール
 		},
-		m_position);
+		l_emitPosition);
 		CParticleEmitter *l_particleEmitter2 = NewGO<CParticleEmitter>(PRIORITY0);
 		l_particleEmitter2->Init(g_random, g_gameCamera[m_playerNum]->GetCamera(),
 		{
@@ -124,7 +126,7 @@ void GrenadeBullet::DethCheck()
 			0.15f,											//!<パーティクルエミッターの寿命
 			1.2f											//!<サイズスケール
 		},
-			m_position);
+			l_emitPosition);
 		for (int i = 0;i < PLAYER_NUM;i++)
 		{
 			l_particleEmitter->AddCamera(g_gameCamera[i]->GetCamera());

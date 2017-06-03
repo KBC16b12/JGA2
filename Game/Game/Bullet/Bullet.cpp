@@ -22,10 +22,22 @@ void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum)
 	m_playerNum = playerNum;
 	//座標の初期化
 	m_position = position;
-	//移動速度をプレイヤーの向きから求める
+	CVector3 l_addPosition = movespeed;
+	l_addPosition.Cross(CVector3::AxisY);
+	l_addPosition.Scale(-1.5f);
+	l_addPosition.y -= 0.8f;
+	m_position.Add(l_addPosition);
+
 	m_moveSpeed = movespeed;
+
 	m_moveSpeed.Normalize();
 	m_moveSpeed.Scale(30.0f);
+	m_moveSpeed.Subtract(m_moveSpeed, l_addPosition);
+	m_moveSpeed.Normalize();
+	l_addPosition = m_moveSpeed;
+	m_moveSpeed.Scale(30.0f);
+	l_addPosition.Scale(2.0f);
+	m_position.Add(l_addPosition);
 
 	m_characterController.Init(0.3f, 0.3f, m_position);
 	m_characterController.SetMoveSpeed(m_moveSpeed);
@@ -48,11 +60,11 @@ void Bullet::Update()
 		return;
 	}
 	Move();
-	DethCheck();
+	DeathCheck();
 	m_skinModel.Update(m_position, CQuaternion::Identity, CVector3::One);
 }
 
-void Bullet::DethCheck()
+void Bullet::DeathCheck()
 {
 	float l_playerRadius = 5.0f;
 	for (int i = 0;i < PLAYER_NUM;i++)
@@ -73,7 +85,7 @@ void Bullet::DethCheck()
 		else
 		{
 			//弾を打ったプレイヤーとある程度離れていればオブジェクトと衝突して消滅
-			if (100.0f < l_distance.Length()/* && m_characterController.IsCollision()*/)
+			if (m_characterController.IsCollision())
 			{
 				DeleteGO(this);
 				break;

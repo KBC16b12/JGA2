@@ -26,7 +26,7 @@ public:
 	*/
 	void Update()override;
 
-	void DethCheck()override;
+	void DeathCheck()override;
 
 private:
 };

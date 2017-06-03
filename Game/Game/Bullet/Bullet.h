@@ -11,7 +11,7 @@ class Bullet : public IGameObject
 public:
 	Bullet();
 
-	~Bullet();
+	virtual ~Bullet();
 
 	bool Start()override;
 
@@ -44,7 +44,7 @@ protected:
 	*/
 	virtual void Move();
 
-	virtual void DethCheck();
+	virtual void DeathCheck();
 
 
 protected:

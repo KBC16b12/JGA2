@@ -170,6 +170,7 @@
     <ClCompile Include="HUD\Bar.cpp" />
     <ClCompile Include="HUD\ItemSprite.cpp" />
     <ClCompile Include="HUD\KillCountSprite.cpp" />
+    <ClCompile Include="HUD\MagazineSprite.cpp" />
     <ClCompile Include="HUD\TimeSprite.cpp" />
     <ClCompile Include="Item\Item.cpp" />
     <ClCompile Include="Item\ItemBox.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="PincerAttack\PincerAttack.cpp" />
     <ClCompile Include="PincerAttack\PincerAttackEffect.cpp" />
     <ClCompile Include="Player\Player.cpp" />
+    <ClCompile Include="Player\PlayerRecovery.cpp" />
     <ClCompile Include="Player\Weapon.cpp" />
     <ClCompile Include="Scene\CharScene\CharScene.cpp" />
     <ClCompile Include="Scene\Fade\Fade.cpp" />
@@ -210,6 +212,7 @@
     <ClInclude Include="HUD\Bar.h" />
     <ClInclude Include="HUD\ItemSprite.h" />
     <ClInclude Include="HUD\KillCountSprite.h" />
+    <ClInclude Include="HUD\MagazineSprite.h" />
     <ClInclude Include="HUD\TimeSprite.h" />
     <ClInclude Include="Item\Item.h" />
     <ClInclude Include="Item\ItemBox.h" />
@@ -222,6 +225,7 @@
     <ClInclude Include="PincerAttack\PincerAttack.h" />
     <ClInclude Include="PincerAttack\PincerAttackEffect.h" />
     <ClInclude Include="Player\Player.h" />
+    <ClInclude Include="Player\PlayerRecovery.h" />
     <ClInclude Include="Player\Weapon.h" />
     <ClInclude Include="Scene\CharScene\CharScene.h" />
     <ClInclude Include="Scene\Fade\Fade.h" />

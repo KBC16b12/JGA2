@@ -72,7 +72,7 @@ namespace tkEngine{
 		bool Start() override ;
 		void Update() override;
 		
-		void DethCheck();
+		void DeathCheck();
 
 		/*
 		*@brief 描画するカメラを追加
@@ -97,7 +97,7 @@ namespace tkEngine{
 		CVector3				emitPosition;	//!<エミッターの座標。
 		std::list<CParticle*>	particleList;	//!<パーティクルのリスト。
 		std::list<CParticle*>	deleteParticleList;	//!<削除されたパーティクルのリスト。
-		float					m_lifeTimer;
+		float					m_lifeTimer;	//!<エミッターの寿命
 		std::vector<CCamera*>	cameraArray;
 	};
 }

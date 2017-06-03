@@ -12,7 +12,8 @@ public:
 
 	void Move()override;
 
-	void DethCheck()override;
+	void DeathCheck()override;
+
 private:
 	float m_timer;
 };

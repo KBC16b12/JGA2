@@ -11,5 +11,5 @@ public:
 
 private:
 
-	void Deth(Player *player)override;
+	void Death(Player *player)override;
 };

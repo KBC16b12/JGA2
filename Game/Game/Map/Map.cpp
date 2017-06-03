@@ -33,11 +33,11 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 	for each(SMapInfo l_map_dat in map_dat)
 	{
 		MapChip *l_mapChip = nullptr;
-		if (!strcmp("ItemBox", l_map_dat.s_modelName))
+		if (!strcmp("itembox1-1", l_map_dat.s_modelName))
 		{
 			l_mapChip = NewGO<ItemMaker>(PRIORITY1);
 		}
-		else if (!strcmp("Player", l_map_dat.s_modelName))
+		else if (!strcmp("snowman1-3", l_map_dat.s_modelName))
 		{
 			m_player[l_playerNum] = NewGO<Player>(PRIORITY0);
 			m_player[l_playerNum]->SetPlayerNum(l_playerNum);

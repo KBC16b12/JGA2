@@ -53,7 +53,7 @@ namespace tkEngine{
 			[](CParticle* p)->bool { return p->IsDead(); }
 		);
 		particleList.erase(delIt, particleList.end());
-		DethCheck();
+		DeathCheck();
 	}
 	/*!
 	*@brief	パーティクルに力を加える。
@@ -66,7 +66,7 @@ namespace tkEngine{
 		}
 	}
 
-	void CParticleEmitter::DethCheck()
+	void CParticleEmitter::DeathCheck()
 	{
 		m_lifeTimer -= GameTime().GetFrameDeltaTime();
 		if (m_lifeTimer < 0.0f)

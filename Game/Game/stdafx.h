@@ -11,7 +11,7 @@
 #define PRIORITY2 2
 #define PLAYER_NUM 4
 #define BULLET_DAMAGE 1
-#define GRENADE_DAMAGE 2
+#define NUM 10
 
 #define DEFAULT_PORT 10000
 

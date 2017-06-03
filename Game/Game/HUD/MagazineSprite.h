@@ -1,40 +1,32 @@
 #pragma once
-#include "Player/Weapon.h"
-
-class ItemSprite : public IGameObject
+class MagazineSprite : public IGameObject
 {
 public:
-	ItemSprite();
-
-	~ItemSprite();
+	MagazineSprite();
+	~MagazineSprite();
 
 	void Init(int playerNum)
 	{
 		m_playerNum = playerNum;
 	}
 
-	void SetItem(BULLETSTATE state);
-
 	bool Start()override;
 
 	void Update()override;
 
-	void SetStrikeNum(int bulletNum)
+	void SetMagazineNum(int bulletNum)
 	{
-		m_bulletStrikeNum = bulletNum;
+		m_magazineNum = bulletNum;
 	}
 
 	void PostRender(CRenderContext& renderContext)override;
 
 	void PostRender(CRenderContext& renderContext, int playerNum)override;
 private:
-
-	CTexture*			m_grenadeTexture;
-	CTexture*			m_boundTexture;
-	CSprite				m_itemSprite;
 	CTexture*			m_countTexture[NUM];
 	CSprite				m_countSprite1;
 	CSprite				m_countSprite10;
 	int					m_playerNum;				//プレイヤーの番号
-	int					m_bulletStrikeNum;			//残弾数
+	int					m_magazineNum;				//残弾数
 };
+

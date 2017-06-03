@@ -23,6 +23,7 @@ void MapChip::ModelInit(const char *modelName)
 	m_SkinModel.SetShadowCasterFlag(true);
 	m_SkinModel.SetShadowReceiverFlag(true);
 	m_SkinModel.SetLight(&g_defaultLight);
+
 }
 
 void MapChip::Init(SMapInfo map_dat)
