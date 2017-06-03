@@ -12,12 +12,15 @@ PincerAttack::PincerAttack()
 
 PincerAttack::~PincerAttack()
 {
-	for (int i = 0;i < PLAYER_NUM - 1;i++)
+	
+}
+void PincerAttack::OnDestroy()
+{
+	for (int i = 0; i < PLAYER_NUM - 1; i++)
 	{
 		DeleteGO(m_pincerEffect[i]);
 	}
 }
-
 void PincerAttack::Update()
 {
 	Shoot();

@@ -25,6 +25,7 @@ public:
 	void Render(CRenderContext& renderContext, int playerNum)override;
 
 	void Shoot();
+	void OnDestroy()override;
 private:
 	PincerAttackEffect*	m_pincerEffect[PLAYER_NUM - 1];
 	int					m_playerNum;
