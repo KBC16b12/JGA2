@@ -27,10 +27,6 @@ Weapon::Weapon()
 
 Weapon::~Weapon()
 {
-	
-}
-void Weapon::OnDestroy()
-{
 	DeleteGO(m_itemSprite);
 	DeleteGO(m_pincer);
 	DeleteGO(m_magazineSprite);

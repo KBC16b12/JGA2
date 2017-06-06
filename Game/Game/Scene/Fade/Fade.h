@@ -83,3 +83,4 @@ private:
 };
 
 extern Fade* g_Fade;
+
