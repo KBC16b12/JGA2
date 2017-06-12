@@ -6,7 +6,7 @@
 */
 TimeSprite::TimeSprite()
 {
-	m_time = 180.0f;
+	m_time = 120.0f;
 	for (int i = 0;i < 10;i++) {
 		char cp[60];
 		sprintf(cp, "Assets/sprite/NewNumber/%d.png", i);
@@ -14,8 +14,9 @@ TimeSprite::TimeSprite()
 	}
 	for (int i = 0;i < 3;i++) {
 		m_sprite[i].Init(m_texture[9]);
-		m_sprite[i].SetPosition({ -50.0f + i * 50,320.0f });
-		m_sprite[i].SetSize({ 50.0f,50.0f });
+		float size = 65.0f;
+		m_sprite[i].SetPosition({ -size + i * size,320.0f });
+		m_sprite[i].SetSize({ size,size });
 	}
 	m_isFinish = false;
 }

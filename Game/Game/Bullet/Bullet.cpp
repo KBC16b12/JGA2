@@ -9,6 +9,7 @@ Bullet::Bullet()
 {
 	m_position = CVector3::Zero;
 	m_moveSpeed = CVector3::Zero;
+	m_lifeTime = 0.0f;
 }
 
 
@@ -29,16 +30,17 @@ void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum)
 	m_position.Add(l_addPosition);
 
 	m_moveSpeed = movespeed;
-
+	//弾の移動方向と発射位置の調整
 	m_moveSpeed.Normalize();
-	m_moveSpeed.Scale(30.0f);
+	m_moveSpeed.Scale(100.0f);
 	m_moveSpeed.Subtract(m_moveSpeed, l_addPosition);
 	m_moveSpeed.Normalize();
 	l_addPosition = m_moveSpeed;
-	m_moveSpeed.Scale(30.0f);
-	l_addPosition.Scale(2.0f);
+	m_moveSpeed.Scale(50.0f);
+	l_addPosition.Scale(2.5f);
 	m_position.Add(l_addPosition);
 
+	//characterControllerの初期化
 	m_characterController.Init(0.3f, 0.3f, m_position);
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 	m_characterController.SetGravity(0.0f);
@@ -62,6 +64,7 @@ void Bullet::Update()
 	Move();
 	DeathCheck();
 	m_skinModel.Update(m_position, CQuaternion::Identity, CVector3::One);
+	m_lifeTime += GameTime().GetFrameDeltaTime();
 }
 
 void Bullet::DeathCheck()
@@ -85,7 +88,7 @@ void Bullet::DeathCheck()
 		else
 		{
 			//弾を打ったプレイヤーとある程度離れていればオブジェクトと衝突して消滅
-			if (m_characterController.IsCollision())
+			if (m_characterController.IsCollision() || 30.0f < m_lifeTime)
 			{
 				DeleteGO(this);
 				break;

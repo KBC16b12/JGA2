@@ -5,9 +5,12 @@
 #pragma once
 
 #include "tkEngine/graphics/tkEffect.h"
+#include "tkEngine/graphics/tkShaderCommon.h"
+
 
 namespace tkEngine{
 	class ISkinModelMaterialNode;
+
 	/*!
 	 *@brief	スキンモデルマテリアル。
 	 */
@@ -80,22 +83,6 @@ namespace tkEngine{
 			enIntShaderHandle_NumBone,			//!<ボーンの数。
 			enIntshaderHandle_CurNumBone,		//!<スキニングを行うボーンの数。
 			enIntShaderHandle_Num,
-		};
-		/*!
-		*@brief	シェーダーテクニックのハンドル。
-		*/
-		enum EnShaderTechnique {
-			enTecShaderHandle_SkinModelInstancingRenderToShadowMap,		//!<SkinModelInstancingRenderToShadowMapテクニック
-			enTecShaderHandle_SkinModelInstancing,						//!<SkinModelInstancingテクニック。
-			enTecShaderHandle_NoSkinModelInstancingRenderToShadowMap,	//!<NoSkinModelInstancingRenderToShadowMapテクニック。
-			enTecShaderHandle_NoSkinModelInstancing,					//NoSkinModelInstancingテクニック。
-			enTecShaderHandle_SkinModelRenderShadowMap,					//!<SkinModelRenderShadowMapテクニック。
-			enTecShaderHandle_SkinModel,								//!<SkinModelテクニック。
-			enTecShaderHandle_NoSkinModelRenderShadowMap,				//!<NoSkinModelRenderShadowMapテクニック。
-			enTecShaderHandle_NoSkinModel,								//!<NoSkinModelテクニック。
-			enTecShaderHandle_Sky,										//!<Skyテクニック。
-			enTecShaderHandle_Terrain,									//!<Terrain用テクニック。
-			enTecShaderHandle_Num,
 		};
 	
 	public:
@@ -189,7 +176,7 @@ namespace tkEngine{
 		*/
 		void SetTechnique(EnShaderTechnique eTec)
 		{
-			m_hTec = m_hTechniqueHandle[eTec];
+			m_hTec = m_hTechniqueHandle[((int)eTec)];
 			m_eTec = eTec;
 		}
 		/*!
@@ -316,7 +303,7 @@ namespace tkEngine{
 		CEffect* m_pEffect = nullptr;									//!<エフェクト。
 		ID3DXEffect* m_pEffectRaw = nullptr;
 		D3DXHANDLE m_hTec;												//!<テクニックハンドル。
-		EnShaderTechnique m_eTec = enTecShaderHandle_SkinModel;			//!<現在のシェーダーテクニック。
+		EnShaderTechnique m_eTec = EnShaderTechnique::enTecShaderHandle_SkinModel;			//!<現在のシェーダーテクニック。
 		D3DXHANDLE m_hTexShaderHandle[enTextureShaderHandle_Num];		//!<テクスチャシェーダーハンドル。
 		D3DXHANDLE m_hMatrixShaderHandle[enMatrixShaderHandle_Num];		//!<行列のシェーダーハンドル。
 		D3DXHANDLE m_hFVectorShaderHandle[enFVectorShaderHandle_Num];	//!<浮動小数ベクトルのシェーダーハンドル。
@@ -327,7 +314,7 @@ namespace tkEngine{
 		D3DXHANDLE m_hBoneMatrixArrayHandle;							//!<ボーン行列のハンドル。
 		D3DXHANDLE m_hShadowRecieverParamShaderHandle;					//!<シャドウレシーバーパラメータのシェーダーハンドル。						
 		D3DXHANDLE m_hBoneMatrixArrayShaderHandle;						//!<ボーン行列の配列のシェーダーハンドル。
-		D3DXHANDLE m_hTechniqueHandle[enTecShaderHandle_Num];			//!<テクニックのハンドル。
+		D3DXHANDLE m_hTechniqueHandle[(int)EnShaderTechnique::enTecShaderHandle_Num];			//!<テクニックのハンドル。
 		
 		const D3DXMATRIX* m_boneMatrixArray = nullptr;					//!<ボーン行列へのポインタ。
 		int m_boneMatrixArraySize = 0;									//!<ボーン行列の配列のサイズ。

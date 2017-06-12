@@ -55,4 +55,5 @@ protected:
 	CSkinModelDataHandle	m_modelData;
 	CLight					m_light;
 	int						m_playerNum;
+	float					m_lifeTime;
 };

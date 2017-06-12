@@ -15,8 +15,8 @@ Item::Item()
 
 Item::~Item()
 {
-	PhysicsWorld().RemoveRigidBody(&m_rigidBody);
-	m_rigidBody.Release();
+	//PhysicsWorld().RemoveRigidBody(&m_rigidBody);
+	//m_rigidBody.Release();
 }
 
 void Item::Init(CVector3 position, CQuaternion rotation, CSkinModelData* skinModel)
@@ -30,25 +30,26 @@ void Item::Init(CVector3 position, CQuaternion rotation, CSkinModelData* skinMod
 	m_SkinModel.SetShadowCasterFlag(true);
 	m_SkinModel.SetShadowReceiverFlag(true);
 	m_SkinModel.SetLight(&g_defaultLight);
+	m_SkinModel.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
 	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
 
-	m_meshCollider.CreateFromSkinModel(&m_SkinModel, skinModel->GetRootBoneWorldMatrix());
-	RigidBodyInfo rbInfo;
-	//剛体のコライダーを渡す。
-	rbInfo.collider = &m_meshCollider;
-	//剛体の質量。0.0だと動かないオブジェクト。背景などは0.0にしよう。
-	rbInfo.mass = 0.0f;
-	rbInfo.pos = m_position;
-	rbInfo.rot = m_rotation;
+	//m_meshCollider.CreateFromSkinModel(&m_SkinModel, skinModel->GetRootBoneWorldMatrix());
+	//RigidBodyInfo rbInfo;
+	////剛体のコライダーを渡す。
+	//rbInfo.collider = &m_meshCollider;
+	////剛体の質量。0.0だと動かないオブジェクト。背景などは0.0にしよう。
+	//rbInfo.mass = 0.0f;
+	//rbInfo.pos = m_position;
+	//rbInfo.rot = m_rotation;
 
-	m_rigidBody.Create(rbInfo);
-	//作成した剛体を物理ワールドに追加する。
-	PhysicsWorld().AddRigidBody(&m_rigidBody);
+	//m_rigidBody.Create(rbInfo);
+	////作成した剛体を物理ワールドに追加する。
+	//PhysicsWorld().AddRigidBody(&m_rigidBody);
 }
 
 bool Item::Start()
 {
-	m_texture = TextureResources().Load("Assets/sprite/Ybutton.png");
+	m_texture = TextureResources().Load("Assets/sprite/a.png");
 	m_sprite.Init(m_texture);
 	m_sprite.SetSize(m_size);
 	m_sprite.SetPosition({ 0.0f, 0.0f });
@@ -99,12 +100,15 @@ void Item::Update()
 
 void Item::Render(CRenderContext& renderContext, int playerNum)
 {
+	renderContext.SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
+	renderContext.SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
 	if (m_isSpriteRender)
 	{
 		m_sprite.SetPosition(m_screenPos[playerNum]);
 		m_sprite.SetSize(m_spriteSize[playerNum]);
 		m_sprite.Draw(renderContext);
 	}
+	renderContext.SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
 	m_SkinModel.Draw(renderContext, g_gameCamera[playerNum]->GetViewMatrix(), g_gameCamera[playerNum]->GetProjectionMatrix());
 }
 

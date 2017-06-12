@@ -30,7 +30,6 @@
 #include "tkEngine/graphics/tkLight.h"
 #include "tkEngine/graphics/tkTexture.h"
 #include "tkEngine/resource/tkSkinModelDataHandle.h"
-#include "tkEngine/graphics/tkSkinModelMaterial.h"
 #include "tkEngine/Physics/tkPhysics.h"
 #include "tkEngine/physics/tkRigidBody.h"
 #include "tkEngine/Physics/tkMeshCollider.h"

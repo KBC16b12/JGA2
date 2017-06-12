@@ -168,6 +168,7 @@
     <ClCompile Include="Bullet\GrenadeBullet.cpp" />
     <ClCompile Include="Camera\GameCamera.cpp" />
     <ClCompile Include="HUD\Bar.cpp" />
+    <ClCompile Include="HUD\CountUpSprite.cpp" />
     <ClCompile Include="HUD\ItemSprite.cpp" />
     <ClCompile Include="HUD\KillCountSprite.cpp" />
     <ClCompile Include="HUD\MagazineSprite.cpp" />
@@ -186,6 +187,7 @@
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerRecovery.cpp" />
     <ClCompile Include="Player\Weapon.cpp" />
+    <ClCompile Include="RandomPosManager.cpp" />
     <ClCompile Include="Scene\CharScene\CharScene.cpp" />
     <ClCompile Include="Scene\Fade\Fade.cpp" />
     <ClCompile Include="Scene\GameScene\GameScene.cpp" />
@@ -210,6 +212,7 @@
     <ClInclude Include="Bullet\GrenadeBullet.h" />
     <ClInclude Include="Camera\GameCamera.h" />
     <ClInclude Include="HUD\Bar.h" />
+    <ClInclude Include="HUD\CountUpSprite.h" />
     <ClInclude Include="HUD\ItemSprite.h" />
     <ClInclude Include="HUD\KillCountSprite.h" />
     <ClInclude Include="HUD\MagazineSprite.h" />
@@ -227,6 +230,7 @@
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerRecovery.h" />
     <ClInclude Include="Player\Weapon.h" />
+    <ClInclude Include="RandomPosManager.h" />
     <ClInclude Include="Scene\CharScene\CharScene.h" />
     <ClInclude Include="Scene\Fade\Fade.h" />
     <ClInclude Include="Scene\GameScene\GameScene.h" />

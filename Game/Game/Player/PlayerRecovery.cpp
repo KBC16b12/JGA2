@@ -24,13 +24,13 @@ void PlayerRecovery::Update()
 	}
 	m_recoveryTime += GameTime().GetFrameDeltaTime();
 	//被弾してからある程度じかんがたつと回復し始める
-	if (6.0f < m_recoveryTime)
+	if (3.0f < m_recoveryTime)
 	{
 		m_lifeRecoveryInterval += GameTime().GetFrameDeltaTime();
 		//徐々に回復してるように見せるためのインターバルタイム
-		if (2.0f < m_lifeRecoveryInterval)
+		if (1.0f < m_lifeRecoveryInterval)
 		{
-			*m_hp += m_maxHp / 4;
+			*m_hp += 1;
 			if (m_maxHp <= *m_hp)
 			{
 				*m_hp = m_maxHp;

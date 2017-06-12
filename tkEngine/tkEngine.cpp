@@ -151,7 +151,7 @@ namespace tkEngine{
 		//ポストエフェクトをレンダリング。
 		m_postEffect.Create( initParam.graphicsConfig );
 		//空を初期化。
-		AddGO(initParam.gameObjectPrioMax-1, &m_sky);
+		AddGO(/*initParam.gameObjectPrioMax-1*/0, &m_sky);
 		m_sky.Init();
 		m_sky.SetActiveFlag(false);
 		m_soundEngine.Init();

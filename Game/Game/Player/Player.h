@@ -6,6 +6,14 @@
 class KillCountSprite;
 class Bar;
 
+
+enum
+{
+	ANIMESTATE_WAIT,
+	ANIMESTATE_SHOT,
+	ANIMESTATE_RELOAD,
+	ANIMESTATE_NUM,
+};
 class Player : public IGameObject
 {
 public:
@@ -101,10 +109,7 @@ public:
 		return m_playernum;
 	}
 	
-	void KillCountUp()
-	{
-		m_killCount++;
-	}
+	void KillCountUp();
 
 	void Startup();
 
@@ -118,6 +123,12 @@ public:
 	}
 
 	void Eaten();
+
+	
+	int GetMaxHP()
+	{
+		return m_maxhp;
+	}
 
 private:
 	/*!
@@ -135,11 +146,13 @@ private:
 	*/
 	void DataOutput();
 
+	void Invincible();
+
 private:
 	CSkinModel				m_skinModelFirst;					//自分から見た時のモデル
 	CSkinModelDataHandle	m_skinModelDataFirst;				//スキンモデルデータ
 	CSkinModel				m_skinModelThird;					//他人から見た時のモデル
-	CSkinModelDataHandle	m_skinModelDataThird;
+	CSkinModelData			m_skinModelDataThird;
 	CQuaternion				m_rotation;					//回転
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
@@ -159,8 +172,13 @@ private:
 	int						m_killCount;
 	int						m_time = 30;
 	int						Ctime = 15;
+	bool					m_isInvincible;
+	bool					m_isInvincibleTec;
+	float					m_invincibleTecCount;	//テクニックを切り替える時間
+	float					m_invincibleCount;		//リスキル防止の無敵時間を数える変数
 	Weapon					m_weapon;
 	CLight					m_light;
 	PlayerRecovery			m_recovery;
+	CAnimation				m_animation;
 };
 

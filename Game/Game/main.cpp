@@ -43,11 +43,12 @@ void InitTkEngine( HINSTANCE hInst )
 	initParam.graphicsConfig.reflectionMapConfig.reflectionMapWidth = 512;
 	initParam.graphicsConfig.reflectionMapConfig.reflectionMapHeight = 512;
 	//DOF
-	initParam.graphicsConfig.dofConfig.isEnable = false;
+	initParam.graphicsConfig.dofConfig.isEnable = true;
 	//AA
 	initParam.graphicsConfig.aaConfig.isEnable = true;
 	initParam.graphicsConfig.motionBlurConfig.isEnable = false;
 
+	initParam.graphicsConfig.tonemapConfig.isEnable = false;
 	//óêêîèâä˙âªÅB
 	g_random.Init((unsigned long)time(NULL));
 

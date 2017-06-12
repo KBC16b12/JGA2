@@ -52,8 +52,8 @@ protected:
 	CVector2					m_spriteSize[PLAYER_NUM];
 	CTexture*					m_texture;
 	CSprite						m_sprite;
-	CMeshCollider				m_meshCollider;		//メッシュコライダー。
-	CRigidBody					m_rigidBody;		//剛体。
+	//CMeshCollider				m_meshCollider;		//メッシュコライダー。
+	//CRigidBody					m_rigidBody;		//剛体。
 	CSkinModel					m_SkinModel;		//スキンモデル
 	CVector3					m_position;			//座標
 	CQuaternion					m_rotation;			//回転

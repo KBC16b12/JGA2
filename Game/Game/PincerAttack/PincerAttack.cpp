@@ -122,9 +122,9 @@ void PincerAttack::Shoot()
 			//打てる状態
 			if (l_isPincerAttack)
 			{
-				if (Pad(m_playerNum).IsTrigger(enButtonLB1))
+				if (Pad(m_playerNum).IsTrigger(enButtonLB2))
 				{
-					l_player[j]->Damage(m_playerNum, 5);
+					l_player[j]->Damage(m_playerNum, g_gameScene->GetPlayer(j)->GetMaxHP());
 				}
 			}
 			//自分と挟むのに使うプレイヤーの中でで一番角度がきついのを使う

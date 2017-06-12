@@ -11,7 +11,7 @@ class PincerAttack;
 enum BULLETSTATE
 {
 	BULLETSTATE_NOMAL,
-	BULLETSTATE_GRENADE,
+	//BULLETSTATE_GRENADE,
 	BULLETSTATE_BOUND,
 	BULLETSTATE_NUM,
 };
@@ -26,7 +26,7 @@ public:
 	/*
 	*@brief 初期化関数
 	*/
-	void Init(int playerNum);
+	void Init(int playerNum, CAnimation* animation);
 
 	bool Start()override;
 
@@ -46,6 +46,8 @@ public:
 	void SetWeapon();
 
 	void Reload();
+
+	void Respawn();
 private:
 	BULLETSTATE m_state;				//どのアイテムを使ってるかの状態を表す変数(NOMALはない状態)
 	int			m_bulletStrikeNum;		//アイテムを使った状態の弾を打てる回数
@@ -55,8 +57,10 @@ private:
 	float		m_strikeInterval;		//弾を打ってから次の弾を打つまでのインターバル
 	bool		m_isStrike;				//弾を打てるかどうか
 	PincerAttack* m_pincer;
-	float		m_reloadTime;
+	float		m_reloadTime;			//リロード音を鳴らすのにつかうラグ
 	bool		m_isReload;
-	int			m_magazine;
+	int			m_magazine;				//残弾数
+	CAnimation* m_playerAnime;			//プレイヤーのアニメーション
+	bool		m_isReloadSound;		//リロード音を発生させるフラグ
 
 };

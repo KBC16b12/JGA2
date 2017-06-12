@@ -7,6 +7,7 @@
 #include "tkEngine/graphics/tkAnimation.h"
 #include "tkEngine/graphics/tkSkinModelData.h"
 #include "tkEngine/graphics/prerender/tkShadowCaster.h"
+#include "tkEngine/graphics/tkShaderCommon.h"
 
 namespace tkEngine {
 	class CEffect;
@@ -14,6 +15,7 @@ namespace tkEngine {
 	class CRenderContext;
 	class CLight;
 	class CShadowMap;
+	class CSkinModelMaterial;
 	struct SAtmosphericScatteringParam;
 	//フォグ。
 	enum EFogFunc {
@@ -197,6 +199,11 @@ namespace tkEngine {
 		*  Update関数を呼び出すと自動的に呼ばれます。シャドウマップへのエントリーだけを行いたい場合に使用してください。
 		*/
 		void EntryShadowMap();
+
+		void SetTechnique(EnShaderTechnique eTec)
+		{
+			m_skinModelData->SetTechnique(eTec);
+		}
 	private:
 		/*!
 		* @brief	シェーダ定の数ハンドルを初期化。

@@ -19,7 +19,7 @@ bool MagazineSprite::Start()
 	for (int i = 0; i < NUM; i++)
 	{
 		char l_filePath[128];
-		sprintf(l_filePath, "Assets/sprite/NewNumber/%d.png", i);
+		sprintf(l_filePath, "Assets/sprite/MagazineNum/%d.png", i);
 		m_countTexture[i] = TextureResources().LoadEx(l_filePath);
 	}
 
@@ -29,17 +29,15 @@ bool MagazineSprite::Start()
 	m_countSprite10.Init(m_countTexture[spriteNum10]);
 
 	//サイズの設定
-	float l_sizeY = 100.0f;
-	float l_itemSizeX = 100.0f;
-	float l_countSizeX = 70.0f;
-	m_countSprite1.SetSize({ l_countSizeX, l_sizeY });
-	m_countSprite10.SetSize({ l_countSizeX, l_sizeY });
+	CVector2 l_size = { 130.0f, 130.0f };
+	m_countSprite1.SetSize(l_size);
+	m_countSprite10.SetSize(l_size);
 
 	//座標の設定
-	float l_positionY = -270.0f;
-	float l_positionX = -550.0f;
-	m_countSprite10.SetPosition({ l_positionX + 100.0f, l_positionY });
-	m_countSprite1.SetPosition({ l_positionX + 200.0f, l_positionY });
+	CVector2 l_position = {-450.0f, -270.0f};
+	m_countSprite10.SetPosition(l_position);
+	l_position.x += 70.0f;
+	m_countSprite1.SetPosition(l_position);
 	return true;
 }
 

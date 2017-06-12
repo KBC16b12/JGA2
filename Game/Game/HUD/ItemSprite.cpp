@@ -57,9 +57,9 @@ void ItemSprite::SetItem(BULLETSTATE state)
 	case BULLETSTATE_BOUND:
 		m_itemSprite.SetTexture(m_boundTexture);
 		break;
-	case BULLETSTATE_GRENADE:
-		m_itemSprite.SetTexture(m_grenadeTexture);
-		break;
+	//case BULLETSTATE_GRENADE:
+	//	m_itemSprite.SetTexture(m_grenadeTexture);
+	//	break;
 	}
 }
 
