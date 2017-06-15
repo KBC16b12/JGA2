@@ -3,6 +3,7 @@
 #include "../Bullet/Bullet.h"
 #include "../Bullet/GrenadeBullet.h"
 #include "../Bullet/BoundBullet.h"
+#include "../Bullet/PincerBullet.h"
 #include "Player.h"
 #include "../HUD/ItemSprite.h"
 #include "../Scene/GameScene/GameScene.h"
@@ -23,6 +24,7 @@ Weapon::Weapon()
 	m_pincer = NewGO<PincerAttack>(PRIORITY0);
 	m_magazineSprite = NewGO<MagazineSprite>(PRIORITY0);
 	m_isReloadSound = true;
+	m_isPincerAttack = false;
 }
 
 
@@ -32,19 +34,14 @@ Weapon::~Weapon()
 	DeleteGO(m_pincer);
 	DeleteGO(m_magazineSprite);
 }
-void Weapon::Init(int playerNum, CAnimation* animation)
+void Weapon::Init(int playerNum, CAnimation* animation, CLight* light)
 {
 	m_playerNum = playerNum;
 	m_itemSprite->Init(playerNum);
 	m_pincer->Init(playerNum);
 	m_magazineSprite->Init(playerNum);
 	m_playerAnime = animation;
-}
-
-bool Weapon::Start()
-{
-
-	return true;
+	m_pLight = light;
 }
 
 void Weapon::Update()
@@ -122,18 +119,25 @@ void Weapon::BulletFilling()
 	switch (m_state)
 	{
 	case BULLETSTATE_NOMAL:
-		l_bullet = NewGO<Bullet>(PRIORITY1);
+		if (m_isPincerAttack)
+		{
+			l_bullet = NewGO<PincerBullet>(PRIORITY1);
+		}
+		else
+		{
+			l_bullet = NewGO<Bullet>(PRIORITY1);
+		}
 		break;
 	case BULLETSTATE_BOUND:
 		l_bullet = NewGO<BoundBullet>(PRIORITY1);
 		break;
-	//case BULLETSTATE_GRENADE:
-	//	l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
-	//	break;
+	case BULLETSTATE_GRENADE:
+		l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
+		break;
 
 	}
 	Player *l_player = g_gameScene->GetPlayer(m_playerNum);
-	l_bullet->Init(l_player->GetPosition(), l_player->GetFrontWorldMatrix(), m_playerNum);
+	l_bullet->Init(l_player->GetPosition(), l_player->GetFrontWorldMatrix(), m_playerNum, m_pLight);
 	//アイテムを使った状態の場合数を減らす
 	m_bulletStrikeNum--;
 	m_magazine--;

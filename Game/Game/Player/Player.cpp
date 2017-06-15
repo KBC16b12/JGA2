@@ -7,10 +7,10 @@
 #include "../Trap.h"
 #include "../Network/Network.h"
 #include "HUD/CountUpSprite.h"
+#include "RandomPosManager.h"
 
 Player::Player()
 {
-	m_respawnPosition = CVector3::Zero;
 	//HP設定
 	m_maxhp = m_hp = 6;
 	m_killCount = 0;
@@ -68,7 +68,6 @@ bool Player::Start()
 	m_skinModelThird.SetShadowCasterFlag(true);
 	m_skinModelFirst.SetShadowReceiverFlag(true);
 	m_skinModelThird.SetShadowReceiverFlag(true);
-	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(1.7f, 1.0f, m_position);
 	m_characterController.SetGravity(0.0f);
@@ -85,25 +84,14 @@ bool Player::Start()
 	return true;
 }
 
-void Player::Init(CVector3 position, CQuaternion rotation)
+void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 {
 	m_rotation = rotation;
 	m_position = position;
-	m_respawnPosition = position;
-	m_respawnRotation = rotation;
-
-	CQuaternion multi;
-	multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
-	m_rotation.Multiply(multi);
-	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
-	m_rotation.Multiply(multi);
 	m_recovery.Init(&m_hp, m_maxhp);
-}
 
-void Player::SetPlayerNum(int playernum)
-{
 	m_playernum = playernum;
-	m_weapon.Init(m_playernum, &m_animation);
+	m_weapon.Init(m_playernum, &m_animation, &m_light);
 	float l_lightColor = 0.3f;
 	float l_playerColor = 1.0f;
 	CVector3 l_ambinetLight = { l_lightColor, l_lightColor, l_lightColor };
@@ -341,11 +329,12 @@ void Player::Eaten()
 
 void Player::Respawn()
 {
+	SMapInfo l_mapDat = g_randomPosManager->GetPlayerRespawnPos(m_playernum);
 	//HPを回復して座標を初期化
 	m_hp = m_maxhp;
-	m_position = m_respawnPosition;
+	m_position = l_mapDat.s_position;
 	m_characterController.SetPosition(m_position);
-	m_rotation = m_respawnRotation;
+	m_rotation = l_mapDat.s_rotation;
 	m_isInvincible = true;
 	m_weapon.Respawn();
 }

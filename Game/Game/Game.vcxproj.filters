@@ -179,6 +179,9 @@
     <ClCompile Include="RandomPosManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Bullet\PincerBullet.cpp">
+      <Filter>Source Files\Bullet</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -291,6 +294,9 @@
     </ClInclude>
     <ClInclude Include="RandomPosManager.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet\PincerBullet.h">
+      <Filter>Source Files\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

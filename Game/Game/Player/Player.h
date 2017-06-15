@@ -95,13 +95,7 @@ public:
 		m_weapon.SetWeapon();
 	}
 
-	void Init(CVector3 position, CQuaternion rotation);
-
-	/*
-	プレイヤーの番号をセットする関数
-	プレイヤーの番号とカメラの番号は同じ
-	*/
-	void SetPlayerNum(int playernum);
+	void Init(CVector3 position, CQuaternion rotation, int playernum);
 
 
 	int GetPlayerNum()
@@ -128,6 +122,11 @@ public:
 	int GetMaxHP()
 	{
 		return m_maxhp;
+	}
+
+	void SetIsPincer(bool isPincerAttack)
+	{
+		m_weapon.SetIsPincer(isPincerAttack);
 	}
 
 private:
@@ -157,8 +156,6 @@ private:
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
 	CVector3				m_position = { 0.0f, 0.0f, 0.0f };
-	CVector3				m_respawnPosition;					
-	CQuaternion				m_respawnRotation;
 
 	int						m_currentAnimationNo;
 	float					m_angle = 180;

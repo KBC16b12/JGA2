@@ -2,6 +2,7 @@
 #include "Scene/TitleScene/TitleScene.h"
 #include "Scene/Fade/Fade.h"
 #include "Camera/GameCamera.h"
+#include "Scene/GameScene/GameScene.h"
 
 CLight	g_defaultLight;	//デフォルトライト。
 
@@ -91,6 +92,6 @@ int WINAPI wWinMain(
 	NewGO<TitleScene>(PRIORITY1)->Init(enRun);
 	
 	Engine().RunGameLoop();		//ゲームループを実行。
-
+	delete g_bulletModel;
 	return 0;
 }

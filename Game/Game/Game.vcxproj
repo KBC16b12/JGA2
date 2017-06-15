@@ -166,6 +166,7 @@
     <ClCompile Include="Bullet\BoundBullet.cpp" />
     <ClCompile Include="Bullet\Bullet.cpp" />
     <ClCompile Include="Bullet\GrenadeBullet.cpp" />
+    <ClCompile Include="Bullet\PincerBullet.cpp" />
     <ClCompile Include="Camera\GameCamera.cpp" />
     <ClCompile Include="HUD\Bar.cpp" />
     <ClCompile Include="HUD\CountUpSprite.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="Bullet\BoundBullet.h" />
     <ClInclude Include="Bullet\Bullet.h" />
     <ClInclude Include="Bullet\GrenadeBullet.h" />
+    <ClInclude Include="Bullet\PincerBullet.h" />
     <ClInclude Include="Camera\GameCamera.h" />
     <ClInclude Include="HUD\Bar.h" />
     <ClInclude Include="HUD\CountUpSprite.h" />

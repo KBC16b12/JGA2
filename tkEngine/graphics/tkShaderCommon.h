@@ -13,6 +13,7 @@ enum EnShaderTechnique {
 	enTecShaderHandle_NoSkinModel,								//!<NoSkinModelテクニック。
 	enTecShaderHandle_Sky,										//!<Skyテクニック。
 	enTecShaderHandle_Terrain,									//!<Terrain用テクニック。
-	enTecShaderHandle_Invincible,										//!<Toon用テクニック
+	enTecShaderHandle_Invincible,										//!<プレイヤーが無敵状態の時のテクニック
+	enTecShaderHandle_PincerBullet,
 	enTecShaderHandle_Num,
 };

@@ -23,9 +23,6 @@ void Item::Init(CVector3 position, CQuaternion rotation, CSkinModelData* skinMod
 {
 	m_position = position;
 	m_rotation = rotation;
-	CQuaternion l_rotation;
-	l_rotation.SetRotation(CVector3::AxisX, CMath::DegToRad(-90));
-	m_rotation.Multiply(l_rotation);
 	m_SkinModel.Init(skinModel);
 	m_SkinModel.SetShadowCasterFlag(true);
 	m_SkinModel.SetShadowReceiverFlag(true);

@@ -190,3 +190,51 @@
 	CVector3(3.80f, 0.00f, 7.40f),             //平行移動
 	CQuaternion(0.00f, 0.00f, 0.00f, 1.00f ),  //回転
 },
+//snowman1-3
+{
+	"snowman1-3",
+	CVector3(-16.57f, 0.00f, 18.55f),             //平行移動
+	CQuaternion(-0.26f, 0.66f, 0.66f, 0.26f ),  //回転
+},
+//snowman1-3
+{
+	"snowman1-3",
+	CVector3(-25.32f, 0.00f, -24.27f),             //平行移動
+	CQuaternion(-0.65f, 0.29f, 0.29f, 0.65f ),  //回転
+},
+//snowman1-3
+{
+	"snowman1-3",
+	CVector3(34.20f, 0.00f, -31.39f),             //平行移動
+	CQuaternion(-0.60f, -0.37f, -0.37f, 0.60f ),  //回転
+},
+//snowman1-3
+{
+	"snowman1-3",
+	CVector3(28.66f, 0.00f, 16.27f),             //平行移動
+	CQuaternion(-0.18f, -0.68f, -0.68f, 0.18f ),  //回転
+},
+//snowman1-3
+{
+	"snowman1-3",
+	CVector3(52.34f, 0.00f, -25.17f),             //平行移動
+	CQuaternion(-0.60f, -0.37f, -0.37f, 0.60f ),  //回転
+},
+//snowman1-3
+{
+	"snowman1-3",
+	CVector3(35.70f, 0.00f, -48.30f),             //平行移動
+	CQuaternion(-0.60f, -0.37f, -0.37f, 0.60f ),  //回転
+},
+//snowman1-3
+{
+	"snowman1-3",
+	CVector3(-42.50f, 0.00f, -35.52f),             //平行移動
+	CQuaternion(-0.65f, 0.27f, 0.27f, 0.65f ),  //回転
+},
+//snowman1-3
+{
+	"snowman1-3",
+	CVector3(-32.81f, 0.00f, 38.36f),             //平行移動
+	CQuaternion(-0.33f, 0.63f, 0.63f, 0.33f ),  //回転
+},

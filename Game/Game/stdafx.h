@@ -10,6 +10,7 @@
 #define PRIORITY1 1
 #define PRIORITY2 2
 #define PLAYER_NUM 4
+#define ITEM_NUM 4
 #define BULLET_DAMAGE 1
 #define NUM 10
 

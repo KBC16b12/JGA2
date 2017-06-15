@@ -3,6 +3,7 @@
 #include "../Camera/GameCamera.h"
 #include "../Scene/GameScene/GameScene.h"
 #include "../Player/Player.h"
+#include "../Player/Weapon.h"
 
 
 Bullet::Bullet()
@@ -17,7 +18,7 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum)
+void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum, CLight* light)
 {
 	//Ç«ÇÃÉvÉåÉCÉÑÅ[Ç™ë≈Ç¡ÇΩÇÃÇ©ÇÃî‘çÜäÑÇËìñÇƒ
 	m_playerNum = playerNum;
@@ -44,13 +45,14 @@ void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum)
 	m_characterController.Init(0.3f, 0.3f, m_position);
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 	m_characterController.SetGravity(0.0f);
+	m_pLight = light;
 }
 
 bool Bullet::Start()
 {
 	SkinModelDataResources().Load(m_modelData, "Assets/modelData/Bullet.X", NULL, false, 1);
 	m_skinModel.Init(m_modelData.GetBody());
-	m_skinModel.SetLight(&m_light);
+	m_skinModel.SetLight(m_pLight);
 	return true;
 }
 
@@ -81,7 +83,7 @@ void Bullet::DeathCheck()
 			if (l_distance.Length() < l_playerRadius)
 			{
 				DeleteGO(this);
-				l_player->Damage(m_playerNum, BULLET_DAMAGE);
+				PlayerDamage(l_player);
 				break;
 			}
 		}
@@ -104,6 +106,11 @@ void Bullet::Move()
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 	m_characterController.Execute(GameTime().GetFrameDeltaTime());
 	m_position = m_characterController.GetPosition();
+}
+
+void Bullet::PlayerDamage(Player *player)
+{
+	player->Damage(m_playerNum, BULLET_DAMAGE);
 }
 
 void Bullet::Render(CRenderContext& renderContext)

@@ -11,11 +11,11 @@ class PincerAttack;
 enum BULLETSTATE
 {
 	BULLETSTATE_NOMAL,
-	//BULLETSTATE_GRENADE,
+	BULLETSTATE_GRENADE,
 	BULLETSTATE_BOUND,
 	BULLETSTATE_NUM,
 };
-class Weapon : public IGameObject
+class Weapon
 {
 public:
 
@@ -26,14 +26,12 @@ public:
 	/*
 	*@brief 初期化関数
 	*/
-	void Init(int playerNum, CAnimation* animation);
-
-	bool Start()override;
+	void Init(int playerNum, CAnimation* animation, CLight* light);
 
 	/*
 	*@brief 更新処理
 	*/
-	void Update()override;
+	void Update();
 
 	/*
 	*@brief 弾を打ち出す関数
@@ -48,6 +46,11 @@ public:
 	void Reload();
 
 	void Respawn();
+
+	void SetIsPincer(bool isPincerAttack)
+	{
+		m_isPincerAttack = isPincerAttack;
+	}
 private:
 	BULLETSTATE m_state;				//どのアイテムを使ってるかの状態を表す変数(NOMALはない状態)
 	int			m_bulletStrikeNum;		//アイテムを使った状態の弾を打てる回数
@@ -62,5 +65,6 @@ private:
 	int			m_magazine;				//残弾数
 	CAnimation* m_playerAnime;			//プレイヤーのアニメーション
 	bool		m_isReloadSound;		//リロード音を発生させるフラグ
-
+	CLight*		m_pLight;
+	bool		m_isPincerAttack;
 };

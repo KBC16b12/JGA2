@@ -7,8 +7,10 @@
 #include "Player/Player.h"
 #include "../../HUD/TimeSprite.h"
 #include "../../Camera/GameCamera.h"
+#include "RandomPosManager.h"
 
 GameScene* g_gameScene = nullptr;
+CSkinModelData* g_bulletModel = nullptr;
 
 GameScene::GameScene()
 {
@@ -19,6 +21,10 @@ GameScene::GameScene()
 
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
 {
+	if (g_randomPosManager == nullptr)
+	{
+		g_randomPosManager = new RandomPosManager;
+	}
 	m_map->Init(map_data);
 	m_bgm_path = bgm_path;
 }
@@ -37,6 +43,9 @@ GameScene::~GameScene()
 		g_gameCamera[i]->FinishViewPort();
 	}
 	Sky().SetDisable();
+
+	delete g_randomPosManager;
+	g_randomPosManager = nullptr;
 }
 
 bool GameScene::Start()
@@ -66,6 +75,11 @@ bool GameScene::Start()
 		l_cameraVector.push_back(&g_gameCamera[i]->GetCamera());
 	}
 	Sky().ViewPortSetCamera(l_cameraVector);
+	if (g_bulletModel == nullptr)
+	{
+		g_bulletModel = new CSkinModelData;
+		g_bulletModel->LoadModelData("Assets/modelData/Bullet.X", NULL);
+	}
 	return true;
 }
 
@@ -109,7 +123,7 @@ void GameScene::SceneChange()
 		//	SetActiveFlags(false);
 		//	return;
 		//}
-		if (m_time->IsFinish()/* || Pad(0).IsTrigger(enButtonStart)*/)
+		if (m_time->IsFinish() || Pad(0).IsTrigger(enButtonStart))
 		{
 			//ƒŠƒUƒ‹ƒg‚Ö‘JˆÚ
 			m_scenedata = enResult;

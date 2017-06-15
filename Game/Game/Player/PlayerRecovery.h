@@ -14,6 +14,7 @@ public:
 	void Update()override;
 
 	void Hit();
+
 private:
 	float					m_recoveryTime;				//ダメージを食らってから回復し始めるまでの時間
 	float					m_lifeRecoveryInterval;		//回復し始めてから徐々に回復していくための時間

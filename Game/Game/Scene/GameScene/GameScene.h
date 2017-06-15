@@ -71,3 +71,4 @@ private:
 };
 
 extern GameScene* g_gameScene;
+extern CSkinModelData* g_bulletModel;
