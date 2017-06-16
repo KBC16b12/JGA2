@@ -35,6 +35,18 @@ namespace tkEngine{
 			x = v0.x + (v1.x - v0.x) * t;
 			y = v0.y + (v1.y - v0.y) * t;
 		}
+
+		void Scale(float scale)
+		{
+			x *= scale;
+			y *= scale;
+		}
+
+		void Div(float div)
+		{
+			x /= div;
+			y /= div;
+		}
 	};
 	/*!
 	 * @brief	ベクトル。

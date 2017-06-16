@@ -53,6 +53,7 @@ void PincerAttack::Shoot()
 	{
 		l_player[i] = g_gameScene->GetPlayer(i);
 	}
+	l_player[m_playerNum]->SetIsPincer(false);
 	//内積を取るためのプレイヤーの前方向のベクトル
 	CVector3 l_playerFront = l_player[m_playerNum]->GetFrontWorldMatrix();
 	l_playerFront.Normalize();
@@ -122,10 +123,7 @@ void PincerAttack::Shoot()
 			//打てる状態
 			if (l_isPincerAttack)
 			{
-				if (Pad(m_playerNum).IsTrigger(enButtonLB1))
-				{
-					l_player[j]->Damage(m_playerNum, 5);
-				}
+				l_player[m_playerNum]->SetIsPincer(l_isPincerAttack);
 			}
 			//自分と挟むのに使うプレイヤーの中でで一番角度がきついのを使う
 			if (l_dot < l_dot2)

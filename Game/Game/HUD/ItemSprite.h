@@ -1,7 +1,6 @@
 #pragma once
 #include "Player/Weapon.h"
 
-#define NUM 10
 class ItemSprite : public IGameObject
 {
 public:

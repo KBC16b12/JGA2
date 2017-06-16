@@ -397,6 +397,7 @@
     <ClInclude Include="graphics\tkRenderCommandBuffer.h" />
     <ClInclude Include="graphics\tkRenderContext.h" />
     <ClInclude Include="graphics\tkRenderTarget.h" />
+    <ClInclude Include="graphics\tkShaderCommon.h" />
     <ClInclude Include="graphics\tkSkinModel.h" />
     <ClInclude Include="graphics\tkSkinModelData.h" />
     <ClInclude Include="graphics\tkSKinModelMaterial.h" />

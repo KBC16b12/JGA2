@@ -17,9 +17,9 @@ namespace tkEngine{
 	}
 	CParticleEmitter::~CParticleEmitter()
 	{
-		cameraArray.clear();
+		cameraVector.clear();
 	}
-	void CParticleEmitter::Init(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition )
+	void CParticleEmitter::Init(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition , std::vector<CCamera*> cameravector)
 	{
 		this->random = &random;
 		this->camera = &camera;
@@ -27,6 +27,7 @@ namespace tkEngine{
 		this->emitPosition = emitPosition;
 		timer = param.intervalTime;
 		m_lifeTimer = param.lifeTime;
+		cameraVector = cameravector;
 	}
 	bool CParticleEmitter::Start()
 	{
@@ -38,7 +39,7 @@ namespace tkEngine{
 			//パーティクルを生成。
 			CParticle* p = GameObjectManager().NewGameObject<CParticle>(2);
 			p->Init(*random, *camera, param, emitPosition);
-			for (CCamera* cam: cameraArray)
+			for (CCamera* cam: cameraVector)
 			{
 				p->AddCamera(*cam);
 			}
@@ -53,7 +54,7 @@ namespace tkEngine{
 			[](CParticle* p)->bool { return p->IsDead(); }
 		);
 		particleList.erase(delIt, particleList.end());
-		DethCheck();
+		DeathCheck();
 	}
 	/*!
 	*@brief	パーティクルに力を加える。
@@ -66,7 +67,7 @@ namespace tkEngine{
 		}
 	}
 
-	void CParticleEmitter::DethCheck()
+	void CParticleEmitter::DeathCheck()
 	{
 		m_lifeTimer -= GameTime().GetFrameDeltaTime();
 		if (m_lifeTimer < 0.0f)

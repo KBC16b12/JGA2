@@ -6,6 +6,7 @@
 #include "../Trap.h"
 #include "../Item/ItemMaker.h"
 #include "../Player/Player.h"
+#include "RandomPosManager.h"
 
 Map::Map()
 {
@@ -28,21 +29,25 @@ Map::~Map()
 
 void Map::Init(std::vector<SMapInfo> map_dat)
 {
-	int l_playerNum = 0;
 	//マップチップの作成
 	for each(SMapInfo l_map_dat in map_dat)
 	{
 		MapChip *l_mapChip = nullptr;
-		if (!strcmp("ItemBox", l_map_dat.s_modelName))
+		if (!strcmp("itembox1-1", l_map_dat.s_modelName))
 		{
-			l_mapChip = NewGO<ItemMaker>(PRIORITY1);
+			CQuaternion multi;
+			multi.SetRotation(CVector3::AxisX, CMath::DegToRad(-90));
+			l_map_dat.s_rotation.Multiply(multi);
+			g_randomPosManager->AddItemData(l_map_dat);
 		}
-		else if (!strcmp("Player", l_map_dat.s_modelName))
+		else if (!strcmp("snowman1-3", l_map_dat.s_modelName))
 		{
-			m_player[l_playerNum] = NewGO<Player>(PRIORITY0);
-			m_player[l_playerNum]->SetPlayerNum(l_playerNum);
-			m_player[l_playerNum]->Init(l_map_dat.s_position, l_map_dat.s_rotation);
-			l_playerNum++;
+			CQuaternion multi;
+			multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
+			l_map_dat.s_rotation.Multiply(multi);
+			multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
+			l_map_dat.s_rotation.Multiply(multi);
+			g_randomPosManager->AddPlayerData(l_map_dat);
 		}
 		else if (!strcmp("torabasami", l_map_dat.s_modelName))
 		{
@@ -57,6 +62,19 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 			m_mapchip.push_back(l_mapChip);
 			m_mapchip.back()->Init(l_map_dat);
 		}
+	}
+	for (int i = 0; i < ITEM_NUM; i++)
+	{
+		SMapInfo l_map_dat = g_randomPosManager->GetItemData();
+		MapChip *l_mapChip = NewGO<ItemMaker>(PRIORITY1);
+		m_mapchip.push_back(l_mapChip);
+		m_mapchip.back()->Init(l_map_dat);
+	}
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		SMapInfo l_map_dat = g_randomPosManager->GetPlayerStartPos();
+		m_player[i] = NewGO<Player>(PRIORITY0);
+		m_player[i]->Init(l_map_dat.s_position, l_map_dat.s_rotation, i);
 	}
 }
 

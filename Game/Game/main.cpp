@@ -2,6 +2,7 @@
 #include "Scene/TitleScene/TitleScene.h"
 #include "Scene/Fade/Fade.h"
 #include "Camera/GameCamera.h"
+#include "Scene/GameScene/GameScene.h"
 
 CLight	g_defaultLight;	//デフォルトライト。
 
@@ -29,6 +30,7 @@ void InitTkEngine( HINSTANCE hInst )
 	initParam.graphicsConfig.bloomConfig.isEnable = true;
 	initParam.graphicsConfig.edgeRenderConfig.isEnable = true;
 	initParam.graphicsConfig.edgeRenderConfig.idMapWidth = initParam.frameBufferWidth;
+
 	initParam.graphicsConfig.edgeRenderConfig.idMapHeight = initParam.frameBufferHeight;
 	//Shadow
 	initParam.graphicsConfig.shadowRenderConfig.Init();
@@ -42,11 +44,12 @@ void InitTkEngine( HINSTANCE hInst )
 	initParam.graphicsConfig.reflectionMapConfig.reflectionMapWidth = 512;
 	initParam.graphicsConfig.reflectionMapConfig.reflectionMapHeight = 512;
 	//DOF
-	initParam.graphicsConfig.dofConfig.isEnable = false;
+	initParam.graphicsConfig.dofConfig.isEnable = true;
 	//AA
 	initParam.graphicsConfig.aaConfig.isEnable = true;
 	initParam.graphicsConfig.motionBlurConfig.isEnable = false;
 
+	initParam.graphicsConfig.tonemapConfig.isEnable = false;
 	//乱数初期化。
 	g_random.Init((unsigned long)time(NULL));
 
@@ -89,6 +92,6 @@ int WINAPI wWinMain(
 	NewGO<TitleScene>(PRIORITY1)->Init(enRun);
 	
 	Engine().RunGameLoop();		//ゲームループを実行。
-
+	delete g_bulletModel;
 	return 0;
 }

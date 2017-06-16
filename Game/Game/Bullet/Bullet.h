@@ -1,6 +1,5 @@
 #pragma once
-#include "../Player/Weapon.h"
-
+class Player;
 /*
 弾の基底クラス
 他のアイテムを使ったときに出る弾はこのクラスを継承させる
@@ -11,7 +10,7 @@ class Bullet : public IGameObject
 public:
 	Bullet();
 
-	~Bullet();
+	virtual ~Bullet();
 
 	bool Start()override;
 
@@ -21,8 +20,9 @@ public:
 	*@brief position		弾が発射される座標
 	*@brief moveSpeed		飛ぶ方向
 	*@brief playerNum		この弾を打ったプレイヤーの番号
+	*@brief light			プレイヤーのライト
 	*/
-	virtual void Init(CVector3 position, CVector3 movespeed, int playerNum);
+	virtual void Init(CVector3 position, CVector3 movespeed, int playerNum, CLight* light);
 	/*
 	*@brief 更新処理
 	*/
@@ -44,8 +44,10 @@ protected:
 	*/
 	virtual void Move();
 
-	virtual void DethCheck();
+	virtual void DeathCheck();
 
+
+	virtual void PlayerDamage(Player *player);
 
 protected:
 	CCharacterController	m_characterController;
@@ -53,6 +55,7 @@ protected:
 	CVector3				m_moveSpeed;
 	CSkinModel				m_skinModel;
 	CSkinModelDataHandle	m_modelData;
-	CLight					m_light;
+	CLight*					m_pLight;
 	int						m_playerNum;
+	float					m_lifeTime;
 };

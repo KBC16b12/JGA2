@@ -11,6 +11,8 @@ namespace tkEngine{
 	{
 		memset(m_emitterAzimuths, 0, sizeof(m_emitterAzimuths));
 		memset(m_matrixCoefficients, 0, sizeof(m_matrixCoefficients));
+		m_timeLag = true;
+		m_timeLag = 0.0f;
 	}
 	CSoundSource::~CSoundSource()
 	{

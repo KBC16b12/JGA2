@@ -6,5 +6,5 @@ public:
 	Mimikku();
 	~Mimikku();
 private:
-	void Deth(Player *player)override;
+	void Death(Player *player)override;
 };

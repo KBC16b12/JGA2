@@ -68,21 +68,11 @@ namespace tkEngine{
 		 *@param[in]	param		パーティクル生成用のパラメータ。
 		 *@param[in]	emitPosition	エミッターの座標。
 		 */
-		void Init(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition);
+		void Init(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition, std::vector<CCamera*>	cameraArray);
 		bool Start() override ;
 		void Update() override;
 		
-		void DethCheck();
-
-		/*
-		*@brief 描画するカメラを追加
-		カメラの台数分だけ実行
-		*/
-		void AddCamera(CCamera& cam)
-		{
-			cameraArray.push_back(&cam);
-		}
-
+		void DeathCheck();
 		/*!
 		*@brief	パーティクルに力を加える。
 		*@param[in]	applyForce		乱数生成に使用する乱数生成機。
@@ -97,8 +87,8 @@ namespace tkEngine{
 		CVector3				emitPosition;	//!<エミッターの座標。
 		std::list<CParticle*>	particleList;	//!<パーティクルのリスト。
 		std::list<CParticle*>	deleteParticleList;	//!<削除されたパーティクルのリスト。
-		float					m_lifeTimer;
-		std::vector<CCamera*>	cameraArray;
+		float					m_lifeTimer;	//!<エミッターの寿命
+		std::vector<CCamera*>	cameraVector;
 	};
 }
 

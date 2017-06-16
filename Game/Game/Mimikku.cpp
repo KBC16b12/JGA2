@@ -10,8 +10,8 @@ Mimikku::~Mimikku()
 {
 }
 
-void Mimikku::Deth(Player *player)
+void Mimikku::Death(Player *player)
 {
-	Item::Deth(player);
+	Item::Death(player);
 	player->Eaten();
 }

@@ -6,12 +6,13 @@
 #include "../Scene/GameScene/GameScene.h"
 #include "../Trap.h"
 #include "../Network/Network.h"
+#include "HUD/CountUpSprite.h"
+#include "RandomPosManager.h"
 
 Player::Player()
 {
-	m_respawnPosition = CVector3::Zero;
 	//HP設定
-	m_maxhp = m_hp = 4;
+	m_maxhp = m_hp = 6;
 	m_killCount = 0;
 	m_HPbar = NewGO<Bar>(PRIORITY1);
 	m_HPbar->SetBarPos({ -592.95f, 320.0f });
@@ -24,6 +25,10 @@ Player::Player()
 	m_HPbar->SetData(m_hp, m_maxhp);
 	m_HPbar->SetBerQuarter(Bar::enBarQuarter::enQuaLeft);
 	m_killCountSprite = NewGO<KillCountSprite>(PRIORITY1);
+	m_isInvincible = false;
+	m_isInvincibleTec = true;
+	m_invincibleCount = 0.0f;
+	m_invincibleTecCount = 0.0f;
 }
 
 Player::~Player()
@@ -53,49 +58,43 @@ bool Player::Start()
 	m_light.SetDiffuseLightColor(2, { l_lightColor3, l_lightColor3, l_lightColor3, 1.0f });
 	m_light.SetDiffuseLightColor(3, { l_lightColor4, l_lightColor4, l_lightColor4, 1.0f });
 
-	SkinModelDataResources().Load(m_skinModelDataFirst, "Assets/modelData/snowman_first.X", NULL, false, 1);
+	SkinModelDataResources().Load(m_skinModelDataFirst, "Assets/modelData/snowman_first.X", &m_animation, false, 1);
 	m_skinModelFirst.Init(m_skinModelDataFirst.GetBody());
 	m_skinModelFirst.SetLight(&m_light);	//デフォルトライトを設定。
-	SkinModelDataResources().Load(m_skinModelDataThird, "Assets/modelData/snowman1-3.X", NULL, false, 1);
-	m_skinModelThird.Init(m_skinModelDataThird.GetBody());
+	m_skinModelDataThird.LoadModelData("Assets/modelData/snowman1-3.X", NULL);
+	m_skinModelThird.Init(&m_skinModelDataThird);
 	m_skinModelThird.SetLight(&m_light);	//デフォルトライトを設定。
 	m_skinModelFirst.SetShadowCasterFlag(true);
 	m_skinModelThird.SetShadowCasterFlag(true);
 	m_skinModelFirst.SetShadowReceiverFlag(true);
 	m_skinModelThird.SetShadowReceiverFlag(true);
-	m_respawnRotation = m_rotation;
 	//キャラクタコントローラの初期化。
-	m_characterController.Init(0.5f, 1.0f, m_position);
-	m_characterController.SetGravity(-30.0f);
-	
-
+	m_characterController.Init(1.7f, 1.0f, m_position);
+	m_characterController.SetGravity(0.0f);
+	m_animation.SetAnimationLoopFlag(ANIMESTATE_WAIT, false);
+	m_animation.SetAnimationLoopFlag(ANIMESTATE_SHOT, false);
+	m_animation.SetAnimationLoopFlag(ANIMESTATE_RELOAD, false);
+	m_animation.PlayAnimation(ANIMESTATE_WAIT);
 	m_HPbar->SetPlayerNum(m_playernum);
 	m_killCountSprite->SetPlayerNum(m_playernum);
 	m_skinModelFirst.SetFresnelFlag(true);
 	m_skinModelThird.SetFresnelFlag(true);
+	//m_skinModelFirst.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
+	//m_skinModelThird.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
 	return true;
 }
 
-void Player::Init(CVector3 position, CQuaternion rotation)
+void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 {
 	m_rotation = rotation;
 	m_position = position;
-	m_respawnPosition = position;
-	m_respawnRotation = rotation;
-	CQuaternion multi;
-	multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
-	m_rotation.Multiply(multi);
-	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
-	m_rotation.Multiply(multi);
-}
+	m_recovery.Init(&m_hp, m_maxhp);
 
-void Player::SetPlayerNum(int playernum)
-{
 	m_playernum = playernum;
-	m_weapon.Init(m_playernum);
+	m_weapon.Init(m_playernum, &m_animation, &m_light);
 	float l_lightColor = 0.3f;
 	float l_playerColor = 1.0f;
-	CVector3 l_ambinetLight = { l_lightColor, 0.3f, 0.3f };
+	CVector3 l_ambinetLight = { l_lightColor, l_lightColor, l_lightColor };
 	switch (m_playernum)
 	{
 	case 0:
@@ -107,7 +106,7 @@ void Player::SetPlayerNum(int playernum)
 		l_ambinetLight.y = l_playerColor;
 		break;
 	case 3:
-		l_ambinetLight.z = l_playerColor;
+		l_ambinetLight.z = l_playerColor + 0.5f;
 		break;
 	}
 	m_light.SetAmbinetLight(l_ambinetLight);
@@ -118,7 +117,7 @@ void Player::Update()
 	m_weapon.Update();
 	UpdateHPBar();
 	m_killCountSprite->SetData(m_killCount);
-		
+	m_recovery.Update();
 	Move();
 
 	//ワールド行列の更新
@@ -129,6 +128,26 @@ void Player::Update()
 
 	KeyOutput();
 	DataOutput();
+	Invincible();
+	m_animation.Update(GameTime().GetFrameDeltaTime());
+	//無敵状態なら
+	if (m_isInvincible)
+	{
+		if (0.2f <= m_invincibleTecCount)
+		{
+			m_isInvincibleTec = !m_isInvincibleTec;
+			m_invincibleTecCount = 0.0f;
+		}
+		if (m_isInvincibleTec)
+		{
+			m_skinModelThird.SetTechnique(enTecShaderHandle_Invincible);
+		}
+		else
+		{
+			m_skinModelThird.SetTechnique(enTecShaderHandle_NoSkinModel);
+		}
+		m_invincibleTecCount += GameTime().GetFrameDeltaTime();
+	}
 }
 
 void Player::Render(CRenderContext& renderContext, int playernum)
@@ -181,11 +200,7 @@ void Player::UpdateHPBar()
 void Player::Move()
 {
 	float	l_angle = 0.0f;
-	move = -5.0f; //移動速度
-	if (Pad(m_playernum).IsPress(enButtonLB2))
-	{
-		move *= 0.1f;
-	}
+	move = -13.0f; //移動速度
 	CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
 	CVector3 l_moveX;
 	CVector3 l_moveZ;
@@ -214,7 +229,12 @@ void Player::Move()
 	l_moveSpeed.Add(l_moveZ);
 
 	/*アングル*/
-	l_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
+	float angleSpeed = 7.0f;
+	if (Pad(m_playernum).IsPress(enButtonLB1))
+	{
+		angleSpeed *= 0.5f;
+	}
+	l_angle += Pad(m_playernum).GetRStickXF() * angleSpeed;
 
 	/*ジャンプ*/
 	//仕様から一応削除
@@ -233,7 +253,7 @@ void Player::Move()
 	m_characterController.Execute(GameTime().GetFrameDeltaTime());
 	//実行結果を受け取る。
 	m_position = m_characterController.GetPosition();
-	m_position.y += 2.0f;
+	m_position.y += 3.4f;
 	CQuaternion multi;
 	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(l_angle));
 	m_rotation.Multiply(multi);
@@ -241,6 +261,10 @@ void Player::Move()
 
 void Player::Damage(int playerNum, int damage)
 {
+	if (m_isInvincible)
+	{
+		return;
+	}
 	//HPを減算
 	m_hp -= damage;
 	if (m_hp <= 0)
@@ -248,6 +272,10 @@ void Player::Damage(int playerNum, int damage)
 		//もしHPが０になり死んだ場合殺した相手のカウントアップをしリスポーンする。
 		g_gameScene->GetPlayer(playerNum)->KillCountUp();
 		Respawn();
+	}
+	else
+	{
+		m_recovery.Hit();
 	}
 }
 
@@ -287,16 +315,52 @@ void Player::Startup()
 
 void Player::Eaten()
 {
-	m_hp -= 3;
+	m_hp -= 1;
+	if (m_hp <= 0)
+	{
+
+		Respawn();
+	}
+	else
+	{
+		m_recovery.Hit();
+	}
 }
 
 void Player::Respawn()
 {
+	SMapInfo l_mapDat = g_randomPosManager->GetPlayerRespawnPos(m_playernum);
 	//HPを回復して座標を初期化
 	m_hp = m_maxhp;
-	m_position = m_respawnPosition;
+	m_position = l_mapDat.s_position;
 	m_characterController.SetPosition(m_position);
-	m_rotation = m_respawnRotation;
+	m_rotation = l_mapDat.s_rotation;
+	m_isInvincible = true;
+	m_weapon.Respawn();
+}
+
+void Player::Invincible()
+{
+	if (!m_isInvincible)
+	{
+		return;
+	}
+
+	m_invincibleCount += GameTime().GetFrameDeltaTime();
+	if (2.0f <= m_invincibleCount)
+	{
+		m_isInvincible = false;
+		m_skinModelThird.SetTechnique(enTecShaderHandle_NoSkinModel);
+		m_invincibleCount = 0.0f;
+		m_invincibleTecCount = 0.0f;
+	}
+}
+
+void Player::KillCountUp()
+{
+	m_killCount++;
+	CountUpSprite *sprite = NewGO<CountUpSprite>(PRIORITY0);
+	sprite->Init(m_playernum);
 }
 
 void Player::KeyOutput()
@@ -307,3 +371,5 @@ void Player::DataOutput()
 {
 	
 }
+
+

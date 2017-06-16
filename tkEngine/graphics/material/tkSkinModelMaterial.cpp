@@ -98,6 +98,8 @@ namespace tkEngine{
 			m_hTechniqueHandle[enTecShaderHandle_NoSkinModel] = effectDx->GetTechniqueByName("NoSkinModel");
 			m_hTechniqueHandle[enTecShaderHandle_Sky] = effectDx->GetTechniqueByName("Sky");
 			m_hTechniqueHandle[enTecShaderHandle_Terrain] = effectDx->GetTechniqueByName("Terrain");
+			m_hTechniqueHandle[enTecShaderHandle_PincerBullet] = effectDx->GetTechniqueByName("PincerBullet");
+			m_hTechniqueHandle[enTecShaderHandle_Invincible] = effectDx->GetTechniqueByName("Invincible");
 			
 			//初期化時はStandardマテリアルを構築する。
 			Build(enTypeStandard);
@@ -137,7 +139,7 @@ namespace tkEngine{
 			m_materialNodes.push_back(ISkinModelMaterialNodePtr(new CSkinModelMaterialNode_NumBone(this)));
 			m_materialNodes.push_back(ISkinModelMaterialNodePtr(new CSkinModelMaterialNode_CurNumBone(this)));
 
-			SetTechnique(enTecShaderHandle_SkinModel);
+			SetTechnique(EnShaderTechnique::enTecShaderHandle_SkinModel);
 			break;
 		case enTypeTerrain:
 			//地形。
@@ -163,7 +165,7 @@ namespace tkEngine{
 			m_materialNodes.push_back(ISkinModelMaterialNodePtr(new CSkinModelMaterialNode_SendFlags(this)));
 			m_materialNodes.push_back(ISkinModelMaterialNodePtr(new CSkinModelMaterialNode_SendFlags2(this)));
 
-			SetTechnique(enTecShaderHandle_Terrain);
+			SetTechnique(EnShaderTechnique::enTecShaderHandle_Terrain);
 			break;
 		case enTypeSky:
 			//空。
@@ -178,7 +180,7 @@ namespace tkEngine{
 			m_materialNodes.push_back(ISkinModelMaterialNodePtr(new CSkinModelMaterialNode_SendCameraPos(this)));
 			//整数ベクトル。
 			m_materialNodes.push_back(ISkinModelMaterialNodePtr(new CSkinModelMaterialNode_SendFlags2(this)));
-			SetTechnique(enTecShaderHandle_Sky);
+			SetTechnique(EnShaderTechnique::enTecShaderHandle_Sky);
 			break;
 		default:
 			TK_ASSERT(false, "不正なマテリアルを構築しようとしています。");

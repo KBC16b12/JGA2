@@ -18,7 +18,7 @@ PincerAttackEffect::~PincerAttackEffect()
 
 bool PincerAttackEffect::Start()
 {
-	m_pEffect = tkEngine::CEngine::Instance().EffectManager().LoadEffect("Assets/presetShader/ColorNormalPrim.fx");
+	m_pEffect = EffectManager().LoadEffect("Assets/presetShader/ColorNormalPrim.fx");
 	int color = 0xff0000ff;
 	int color2 = 0x000000ff;
 	CVector3 l_distance = g_gameScene->GetPlayer(m_opponentNum)->GetPosition();

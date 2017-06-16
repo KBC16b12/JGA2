@@ -7,8 +7,10 @@
 #include "Player/Player.h"
 #include "../../HUD/TimeSprite.h"
 #include "../../Camera/GameCamera.h"
+#include "RandomPosManager.h"
 
 GameScene* g_gameScene = nullptr;
+CSkinModelData* g_bulletModel = nullptr;
 
 GameScene::GameScene()
 {
@@ -19,6 +21,10 @@ GameScene::GameScene()
 
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
 {
+	if (g_randomPosManager == nullptr)
+	{
+		g_randomPosManager = new RandomPosManager;
+	}
 	m_map->Init(map_data);
 	m_bgm_path = bgm_path;
 }
@@ -37,13 +43,16 @@ GameScene::~GameScene()
 		g_gameCamera[i]->FinishViewPort();
 	}
 	Sky().SetDisable();
+
+	delete g_randomPosManager;
+	g_randomPosManager = nullptr;
 }
 
 bool GameScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init(m_bgm_path);
-	m_bgm->Play(true);
+	//m_bgm->Play(true);
 
 	int l_half_w = Engine().GetScreenWidth() / 2;
 	int l_half_h = Engine().GetScreenHeight() / 2;
@@ -52,23 +61,13 @@ bool GameScene::Start()
 	g_gameCamera[2]->SetViewPort({ 0, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(2));
 	g_gameCamera[3]->SetViewPort({ l_half_w, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(3));
 	GetViewSprit().Start();
-	m_light.SetDiffuseLightDirection(0, CVector3(0.707f, 0.0f, -0.707f));
-	m_light.SetDiffuseLightDirection(1, CVector3(-0.707f, 0.0f, -0.707f));
-	m_light.SetDiffuseLightDirection(2, CVector3(0.0f, 0.707f, 0.707f));
-	m_light.SetDiffuseLightDirection(3, CVector3(0.0f, -0.707f, 0.0f));
-	m_light.SetDiffuseLightColor(0, CVector4(2.0f, 2.0f, 2.0f, 10.0f));
-	m_light.SetDiffuseLightColor(1, CVector4(0.8f, 0.8f, 0.8f, 1.0f));
-	m_light.SetDiffuseLightColor(2, CVector4(0.8f, 0.8f, 0.8f, 1.0f));
-	m_light.SetDiffuseLightColor(3, CVector4(0.8f, 0.8f, 0.8f, 1.0f));
-	m_light.SetLimLightColor(CVector4(2.0f, 2.0f, 2.0f, 1.0f));
-	m_light.SetLimLightDirection(CVector3(0.0f, 0.0f, -1.0f));
-	//Sky().SetSceneLight(m_light);
-	//Sky().SetLuminance({ 10.5f, 10.5f, 10.5f });
-	//Sky().SetNightAmbientLight({ 0.05f, 0.05f, 0.05f });
+	Sky().SetSceneLight(m_light);
+	Sky().SetLuminance({ 2.5f, 2.5f, 2.5f });
+	Sky().SetNightAmbientLight({ 0.05f, 0.05f, 0.05f });
 
-	//Sky().SetDayAmbientLight({ 0.7f, 0.7f, 0.7f });
+	Sky().SetDayAmbientLight({ 0.3f, 0.3f, 0.3f });
 
-	Sky().SetEnable(&g_gameCamera[0]->GetCamera(), /*&m_light*/nullptr);
+	Sky().SetEnable(&g_gameCamera[0]->GetCamera(), &g_defaultLight);
 
 	std::vector<CCamera*> l_cameraVector;
 	for (int i = 0;i < PLAYER_NUM;i++)
@@ -76,12 +75,22 @@ bool GameScene::Start()
 		l_cameraVector.push_back(&g_gameCamera[i]->GetCamera());
 	}
 	Sky().ViewPortSetCamera(l_cameraVector);
+	if (g_bulletModel == nullptr)
+	{
+		g_bulletModel = new CSkinModelData;
+		g_bulletModel->LoadModelData("Assets/modelData/Bullet.X", NULL);
+	}
 	return true;
 }
 
 void GameScene::Update()
 {
 	SceneChange();
+	CVector3 l_lightPos = Sky().GetSunPosition();
+	l_lightPos.Normalize();
+	l_lightPos.Scale(30.0f);
+	ShadowMap().SetLightPosition(l_lightPos);
+	ShadowMap().SetLightTarget(CVector3::Zero);
 }
 
 
@@ -166,7 +175,7 @@ void GameScene::SetActiveFlags(bool flag)
 {
 	if (flag)
 	{
-		m_bgm->Play(true);
+		//m_bgm->Play(true);
 	}
 	else
 	{

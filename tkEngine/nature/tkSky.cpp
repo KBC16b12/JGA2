@@ -5,6 +5,7 @@
 namespace tkEngine{
 	CSky::CSky() 
 	{
+		int a = 0;
 	}
 	void CSky::Init()
 	{
@@ -31,8 +32,8 @@ namespace tkEngine{
 	void CSky::Update()
 	{
 		if (camera != nullptr) {
-			//sunAngle += 0.02f * GameTime().GetFrameDeltaTime() * deltaTimeMul;
-			sunAngle = CMath::PI * 0.25f;
+			sunAngle += 0.02f * GameTime().GetFrameDeltaTime() * deltaTimeMul;
+			//sunAngle = CMath::PI * 0.25f;
 			//X軸回転。
 			sunPosition.Set(0.0f, sinf(sunAngle), cosf(sunAngle));
 			//Z軸回転。
@@ -42,7 +43,8 @@ namespace tkEngine{
 
 			sunDir = sunPosition;
 			sunPosition.Scale(1000000.0f);
-			atomosphereParam.Update(camera->GetPosition(), sunPosition);
+			//atomosphereParam.Update(camera->GetPosition(), sunPosition);
+			atomosphereParam.Update(CVector3::Zero, sunPosition);
 			CVector3 lightPos = sunPosition;
 			lightPos.Normalize();
 			lightPos.Scale(30.0f);
@@ -50,10 +52,11 @@ namespace tkEngine{
 					ShadowMap().SetLightPosition(lightPos);
 					ShadowMap().SetLightTarget(g_player->GetPosition());*/
 
-			skinModel.Update(camera->GetTarget(), CQuaternion::Identity, CVector3(1.0f, 1.0f, 1.0f));
+			//skinModel.Update(camera->GetTarget(), CQuaternion::Identity, CVector3(1.0f, 1.0f, 1.0f));
+			skinModel.Update(CVector3::Zero, CQuaternion::Identity, CVector3(1.0f, 1.0f, 1.0f));
 			CVector3 sunModelPos = sunDir;
 			sunModelPos.Scale(250.0f);
-			sunModelPos.Add(camera->GetTarget());
+			//sunModelPos.Add(camera->GetTarget());
 			sunModel.Update(sunModelPos, CQuaternion::Identity, CVector3(1.0f, 1.0f, 1.0f));
 			//シーンライトが設定されている。
 			if(sceneLight){

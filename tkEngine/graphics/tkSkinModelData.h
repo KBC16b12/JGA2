@@ -5,6 +5,7 @@
 #define _TKSKINMODELDATA_H_
 
 #include <thread>
+#include "tkEngine/graphics/tkShaderCommon.h"
 
 namespace tkEngine{
 	class CSkinModelMaterial;
@@ -39,6 +40,10 @@ namespace tkEngine{
 		 *@brief	デストラクタ。
 		 */
 		~CSkinModelData();
+
+		void SetTechnique(EnShaderTechnique eTec);
+
+
 		/*!
 		 * @brief	モデルデータをロード。
 		 *@param[in]	filePath	ファイルパス。

@@ -39,10 +39,17 @@ public:
 	* ポストエフェクトの後で実行されます。HUDなどポストエフェクトの影響を受けたくない描画物はここでレンダリングしてください。
 	*@param[in]		renderContext		レンダリングコンテキスト。
 	*/
+
+	void Render(CRenderContext& renderContext) override;
+
+	void Render(CRenderContext& renderContext, int cameraNum)override;
+
 	void PostRender( CRenderContext& renderContext ) override;
 
 	void PostRender(CRenderContext& renderContext, int cameraNum) override;
 private:
+
+	void Draw(CRenderContext& renderContext);
 	/*!
 	*@brief	画面遷移関数。
 	*/
@@ -53,8 +60,14 @@ private:
 	CTexture*					m_TitleTex;							//!<背景のテクスチャ。
 	CSprite						m_Title;							//!<背景のスプライト。
 
+	CTexture*					m_StartTex;							//!<背景のテクスチャ。
+	CSprite						m_Start;							//!<背景のスプライト。
+
+	CEffect*					m_pEffect;
 	RunStat						m_runstat = enFadeIn;
 
 	SceneData					m_scenedata;
+	float						m_alpha;
+	bool						m_isAlpha;
 };
 
