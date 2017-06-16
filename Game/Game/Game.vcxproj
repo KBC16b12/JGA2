@@ -178,9 +178,9 @@
     <ClCompile Include="Item\ItemBox.cpp" />
     <ClCompile Include="Item\ItemMaker.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MapObject.cpp" />
     <ClCompile Include="Map\Map.cpp" />
     <ClCompile Include="Map\MapChip.cpp" />
+    <ClCompile Include="Map\MapObject.cpp" />
     <ClCompile Include="Mimikku.cpp" />
     <ClCompile Include="Network\Network.cpp" />
     <ClCompile Include="PincerAttack\PincerAttack.cpp" />
@@ -222,9 +222,9 @@
     <ClInclude Include="Item\Item.h" />
     <ClInclude Include="Item\ItemBox.h" />
     <ClInclude Include="Item\ItemMaker.h" />
-    <ClInclude Include="MapObject.h" />
     <ClInclude Include="Map\Map.h" />
     <ClInclude Include="Map\MapChip.h" />
+    <ClInclude Include="Map\MapObject.h" />
     <ClInclude Include="Mimikku.h" />
     <ClInclude Include="Network\Network.h" />
     <ClInclude Include="PincerAttack\PincerAttack.h" />
