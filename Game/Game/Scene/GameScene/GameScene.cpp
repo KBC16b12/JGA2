@@ -144,8 +144,14 @@ void GameScene::SceneChange()
 				NewGO<MenuScene>(PRIORITY1);
 				break;
 			case enResult:
-				NewGO<ResultScene>(PRIORITY1);
-			default:
+				ResultScene *result = NewGO<ResultScene>(PRIORITY1);
+				int pKill[4];
+				for (int i = 0; i < 4; i++)
+				{
+					pKill[i] = GetPlayer(i)->GetKillCount();
+				}
+				result->SetPlayerKillScore(pKill);
+			//default:
 				break;
 			}
 			m_runstat = enRun;

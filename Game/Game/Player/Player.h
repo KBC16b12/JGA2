@@ -105,6 +105,11 @@ public:
 	
 	void KillCountUp();
 
+	int GetKillCount()
+	{
+		return m_killCount;
+	}
+
 	void Startup();
 
 	bool IsStup()

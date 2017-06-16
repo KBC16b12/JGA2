@@ -52,6 +52,7 @@ public:
 	Player* g_player;
 
 
+
 private:
 	/*!
 	*@brief	‰æ–Ê‘JˆÚŠÖ”B
