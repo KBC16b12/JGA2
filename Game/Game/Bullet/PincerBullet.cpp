@@ -25,7 +25,20 @@ bool PincerBullet::Start()
 
 void PincerBullet::PlayerDamage(Player *player)
 {
-	player->Damage(m_playerNum, player->GetMaxHP());
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		if (i == m_playerNum)
+		{
+			continue;
+		}
+		Player *l_player = g_gameScene->GetPlayer(i);
+		CVector3 l_distance = l_player->GetPosition();
+		l_distance.Subtract(player->GetPosition());
+		if (l_distance.Length() < 100.0f)
+		{
+			l_player->Damage(m_playerNum, l_player->GetMaxHP());
+		}
+	}
 	std::vector<CCamera*> l_camera;
 	for (int i = 0; i < PLAYER_NUM; i++)
 	{

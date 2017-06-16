@@ -26,7 +26,7 @@ void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum, CLight* 
 	m_position = position;
 	CVector3 l_addPosition = movespeed;
 	l_addPosition.Cross(CVector3::AxisY);
-	l_addPosition.Scale(-1.5f);
+	l_addPosition.Scale(-1.3f);
 	l_addPosition.y -= 0.8f;
 	m_position.Add(l_addPosition);
 

@@ -61,7 +61,7 @@ bool Player::Start()
 	SkinModelDataResources().Load(m_skinModelDataFirst, "Assets/modelData/snowman_first.X", &m_animation, false, 1);
 	m_skinModelFirst.Init(m_skinModelDataFirst.GetBody());
 	m_skinModelFirst.SetLight(&m_light);	//デフォルトライトを設定。
-	m_skinModelDataThird.LoadModelData("Assets/modelData/snowman1-3.X", NULL);
+	m_skinModelDataThird.LoadModelData("Assets/modelData/snowman1-3-2.X", NULL);
 	m_skinModelThird.Init(&m_skinModelDataThird);
 	m_skinModelThird.SetLight(&m_light);	//デフォルトライトを設定。
 	m_skinModelFirst.SetShadowCasterFlag(true);

@@ -52,7 +52,7 @@ bool GameScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init(m_bgm_path);
-	//m_bgm->Play(true);
+	m_bgm->Play(true);
 
 	int l_half_w = Engine().GetScreenWidth() / 2;
 	int l_half_h = Engine().GetScreenHeight() / 2;
