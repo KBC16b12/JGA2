@@ -161,6 +161,12 @@
     <ClCompile Include="PincerAttack\PincerAttackEffect.cpp">
       <Filter>Source Files\PincerAttack</Filter>
     </ClCompile>
+    <ClCompile Include="Mimikku.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Trap.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -255,6 +261,12 @@
     </ClInclude>
     <ClInclude Include="Scene\SoloScene\SoloScene.h">
       <Filter>Source Files\Scene\Solo</Filter>
+    </ClInclude>
+    <ClInclude Include="Mimikku.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

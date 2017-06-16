@@ -33,6 +33,28 @@ public:
 
 	void PostRender(CRenderContext& renderContext, int cameraNum) override;
 
+	void SetPosition(CVector3 Spos)
+	{
+		Spos = Spos;
+	}
+
+	void SetData(int killCount)
+	{
+		m_killcount = killCount;
+	}
+
+	void SetPlayerNum(int playerNum)
+	{
+		m_playerNum = playerNum;
+	}
+
+	void SetPlayerKillScore(int *killscore)
+	{
+		for (int i = 0;i < 4;i++)
+		{
+			pKill[i] = killscore[i];
+		}
+	}
 private:
 	/*!
 	*@brief	‰æ–Ê‘JˆÚŠÖ”B
@@ -47,5 +69,16 @@ private:
 	RunStat						m_runstat = enFadeIn;
 
 	SceneData					m_scenedata;
+
+	CVector3					Spos;
+	int							m_rcount;
+	int							m_killcount;		//ƒLƒ‹”
+	int							m_playerNum;
+	int							pNum[4];
+	int                         pKill[4];
+	int							tmp = 0;
+	CTexture*					m_texture[4];
+	CSprite						m_sprite[4];
+	CSprite						m_sprite2[4];
 };
 
