@@ -13,13 +13,13 @@
 //snowman1-3
 {
 	"snowman1-3",
-	CVector3(-50.00f, 0.00f, 0.00f),             //平行移動
+	CVector3(-47.33f, 0.00f, 9.84f),             //平行移動
 	CQuaternion(-0.50f, 0.50f, 0.50f, 0.50f ),  //回転
 },
 //snowman1-3
 {
 	"snowman1-3",
-	CVector3(0.00f, 0.00f, 50.00f),             //平行移動
+	CVector3(18.40f, 0.00f, 59.40f),             //平行移動
 	CQuaternion(0.00f, 0.71f, 0.71f, 0.00f ),  //回転
 },
 //snowman1-3
@@ -86,12 +86,6 @@
 {
 	"box2",
 	CVector3(-17.40f, 0.00f, -42.20f),             //平行移動
-	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ),  //回転
-},
-//box5
-{
-	"box5",
-	CVector3(25.70f, 0.00f, 24.10f),             //平行移動
 	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ),  //回転
 },
 //box3
@@ -193,13 +187,13 @@
 //snowman1-3
 {
 	"snowman1-3",
-	CVector3(-16.57f, 0.00f, 18.55f),             //平行移動
+	CVector3(-16.00f, 0.00f, 54.70f),             //平行移動
 	CQuaternion(-0.26f, 0.66f, 0.66f, 0.26f ),  //回転
 },
 //snowman1-3
 {
 	"snowman1-3",
-	CVector3(-25.32f, 0.00f, -24.27f),             //平行移動
+	CVector3(-40.40f, 0.00f, -7.60f),             //平行移動
 	CQuaternion(-0.65f, 0.29f, 0.29f, 0.65f ),  //回転
 },
 //snowman1-3
@@ -211,30 +205,48 @@
 //snowman1-3
 {
 	"snowman1-3",
-	CVector3(28.66f, 0.00f, 16.27f),             //平行移動
+	CVector3(26.50f, 0.00f, 20.40f),             //平行移動
 	CQuaternion(-0.18f, -0.68f, -0.68f, 0.18f ),  //回転
 },
 //snowman1-3
 {
 	"snowman1-3",
-	CVector3(52.34f, 0.00f, -25.17f),             //平行移動
+	CVector3(60.47f, 0.00f, -23.41f),             //平行移動
 	CQuaternion(-0.60f, -0.37f, -0.37f, 0.60f ),  //回転
 },
 //snowman1-3
 {
 	"snowman1-3",
-	CVector3(35.70f, 0.00f, -48.30f),             //平行移動
+	CVector3(37.60f, 0.00f, -54.10f),             //平行移動
 	CQuaternion(-0.60f, -0.37f, -0.37f, 0.60f ),  //回転
 },
 //snowman1-3
 {
 	"snowman1-3",
-	CVector3(-42.50f, 0.00f, -35.52f),             //平行移動
+	CVector3(-46.10f, 0.00f, -41.10f),             //平行移動
 	CQuaternion(-0.65f, 0.27f, 0.27f, 0.65f ),  //回転
 },
 //snowman1-3
 {
 	"snowman1-3",
-	CVector3(-32.81f, 0.00f, 38.36f),             //平行移動
+	CVector3(-42.68f, 0.00f, 39.83f),             //平行移動
 	CQuaternion(-0.33f, 0.63f, 0.63f, 0.33f ),  //回転
+},
+//box5
+{
+	"box5",
+	CVector3(40.60f, 0.00f, 29.00f),             //平行移動
+	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ),  //回転
+},
+//box2
+{
+	"box2",
+	CVector3(14.20f, 0.00f, 25.60f),             //平行移動
+	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ),  //回転
+},
+//box1
+{
+	"box1",
+	CVector3(-1.90f, 0.00f, 44.90f),             //平行移動
+	CQuaternion(-0.71f, 0.00f, 0.00f, 0.71f ),  //回転
 },

@@ -443,7 +443,6 @@ PSOutput PSMain( VS_OUTPUT In )
 	if(g_flags.y){
 		//âe
 		lig *= CalcShadow(In.worldPos_depth.xyz);
-	
 	}
 	//é©å»î≠åıêF
 	lig.xyz += g_light.emission;
