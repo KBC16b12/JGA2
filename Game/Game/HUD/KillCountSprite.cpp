@@ -16,7 +16,6 @@ KillCountSprite::KillCountSprite()
 		m_sprite[i].SetPosition({ 400.0f + i * 50,320.0f });
 		m_sprite[i].SetSize({ 50.0f,50.0f });
 	}
-
 }
 
 

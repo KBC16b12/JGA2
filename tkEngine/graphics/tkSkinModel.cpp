@@ -155,14 +155,14 @@ namespace tkEngine{
 				// マテリアルパラメータを転送。
 				CSkinModelMaterial& material = pMeshContainer->materials[pBoneComb[iAttrib].AttribId];
 				//レンダリングパスに応じて対応するシェーダーテクニックに差し替える。
-				CSkinModelMaterial::EnShaderTechnique oldTec = material.GetTechnique();
+				EnShaderTechnique oldTec = material.GetTechnique();
 				if (isDrawToShadowMap) {
 					//シャドウマップへの書き込み中。
-					if (oldTec == CSkinModelMaterial::enTecShaderHandle_SkinModel) {
-						material.SetTechnique(CSkinModelMaterial::enTecShaderHandle_SkinModelRenderShadowMap);
+					if (oldTec == enTecShaderHandle_SkinModel) {
+						material.SetTechnique(enTecShaderHandle_SkinModelRenderShadowMap);
 					}
-					else if (oldTec == CSkinModelMaterial::enTecShaderHandle_SkinModelInstancing) {
-						material.SetTechnique(CSkinModelMaterial::enTecShaderHandle_SkinModelInstancingRenderToShadowMap);
+					else if (oldTec == enTecShaderHandle_SkinModelInstancing) {
+						material.SetTechnique(enTecShaderHandle_SkinModelInstancingRenderToShadowMap);
 					}
 				}
 				material.BeginDraw();
@@ -223,16 +223,16 @@ namespace tkEngine{
 
 				CSkinModelMaterial& material = pMeshContainer->materials[i];
 
-				CSkinModelMaterial::EnShaderTechnique oldTec = material.GetTechnique();
+				EnShaderTechnique oldTec = material.GetTechnique();
 				if (isDrawToShadowMap) {
 					//シャドウマップへの書き込み中。
-					if (oldTec == CSkinModelMaterial::enTecShaderHandle_NoSkinModel 
-						|| oldTec == CSkinModelMaterial::enTecShaderHandle_Terrain
+					if (oldTec == enTecShaderHandle_NoSkinModel 
+						|| oldTec == enTecShaderHandle_Terrain
 					) {
-						material.SetTechnique(CSkinModelMaterial::enTecShaderHandle_NoSkinModelRenderShadowMap);
+						material.SetTechnique(enTecShaderHandle_NoSkinModelRenderShadowMap);
 					}
-					else if (oldTec == CSkinModelMaterial::enTecShaderHandle_NoSkinModelInstancing) {
-						material.SetTechnique(CSkinModelMaterial::enTecShaderHandle_NoSkinModelInstancingRenderToShadowMap);
+					else if (oldTec == enTecShaderHandle_NoSkinModelInstancing) {
+						material.SetTechnique(enTecShaderHandle_NoSkinModelInstancingRenderToShadowMap);
 					}
 				}
 

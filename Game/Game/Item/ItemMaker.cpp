@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ItemMaker.h"
 #include "ItemBox.h"
+#include "../Mimikku.h"
 
 ItemMaker::ItemMaker()
 {
@@ -26,7 +27,7 @@ void ItemMaker::Update()
 {
 	if (m_item != nullptr)
 	{
-		if (m_item->IsDeth())
+		if (m_item->IsDeath())
 		{
 			DeleteGO(m_item);
 			m_item = nullptr;
@@ -35,9 +36,16 @@ void ItemMaker::Update()
 	else
 	{
 		m_intervalTime += GameTime().GetFrameDeltaTime();
-		if (1.0f < m_intervalTime)
+		if (15.0f < m_intervalTime)
 		{
-			m_item = NewGO<ItemBox>(PRIORITY0);
+			//if (g_random.GetRandInt() % 3 != 0)
+			//{
+				m_item = NewGO<ItemBox>(PRIORITY1);
+			//}
+			//else
+			//{
+			//	m_item = NewGO<Mimikku>(PRIORITY1);
+			//}
 			m_item->Init(m_position, m_rotation, m_modelDataItemBox.GetBody());
 			m_intervalTime = 0.0f;
 		}

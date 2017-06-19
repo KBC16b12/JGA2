@@ -3,6 +3,7 @@
 #include "../Scene/GameScene/GameScene.h"
 #include "../Player/Player.h"
 #include "../Camera/GameCamera.h"
+#include "../Player/Weapon.h"
 
 GrenadeBullet::GrenadeBullet()
 {
@@ -13,28 +14,16 @@ GrenadeBullet::~GrenadeBullet()
 {
 }
 
-void GrenadeBullet::Init(CVector3 position, CVector3 moveSpeed, int playerNum)
+void GrenadeBullet::Init(CVector3 position, CVector3 moveSpeed, int playerNum, CLight* light)
 {
-	Bullet::Init(position, moveSpeed, playerNum);
+	Bullet::Init(position, moveSpeed, playerNum, light);
 	m_characterController.SetGravity(-35.0f);
 	m_moveSpeed.y += 15.0f;
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 }
 
-void GrenadeBullet::Update()
-{
-	Bullet::Update();
-}
 
-void GrenadeBullet::Move()
-{
-	m_moveSpeed.y = m_characterController.GetMoveSpeed().y;
-	m_characterController.SetMoveSpeed(m_moveSpeed);
-	m_characterController.Execute(GameTime().GetFrameDeltaTime());
-	m_position = m_characterController.GetPosition();
-}
-
-void GrenadeBullet::DethCheck()
+void GrenadeBullet::DeathCheck()
 {
 	bool l_isDelete = false;
 	{
@@ -58,16 +47,23 @@ void GrenadeBullet::DethCheck()
 			l_distance.Subtract(m_position);
 			if (l_distance.Length() < 8.0f && m_playerNum != i)
 			{
-				l_player->Damage(m_playerNum, GRENADE_DAMAGE);
+				PlayerDamage(l_player);
 			}
 		}
 		DeleteGO(this);
+		std::vector<CCamera*> l_camera;
+		for (int i = 0; i < PLAYER_NUM; i++)
+		{
+			l_camera.push_back(&g_gameCamera[i]->GetCamera());
+		}
+		CVector3 l_emitPosition = m_position;
+		l_emitPosition.y += 2.0f;
 		CParticleEmitter *l_particleEmitter = NewGO<CParticleEmitter>(PRIORITY0);
 		l_particleEmitter->Init(g_random, g_gameCamera[m_playerNum]->GetCamera(), 
 		{
 		"Assets/particle/Explosion5.png",				//!<テクスチャのファイルパス。
 		{0.0f, 0.0f, 0.0f},								//!<初速度。
-		0.2f,											//!<寿命。単位は秒。
+		0.1f,											//!<寿命。単位は秒。
 		0.01f,											//!<発生時間。単位は秒。
 		3.0f,											//!<パーティクルの幅。
 		3.0f,											//!<パーティクルの高さ。
@@ -90,16 +86,16 @@ void GrenadeBullet::DethCheck()
 		0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
 		1,												//!<0半透明合成、1加算合成。
 		{0.1f, 0.1f, 0.1f},								//!<乗算カラー。
-		0.2f,											//!<パーティクルエミッターの寿命
-		1.15f											//!<サイズスケール
+		0.15f,											//!<パーティクルエミッターの寿命
+		1.2f											//!<サイズスケール
 		},
-		m_position);
+		l_emitPosition, l_camera);
 		CParticleEmitter *l_particleEmitter2 = NewGO<CParticleEmitter>(PRIORITY0);
 		l_particleEmitter2->Init(g_random, g_gameCamera[m_playerNum]->GetCamera(),
 		{
 			"Assets/particle/Explosion1.png",				//!<テクスチャのファイルパス。
 			{ 0.0f, 0.0f, 0.0f },								//!<初速度。
-			0.2f,											//!<寿命。単位は秒。
+			0.1f,											//!<寿命。単位は秒。
 			0.01f,											//!<発生時間。単位は秒。
 			3.0f,											//!<パーティクルの幅。
 			3.0f,											//!<パーティクルの高さ。
@@ -121,14 +117,9 @@ void GrenadeBullet::DethCheck()
 			0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
 			1,												//!<0半透明合成、1加算合成。
 			{ 0.1f, 0.1f, 0.1f },								//!<乗算カラー。
-			0.2f,											//!<パーティクルエミッターの寿命
-			1.15f											//!<サイズスケール
+			0.15f,											//!<パーティクルエミッターの寿命
+			1.2f											//!<サイズスケール
 		},
-			m_position);
-		for (int i = 0;i < PLAYER_NUM;i++)
-		{
-			l_particleEmitter->AddCamera(g_gameCamera[i]->GetCamera());
-			l_particleEmitter2->AddCamera(g_gameCamera[i]->GetCamera());
-		}
+			l_emitPosition, l_camera);
 	}
 }

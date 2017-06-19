@@ -2,9 +2,18 @@
 
 #include "../Network/Network.h"
 #include "Weapon.h"
+#include "PlayerRecovery.h"
 class KillCountSprite;
 class Bar;
 
+
+enum
+{
+	ANIMESTATE_WAIT,
+	ANIMESTATE_SHOT,
+	ANIMESTATE_RELOAD,
+	ANIMESTATE_NUM,
+};
 class Player : public IGameObject
 {
 public:
@@ -42,12 +51,16 @@ public:
 
 	void Move();
 
+
+
 	/*
 	*@brief ダメージを受けた時に呼ばれる関数
 	*@brief int playerNum	当てたプレイヤーの番号
 	*@brief int damage		プレイヤーが受けるダメージ量
 	*/
 	void Damage(int playerNum, int damage);
+
+	void Trap();
 
 	/*
 	*@brief リスポーン処理
@@ -58,6 +71,7 @@ public:
 	{
 		return m_position;
 	}
+
 
 	/*
 	*@brief プレイヤーの前方のワールド行列
@@ -81,33 +95,43 @@ public:
 		m_weapon.SetWeapon();
 	}
 
-	void Init(CVector3 position, CQuaternion rotation);
+	void Init(CVector3 position, CQuaternion rotation, int playernum);
 
-	/*
-	プレイヤーの番号をセットする関数
-	プレイヤーの番号とカメラの番号は同じ
-	*/
-	void SetPlayerNum(int playernum)
-	{
-		m_playernum = playernum;
-		m_weapon.Init(m_playernum);
-	}
-
-	void SetMyPlayerNum(int my_playernum);
 
 	int GetPlayerNum()
 	{
 		return m_playernum;
 	}
 	
-	void KillCountUp()
+	void KillCountUp();
+
+	int GetKillCount()
 	{
-		m_killCount++;
+		return m_killCount;
 	}
 
+	void Startup();
+
+	bool IsStup()
+	{
+		return Stup;
+	}
 	CMatrix GetWorldMatrix()
 	{
 		return m_skinModelFirst.GetWorldMatrix();
+	}
+
+	void Eaten();
+
+	
+	int GetMaxHP()
+	{
+		return m_maxhp;
+	}
+
+	void SetIsPincer(bool isPincerAttack)
+	{
+		m_weapon.SetIsPincer(isPincerAttack);
 	}
 
 private:
@@ -126,32 +150,37 @@ private:
 	*/
 	void DataOutput();
 
+	void Invincible();
+
+private:
 	CSkinModel				m_skinModelFirst;					//自分から見た時のモデル
 	CSkinModelDataHandle	m_skinModelDataFirst;				//スキンモデルデータ
 	CSkinModel				m_skinModelThird;					//他人から見た時のモデル
-	CSkinModelDataHandle	m_skinModelDataThird;
+	CSkinModelData			m_skinModelDataThird;
 	CQuaternion				m_rotation;					//回転
 	CAnimation				m_Animation;					//アニメーション
 	CCharacterController	m_characterController;		//キャラクタ―コントローラー。
 	CVector3				m_position = { 0.0f, 0.0f, 0.0f };
-	CVector3				m_respawnPosition;					
-	CQuaternion				m_respawnRotation;
 
 	int						m_currentAnimationNo;
-
+	float					m_angle = 180;
+	float					move = -5.0f;	//移動速度
+	bool					Stup = false;
 	KillCountSprite*		m_killCountSprite;					//キル数のスプライト
-	
 	Bar*					m_HPbar;		//HPバー
 	int						m_hp;			//HP
 	int						m_maxhp;		//最大HP
-
 	int						m_playernum;
-	
 	int						m_killCount;
-	
+	int						m_time = 30;
+	int						Ctime = 15;
+	bool					m_isInvincible;
+	bool					m_isInvincibleTec;
+	float					m_invincibleTecCount;	//テクニックを切り替える時間
+	float					m_invincibleCount;		//リスキル防止の無敵時間を数える変数
 	Weapon					m_weapon;
 	CLight					m_light;
+	PlayerRecovery			m_recovery;
+	CAnimation				m_animation;
 };
-
-extern int g_my_playernum;
 

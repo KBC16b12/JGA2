@@ -12,8 +12,8 @@ ItemBox::~ItemBox()
 
 }
 
-void ItemBox::Deth(Player *player)
+void ItemBox::Death(Player *player)
 {
-	Item::Deth(player);
+	Item::Death(player);
 	player->SetWeapon();
 }

@@ -14,7 +14,7 @@ namespace tkEngine
 	{
 	}
 
-	void CViewPortSprit::Render(CRenderContext& renderContext, std::vector<GameObjectList> objectList)
+	void CViewPortSprit::Render(CRenderContext& renderContext, std::vector<GameObjectList>& objectList)
 	{
 		if (m_isSprit)
 		{
@@ -42,7 +42,7 @@ namespace tkEngine
 		}
 	}
 
-	void CViewPortSprit::PostRender(CRenderContext& renderContext, std::vector<GameObjectList> objectList)
+	void CViewPortSprit::PostRender(CRenderContext& renderContext, std::vector<GameObjectList>& objectList)
 	{
 		if (m_isSprit)
 		{

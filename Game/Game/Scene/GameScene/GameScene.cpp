@@ -7,8 +7,10 @@
 #include "Player/Player.h"
 #include "../../HUD/TimeSprite.h"
 #include "../../Camera/GameCamera.h"
+#include "RandomPosManager.h"
 
 GameScene* g_gameScene = nullptr;
+CSkinModelData* g_bulletModel = nullptr;
 
 GameScene::GameScene()
 {
@@ -16,8 +18,13 @@ GameScene::GameScene()
 	m_time = NewGO<TimeSprite>(PRIORITY1);
 }
 
+
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
 {
+	if (g_randomPosManager == nullptr)
+	{
+		g_randomPosManager = new RandomPosManager;
+	}
 	m_map->Init(map_data);
 	m_bgm_path = bgm_path;
 }
@@ -36,6 +43,9 @@ GameScene::~GameScene()
 		g_gameCamera[i]->FinishViewPort();
 	}
 	Sky().SetDisable();
+
+	delete g_randomPosManager;
+	g_randomPosManager = nullptr;
 }
 
 bool GameScene::Start()
@@ -50,35 +60,39 @@ bool GameScene::Start()
 	g_gameCamera[1]->SetViewPort({ l_half_w, 0, l_half_w, l_half_h }, m_map->GetPlayer(1));
 	g_gameCamera[2]->SetViewPort({ 0, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(2));
 	g_gameCamera[3]->SetViewPort({ l_half_w, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(3));
-	//GetViewSprit().Start();
-	//m_light.SetDiffuseLightDirection(0, CVector3(0.707f, 0.0f, -0.707f));
-	//m_light.SetDiffuseLightDirection(1, CVector3(-0.707f, 0.0f, -0.707f));
-	//m_light.SetDiffuseLightDirection(2, CVector3(0.0f, 0.707f, 0.707f));
-	//m_light.SetDiffuseLightDirection(3, CVector3(0.0f, -0.707f, 0.0f));
-	//m_light.SetDiffuseLightColor(0, CVector4(2.0f, 2.0f, 2.0f, 10.0f));
-	//m_light.SetDiffuseLightColor(1, CVector4(0.8f, 0.8f, 0.8f, 1.0f));
-	//m_light.SetDiffuseLightColor(2, CVector4(0.8f, 0.8f, 0.8f, 1.0f));
-	//m_light.SetDiffuseLightColor(3, CVector4(0.8f, 0.8f, 0.8f, 1.0f));
-	//m_light.SetLimLightColor(CVector4(2.0f, 2.0f, 2.0f, 1.0f));
-	//m_light.SetLimLightDirection(CVector3(0.0f, 0.0f, -1.0f));
-	//Sky().SetSceneLight(m_light);
-	//Sky().SetLuminance({ 10.5f, 10.5f, 10.5f });
-	//Sky().SetNightAmbientLight({ 0.05f, 0.05f, 0.05f });
-	//Sky().SetDayAmbientLight({ 0.7f, 0.7f, 0.7f });
-	//Sky().SetEnable(&g_gameCamera[0]->GetCamera(), &m_light);
-	//std::vector<CCamera*> l_cameraVector;
-	//for (int i = 0;i < PLAYER_NUM;i++)
-	//{
-	//	l_cameraVector.push_back(&g_gameCamera[i]->GetCamera());
-	//}
-	//Sky().ViewPortSetCamera(l_cameraVector);
+	GetViewSprit().Start();
+	Sky().SetSceneLight(m_light);
+	Sky().SetLuminance({ 2.5f, 2.5f, 2.5f });
+	Sky().SetNightAmbientLight({ 0.05f, 0.05f, 0.05f });
+
+	Sky().SetDayAmbientLight({ 0.3f, 0.3f, 0.3f });
+
+	Sky().SetEnable(&g_gameCamera[0]->GetCamera(), &g_defaultLight);
+
+	std::vector<CCamera*> l_cameraVector;
+	for (int i = 0;i < PLAYER_NUM;i++)
+	{
+		l_cameraVector.push_back(&g_gameCamera[i]->GetCamera());
+	}
+	Sky().ViewPortSetCamera(l_cameraVector);
+	if (g_bulletModel == nullptr)
+	{
+		g_bulletModel = new CSkinModelData;
+		g_bulletModel->LoadModelData("Assets/modelData/Bullet.X", NULL);
+	}
 	return true;
 }
 
 void GameScene::Update()
 {
 	SceneChange();
+	CVector3 l_lightPos = Sky().GetSunPosition();
+	l_lightPos.Normalize();
+	l_lightPos.Scale(30.0f);
+	ShadowMap().SetLightPosition(l_lightPos);
+	ShadowMap().SetLightTarget(CVector3::Zero);
 }
+
 
 /*!
 *@brief	‰æ–Ê‘JˆÚŠÖ”B
@@ -109,7 +123,7 @@ void GameScene::SceneChange()
 		//	SetActiveFlags(false);
 		//	return;
 		//}
-		if (m_time->IsFinish())
+		if (m_time->IsFinish() || Pad(0).IsTrigger(enButtonStart))
 		{
 			//ƒŠƒUƒ‹ƒg‚Ö‘JˆÚ
 			m_scenedata = enResult;
@@ -130,8 +144,14 @@ void GameScene::SceneChange()
 				NewGO<MenuScene>(PRIORITY1);
 				break;
 			case enResult:
-				NewGO<ResultScene>(PRIORITY1);
-			default:
+				ResultScene *result = NewGO<ResultScene>(PRIORITY1);
+				int pKill[4];
+				for (int i = 0; i < 4; i++)
+				{
+					pKill[i] = GetPlayer(i)->GetKillCount();
+				}
+				result->SetPlayerKillScore(pKill);
+			//default:
 				break;
 			}
 			m_runstat = enRun;
@@ -155,7 +175,7 @@ void GameScene::SetActiveFlags(bool flag)
 {
 	if (flag)
 	{
-		m_bgm->Play(true);
+		//m_bgm->Play(true);
 	}
 	else
 	{
@@ -164,7 +184,3 @@ void GameScene::SetActiveFlags(bool flag)
 	m_map->SetActiveFlag(flag);
 }
 
-void GameScene::OnDestroy()
-{
-
-}

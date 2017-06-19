@@ -42,10 +42,10 @@ bool ItemSprite::Start()
 
 	//ç¿ïWÇÃê›íË
 	float l_positionY = -270.0f;
-	float l_positionX = 50.0f;
-	m_itemSprite.SetPosition({ l_positionY, l_positionY});
-	m_countSprite10.SetPosition({ l_positionY + 100.0f, l_positionY });
-	m_countSprite1.SetPosition({ l_positionY + 200.0f, l_positionY });
+	float l_positionX = 350.0f;
+	m_itemSprite.SetPosition({ l_positionX, l_positionY});
+	m_countSprite10.SetPosition({ l_positionX + 100.0f, l_positionY });
+	m_countSprite1.SetPosition({ l_positionX + 200.0f, l_positionY });
 	return true;
 
 }
@@ -57,15 +57,14 @@ void ItemSprite::SetItem(BULLETSTATE state)
 	case BULLETSTATE_BOUND:
 		m_itemSprite.SetTexture(m_boundTexture);
 		break;
-	case BULLETSTATE_GRENADE:
-		m_itemSprite.SetTexture(m_grenadeTexture);
-		break;
+	//case BULLETSTATE_GRENADE:
+	//	m_itemSprite.SetTexture(m_grenadeTexture);
+	//	break;
 	}
 }
 
 void ItemSprite::Update()
 {
-
 	int spriteNum1 = m_bulletStrikeNum % 10;
 	int spriteNum10 = m_bulletStrikeNum / 10;
 	m_countSprite1.SetTexture(m_countTexture[spriteNum1]);

@@ -14,11 +14,6 @@ BoundBullet::~BoundBullet()
 {
 }
 
-void BoundBullet::Init(CVector3 position, CVector3 movespeed, int playerNum)
-{
-	Bullet::Init(position, movespeed, playerNum);
-}
-
 void BoundBullet::Move()
 {
 	CVector3 l_wallNormal = m_characterController.Execute(GameTime().GetFrameDeltaTime());
@@ -38,7 +33,7 @@ void BoundBullet::Move()
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 }
 
-void BoundBullet::DethCheck()
+void BoundBullet::DeathCheck()
 {
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{
@@ -51,7 +46,7 @@ void BoundBullet::DethCheck()
 			if (l_distance.Length() < 3.0f)
 			{
 				DeleteGO(this);
-				l_player->Damage(m_playerNum, BULLET_DAMAGE);
+				PlayerDamage(l_player);
 				break;
 			}
 		}

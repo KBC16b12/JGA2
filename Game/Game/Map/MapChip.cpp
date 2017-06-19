@@ -23,6 +23,7 @@ void MapChip::ModelInit(const char *modelName)
 	m_SkinModel.SetShadowCasterFlag(true);
 	m_SkinModel.SetShadowReceiverFlag(true);
 	m_SkinModel.SetLight(&g_defaultLight);
+
 }
 
 void MapChip::Init(SMapInfo map_dat)
@@ -34,6 +35,7 @@ void MapChip::Init(SMapInfo map_dat)
 	CQuaternion l_rotation;
 	l_rotation.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
 	m_rotation.Multiply(l_rotation);
+	m_SkinModel.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
 	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
 }
 

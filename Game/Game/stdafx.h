@@ -10,8 +10,9 @@
 #define PRIORITY1 1
 #define PRIORITY2 2
 #define PLAYER_NUM 4
+#define ITEM_NUM 4
 #define BULLET_DAMAGE 1
-#define GRENADE_DAMAGE 2
+#define NUM 10
 
 #define DEFAULT_PORT 10000
 
@@ -30,7 +31,6 @@
 #include "tkEngine/graphics/tkLight.h"
 #include "tkEngine/graphics/tkTexture.h"
 #include "tkEngine/resource/tkSkinModelDataHandle.h"
-#include "tkEngine/graphics/tkSkinModelMaterial.h"
 #include "tkEngine/Physics/tkPhysics.h"
 #include "tkEngine/physics/tkRigidBody.h"
 #include "tkEngine/Physics/tkMeshCollider.h"

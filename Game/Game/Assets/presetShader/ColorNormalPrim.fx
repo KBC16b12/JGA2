@@ -90,12 +90,25 @@ float4 pc_PSMain(VS_OUTPUT In) : COLOR0
 	color.w *= 2.0f;
 	float t = max( 0.0f, color.w - 1.0f);
 	color.w -= t*2.0f;
-	color.w *= g_Dot;
+	float dotPow = pow(g_Dot, 20.0f);
+	if (dotPow < 0.3f)
+	{
+		color.w *= 0.3f;
+	}
+	else
+	{
+		color.w *= dotPow;
+	}
 	color = pow(color, 2.0f);
-	float colorScale = 2.0f;
+	float3 lumColor = float3(1.0f, 1.0f, 0.0f);
+	lumColor *= pow(g_Dot, 50.0f);
+	float colorScale = 30.0f *dotPow;
+	//float colorScale = 1.0f;
+
 	color.x *= colorScale;
 	color.y *= colorScale;
 	color.z *= colorScale;
+	color.xyz += lumColor;
 	return color;
 }
 /*!

@@ -197,6 +197,11 @@ namespace tkEngine{
 		{
 			return &m_dspSettings;
 		}
+
+		void SetLag(float lag)
+		{
+			m_timeLag = lag;
+		}
 	private:
 		void InitCommon();
 		//ストリーミング再生中の更新処理。
@@ -232,5 +237,7 @@ namespace tkEngine{
 		FLOAT32 m_matrixCoefficients[INPUTCHANNELS * OUTPUTCHANNELS];
 		X3DAUDIO_DSP_SETTINGS m_dspSettings;
 		bool m_isSetPositionFirst = true;	//!<一番最初のsetPosition?
+		bool					m_isTimeLag;
+		float					m_timeLag;
 	};
 }

@@ -7,6 +7,7 @@
 #include "tkEngine/graphics/tkAnimation.h"
 #include "tkEngine/graphics/tkSkinModelData.h"
 #include "tkEngine/graphics/prerender/tkShadowCaster.h"
+#include "tkEngine/graphics/tkShaderCommon.h"
 
 namespace tkEngine {
 	class CEffect;
@@ -14,6 +15,7 @@ namespace tkEngine {
 	class CRenderContext;
 	class CLight;
 	class CShadowMap;
+	class CSkinModelMaterial;
 	struct SAtmosphericScatteringParam;
 	//フォグ。
 	enum EFogFunc {
@@ -197,6 +199,11 @@ namespace tkEngine {
 		*  Update関数を呼び出すと自動的に呼ばれます。シャドウマップへのエントリーだけを行いたい場合に使用してください。
 		*/
 		void EntryShadowMap();
+
+		void SetTechnique(EnShaderTechnique eTec)
+		{
+			m_skinModelData->SetTechnique(eTec);
+		}
 	private:
 		/*!
 		* @brief	シェーダ定の数ハンドルを初期化。
@@ -293,7 +300,7 @@ namespace tkEngine {
 		bool							m_hasSpecMap;						//!<スペきゅらマップを保持している？
 		bool							m_isWriteVelocityMap = true;		//!<速度マップに書き込む？
 		bool							m_isStealth = false;				//!<ステルス迷彩？
-		EAtomosphereFunc					m_atomosphereFunc = enAtomosphereFuncObjectFromAtomosphere;	//!<大気錯乱シミュレーションの種類。
+		EAtomosphereFunc					m_atomosphereFunc = enAtomosphereFuncNone;	//!<大気錯乱シミュレーションの種類。
 
 	};
 }

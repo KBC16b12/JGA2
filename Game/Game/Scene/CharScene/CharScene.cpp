@@ -6,13 +6,13 @@
 #include "../JoinScene/JoinScene.h"
 #include "../TitleScene/TitleScene.h"
 
-namespace
-{
-	std::vector<SMapInfo> n_solo_map_dat =
-	{
-#include "../../Map/MapData/Sample.h"
-	};
-}
+//namespace
+//{
+//	std::vector<SMapInfo> n_solo_map_dat =
+//	{
+//#include "../../Map/MapData/Sample.h"
+//	};
+//}
 
 CharScene::CharScene()
 {
@@ -108,8 +108,8 @@ void CharScene::SceneChange()
 			switch (m_scenedata)
 			{
 			case enGame:
-				g_gameScene = NewGO<GameScene>(PRIORITY1);
-				g_gameScene->Init(n_solo_map_dat, "Assets/sound/GameBGM2.wav");
+				//g_gameScene = NewGO<GameScene>(PRIORITY1);
+				//g_gameScene->Init(n_solo_map_dat, "Assets/sound/GameBGM2.wav");
 				break;
 			case enJoin:
 				NewGO<JoinScene>(PRIORITY1)->Init(m_char);

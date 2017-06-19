@@ -33,9 +33,9 @@ namespace tkEngine
 		~CViewPortSprit();
 
 		//•`‰æŠÖ”
-		void Render(CRenderContext& renderContext, std::vector<GameObjectList>);
+		void Render(CRenderContext& renderContext, std::vector<GameObjectList>& objectList);
 
-		void PostRender(CRenderContext& renderContext, std::vector<GameObjectList>);
+		void PostRender(CRenderContext& renderContext, std::vector<GameObjectList>& objectList);
 
 		/*
 		*@brief ‰æ–Ê•ªŠ„‚·‚éÛ‚Ì¶ã‚Ì‹÷‚ÌÀ•W‚Æ‚»‚±‚©‚ç‚Ì•
