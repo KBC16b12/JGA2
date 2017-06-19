@@ -80,7 +80,6 @@ void GameScene::Update()
 	SceneChange();
 }
 
-
 /*!
 *@brief	画面遷移関数。
 */
@@ -100,16 +99,16 @@ void GameScene::SceneChange()
 		//動作中
 		SetActiveFlags(true);
 		//スタートボタン押下
-		if (Pad(0).IsTrigger(enButtonStart))
-		{
-			//メニューへ遷移
-			m_scenedata = enMenu;
+		//if (Pad(0).IsTrigger(enButtonStart))
+		//{
+		//	//メニューへ遷移
+		//	m_scenedata = enMenu;
 
-			m_runstat = enFadeOut;
+		//	m_runstat = enFadeOut;
 
-			SetActiveFlags(false);
-			return;
-		}
+		//	SetActiveFlags(false);
+		//	return;
+		//}
 		if (m_time->IsFinish())
 		{
 			//リザルトへ遷移

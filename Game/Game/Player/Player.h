@@ -81,18 +81,7 @@ public:
 		m_weapon.SetWeapon();
 	}
 
-	void Init(CVector3 position, CQuaternion rotation)
-	{
-		m_rotation = rotation;
-		m_position = position;
-		m_respawnPosition = position;
-		m_respawnRotation = rotation;
-		CQuaternion multi;
-		multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
-		m_rotation.Multiply(multi);
-		multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
-		m_rotation.Multiply(multi);
-	}
+	void Init(CVector3 position, CQuaternion rotation);
 
 	/*
 	プレイヤーの番号をセットする関数
@@ -103,6 +92,8 @@ public:
 		m_playernum = playernum;
 		m_weapon.Init(m_playernum);
 	}
+
+	void SetMyPlayerNum(int my_playernum);
 
 	int GetPlayerNum()
 	{
@@ -149,12 +140,18 @@ private:
 	int						m_currentAnimationNo;
 
 	KillCountSprite*		m_killCountSprite;					//キル数のスプライト
+	
 	Bar*					m_HPbar;		//HPバー
 	int						m_hp;			//HP
 	int						m_maxhp;		//最大HP
+
 	int						m_playernum;
+	
 	int						m_killCount;
+	
 	Weapon					m_weapon;
 	CLight					m_light;
 };
+
+extern int g_my_playernum;
 

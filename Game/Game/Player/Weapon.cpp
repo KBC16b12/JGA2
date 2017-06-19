@@ -27,7 +27,8 @@ Weapon::~Weapon()
 
 void Weapon::Init(int playerNum)
 {
-	m_playerNum = playerNum;
+	m_playerNum = playerNum;;
+
 	m_itemSprite->Init(playerNum);
 	m_pincer->Init(playerNum);
 }
@@ -39,26 +40,33 @@ bool Weapon::Start()
 
 void Weapon::Update()
 {
-	if (m_isStrike)
+	if (m_playerNum == g_my_playernum)
 	{
+		if (m_isStrike)
+		{
 			//弾を打てる状態でぼたんを押したら
-		if (Pad(m_playerNum).IsTrigger(enButtonRB1))
-		{
-			BulletFilling();
-			m_isStrike = false;
+			if (Pad(0).IsTrigger(enButtonRB1))
+			{
+				BulletFilling();
+				m_isStrike = false;
+			}
 		}
+		else
+		{
+			//次の弾を打てるまでのインターバルタイム
+			m_strikeInterval += GameTime().GetFrameDeltaTime();
+			if (0.2f < m_strikeInterval)
+			{
+				m_isStrike = true;
+				m_strikeInterval = 0.0f;
+			}
+		}
+		m_itemSprite->SetStrikeNum(m_bulletStrikeNum);
 	}
-	else 
+	else
 	{
-		//次の弾を打てるまでのインターバルタイム
-		m_strikeInterval += GameTime().GetFrameDeltaTime();
-		if (0.2f < m_strikeInterval)
-		{
-			m_isStrike = true;
-			m_strikeInterval = 0.0f;
-		}
+	
 	}
-	m_itemSprite->SetStrikeNum(m_bulletStrikeNum);
 }
 
 

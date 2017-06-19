@@ -65,6 +65,9 @@ private:
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
 	SceneData					m_scenedata;					//画面遷移データ
 	TimeSprite*					m_time;
+
+
+	int							m_my_playernum = 2;
 };
 
 extern GameScene* g_gameScene;

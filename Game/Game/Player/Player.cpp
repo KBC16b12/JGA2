@@ -6,7 +6,10 @@
 #include "../Scene/GameScene/GameScene.h"
 #include "../Network/Network.h"
 
+int g_my_playernum;
+
 Player *player;
+
 Player::Player()
 {
 	m_respawnPosition = CVector3::Zero;
@@ -24,6 +27,8 @@ Player::Player()
 	m_HPbar->SetData(m_hp, m_maxhp);
 	m_HPbar->SetBerQuarter(Bar::enBarQuarter::enQuaLeft);
 	m_killCountSprite = NewGO<KillCountSprite>(PRIORITY1);
+
+	SetMyPlayerNum(3);
 }
 
 Player::~Player()
@@ -68,12 +73,25 @@ bool Player::Start()
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(0.5f, 1.0f, m_position);
 	m_characterController.SetGravity(-30.0f);
-	
 
 	m_HPbar->SetPlayerNum(m_playernum);
 	m_killCountSprite->SetPlayerNum(m_playernum);
 	return true;
 }
+
+void Player::Init(CVector3 position, CQuaternion rotation)
+{
+	m_rotation = rotation;
+	m_position = position;
+	m_respawnPosition = position;
+	m_respawnRotation = rotation;
+	CQuaternion multi;
+	multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
+	m_rotation.Multiply(multi);
+	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
+	m_rotation.Multiply(multi);
+}
+
 
 void Player::Update()
 {
@@ -142,55 +160,62 @@ void Player::UpdateHPBar()
 
 void Player::Move()
 {
-	float	l_angle = 0.0f;
-	float	move;
-	move = -5.0f; //移動速度
-	CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
-	CVector3 l_moveX;
-	CVector3 l_moveZ;
-	l_moveSpeed.x = 0.0f;
-	l_moveSpeed.z = 0.0f;
-	CMatrix l_pmatrix = m_skinModelFirst.GetWorldMatrix();
-
-	l_moveX.x = l_pmatrix.m[0][0];
-	l_moveX.y = l_pmatrix.m[0][1];
-	l_moveX.z = l_pmatrix.m[0][2];
-	l_moveX.Normalize();
-	l_moveX.Scale(move);
-
-	l_moveZ.x = l_pmatrix.m[2][0];
-	l_moveZ.y = l_pmatrix.m[2][1];
-	l_moveZ.z = l_pmatrix.m[2][2];
-	l_moveZ.Normalize();
-	l_moveZ.Scale(move);
-
-	/*移動*/
-	l_moveX.Scale(Pad(m_playernum).GetLStickXF());
-	l_moveZ.Scale(Pad(m_playernum).GetLStickYF());
-	l_moveSpeed.Add(l_moveX);
-	l_moveSpeed.Add(l_moveZ);
-
-	/*アングル*/
-	l_angle += Pad(m_playernum).GetRStickXF() * 5.0f;
-
-	/*ジャンプ*/
-	//仕様から一応削除
-	/*if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
+	if (m_playernum == g_my_playernum)
 	{
-		m_characterController.Jump();
-		l_moveSpeed.y += 20.0f;
-	}*/
+		float	l_angle = 0.0f;
+		float	move;
+		move = -5.0f; //移動速度
+		CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
+		CVector3 l_moveX;
+		CVector3 l_moveZ;
+		l_moveSpeed.x = 0.0f;
+		l_moveSpeed.z = 0.0f;
+		CMatrix l_pmatrix = m_skinModelFirst.GetWorldMatrix();
 
-	//決定した移動速度をキャラクタコントローラーに設定。
-	m_characterController.SetMoveSpeed(l_moveSpeed);
-	//キャラクターコントローラーを実行。
-	m_characterController.Execute(GameTime().GetFrameDeltaTime());
-	//実行結果を受け取る。
-	m_position = m_characterController.GetPosition();
-	m_position.y += 2.0f;
-	CQuaternion multi;
-	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(l_angle));
-	m_rotation.Multiply(multi);
+		l_moveX.x = l_pmatrix.m[0][0];
+		l_moveX.y = l_pmatrix.m[0][1];
+		l_moveX.z = l_pmatrix.m[0][2];
+		l_moveX.Normalize();
+		l_moveX.Scale(move);
+
+		l_moveZ.x = l_pmatrix.m[2][0];
+		l_moveZ.y = l_pmatrix.m[2][1];
+		l_moveZ.z = l_pmatrix.m[2][2];
+		l_moveZ.Normalize();
+		l_moveZ.Scale(move);
+
+		/*移動*/
+		l_moveX.Scale(Pad(0).GetLStickXF());
+		l_moveZ.Scale(Pad(0).GetLStickYF());
+		l_moveSpeed.Add(l_moveX);
+		l_moveSpeed.Add(l_moveZ);
+
+		/*アングル*/
+		l_angle += Pad(0).GetRStickXF() * 5.0f;
+
+		/*ジャンプ*/
+		//仕様から一応削除
+		/*if (!m_characterController.IsJump() && Pad(m_playernum).IsPress(enButtonX))
+		{
+			m_characterController.Jump();
+			l_moveSpeed.y += 20.0f;
+		}*/
+
+		//決定した移動速度をキャラクタコントローラーに設定。
+		m_characterController.SetMoveSpeed(l_moveSpeed);
+		//キャラクターコントローラーを実行。
+		m_characterController.Execute(GameTime().GetFrameDeltaTime());
+		//実行結果を受け取る。
+		m_position = m_characterController.GetPosition();
+		m_position.y += 2.0f;
+		CQuaternion multi;
+		multi.SetRotation(CVector3::AxisY, CMath::DegToRad(l_angle));
+		m_rotation.Multiply(multi);
+	}
+	else
+	{
+
+	}
 }
 
 void Player::Damage(int playerNum, int damage)
@@ -216,9 +241,15 @@ void Player::Respawn()
 
 void Player::KeyOutput()
 {
+
 }
 
 void Player::DataOutput()
 {
-	
+}
+
+void Player::SetMyPlayerNum(int my_playernum)
+{
+	g_my_playernum = my_playernum;
+	GetViewSprit().SetCameraNum(g_my_playernum);
 }

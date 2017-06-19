@@ -77,7 +77,7 @@ public:
 	}
 
 private:
-	CCamera				m_camera;				//カメラ
+	CCamera					m_camera;				//カメラ
 	CVector3				m_position;				//座標
 	CVector3				m_look_position;		//注視点
 	SViewport				m_sviewPort;
