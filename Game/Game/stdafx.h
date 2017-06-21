@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <winsock2.h>
 #include <windows.h>
+//#include "tkEngine/ViewPortSprit/tkViewPortSprit.h"
 #include "tkEngine/tkEnginePreCompile.h"
 #include "tkEngine/graphics/tkSkinModelData.h"
 #include "tkEngine/graphics/tkSkinModel.h"

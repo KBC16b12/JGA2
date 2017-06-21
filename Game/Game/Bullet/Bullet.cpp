@@ -42,7 +42,7 @@ void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum, CLight* 
 	m_position.Add(l_addPosition);
 
 	//characterControllerの初期化
-	m_characterController.Init(0.3f, 0.3f, m_position);
+	m_characterController.Init(0.2f, 0.3f, m_position);
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 	m_characterController.SetGravity(0.0f);
 	m_pLight = light;
@@ -90,7 +90,7 @@ void Bullet::DeathCheck()
 		else
 		{
 			//弾を打ったプレイヤーとある程度離れていればオブジェクトと衝突して消滅
-			if (m_characterController.IsCollision() || 30.0f < m_lifeTime)
+			if (m_characterController.IsCollision() || 40.0f < m_lifeTime)
 			{
 				DeleteGO(this);
 				break;

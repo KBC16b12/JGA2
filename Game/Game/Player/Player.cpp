@@ -29,12 +29,14 @@ Player::Player()
 	m_isInvincibleTec = true;
 	m_invincibleCount = 0.0f;
 	m_invincibleTecCount = 0.0f;
+	m_recovery = NewGO<PlayerRecovery>(PRIORITY1);
 }
 
 Player::~Player()
 {
 	DeleteGO(m_HPbar);
 	DeleteGO(m_killCountSprite);
+	DeleteGO(m_recovery);
 }
 
 bool Player::Start()
@@ -53,13 +55,15 @@ bool Player::Start()
 	float l_lightColor3 = 0.2f;
 
 	float l_lightColor4 = 0.3f;
+	CVector3 l_sunPos = Sky().GetSunPosition();
+	l_sunPos.Normalize();
 	m_light.SetDiffuseLightColor(0, { l_lightColor1, l_lightColor1, l_lightColor1, 1.0f });
 	m_light.SetDiffuseLightColor(1, { l_lightColor2, l_lightColor2, l_lightColor2, 1.0f });
 	m_light.SetDiffuseLightColor(2, { l_lightColor3, l_lightColor3, l_lightColor3, 1.0f });
 	m_light.SetDiffuseLightColor(3, { l_lightColor4, l_lightColor4, l_lightColor4, 1.0f });
 
-	SkinModelDataResources().Load(m_skinModelDataFirst, "Assets/modelData/snowman_first.X", &m_animation, false, 1);
-	m_skinModelFirst.Init(m_skinModelDataFirst.GetBody());
+	m_skinModelDataFirst.LoadModelData("Assets/modelData/snowman_first.X", &m_animation);
+	m_skinModelFirst.Init(&m_skinModelDataFirst);
 	m_skinModelFirst.SetLight(&m_light);	//デフォルトライトを設定。
 	m_skinModelDataThird.LoadModelData("Assets/modelData/snowman1-3-2.X", NULL);
 	m_skinModelThird.Init(&m_skinModelDataThird);
@@ -79,6 +83,7 @@ bool Player::Start()
 	m_killCountSprite->SetPlayerNum(m_playernum);
 	m_skinModelFirst.SetFresnelFlag(true);
 	m_skinModelThird.SetFresnelFlag(true);
+	m_skinModelThird.SetTechnique(enTecShaderHandle_Toon);
 	//m_skinModelFirst.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
 	//m_skinModelThird.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
 	return true;
@@ -88,25 +93,26 @@ void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 {
 	m_rotation = rotation;
 	m_position = position;
-	m_recovery.Init(&m_hp, m_maxhp);
-
 	m_playernum = playernum;
+
+	m_recovery->Init(&m_hp, m_maxhp, m_playernum);
 	m_weapon.Init(m_playernum, &m_animation, &m_light);
-	float l_lightColor = 0.3f;
-	float l_playerColor = 1.0f;
+	float l_lightColor = 0.2f;
+	float l_playerColor = 0.5f;
 	CVector3 l_ambinetLight = { l_lightColor, l_lightColor, l_lightColor };
 	switch (m_playernum)
 	{
 	case 0:
+		l_ambinetLight.Set(1.2f, 1.2f, 1.2f);
 		break;
 	case 1:
-		l_ambinetLight.x = l_playerColor;
+		l_ambinetLight.Set(1.8f, 0.2f, 0.2f);
 		break;
 	case 2:
-		l_ambinetLight.y = l_playerColor;
+		l_ambinetLight.Set(0.2f, 1.8f, 0.2f);
 		break;
 	case 3:
-		l_ambinetLight.z = l_playerColor + 0.5f;
+		l_ambinetLight.Set(0.2f, 0.2f, 1.8f);
 		break;
 	}
 	m_light.SetAmbinetLight(l_ambinetLight);
@@ -114,10 +120,8 @@ void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 
 void Player::Update()
 {
-	m_weapon.Update();
 	UpdateHPBar();
 	m_killCountSprite->SetData(m_killCount);
-	m_recovery.Update();
 	Move();
 
 	//ワールド行列の更新
@@ -144,10 +148,12 @@ void Player::Update()
 		}
 		else
 		{
-			m_skinModelThird.SetTechnique(enTecShaderHandle_NoSkinModel);
+			m_skinModelThird.SetTechnique(enTecShaderHandle_Toon);
 		}
 		m_invincibleTecCount += GameTime().GetFrameDeltaTime();
 	}
+
+	m_weapon.Update();
 }
 
 void Player::Render(CRenderContext& renderContext, int playernum)
@@ -275,7 +281,7 @@ void Player::Damage(int playerNum, int damage)
 	}
 	else
 	{
-		m_recovery.Hit();
+		m_recovery->Hit();
 	}
 }
 
@@ -323,7 +329,7 @@ void Player::Eaten()
 	}
 	else
 	{
-		m_recovery.Hit();
+		m_recovery->Hit();
 	}
 }
 
@@ -347,10 +353,10 @@ void Player::Invincible()
 	}
 
 	m_invincibleCount += GameTime().GetFrameDeltaTime();
-	if (2.0f <= m_invincibleCount)
+	if (20.0f <= m_invincibleCount)
 	{
 		m_isInvincible = false;
-		m_skinModelThird.SetTechnique(enTecShaderHandle_NoSkinModel);
+		m_skinModelThird.SetTechnique(enTecShaderHandle_Toon);
 		m_invincibleCount = 0.0f;
 		m_invincibleTecCount = 0.0f;
 	}

@@ -51,11 +51,6 @@ void CharScene::PostRender(CRenderContext& renderContext)
 	m_Sample.Draw(renderContext);
 }
 
-void CharScene::PostRender(CRenderContext& renderContext, int cameraNum)
-{
-	m_Sample.Draw(renderContext);
-}
-
 
 void CharScene::SceneChange()
 {

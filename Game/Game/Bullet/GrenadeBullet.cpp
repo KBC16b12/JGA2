@@ -18,7 +18,19 @@ void GrenadeBullet::Init(CVector3 position, CVector3 moveSpeed, int playerNum, C
 {
 	Bullet::Init(position, moveSpeed, playerNum, light);
 	m_characterController.SetGravity(-35.0f);
-	m_moveSpeed.y += 15.0f;
+	float l_moveSpeedY = 10.0f;
+	l_moveSpeedY += g_random.GetRandDouble() * 10.0f;
+	CVector3 l_moveSpeedX;
+	l_moveSpeedX.Cross(m_moveSpeed, CVector3::AxisY);
+	m_moveSpeed.y += l_moveSpeedY;
+	l_moveSpeedX.Normalize();
+	if (g_random.GetRandInt() % 2 == 0)
+	{
+		l_moveSpeedX.Scale(-1.0f);
+	}
+	m_moveSpeed.Scale(0.7f);
+	l_moveSpeedX.Scale(g_random.GetRandDouble() * 5.0f);
+	m_moveSpeed.Add(l_moveSpeedX);
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 }
 
@@ -45,7 +57,7 @@ void GrenadeBullet::DeathCheck()
 			Player* l_player = g_gameScene->GetPlayer(i);
 			CVector3 l_distance = l_player->GetPosition();
 			l_distance.Subtract(m_position);
-			if (l_distance.Length() < 8.0f && m_playerNum != i)
+			if (l_distance.Length() <11.0f && m_playerNum != i)
 			{
 				PlayerDamage(l_player);
 			}
@@ -84,7 +96,7 @@ void GrenadeBullet::DeathCheck()
 		1.0f,											//!<初期アルファ値。
 		true,											//!<ビルボード？
 		0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
-		1,												//!<0半透明合成、1加算合成。
+		3,												//!<0半透明合成、1加算合成。
 		{0.1f, 0.1f, 0.1f},								//!<乗算カラー。
 		0.15f,											//!<パーティクルエミッターの寿命
 		1.2f											//!<サイズスケール
@@ -115,7 +127,7 @@ void GrenadeBullet::DeathCheck()
 			1.0f,											//!<初期アルファ値。
 			true,											//!<ビルボード？
 			0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
-			1,												//!<0半透明合成、1加算合成。
+			3,												//!<0半透明合成、1加算合成。
 			{ 0.1f, 0.1f, 0.1f },								//!<乗算カラー。
 			0.15f,											//!<パーティクルエミッターの寿命
 			1.2f											//!<サイズスケール

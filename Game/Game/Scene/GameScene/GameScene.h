@@ -69,7 +69,9 @@ private:
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
 	SceneData					m_scenedata;					//画面遷移データ
 	TimeSprite*					m_time;
+	CAnimation					m_playerAnimation;
 };
 
 extern GameScene* g_gameScene;
+//PincerBullet用のモデル
 extern CSkinModelData* g_bulletModel;

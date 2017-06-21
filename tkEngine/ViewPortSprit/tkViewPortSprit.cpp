@@ -63,7 +63,7 @@ namespace tkEngine
 		{
 			for (GameObjectList objList : objectList) {
 				for (IGameObject* obj : objList) {
-					obj->PostRenderWrapper(renderContext, m_cameraNum);
+					obj->PostRenderWrapper(renderContext);
 				}
 			}
 		}

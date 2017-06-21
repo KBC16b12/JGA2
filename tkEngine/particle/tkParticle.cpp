@@ -189,6 +189,16 @@ namespace tkEngine{
 			renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_ONE);
 			shaderEffect->SetTechnique(renderContext, "ColorTexPrimAdd");
 			break;
+		case 2:
+			renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_SRCALPHA);
+			renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_INVSRCALPHA);
+			shaderEffect->SetTechnique(renderContext, "SoftTransParticle");
+			break;
+		case 3:
+			renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_ONE);
+			renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_ONE);
+			shaderEffect->SetTechnique(renderContext, "SoftAddParticle");
+			break;
 		}
 		
 		shaderEffect->Begin(renderContext);
@@ -202,6 +212,7 @@ namespace tkEngine{
 		if (texture) {
 			shaderEffect->SetTexture(renderContext, "g_texture", texture);
 		}
+		shaderEffect->SetTexture(renderContext, "g_depthTexture", Dof().GetDepthRenderTarget()->GetTexture());
 		shaderEffect->SetValue(renderContext, "g_mulColor", &mulColor, sizeof(mulColor));
 		shaderEffect->CommitChanges(renderContext);
 		renderContext.SetStreamSource(0, primitive.GetVertexBuffer());
@@ -242,7 +253,22 @@ namespace tkEngine{
 			mWorld.Mul(mWorld, rot);
 			mWorld.Mul(mWorld, mTrans);
 		}
+		ViewPortParam l_viewPortParam = GetViewSprit().GetSprit(playerNum);
+		CVector4 l_uv;
+		l_uv.x = l_viewPortParam.x;
+		l_uv.y = l_viewPortParam.y;
+		float l_Width = Engine().GetScreenWidth() / 2;
+		float l_Height = Engine().GetScreenHeight() / 2;
+		l_uv.x -= l_Width;
+		l_uv.y -= l_Height;
 
+		l_uv.z = l_viewPortParam.width + l_uv.x;
+		l_uv.w = l_viewPortParam.height + l_uv.y;
+
+		l_uv.x /= l_Width;
+		l_uv.y /= l_Height;
+		l_uv.z /= l_Width;
+		l_uv.w /= l_Height;
 		CMatrix m;
 		m.Mul(mWorld, cam->GetViewMatrix());
 		m.Mul(m, cam->GetProjectionMatrix());
@@ -258,6 +284,16 @@ namespace tkEngine{
 			renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_ONE);
 			shaderEffect->SetTechnique(renderContext, "ColorTexPrimAdd");
 			break;
+		case 2:
+			renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_SRCALPHA);
+			renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_INVSRCALPHA);
+			shaderEffect->SetTechnique(renderContext, "SoftTransParticle");
+			break;
+		case 3:
+			renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_ONE);
+			renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_ONE);
+			shaderEffect->SetTechnique(renderContext, "SoftAddParticle");
+			break;
 		}
 
 		shaderEffect->Begin(renderContext);
@@ -268,9 +304,11 @@ namespace tkEngine{
 		shaderEffect->SetValue(renderContext, "g_mWVP", &m, sizeof(CMatrix));
 		shaderEffect->SetValue(renderContext, "g_alpha", &alpha, sizeof(alpha));
 		shaderEffect->SetValue(renderContext, "g_brightness", &brightness, sizeof(brightness));
+		shaderEffect->SetValue(renderContext, "g_uv", &l_uv, sizeof(l_uv));
 		if (texture) {
 			shaderEffect->SetTexture(renderContext, "g_texture", texture);
 		}
+		shaderEffect->SetTexture(renderContext, "g_depthTexture", Dof().GetDepthRenderTarget()->GetTexture());
 		shaderEffect->SetValue(renderContext, "g_mulColor", &mulColor, sizeof(mulColor));
 		shaderEffect->CommitChanges(renderContext);
 		renderContext.SetStreamSource(0, primitive.GetVertexBuffer());

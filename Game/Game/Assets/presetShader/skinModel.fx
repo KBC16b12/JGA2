@@ -426,8 +426,7 @@ PSOutput PSMain( VS_OUTPUT In )
 		tangentSpaceMatrix[3] = float4( 0.0f, 0.0f, 0.0f, 1.0f );
 		//-1.0～1.0の範囲にマッピングする。
 		binSpaceNormal = (binSpaceNormal * 2.0f)- 1.0f;
-		normal = tangentSpaceMatrix[0] * binSpaceNormal.x + tangentSpaceMatrix[1] * binSpaceNormal.y + tangentSpaceMatrix[2] * binSpaceNormal.z; 
-		
+		normal = tangentSpaceMatrix[0] * binSpaceNormal.x + tangentSpaceMatrix[1] * binSpaceNormal.y + tangentSpaceMatrix[2] * binSpaceNormal.z;
 	}
 	
 	float4 lig = DiffuseLight(normal);
@@ -516,14 +515,14 @@ PSOutput invincible_PSMain(VS_OUTPUT In)
 	}
 
 	float4 lig = DiffuseLight(normal);
-	if (g_flags.z) {
-		//リムライト。
-		lig.xyz += CalcLimLight(normal, g_light.limLightDir, g_light.limLightColor.xyz);
-	}
-	if (g_flags.w) {
-		//スペキュラライト。
-		lig.xyz += SpecLight(normal, In.worldPos_depth.xyz, In.Tex0);
-	}
+	//if (g_flags.z) {
+	//	//リムライト。
+	//	lig.xyz += CalcLimLight(normal, g_light.limLightDir, g_light.limLightColor.xyz);
+	//}
+	//if (g_flags.w) {
+	//	//スペキュラライト。
+	//	lig.xyz += SpecLight(normal, In.worldPos_depth.xyz, In.Tex0);
+	//}
 
 	if (g_flags.y) {
 		//影
@@ -531,18 +530,25 @@ PSOutput invincible_PSMain(VS_OUTPUT In)
 
 	}
 	//自己発光色
-	lig.xyz += g_light.emission;
+	//lig.xyz += g_light.emission;
 
-	color *= lig;
+	//color *= lig;
 
-	//大気錯乱
-	if (g_flags2.y == AtomosphereFuncObjectFromAtomosphere)
+	float3 lightDirection = normalize(g_light.diffuseLightDir[2]);
+	float dt = dot(lightDirection, normal);
+	if (dt < 0.2f)
 	{
-		color = In.rayColor + color * In.mieColor;
+		color.xyz *= 0.5f;
 	}
 
+	////大気錯乱
+	//if (g_flags2.y == AtomosphereFuncObjectFromAtomosphere)
+	//{
+	//	color = In.rayColor + color * In.mieColor;
+	//}
+
 	//ポイントライト。
-	color.xyz += diffuseColor.xyz * PointLight(normal, In.worldPos_depth.xyz, g_flags.z);
+	//color.xyz += diffuseColor.xyz * PointLight(normal, In.worldPos_depth.xyz, g_flags.z);
 
 	//アンビエントライトを加算。
 	color.xyz += diffuseColor.xyz * g_light.ambient.xyz;
@@ -560,10 +566,105 @@ PSOutput invincible_PSMain(VS_OUTPUT In)
 		float t = min(z / g_fogParam.y, 1.0f);
 		color.xyz = lerp(color.xyz, float3(0.75f, 0.75f, 0.95f), t);
 	}
-	float luminanceColor = 2.0f;
-	color.x *= luminanceColor;
-	color.y *= luminanceColor;
-	color.z *= luminanceColor;
+	float luminanceColor = 1.07f;
+	color.xyz *= luminanceColor;
+
+	PSOutput psOut = (PSOutput)0;
+	psOut.color = color;
+	psOut.depth = In.worldPos_depth.w;
+	if (g_flags2.x) {
+		psOut.velocity.xy = In.velocity.xy / In.velocity.w - In.screenPos.xy / In.screenPos.w;
+		psOut.velocity.xy *= 0.5f;
+		psOut.velocity.xy += 0.5f;
+		psOut.velocity.zw = 0.0f;
+	}
+	else {
+		//速度なし。
+		psOut.velocity = 0.5f;
+	}
+	return psOut;
+}
+
+/*!
+* @brief	トゥーン用のピクセルシェーダー。
+*/
+PSOutput toon_PSMain(VS_OUTPUT In)
+{
+	float4 color = 0.0f;
+	float4 diffuseColor = tex2D(g_diffuseTextureSampler, In.Tex0);
+	color = diffuseColor;
+	float3 normal = normalize(In.Normal);
+	if (g_flags.x) {
+		//法線マップあり。
+		float3 tangent = normalize(In.Tangent);
+		float3 binSpaceNormal = tex2D(g_normalMapSampler, In.Tex0);
+		float4x4 tangentSpaceMatrix;
+		float3 biNormal = normalize(cross(tangent, normal));
+		tangentSpaceMatrix[0] = float4(tangent, 0.0f);
+		tangentSpaceMatrix[1] = float4(biNormal, 0.0f);
+		tangentSpaceMatrix[2] = float4(normal, 0.0f);
+		tangentSpaceMatrix[3] = float4(0.0f, 0.0f, 0.0f, 1.0f);
+		//-1.0～1.0の範囲にマッピングする。
+		binSpaceNormal = (binSpaceNormal * 2.0f) - 1.0f;
+		normal = tangentSpaceMatrix[0] * binSpaceNormal.x + tangentSpaceMatrix[1] * binSpaceNormal.y + tangentSpaceMatrix[2] * binSpaceNormal.z;
+
+	}
+
+	float4 lig = DiffuseLight(normal);
+	//if (g_flags.z) {
+	//	//リムライト。
+	//	lig.xyz += CalcLimLight(normal, g_light.limLightDir, g_light.limLightColor.xyz);
+	//}
+	//if (g_flags.w) {
+	//	//スペキュラライト。
+	//	lig.xyz += SpecLight(normal, In.worldPos_depth.xyz, In.Tex0);
+	//}
+
+	if (g_flags.y) {
+		//影
+		lig *= CalcShadow(In.worldPos_depth.xyz);
+	}
+	//自己発光色
+	//lig.xyz += g_light.emission;
+	
+	float3 lightDirection = normalize(g_light.diffuseLightDir[2]);
+	float dt = dot(lightDirection, normal);
+	if (dt < 0.2f)
+	{
+		color.xyz *= 0.5f;
+	}
+	//color *= lig;
+
+	////大気錯乱
+	//if (g_flags2.y == AtomosphereFuncObjectFromAtomosphere)
+	//{
+	//	color = In.rayColor + color * In.mieColor;
+	//}
+
+	
+	//ポイントライト。
+	//color.xyz += diffuseColor.xyz * PointLight(normal, In.worldPos_depth.xyz, g_flags.z);
+
+	//アンビエントライトを加算。
+	color.xyz *= g_light.ambient.xyz;
+
+	if (g_fogParam.z > 1.9f) {
+		//高さフォグ
+		float h = max(In.worldPos_depth.y - g_fogParam.y, 0.0f);
+		float t = min(h / g_fogParam.x, 1.0f);
+		color.xyz = lerp(float3(0.75f, 0.75f, 0.95f), color.xyz, t);
+	}
+	else if (g_fogParam.z > 0.0f) {
+		//距離フォグ
+		float z = length(In.worldPos_depth.xyz - g_cameraPos);
+		z = max(z - g_fogParam.x, 0.0f);
+		float t = min(z / g_fogParam.y, 1.0f);
+		color.xyz = lerp(color.xyz, float3(0.75f, 0.75f, 0.95f), t);
+	}
+	//float luminanceColor = 2.0f;
+	//color.x *= luminanceColor;
+	//color.y *= luminanceColor;
+	//color.z *= luminanceColor;
 
 	PSOutput psOut = (PSOutput)0;
 	psOut.color = color;
@@ -651,7 +752,7 @@ PSOutput PincerBullet_PSMain(VS_OUTPUT In)
 		float t = min(z / g_fogParam.y, 1.0f);
 		color.xyz = lerp(color.xyz, float3(0.75f, 0.75f, 0.95f), t);
 	}
-	float luminanceColor = 7.0f;
+	float luminanceColor = 5.0f;
 	color.x *= luminanceColor;
 	color.y *= luminanceColor;
 	color.z *= luminanceColor;
@@ -973,6 +1074,18 @@ technique PincerBullet
 	{
 		VertexShader = compile vs_3_0 VSMain(false, false);
 		PixelShader = compile ps_3_0 PincerBullet_PSMain();
+	}
+}
+
+/*!
+*@brief	トゥーン用のテクニック。
+*/
+technique Toon
+{
+	pass p0
+	{
+		VertexShader = compile vs_3_0 VSMain(false, false);
+		PixelShader = compile ps_3_0	toon_PSMain();
 	}
 }
 

@@ -46,6 +46,7 @@ GameScene::~GameScene()
 
 	delete g_randomPosManager;
 	g_randomPosManager = nullptr;
+
 }
 
 bool GameScene::Start()
@@ -61,7 +62,7 @@ bool GameScene::Start()
 	g_gameCamera[2]->SetViewPort({ 0, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(2));
 	g_gameCamera[3]->SetViewPort({ l_half_w, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(3));
 	GetViewSprit().Start();
-	Sky().SetSceneLight(m_light);
+	Sky().SetSceneLight(g_defaultLight);
 	Sky().SetLuminance({ 2.5f, 2.5f, 2.5f });
 	Sky().SetNightAmbientLight({ 0.05f, 0.05f, 0.05f });
 

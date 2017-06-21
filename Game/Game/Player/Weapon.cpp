@@ -119,13 +119,13 @@ void Weapon::BulletFilling()
 	switch (m_state)
 	{
 	case BULLETSTATE_NOMAL:
-		if (m_isPincerAttack)
+		//if (m_isPincerAttack)
+		//{
+		//	l_bullet = NewGO<PincerBullet>(PRIORITY1);
+		//}
+		//else
 		{
-			l_bullet = NewGO<PincerBullet>(PRIORITY1);
-		}
-		else
-		{
-			l_bullet = NewGO<Bullet>(PRIORITY1);
+			l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
 		}
 		break;
 	case BULLETSTATE_BOUND:
@@ -171,4 +171,5 @@ void Weapon::Reload()
 void Weapon::Respawn()
 {
 	m_magazine = MAGAZINE_SIZE;
+	m_bulletStrikeNum = 0;
 }
