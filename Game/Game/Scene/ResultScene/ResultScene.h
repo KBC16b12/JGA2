@@ -89,6 +89,9 @@ private:
 	CSprite						m_killScore[4][2];
 	CSprite						m_sprite[4];
 	CSprite						m_sprite2[4];
+	int							m_state;
+	float						m_positionLimit;
+	float						m_intervalTime;
 
 };
 

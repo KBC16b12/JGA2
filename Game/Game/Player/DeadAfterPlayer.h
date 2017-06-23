@@ -17,6 +17,10 @@ public:
 	void Render(CRenderContext& renderContext)override;
 
 private:
+
+	void ParticleEmit();
+
+private:
 	CSkinModelData			m_skinModelData;
 	CSkinModel				m_skinModel;
 	CVector3				m_moveSpeed;

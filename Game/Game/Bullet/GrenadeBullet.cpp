@@ -130,7 +130,8 @@ void GrenadeBullet::DeathCheck()
 			3,												//!<0半透明合成、1加算合成。
 			{ 0.1f, 0.1f, 0.1f },								//!<乗算カラー。
 			0.15f,											//!<パーティクルエミッターの寿命
-			1.2f											//!<サイズスケール
+			1.2f,											//!<サイズスケール
+			true
 		},
 			l_emitPosition, l_camera);
 	}

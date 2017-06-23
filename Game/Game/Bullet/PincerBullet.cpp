@@ -39,6 +39,9 @@ void PincerBullet::PlayerDamage(Player *player)
 			l_player->Damage(m_playerNum, l_player->GetMaxHP(), m_moveSpeed);
 		}
 	}
+	CSoundSource *l_pincerSound = NewGO<CSoundSource>(PRIORITY0);
+	l_pincerSound->Init("Assets/sound/exprosion.wav");
+	l_pincerSound->Play(false);
 	std::vector<CCamera*> l_camera;
 	for (int i = 0; i < PLAYER_NUM; i++)
 	{

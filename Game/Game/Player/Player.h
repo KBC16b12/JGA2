@@ -65,13 +65,17 @@ public:
 	/*
 	*@brief リスポーン処理
 	*/
-	void Respawn(CVector3 moveSpeed);
+	void Respawn();
 
 	CVector3 GetPosition()
 	{
 		return m_position;
 	}
 
+	CQuaternion GetRotation()
+	{
+		return m_rotation;
+	}
 
 	/*
 	*@brief プレイヤーの前方のワールド行列
@@ -96,6 +100,8 @@ public:
 	}
 
 	void Init(CVector3 position, CQuaternion rotation, int playernum);
+
+	void Death(CVector3 moveSpeed);
 
 
 	int GetPlayerNum()

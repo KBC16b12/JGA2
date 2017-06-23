@@ -93,7 +93,14 @@ namespace tkEngine{
 		brightness = param.brightness;
 		alphaBlendMode = param.alphaBlendMode;
 		mulColor = param.mulColor;
-		rotateZ = CMath::PI * 2.0f * (float)random.GetRandDouble();
+		if(param.isRotaion)
+		{
+			rotateZ = CMath::PI * 2.0f * (float)random.GetRandDouble();
+		}
+		else
+		{
+			rotateZ = 0.0f;
+		}
 		sizeScale = param.scale;
 		size = 1.0f;
 	}

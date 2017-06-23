@@ -80,11 +80,13 @@ void DeadAfterPlayer::Update()
 		btVector3 l_linearVel = btBody->getLinearVelocity();
 		l_moveSpeed.Set(l_linearVel);
 		//移動速度が一定以下になったら地面に沈む
-		if (l_moveSpeed.Length() < 0.3f)
+		if (l_moveSpeed.Length() < 0.1f)
 		{
 			m_isOnGround = true;
 			PhysicsWorld().RemoveRigidBody(&m_rigidBody);
 			m_rigidBody.Release();
+			ParticleEmit();
+
 		}
 	}
 	//動きが止まって地面に沈み始めるとき
@@ -99,6 +101,56 @@ void DeadAfterPlayer::Update()
 		}
 	}
 	m_skinModel.Update(m_position, m_rotation, CVector3::One);
+
+}
+
+void DeadAfterPlayer::ParticleEmit()
+{
+	std::vector<CCamera*> l_camera;
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		l_camera.push_back(&g_gameCamera[i]->GetCamera());
+	}
+	CVector3 l_moveSpeed;
+	l_moveSpeed.Cross(CVector3::AxisY, m_moveSpeed);
+	l_moveSpeed.Normalize();
+	l_moveSpeed.Scale(20.0f);
+	l_moveSpeed.Scale(-1.0f);
+	CVector3 l_emitPosition = m_position;
+	//l_emitPosition.y = 0.0f;
+	CParticleEmitter *l_particleEmitter = NewGO<CParticleEmitter>(PRIORITY0);
+	l_particleEmitter->Init(g_random, g_gameCamera[0]->GetCamera(),
+	{
+		"Assets/particle/snowman.png",				//!<テクスチャのファイルパス。
+		l_moveSpeed,								//!<初速度。
+		0.2f,											//!<寿命。単位は秒。
+		0.02f,											//!<発生時間。単位は秒。
+		3.0f,											//!<パーティクルの幅。
+		3.0f,											//!<パーティクルの高さ。
+		{ 5.0f, 0.0f, 4.0f, },							//!<初期位置のランダム幅。
+		{ 0.0f, 0.0f, 0.0f, },							//!<初速度のランダム幅。
+		{ 0.0f, 0.0f, 0.0f },								//!<速度の積分のときのランダム幅。
+		{
+
+			{ 0.0f, 0.0f, 1.0f, 1.0f },
+			{ 0.0f, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 0.0f, 0.0f }
+		},												//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+		1,												//!<UVテーブルのサイズ。
+		{ 0.0f, 0.0f, 0.0f },								//!<重力。
+		true,											//!<死ぬときにフェードアウトする？
+		0.1f,											//!<フェードする時間。
+		1.0f,											//!<初期アルファ値。
+		true,											//!<ビルボード？
+		0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+		2,												//!<0半透明合成、1加算合成。
+		{ 1.0f, 1.0f, 1.0f },								//!<乗算カラー。
+		m_time / 2.0f,											//!<パーティクルエミッターの寿命
+		1.0f,											//!<サイズスケール
+		false
+	},
+		l_emitPosition, l_camera);
 
 }
 

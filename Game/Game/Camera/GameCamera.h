@@ -20,6 +20,8 @@ public:
 	*/
 	void Update();
 
+	bool Start()override;
+
 	/*
 	*@brief 描画関数
 	ここでカメラ毎のオブジェクトを描画する
@@ -75,9 +77,15 @@ public:
 		return m_camera;
 	}
 
+	void PlayAnime()
+	{
+		m_animation.PlayAnimation(0);
+		m_isDead = true;
+	}
+
 private:
 
-	CCamera				m_camera;				//カメラ
+	CCamera					m_camera;				//カメラ
 	CVector3				m_position;				//座標
 	CVector3				m_look_position;		//注視点
 
@@ -86,6 +94,13 @@ private:
 	int						m_playernum;			//ビューポートで区切ったときのカメラの番号
 	bool					m_isViewport;
 	Player*					m_player;
+	CQuaternion				m_rotation;
+	CSkinModel				m_skinModel;
+	CSkinModelDataHandle	m_skinModelData;
+	CAnimation				m_animation;
+	CLight					m_light;
+	bool					m_isDead;
+	CMatrix*				m_worldMatrix;
 };
 
 extern GameCamera* g_gameCamera[PLAYER_NUM];

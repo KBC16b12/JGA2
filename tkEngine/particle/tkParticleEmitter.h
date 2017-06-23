@@ -46,6 +46,7 @@ namespace tkEngine{
 		CVector3	mulColor;							//!<乗算カラー。
 		float		lifeTime;							//!<パーティクルエミッターの寿命
 		float		scale;								//!<拡大倍率。変わらないなら1.0f
+		bool		isRotaion;							//!<パーティクルを回転させるか
 	};
 	/*!
 	 * @brief	パーティクルの発生機

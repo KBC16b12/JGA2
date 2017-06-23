@@ -265,7 +265,7 @@ void Player::Move()
 
 void Player::Damage(int playerNum, int damage, CVector3 moveSpeed)
 {
-	if (m_isInvincible)
+	if (m_isInvincible || !m_isActive)
 	{
 		return;
 	}
@@ -275,7 +275,7 @@ void Player::Damage(int playerNum, int damage, CVector3 moveSpeed)
 	{
 		//もしHPが０になり死んだ場合殺した相手のカウントアップをしリスポーンする。
 		g_gameScene->GetPlayer(playerNum)->KillCountUp();
-		Respawn(moveSpeed);
+		Death(moveSpeed);
 	}
 	else
 	{
@@ -323,7 +323,7 @@ void Player::Eaten()
 	if (m_hp <= 0)
 	{
 
-		Respawn(CVector3::Zero);
+		Death(CVector3::Zero);
 	}
 	else
 	{
@@ -331,19 +331,8 @@ void Player::Eaten()
 	}
 }
 
-void Player::Respawn(CVector3 moveSpeed)
+void Player::Respawn()
 {
-
-	for (int i = 0; i < PLAYERMESHNUM; i++)
-	{
-		DeadAfterPlayer *l_deadPlayer = NewGO<DeadAfterPlayer>(PRIORITY1);
-		CMatrix l_worldMatrix = *m_skinModelDataThird.FindBoneWorldMatrix(g_playerMeshState[i].name);
-		CVector3 l_position;
-		l_position.x = l_worldMatrix.m[3][0];
-		l_position.y = l_worldMatrix.m[3][1];
-		l_position.z = l_worldMatrix.m[3][2];
-		l_deadPlayer->Init(g_playerMeshModel[i], l_position, m_rotation, m_light, moveSpeed, g_playerMeshState[i]);
-	}
 	SMapInfo l_mapDat = g_randomPosManager->GetPlayerRespawnPos(m_playernum);
 	//HPを回復して座標を初期化
 	m_hp = m_maxhp;
@@ -352,6 +341,7 @@ void Player::Respawn(CVector3 moveSpeed)
 	m_rotation = l_mapDat.s_rotation;
 	m_isInvincible = true;
 	m_weapon.Respawn();
+	m_isActive = true;
 }
 
 void Player::Invincible()
@@ -369,6 +359,23 @@ void Player::Invincible()
 		m_invincibleCount = 0.0f;
 		m_invincibleTecCount = 0.0f;
 	}
+}
+
+void Player::Death(CVector3 moveSpeed)
+{
+
+	g_gameCamera[m_playernum]->PlayAnime();
+	for (int i = 0; i < PLAYERMESHNUM; i++)
+	{
+		DeadAfterPlayer *l_deadPlayer = NewGO<DeadAfterPlayer>(PRIORITY1);
+		CMatrix l_worldMatrix = *m_skinModelDataThird.FindBoneWorldMatrix(g_playerMeshState[i].name);
+		CVector3 l_position;
+		l_position.x = l_worldMatrix.m[3][0];
+		l_position.y = l_worldMatrix.m[3][1];
+		l_position.z = l_worldMatrix.m[3][2];
+		l_deadPlayer->Init(g_playerMeshModel[i], l_position, m_rotation, m_light, moveSpeed, g_playerMeshState[i]);
+	}
+	m_isActive = false;
 }
 
 void Player::KillCountUp()
