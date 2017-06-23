@@ -58,14 +58,14 @@ public:
 	*@brief int playerNum	当てたプレイヤーの番号
 	*@brief int damage		プレイヤーが受けるダメージ量
 	*/
-	void Damage(int playerNum, int damage);
+	void Damage(int playerNum, int damage, CVector3 moveSpeed);
 
 	void Trap();
 
 	/*
 	*@brief リスポーン処理
 	*/
-	void Respawn();
+	void Respawn(CVector3 moveSpeed);
 
 	CVector3 GetPosition()
 	{

@@ -185,6 +185,7 @@
     <ClCompile Include="Network\Network.cpp" />
     <ClCompile Include="PincerAttack\PincerAttack.cpp" />
     <ClCompile Include="PincerAttack\PincerAttackEffect.cpp" />
+    <ClCompile Include="Player\DeadAfterPlayer.cpp" />
     <ClCompile Include="Player\Player.cpp" />
     <ClCompile Include="Player\PlayerRecovery.cpp" />
     <ClCompile Include="Player\Weapon.cpp" />
@@ -225,10 +226,12 @@
     <ClInclude Include="Map\Map.h" />
     <ClInclude Include="Map\MapChip.h" />
     <ClInclude Include="Map\MapObject.h" />
+    <ClInclude Include="PlayerMeshCommon.h" />
     <ClInclude Include="Mimikku.h" />
     <ClInclude Include="Network\Network.h" />
     <ClInclude Include="PincerAttack\PincerAttack.h" />
     <ClInclude Include="PincerAttack\PincerAttackEffect.h" />
+    <ClInclude Include="Player\DeadAfterPlayer.h" />
     <ClInclude Include="Player\Player.h" />
     <ClInclude Include="Player\PlayerRecovery.h" />
     <ClInclude Include="Player\Weapon.h" />

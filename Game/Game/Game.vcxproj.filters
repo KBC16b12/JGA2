@@ -182,6 +182,9 @@
     <ClCompile Include="Map\MapObject.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
+    <ClCompile Include="Player\DeadAfterPlayer.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -297,6 +300,12 @@
     </ClInclude>
     <ClInclude Include="Map\MapObject.h">
       <Filter>Source Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\DeadAfterPlayer.h">
+      <Filter>Source Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMeshCommon.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

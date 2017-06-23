@@ -11,6 +11,15 @@
 
 GameScene* g_gameScene = nullptr;
 CSkinModelData* g_bulletModel = nullptr;
+const PlayerMeshState g_playerMeshState[PLAYERMESHNUM] =
+{
+	{"Head", 1.6f},
+	{"Hat" , 0.1f},
+	{"Body", 1.6f},
+	{"RightHand", 0.4f},
+	{"LeftHand", 0.4f}
+};
+std::vector<CSkinModelData*> g_playerMeshModel;
 
 GameScene::GameScene()
 {
@@ -80,6 +89,18 @@ bool GameScene::Start()
 	{
 		g_bulletModel = new CSkinModelData;
 		g_bulletModel->LoadModelData("Assets/modelData/Bullet.X", NULL);
+	}
+	if (g_playerMeshModel.empty())
+	{
+		for (int i = 0; i < PLAYERMESHNUM; i++)
+		{
+			char l_modelName[60];
+			sprintf(l_modelName, "Assets/modelData/snowman_%s.X", g_playerMeshState[i].name);
+			CSkinModelData* l_modelData = new CSkinModelData;
+			l_modelData->LoadModelData(l_modelName, NULL);
+			l_modelData->SetTechnique(enTecShaderHandle_Toon);
+			g_playerMeshModel.push_back(l_modelData);
+		}
 	}
 	return true;
 }

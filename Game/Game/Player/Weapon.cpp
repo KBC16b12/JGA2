@@ -119,13 +119,13 @@ void Weapon::BulletFilling()
 	switch (m_state)
 	{
 	case BULLETSTATE_NOMAL:
-		//if (m_isPincerAttack)
-		//{
-		//	l_bullet = NewGO<PincerBullet>(PRIORITY1);
-		//}
-		//else
+		if (m_isPincerAttack)
 		{
-			l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
+			l_bullet = NewGO<PincerBullet>(PRIORITY1);
+		}
+		else
+		{
+			l_bullet = NewGO<Bullet>(PRIORITY1);
 		}
 		break;
 	case BULLETSTATE_BOUND:

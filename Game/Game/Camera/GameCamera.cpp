@@ -42,6 +42,7 @@ void GameCamera::SetPos()
 		return;
 	}
 	CVector3 l_tarbget = m_player->GetPosition();
+	//l_tarbget.y = 0.0f;
 	m_camera.SetPosition(l_tarbget);
 	l_tarbget.Add(m_player->GetFrontWorldMatrix());
 	m_camera.SetTarget(l_tarbget);

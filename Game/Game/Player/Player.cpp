@@ -8,6 +8,7 @@
 #include "../Network/Network.h"
 #include "HUD/CountUpSprite.h"
 #include "RandomPosManager.h"
+#include "DeadAfterPlayer.h"
 
 Player::Player()
 {
@@ -47,16 +48,14 @@ bool Player::Start()
 	//m_light.SetDiffuseLightDirection(3, { 0.0f, -0.707f, -0.707f });
 	m_light.SetDiffuseLightDirection(0, { 0.0f, 1.0f, 0.0f });
 	m_light.SetDiffuseLightDirection(1, { 0.0f, -1.0f, 0.0f });
-	m_light.SetDiffuseLightDirection(2, { 0.0f, 0.707f, -0.707f });
-	m_light.SetDiffuseLightDirection(3, { 0.0f, -0.707f, -0.707f });
+	m_light.SetDiffuseLightDirection(2, { 0.0f, 0.707f, 0.707f });
+	m_light.SetDiffuseLightDirection(3, { 0.0f, 0.707f, -0.707f });
 
 	float l_lightColor1 = 0.15f;
 	float l_lightColor2 = 0.4f;
 	float l_lightColor3 = 0.2f;
 
 	float l_lightColor4 = 0.3f;
-	CVector3 l_sunPos = Sky().GetSunPosition();
-	l_sunPos.Normalize();
 	m_light.SetDiffuseLightColor(0, { l_lightColor1, l_lightColor1, l_lightColor1, 1.0f });
 	m_light.SetDiffuseLightColor(1, { l_lightColor2, l_lightColor2, l_lightColor2, 1.0f });
 	m_light.SetDiffuseLightColor(2, { l_lightColor3, l_lightColor3, l_lightColor3, 1.0f });
@@ -65,7 +64,7 @@ bool Player::Start()
 	m_skinModelDataFirst.LoadModelData("Assets/modelData/snowman_first.X", &m_animation);
 	m_skinModelFirst.Init(&m_skinModelDataFirst);
 	m_skinModelFirst.SetLight(&m_light);	//デフォルトライトを設定。
-	m_skinModelDataThird.LoadModelData("Assets/modelData/snowman1-3-2.X", NULL);
+	m_skinModelDataThird.LoadModelData("Assets/modelData/snowman1-3.X", NULL);
 	m_skinModelThird.Init(&m_skinModelDataThird);
 	m_skinModelThird.SetLight(&m_light);	//デフォルトライトを設定。
 	m_skinModelFirst.SetShadowCasterFlag(true);
@@ -74,7 +73,7 @@ bool Player::Start()
 	m_skinModelThird.SetShadowReceiverFlag(true);
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(1.7f, 1.0f, m_position);
-	m_characterController.SetGravity(0.0f);
+	//m_characterController.SetGravity(0.0f);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_WAIT, false);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_SHOT, false);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_RELOAD, false);
@@ -94,7 +93,6 @@ void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 	m_rotation = rotation;
 	m_position = position;
 	m_playernum = playernum;
-
 	m_recovery->Init(&m_hp, m_maxhp, m_playernum);
 	m_weapon.Init(m_playernum, &m_animation, &m_light);
 	float l_lightColor = 0.2f;
@@ -126,7 +124,7 @@ void Player::Update()
 
 	//ワールド行列の更新
 	m_skinModelFirst.Update(m_position, m_rotation, CVector3::One);
-	m_skinModelThird.Update(m_position, m_rotation, { 5.0f,5.0f,5.0f });
+	m_skinModelThird.Update(m_position, m_rotation, CVector3::One);
 	//アニメーションの更新
 	m_Animation.Update(1.0f / 50.0f);
 
@@ -265,7 +263,7 @@ void Player::Move()
 	m_rotation.Multiply(multi);
 }
 
-void Player::Damage(int playerNum, int damage)
+void Player::Damage(int playerNum, int damage, CVector3 moveSpeed)
 {
 	if (m_isInvincible)
 	{
@@ -277,7 +275,7 @@ void Player::Damage(int playerNum, int damage)
 	{
 		//もしHPが０になり死んだ場合殺した相手のカウントアップをしリスポーンする。
 		g_gameScene->GetPlayer(playerNum)->KillCountUp();
-		Respawn();
+		Respawn(moveSpeed);
 	}
 	else
 	{
@@ -325,7 +323,7 @@ void Player::Eaten()
 	if (m_hp <= 0)
 	{
 
-		Respawn();
+		Respawn(CVector3::Zero);
 	}
 	else
 	{
@@ -333,8 +331,19 @@ void Player::Eaten()
 	}
 }
 
-void Player::Respawn()
+void Player::Respawn(CVector3 moveSpeed)
 {
+
+	for (int i = 0; i < PLAYERMESHNUM; i++)
+	{
+		DeadAfterPlayer *l_deadPlayer = NewGO<DeadAfterPlayer>(PRIORITY1);
+		CMatrix l_worldMatrix = *m_skinModelDataThird.FindBoneWorldMatrix(g_playerMeshState[i].name);
+		CVector3 l_position;
+		l_position.x = l_worldMatrix.m[3][0];
+		l_position.y = l_worldMatrix.m[3][1];
+		l_position.z = l_worldMatrix.m[3][2];
+		l_deadPlayer->Init(g_playerMeshModel[i], l_position, m_rotation, m_light, moveSpeed, g_playerMeshState[i]);
+	}
 	SMapInfo l_mapDat = g_randomPosManager->GetPlayerRespawnPos(m_playernum);
 	//HPを回復して座標を初期化
 	m_hp = m_maxhp;
@@ -353,7 +362,7 @@ void Player::Invincible()
 	}
 
 	m_invincibleCount += GameTime().GetFrameDeltaTime();
-	if (20.0f <= m_invincibleCount)
+	if (2.0f <= m_invincibleCount)
 	{
 		m_isInvincible = false;
 		m_skinModelThird.SetTechnique(enTecShaderHandle_Toon);

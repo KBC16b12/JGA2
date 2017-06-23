@@ -246,7 +246,8 @@ namespace tkEngine{
 					//インスタンシング描画。
 					DrawMeshContainer_InstancingDrawCommon(pd3dDevice, pMeshContainer, 0);
 				}
-				else {
+				else 
+				{
 					pMeshContainer->MeshData.pMesh->DrawSubset(i);
 				}
 				material.EndDraw();

@@ -36,7 +36,7 @@ void PincerBullet::PlayerDamage(Player *player)
 		l_distance.Subtract(player->GetPosition());
 		if (l_distance.Length() < 100.0f)
 		{
-			l_player->Damage(m_playerNum, l_player->GetMaxHP());
+			l_player->Damage(m_playerNum, l_player->GetMaxHP(), m_moveSpeed);
 		}
 	}
 	std::vector<CCamera*> l_camera;

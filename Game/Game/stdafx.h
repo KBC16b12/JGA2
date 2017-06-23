@@ -13,6 +13,7 @@
 #define ITEM_NUM 4
 #define BULLET_DAMAGE 1
 #define NUM 10
+#define PLAYERMESHNUM 5
 
 #define DEFAULT_PORT 10000
 
