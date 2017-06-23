@@ -38,14 +38,14 @@ void ItemMaker::Update()
 		m_intervalTime += GameTime().GetFrameDeltaTime();
 		if (15.0f < m_intervalTime)
 		{
-			//if (g_random.GetRandInt() % 3 != 0)
-			//{
+			if (g_random.GetRandInt() % 3 != 0)
+			{
 				m_item = NewGO<ItemBox>(PRIORITY1);
-			//}
-			//else
-			//{
-			//	m_item = NewGO<Mimikku>(PRIORITY1);
-			//}
+			}
+			else
+			{
+				m_item = NewGO<Mimikku>(PRIORITY1);
+			}
 			m_item->Init(m_position, m_rotation, m_modelDataItemBox.GetBody());
 			m_intervalTime = 0.0f;
 		}
