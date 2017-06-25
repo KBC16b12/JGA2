@@ -31,5 +31,7 @@ private:
 	float	m_intervalTime;
 	CSkinModelDataHandle	m_modelDataItemBox;
 	CSkinModelDataHandle	m_modelDataMimic;
+	CAnimation				m_itemBoxAnime;
+	CAnimation				m_mimicAnime;
 
 };

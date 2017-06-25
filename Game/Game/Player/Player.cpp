@@ -364,6 +364,7 @@ void Player::Invincible()
 void Player::Death(CVector3 moveSpeed)
 {
 
+	m_isActive = false;
 	g_gameCamera[m_playernum]->PlayAnime();
 	for (int i = 0; i < PLAYERMESHNUM; i++)
 	{
@@ -375,7 +376,6 @@ void Player::Death(CVector3 moveSpeed)
 		l_position.z = l_worldMatrix.m[3][2];
 		l_deadPlayer->Init(g_playerMeshModel[i], l_position, m_rotation, m_light, moveSpeed, g_playerMeshState[i]);
 	}
-	m_isActive = false;
 }
 
 void Player::KillCountUp()

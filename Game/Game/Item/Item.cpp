@@ -10,6 +10,7 @@ Item::Item()
 {
 	m_isDeath = false;
 	m_isSpriteRender = false;
+	m_isOpen = false;
 }
 
 
@@ -19,8 +20,9 @@ Item::~Item()
 	//m_rigidBody.Release();
 }
 
-void Item::Init(CVector3 position, CQuaternion rotation, CSkinModelData* skinModel)
+void Item::Init(CVector3 position, CQuaternion rotation, CSkinModelData* skinModel, CAnimation* animation)
 {
+	m_animation = animation;
 	m_position = position;
 	m_rotation = rotation;
 	m_SkinModel.Init(skinModel);
@@ -29,6 +31,8 @@ void Item::Init(CVector3 position, CQuaternion rotation, CSkinModelData* skinMod
 	m_SkinModel.SetLight(&g_defaultLight);
 	m_SkinModel.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
 	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
+
+	m_animation->SetAnimationLoopFlag(1, false);
 
 	//m_meshCollider.CreateFromSkinModel(&m_SkinModel, skinModel->GetRootBoneWorldMatrix());
 	//RigidBodyInfo rbInfo;
@@ -92,7 +96,16 @@ void Item::Update()
 			}
 		}
 	}
+	if (m_isOpen)
+	{
+		if (!m_animation->IsPlay())
+		{
+			m_isDeath = true;
+			m_animation->PlayAnimation(0);
+		}
+	}
 	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
+	m_animation->Update(GameTime().GetFrameDeltaTime());
 }
 
 void Item::Render(CRenderContext& renderContext, int playerNum)
@@ -129,7 +142,29 @@ void Item::PostRender(CRenderContext& renderContext)
 
 void Item::Death(Player *player)
 {
-	m_isDeath = true;
+	m_isOpen = true;
+	CVector3 l_direction;
+	l_direction.Subtract(player->GetPosition(), m_position);
+	CVector3 l_flont;
+	CMatrix l_worldMatrix = m_SkinModel.GetWorldMatrix();
+	l_flont.x = l_worldMatrix.m[2][0];
+	l_flont.y = l_worldMatrix.m[2][1];
+	l_flont.z = l_worldMatrix.m[2][2];
+	l_direction.Normalize();
+	l_flont.Normalize();
+	float l_dot = l_direction.Dot(l_flont);
+
+	l_dot = acos(l_dot);
+	l_flont.Cross(l_direction);
+	if (l_flont.y < 0)
+	{
+		l_dot *= -1;
+	}
+
+	CQuaternion multi;
+	multi.SetRotation(CVector3::AxisY, l_dot);
+	m_rotation.Multiply(multi);
+	m_animation->PlayAnimation(1);
 }
 
 void Item::SetSpritePosition()
