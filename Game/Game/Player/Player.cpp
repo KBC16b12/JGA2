@@ -118,6 +118,11 @@ void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 
 void Player::Update()
 {
+	if (g_gameScene == nullptr || g_gameScene->IsTimeOver())
+	{
+		return;
+	}
+
 	UpdateHPBar();
 	m_killCountSprite->SetData(m_killCount);
 	Move();
@@ -395,7 +400,6 @@ void Player::KeyOutput()
 
 void Player::DataOutput()
 {
-	
 }
 
 

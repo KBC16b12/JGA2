@@ -10,10 +10,12 @@ Network::Network()
 
 Network::~Network()
 {
+	//受信ソケット解放
 	for each(SocketData sock in m_recv)
 	{
 		closesocket(sock.s_sock);
 	}
+	//送信ソケット解放
 	for each(SocketData sock in m_send)
 	{
 		closesocket(sock.s_sock);
@@ -85,6 +87,14 @@ char* Network::RecvFrom()
 	}
 	return "";
 }
+
+char * Network::GetRecvData(ULONG addr, int port)
+{
+	SocketData* net = SearchRecv(addr, port);
+
+	return net->s_buf;
+}
+
 
 SocketData* Network::SearchSend(ULONG addr, int port)
 {

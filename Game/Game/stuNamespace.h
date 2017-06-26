@@ -34,4 +34,10 @@ namespace Status
 		enChar001,
 		enChar002,
 	};
+
+	struct JoinData
+	{
+		ULONG		s_address;
+		CharData	s_char;
+	};
 };

@@ -25,8 +25,13 @@ GameScene::GameScene()
 {
 	m_map = NewGO<Map>(PRIORITY1);
 	m_time = NewGO<TimeSprite>(PRIORITY1);
-}
 
+	m_end_timer = 0.0f;
+
+	m_TimerOverTex = TextureResources().LoadEx("Assets/sprite/TIME UP.png");
+	m_TimerOver.Init(m_TimerOverTex);
+	m_TimerOver.SetSize({ (float)Engine().GetScreenWidth(),(float)Engine().GetScreenHeight() });
+}
 
 void GameScene::Init(std::vector<SMapInfo> map_data, char* bgm_path)
 {
@@ -110,6 +115,7 @@ bool GameScene::Start()
 void GameScene::Update()
 {
 	SceneChange();
+
 	CVector3 l_lightPos = Sky().GetSunPosition();
 	l_lightPos.Normalize();
 	l_lightPos.Scale(30.0f);
@@ -147,7 +153,12 @@ void GameScene::SceneChange()
 		//	SetActiveFlags(false);
 		//	return;
 		//}
-		if (m_time->IsFinish() || Pad(0).IsTrigger(enButtonStart))
+		if (m_time->IsFinish())
+		{
+			m_end_timer += GameTime().GetFrameDeltaTime();
+		}
+
+		if (END_TIMER <= m_end_timer || Pad(0).IsTrigger(enButtonStart))
 		{
 			//ƒŠƒUƒ‹ƒg‚Ö‘JˆÚ
 			m_scenedata = enResult;
@@ -208,3 +219,22 @@ void GameScene::SetActiveFlags(bool flag)
 	m_map->SetActiveFlag(flag);
 }
 
+void GameScene::PostRender(CRenderContext& renderContext)
+{
+	if (!IsTimeOver())
+	{
+		return;
+	}
+
+	m_TimerOver.Draw(renderContext);
+}
+
+void GameScene::PostRender(CRenderContext& renderContext, int cameraNum)
+{
+	if (!IsTimeOver())
+	{
+		return;
+	}
+
+	m_TimerOver.Draw(renderContext);
+}
