@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Map.h"
-#include "../MapObject.h"
+#include "MapObject.h"
 #include "../Camera/GameCamera.h"
 #include "../Item/Item.h"
 #include "../Trap.h"

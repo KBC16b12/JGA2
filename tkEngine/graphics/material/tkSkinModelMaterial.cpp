@@ -100,6 +100,7 @@ namespace tkEngine{
 			m_hTechniqueHandle[enTecShaderHandle_Terrain] = effectDx->GetTechniqueByName("Terrain");
 			m_hTechniqueHandle[enTecShaderHandle_PincerBullet] = effectDx->GetTechniqueByName("PincerBullet");
 			m_hTechniqueHandle[enTecShaderHandle_Invincible] = effectDx->GetTechniqueByName("Invincible");
+			m_hTechniqueHandle[enTecShaderHandle_Toon] = effectDx->GetTechniqueByName("Toon");
 			
 			//初期化時はStandardマテリアルを構築する。
 			Build(enTypeStandard);

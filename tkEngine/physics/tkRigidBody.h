@@ -33,5 +33,9 @@ namespace tkEngine{
 		{
 			return rigidBody;
 		}
+		btDefaultMotionState* GetMotionState()
+		{
+			return myMotionState;
+		}
 	};
 }

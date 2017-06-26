@@ -10,6 +10,7 @@
 namespace tkEngine{
 	CSprite::CSprite()
 	{
+		m_technique = "SpriteTexture";
 	}
 	CSprite::~CSprite()
 	{
@@ -87,9 +88,9 @@ namespace tkEngine{
 		renderContext.SetRenderState(D3DRS_SRCBLEND, BLEND_SRCALPHA);
 		renderContext.SetRenderState(D3DRS_DESTBLEND, BLEND_INVSRCALPHA);
 
+		m_effect->SetTechnique(renderContext, m_technique);
 		m_effect->Begin(renderContext);
 		m_effect->BeginPass(renderContext, 0);
-		m_effect->SetTechnique(renderContext, "SpriteTexture");
 		m_effect->SetValue(renderContext, "mWorld", &mWorld, sizeof(mWorld));
 		m_effect->SetTexture(renderContext, "g_tex", m_texture);
 		m_effect->SetValue(renderContext, "uvRect", &m_uvRect, sizeof(m_uvRect));

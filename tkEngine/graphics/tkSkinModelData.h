@@ -244,7 +244,7 @@ namespace tkEngine{
 		std::vector<LPD3DXMESH>				m_meshList;						//メッシュのリスト。
 		bool								m_isLoadEnd = false;
 		std::thread							m_loadThread;		//読み込みスレッド
-		const CSkinModelData*						m_original = nullptr;
+		const CSkinModelData*				m_original = nullptr;
 	};
 }
 

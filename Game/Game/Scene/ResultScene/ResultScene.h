@@ -55,6 +55,13 @@ public:
 			pKill[i] = killscore[i];
 		}
 	}
+
+
+
+private:
+
+	void Draw(CRenderContext& renderContext);
+
 private:
 	/*!
 	*@brief	‰æ–Ê‘JˆÚŠÖ”B
@@ -78,7 +85,13 @@ private:
 	int                         pKill[4];
 	int							tmp = 0;
 	CTexture*					m_texture[4];
+	CTexture*					m_numTexture[10];
+	CSprite						m_killScore[4][2];
 	CSprite						m_sprite[4];
 	CSprite						m_sprite2[4];
+	int							m_state;
+	float						m_positionLimit;
+	float						m_intervalTime;
+
 };
 

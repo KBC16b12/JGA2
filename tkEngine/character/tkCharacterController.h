@@ -105,6 +105,10 @@ namespace tkEngine{
 		{
 			return m_isCollision;
 		}
+		CVector3 GetGroundNormal()
+		{
+			return m_groundNormal;
+		}
 		/*!
 		* @brief	剛体を物理エンジンから削除。。
 		*/
@@ -112,6 +116,8 @@ namespace tkEngine{
 	private:
 		CVector3 			m_position = CVector3::Zero;	//座標。
 		CVector3 			m_moveSpeed = CVector3::Zero;	//移動速度。 
+		CVector3			m_wallNormal;
+		CVector3			m_groundNormal;
 		bool 				m_isJump = false;				//ジャンプ中？
 		bool				m_isOnGround = true;			//地面の上にいる？
 		CCapsuleCollider	m_collider;						//コライダー。

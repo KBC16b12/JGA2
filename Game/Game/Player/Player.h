@@ -58,7 +58,7 @@ public:
 	*@brief int playerNum	当てたプレイヤーの番号
 	*@brief int damage		プレイヤーが受けるダメージ量
 	*/
-	void Damage(int playerNum, int damage);
+	void Damage(int playerNum, int damage, CVector3 moveSpeed);
 
 	void Trap();
 
@@ -72,6 +72,10 @@ public:
 		return m_position;
 	}
 
+	CQuaternion GetRotation()
+	{
+		return m_rotation;
+	}
 
 	/*
 	*@brief プレイヤーの前方のワールド行列
@@ -96,6 +100,8 @@ public:
 	}
 
 	void Init(CVector3 position, CQuaternion rotation, int playernum);
+
+	void Death(CVector3 moveSpeed);
 
 
 	int GetPlayerNum()
@@ -154,7 +160,7 @@ private:
 
 private:
 	CSkinModel				m_skinModelFirst;					//自分から見た時のモデル
-	CSkinModelDataHandle	m_skinModelDataFirst;				//スキンモデルデータ
+	CSkinModelData			m_skinModelDataFirst;				//スキンモデルデータ
 	CSkinModel				m_skinModelThird;					//他人から見た時のモデル
 	CSkinModelData			m_skinModelDataThird;
 	CQuaternion				m_rotation;					//回転
@@ -180,7 +186,7 @@ private:
 	float					m_invincibleCount;		//リスキル防止の無敵時間を数える変数
 	Weapon					m_weapon;
 	CLight					m_light;
-	PlayerRecovery			m_recovery;
+	PlayerRecovery*			m_recovery;
 	CAnimation				m_animation;
 };
 

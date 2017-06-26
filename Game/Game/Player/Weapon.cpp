@@ -91,8 +91,6 @@ void Weapon::Update()
 		if (m_magazine != MAGAZINE_SIZE &&  Pad(m_playerNum).IsTrigger(enButtonX) || m_magazine == 0)
 		{
 			Reload();
-			m_isReloadSound = true;
-			m_reloadTime = 0.0f;
 		}
 	}
 	m_itemSprite->SetStrikeNum(m_bulletStrikeNum);
@@ -164,6 +162,7 @@ void Weapon::SetWeapon()
 void Weapon::Reload()
 {
 	m_isReload = true;
+	m_isReloadSound = true;
 	m_reloadTime = 0.0f;
 	m_playerAnime->PlayAnimation(ANIMESTATE_RELOAD);
 }
@@ -171,4 +170,5 @@ void Weapon::Reload()
 void Weapon::Respawn()
 {
 	m_magazine = MAGAZINE_SIZE;
+	m_bulletStrikeNum = 0;
 }

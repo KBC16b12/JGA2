@@ -15,7 +15,7 @@ public:
 	/*
 	*@brief 初期化関数
 	*/
-	virtual void Init(CVector3 position, CQuaternion rotation, CSkinModelData* skinModelData);
+	virtual void Init(CVector3 position, CQuaternion rotation, CSkinModelData* skinModelData, CAnimation* animation);
 
 	/*
 	*@brief 更新関数
@@ -54,10 +54,11 @@ protected:
 	CSprite						m_sprite;
 	//CMeshCollider				m_meshCollider;		//メッシュコライダー。
 	//CRigidBody					m_rigidBody;		//剛体。
-	CSkinModel					m_SkinModel;		//スキンモデル
+	CSkinModel					m_SkinModel;		//スキンモデル4
+	CAnimation*					m_animation;
 	CVector3					m_position;			//座標
 	CQuaternion					m_rotation;			//回転
 	bool						m_isDeath;
 	bool						m_isSpriteRender;
-
+	bool m_isOpen;
 };

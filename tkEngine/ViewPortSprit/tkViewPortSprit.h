@@ -49,6 +49,11 @@ namespace tkEngine
 			m_viewPortParam.push_back(param);
 		}
 
+		ViewPortParam GetSprit(int playerNum)
+		{
+			return m_viewPortParam[playerNum];
+		}
+
 		void SetCameraNum(int cameraNum)
 		{
 			m_cameraNum = cameraNum;

@@ -3,9 +3,7 @@
 class Player;
 class TimeSprite;
 #include "../../Map/Map.h"
-
-#define PARTICLE_NUM 20
-
+#include "PlayerMeshCommon.h"
 /*!
  *@brief	ゲームシーン。
  */
@@ -69,10 +67,12 @@ private:
 	RunStat						m_runstat = enFadeIn;			//フェードステータス
 	SceneData					m_scenedata;					//画面遷移データ
 	TimeSprite*					m_time;
-
-
-	int							m_my_playernum = 2;
+	CAnimation					m_playerAnimation;
 };
 
 extern GameScene* g_gameScene;
+//PincerBullet用のモデル
 extern CSkinModelData* g_bulletModel;
+
+extern const PlayerMeshState g_playerMeshState[PLAYERMESHNUM];
+extern std::vector<CSkinModelData*> g_playerMeshModel;

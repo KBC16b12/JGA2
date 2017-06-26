@@ -36,9 +36,12 @@ void PincerBullet::PlayerDamage(Player *player)
 		l_distance.Subtract(player->GetPosition());
 		if (l_distance.Length() < 100.0f)
 		{
-			l_player->Damage(m_playerNum, l_player->GetMaxHP());
+			l_player->Damage(m_playerNum, l_player->GetMaxHP(), m_moveSpeed);
 		}
 	}
+	CSoundSource *l_pincerSound = NewGO<CSoundSource>(PRIORITY0);
+	l_pincerSound->Init("Assets/sound/exprosion.wav");
+	l_pincerSound->Play(false);
 	std::vector<CCamera*> l_camera;
 	for (int i = 0; i < PLAYER_NUM; i++)
 	{
@@ -69,7 +72,7 @@ void PincerBullet::PlayerDamage(Player *player)
 		1.0f,											//!<初期アルファ値。
 		true,											//!<ビルボード？
 		0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
-		0,												//!<0半透明合成、1加算合成。
+		2,												//!<0半透明合成、1加算合成。
 		{ 1.0f, 1.0f, 1.0f },								//!<乗算カラー。
 		0.15f,											//!<パーティクルエミッターの寿命
 		2.0f											//!<サイズスケール

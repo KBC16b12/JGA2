@@ -11,6 +11,15 @@
 
 GameScene* g_gameScene = nullptr;
 CSkinModelData* g_bulletModel = nullptr;
+const PlayerMeshState g_playerMeshState[PLAYERMESHNUM] =
+{
+	{"Head", 1.6f},
+	{"Hat" , 0.1f},
+	{"Body", 1.6f},
+	{"RightHand", 0.4f},
+	{"LeftHand", 0.4f}
+};
+std::vector<CSkinModelData*> g_playerMeshModel;
 
 GameScene::GameScene()
 {
@@ -46,6 +55,7 @@ GameScene::~GameScene()
 
 	delete g_randomPosManager;
 	g_randomPosManager = nullptr;
+
 }
 
 bool GameScene::Start()
@@ -61,7 +71,7 @@ bool GameScene::Start()
 	g_gameCamera[2]->SetViewPort({ 0, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(2));
 	g_gameCamera[3]->SetViewPort({ l_half_w, l_half_h, l_half_w, l_half_h }, m_map->GetPlayer(3));
 	GetViewSprit().Start();
-	Sky().SetSceneLight(m_light);
+	Sky().SetSceneLight(g_defaultLight);
 	Sky().SetLuminance({ 2.5f, 2.5f, 2.5f });
 	Sky().SetNightAmbientLight({ 0.05f, 0.05f, 0.05f });
 
@@ -79,6 +89,18 @@ bool GameScene::Start()
 	{
 		g_bulletModel = new CSkinModelData;
 		g_bulletModel->LoadModelData("Assets/modelData/Bullet.X", NULL);
+	}
+	if (g_playerMeshModel.empty())
+	{
+		for (int i = 0; i < PLAYERMESHNUM; i++)
+		{
+			char l_modelName[60];
+			sprintf(l_modelName, "Assets/modelData/snowman_%s.X", g_playerMeshState[i].name);
+			CSkinModelData* l_modelData = new CSkinModelData;
+			l_modelData->LoadModelData(l_modelName, NULL);
+			l_modelData->SetTechnique(enTecShaderHandle_Toon);
+			g_playerMeshModel.push_back(l_modelData);
+		}
 	}
 	return true;
 }

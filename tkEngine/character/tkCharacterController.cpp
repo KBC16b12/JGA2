@@ -123,6 +123,7 @@ namespace tkEngine {
 	CVector3 CCharacterController::Execute(float deltaTime)
 	{
 		CVector3 wallNormal = CVector3::Zero;
+		m_groundNormal = CVector3::Zero;
 		m_isCollision = false;
 		//速度に重力加速度を加える。
 		m_moveSpeed.y += m_gravity * deltaTime;
@@ -264,6 +265,7 @@ namespace tkEngine {
 					m_isJump = false;
 					m_isOnGround = true;
 					nextPosition.y = callback.hitPos.y;
+					m_groundNormal = callback.hitNormal;
 				}
 				else {
 					//地面上にいない。

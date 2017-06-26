@@ -36,8 +36,6 @@ public:
 	*@param[in]		renderContext		レンダリングコンテキスト。
 	*/
 	void PostRender( CRenderContext& renderContext ) override;
-
-	void PostRender(CRenderContext& renderContext, int cameraNum) override;
 	/*!
 	*@brief	フェードの処理を実行中？。
 	*@return フェードイン、フェードアウトを実行中はtrueを返します。

@@ -8,6 +8,7 @@
 #include "../Network/Network.h"
 #include "HUD/CountUpSprite.h"
 #include "RandomPosManager.h"
+#include "DeadAfterPlayer.h"
 
 Player::Player()
 {
@@ -29,12 +30,14 @@ Player::Player()
 	m_isInvincibleTec = true;
 	m_invincibleCount = 0.0f;
 	m_invincibleTecCount = 0.0f;
+	m_recovery = NewGO<PlayerRecovery>(PRIORITY1);
 }
 
 Player::~Player()
 {
 	DeleteGO(m_HPbar);
 	DeleteGO(m_killCountSprite);
+	DeleteGO(m_recovery);
 }
 
 bool Player::Start()
@@ -45,8 +48,8 @@ bool Player::Start()
 	//m_light.SetDiffuseLightDirection(3, { 0.0f, -0.707f, -0.707f });
 	m_light.SetDiffuseLightDirection(0, { 0.0f, 1.0f, 0.0f });
 	m_light.SetDiffuseLightDirection(1, { 0.0f, -1.0f, 0.0f });
-	m_light.SetDiffuseLightDirection(2, { 0.0f, 0.707f, -0.707f });
-	m_light.SetDiffuseLightDirection(3, { 0.0f, -0.707f, -0.707f });
+	m_light.SetDiffuseLightDirection(2, { 0.0f, 0.707f, 0.707f });
+	m_light.SetDiffuseLightDirection(3, { 0.0f, 0.707f, -0.707f });
 
 	float l_lightColor1 = 0.15f;
 	float l_lightColor2 = 0.4f;
@@ -58,10 +61,10 @@ bool Player::Start()
 	m_light.SetDiffuseLightColor(2, { l_lightColor3, l_lightColor3, l_lightColor3, 1.0f });
 	m_light.SetDiffuseLightColor(3, { l_lightColor4, l_lightColor4, l_lightColor4, 1.0f });
 
-	SkinModelDataResources().Load(m_skinModelDataFirst, "Assets/modelData/snowman_first.X", &m_animation, false, 1);
-	m_skinModelFirst.Init(m_skinModelDataFirst.GetBody());
+	m_skinModelDataFirst.LoadModelData("Assets/modelData/snowman_first.X", &m_animation);
+	m_skinModelFirst.Init(&m_skinModelDataFirst);
 	m_skinModelFirst.SetLight(&m_light);	//デフォルトライトを設定。
-	m_skinModelDataThird.LoadModelData("Assets/modelData/snowman1-3-2.X", NULL);
+	m_skinModelDataThird.LoadModelData("Assets/modelData/snowman1-3.X", NULL);
 	m_skinModelThird.Init(&m_skinModelDataThird);
 	m_skinModelThird.SetLight(&m_light);	//デフォルトライトを設定。
 	m_skinModelFirst.SetShadowCasterFlag(true);
@@ -70,7 +73,7 @@ bool Player::Start()
 	m_skinModelThird.SetShadowReceiverFlag(true);
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(1.7f, 1.0f, m_position);
-	m_characterController.SetGravity(0.0f);
+	//m_characterController.SetGravity(0.0f);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_WAIT, false);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_SHOT, false);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_RELOAD, false);
@@ -79,6 +82,7 @@ bool Player::Start()
 	m_killCountSprite->SetPlayerNum(m_playernum);
 	m_skinModelFirst.SetFresnelFlag(true);
 	m_skinModelThird.SetFresnelFlag(true);
+	m_skinModelThird.SetTechnique(enTecShaderHandle_Toon);
 	//m_skinModelFirst.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
 	//m_skinModelThird.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
 	return true;
@@ -88,25 +92,25 @@ void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 {
 	m_rotation = rotation;
 	m_position = position;
-	m_recovery.Init(&m_hp, m_maxhp);
-
 	m_playernum = playernum;
+	m_recovery->Init(&m_hp, m_maxhp, m_playernum);
 	m_weapon.Init(m_playernum, &m_animation, &m_light);
-	float l_lightColor = 0.3f;
-	float l_playerColor = 1.0f;
+	float l_lightColor = 0.2f;
+	float l_playerColor = 0.5f;
 	CVector3 l_ambinetLight = { l_lightColor, l_lightColor, l_lightColor };
 	switch (m_playernum)
 	{
 	case 0:
+		l_ambinetLight.Set(1.2f, 1.2f, 1.2f);
 		break;
 	case 1:
-		l_ambinetLight.x = l_playerColor;
+		l_ambinetLight.Set(1.8f, 0.2f, 0.2f);
 		break;
 	case 2:
-		l_ambinetLight.y = l_playerColor;
+		l_ambinetLight.Set(0.2f, 1.8f, 0.2f);
 		break;
 	case 3:
-		l_ambinetLight.z = l_playerColor + 0.5f;
+		l_ambinetLight.Set(0.2f, 0.2f, 1.8f);
 		break;
 	}
 	m_light.SetAmbinetLight(l_ambinetLight);
@@ -114,15 +118,13 @@ void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 
 void Player::Update()
 {
-	m_weapon.Update();
 	UpdateHPBar();
 	m_killCountSprite->SetData(m_killCount);
-	m_recovery.Update();
 	Move();
 
 	//ワールド行列の更新
 	m_skinModelFirst.Update(m_position, m_rotation, CVector3::One);
-	m_skinModelThird.Update(m_position, m_rotation, { 5.0f,5.0f,5.0f });
+	m_skinModelThird.Update(m_position, m_rotation, CVector3::One);
 	//アニメーションの更新
 	m_Animation.Update(1.0f / 50.0f);
 
@@ -144,10 +146,12 @@ void Player::Update()
 		}
 		else
 		{
-			m_skinModelThird.SetTechnique(enTecShaderHandle_NoSkinModel);
+			m_skinModelThird.SetTechnique(enTecShaderHandle_Toon);
 		}
 		m_invincibleTecCount += GameTime().GetFrameDeltaTime();
 	}
+
+	m_weapon.Update();
 }
 
 void Player::Render(CRenderContext& renderContext, int playernum)
@@ -259,9 +263,9 @@ void Player::Move()
 	m_rotation.Multiply(multi);
 }
 
-void Player::Damage(int playerNum, int damage)
+void Player::Damage(int playerNum, int damage, CVector3 moveSpeed)
 {
-	if (m_isInvincible)
+	if (m_isInvincible || !m_isActive)
 	{
 		return;
 	}
@@ -271,11 +275,11 @@ void Player::Damage(int playerNum, int damage)
 	{
 		//もしHPが０になり死んだ場合殺した相手のカウントアップをしリスポーンする。
 		g_gameScene->GetPlayer(playerNum)->KillCountUp();
-		Respawn();
+		Death(moveSpeed);
 	}
 	else
 	{
-		m_recovery.Hit();
+		m_recovery->Hit();
 	}
 }
 
@@ -319,11 +323,11 @@ void Player::Eaten()
 	if (m_hp <= 0)
 	{
 
-		Respawn();
+		Death(CVector3::Zero);
 	}
 	else
 	{
-		m_recovery.Hit();
+		m_recovery->Hit();
 	}
 }
 
@@ -337,6 +341,7 @@ void Player::Respawn()
 	m_rotation = l_mapDat.s_rotation;
 	m_isInvincible = true;
 	m_weapon.Respawn();
+	m_isActive = true;
 }
 
 void Player::Invincible()
@@ -350,9 +355,26 @@ void Player::Invincible()
 	if (2.0f <= m_invincibleCount)
 	{
 		m_isInvincible = false;
-		m_skinModelThird.SetTechnique(enTecShaderHandle_NoSkinModel);
+		m_skinModelThird.SetTechnique(enTecShaderHandle_Toon);
 		m_invincibleCount = 0.0f;
 		m_invincibleTecCount = 0.0f;
+	}
+}
+
+void Player::Death(CVector3 moveSpeed)
+{
+
+	m_isActive = false;
+	g_gameCamera[m_playernum]->PlayAnime();
+	for (int i = 0; i < PLAYERMESHNUM; i++)
+	{
+		DeadAfterPlayer *l_deadPlayer = NewGO<DeadAfterPlayer>(PRIORITY1);
+		CMatrix l_worldMatrix = *m_skinModelDataThird.FindBoneWorldMatrix(g_playerMeshState[i].name);
+		CVector3 l_position;
+		l_position.x = l_worldMatrix.m[3][0];
+		l_position.y = l_worldMatrix.m[3][1];
+		l_position.z = l_worldMatrix.m[3][2];
+		l_deadPlayer->Init(g_playerMeshModel[i], l_position, m_rotation, m_light, moveSpeed, g_playerMeshState[i]);
 	}
 }
 

@@ -108,7 +108,6 @@ namespace tkEngine{
 			indexedMesh.m_vertexBase = (unsigned char*)(&vb->front());
 			indexedMesh.m_vertexStride = sizeof(CVector3);
 			stridingMeshInterface->addIndexedMesh(indexedMesh);
-			
 		}
 		meshShape = new btBvhTriangleMeshShape(stridingMeshInterface, true);	
 	}

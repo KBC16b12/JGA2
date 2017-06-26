@@ -23,6 +23,11 @@ namespace tkEngine {
 		{
 			m_texture = texture;
 		}
+
+		void SetTechnique(char *techniqueName)
+		{
+			m_technique = techniqueName;
+		}
 		/*!
 		*@brief	画像の位置を設定。
 		*@details
@@ -113,5 +118,6 @@ namespace tkEngine {
 		CVector4		m_uvRect = CVector4(0.0f, 0.0f, 1.0f, 1.0f);	//!<UV座標。
 		CQuaternion		m_rotation = CQuaternion::Identity;
 		float			m_alpha = 1.0f;			//!<不透明度。
+		char*			m_technique;
 	};
 }

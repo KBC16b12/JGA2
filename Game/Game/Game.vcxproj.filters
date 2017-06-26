@@ -119,9 +119,6 @@
     <ClCompile Include="Network\Network.cpp">
       <Filter>Source Files\Network</Filter>
     </ClCompile>
-    <ClCompile Include="MapObject.cpp">
-      <Filter>Source Files\Map</Filter>
-    </ClCompile>
     <ClCompile Include="HUD\Bar.cpp">
       <Filter>Source Files\HUD</Filter>
     </ClCompile>
@@ -182,6 +179,12 @@
     <ClCompile Include="Bullet\PincerBullet.cpp">
       <Filter>Source Files\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="Map\MapObject.cpp">
+      <Filter>Source Files\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Player\DeadAfterPlayer.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -231,9 +234,6 @@
     </ClInclude>
     <ClInclude Include="Network\Network.h">
       <Filter>Source Files\Network</Filter>
-    </ClInclude>
-    <ClInclude Include="MapObject.h">
-      <Filter>Source Files\Map</Filter>
     </ClInclude>
     <ClInclude Include="HUD\Bar.h">
       <Filter>Source Files\HUD</Filter>
@@ -297,6 +297,15 @@
     </ClInclude>
     <ClInclude Include="Bullet\PincerBullet.h">
       <Filter>Source Files\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\MapObject.h">
+      <Filter>Source Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Player\DeadAfterPlayer.h">
+      <Filter>Source Files\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerMeshCommon.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,6 +13,7 @@
 #define ITEM_NUM 4
 #define BULLET_DAMAGE 1
 #define NUM 10
+#define PLAYERMESHNUM 5
 
 #define DEFAULT_PORT 10000
 
@@ -22,6 +23,7 @@
 #include <stdio.h>
 #include <winsock2.h>
 #include <windows.h>
+//#include "tkEngine/ViewPortSprit/tkViewPortSprit.h"
 #include "tkEngine/tkEnginePreCompile.h"
 #include "tkEngine/graphics/tkSkinModelData.h"
 #include "tkEngine/graphics/tkSkinModel.h"

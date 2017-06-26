@@ -50,24 +50,10 @@ void WaitScene::Update()
 
 void WaitScene::Host()
 {
-	char* recvAddr = Network::GetInstance().RecvFrom();
-	
-	if (strlen(recvAddr))
-	{
-		int recvData;
-		sscanf(Network::GetInstance().GetRecvData(INADDR_ANY, DEFAULT_PORT), "%d", &recvData);
-
-
-	}
 }
 
 void WaitScene::Join()
 {
-	char buf[BUFFER_SIZE] = "";
-
-	sprintf(buf, "%d", (int)m_char);
-
-	Network::GetInstance().Send(inet_addr("255.255.255.255"), DEFAULT_PORT, buf);
 }
 
 void WaitScene::PostRender(CRenderContext& renderContext)

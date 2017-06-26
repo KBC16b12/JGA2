@@ -43,7 +43,7 @@ namespace tkEngine{
 			collisionConfig
 			);
 
-		dynamicWorld->setGravity(btVector3(0, -10, 0));
+		dynamicWorld->setGravity(btVector3(0, -980, 0));
 	}
 	void CPhysicsWorld::Update()
 	{

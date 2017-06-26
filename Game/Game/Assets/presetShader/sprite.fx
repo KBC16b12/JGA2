@@ -26,6 +26,7 @@ sampler_state
     MinFilter = LINEAR;
     MagFilter = LINEAR;
 };
+
 VS_OUTPUT VSMain( VS_INPUT In )
 {
 	VS_OUTPUT Out;
@@ -38,6 +39,28 @@ float4 PSMain( VS_OUTPUT In ) : COLOR0
 	float4 color = tex2D( TextureSampler, In.uv );
 	color.a *= alpha;
 	return color;
+}
+
+float4 rc_PSMain(VS_OUTPUT In) : COLOR0
+{
+	float4 color = tex2D(TextureSampler, In.uv);
+	color.w *= alpha;
+	float2 len = In.uv;
+	len *= 2.0f;
+	len -= 1.0f;
+	len = pow(len, 5.0f);
+	color.w *= length(len);
+
+	return color;
+}
+
+technique Recovery
+{
+	pass p0
+	{
+		VertexShader = compile vs_3_0 VSMain();
+		PixelShader = compile ps_3_0 rc_PSMain();
+	}
 }
 
 technique SpriteTexture
