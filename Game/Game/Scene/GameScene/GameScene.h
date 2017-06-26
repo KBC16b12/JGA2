@@ -4,6 +4,9 @@ class Player;
 class TimeSprite;
 #include "../../Map/Map.h"
 #include "PlayerMeshCommon.h"
+
+#define END_TIMER 1.0f
+
 /*!
  *@brief	ゲームシーン。
  */
@@ -49,7 +52,20 @@ public:
 
 	Player* g_player;
 
+	bool IsTimeOver()
+	{
+		return (0.0f < m_end_timer);
+	}
 
+	/*!
+	*@brief	遅延描画関数。
+	@details
+	* ポストエフェクトの後で実行されます。HUDなどポストエフェクトの影響を受けたくない描画物はここでレンダリングしてください。
+	*@param[in]		renderContext		レンダリングコンテキスト。
+	*/
+	void PostRender(CRenderContext& renderContext) override;
+
+	void PostRender(CRenderContext& renderContext, int cameraNum) override;
 
 private:
 	/*!
@@ -68,6 +84,11 @@ private:
 	SceneData					m_scenedata;					//画面遷移データ
 	TimeSprite*					m_time;
 	CAnimation					m_playerAnimation;
+
+	float						m_end_timer;
+
+	CTexture*					m_TimerOverTex;						//!<サンプルのテクスチャ。
+	CSprite						m_TimerOver;						//!<サンプルのスプライト。
 };
 
 extern GameScene* g_gameScene;
