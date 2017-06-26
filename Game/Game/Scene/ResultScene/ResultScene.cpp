@@ -75,7 +75,7 @@ bool ResultScene::Start()
 	}
 	for (int i = 0; i < 4; i++) {
 		m_sprite2[i].Init(m_texture[i]);
-		m_sprite2[i].SetPosition({ 800.0f,160.0f - i * 130 });
+		m_sprite2[i].SetPosition({ 800.0f,158.0f - i * 130 });
 		m_sprite2[i].SetSize({ 300.0f,100.0f });
 		int l_killScore10 = pKill[pNum[i]] / 10 % 10;
 		int l_killScore1 = pKill[pNum[i]] % 10;
@@ -83,7 +83,7 @@ bool ResultScene::Start()
 		m_killScore[i][1].Init(m_numTexture[l_killScore1]);
 		for (int j = 0; j < 2; j++)
 		{
-			m_killScore[i][j].SetPosition({ 930.0f + 55.0f * j, 160.0f - i * 130 });
+			m_killScore[i][j].SetPosition({ 930.0f + 50.0f * j, 158.0f - i * 130 });
 			m_killScore[i][j].SetSize({ 60.0f, 70.0f });
 		}
 	}
@@ -109,7 +109,7 @@ void ResultScene::Update()
 			m_killScore[3][i].SetPosition({ _x, m_killScore[3][i].GetPosition().y });
 		}
 		_x = m_sprite2[3].GetPosition().x - l_moveSpeed;
-		m_sprite2[3].SetPosition({ _x, m_sprite[3].GetPosition().y });
+		m_sprite2[3].SetPosition({ _x, m_sprite2[3].GetPosition().y });
 		break;
 	case 2:
 		for (int i = 0; i < 2; i++)
@@ -118,7 +118,7 @@ void ResultScene::Update()
 			m_killScore[2][i].SetPosition({ _x, m_killScore[2][i].GetPosition().y });
 		}
 		_x = m_sprite2[2].GetPosition().x - l_moveSpeed;
-		m_sprite2[2].SetPosition({ _x, m_sprite[2].GetPosition().y });
+		m_sprite2[2].SetPosition({ _x, m_sprite2[2].GetPosition().y });
 		break;
 	case 1:
 		for (int i = 0; i < 2; i++)
@@ -129,9 +129,9 @@ void ResultScene::Update()
 			m_killScore[0][i].SetPosition({ _x, m_killScore[0][i].GetPosition().y });
 		}
 		_x = m_sprite2[1].GetPosition().x - l_moveSpeed;
-		m_sprite2[1].SetPosition({ _x, m_sprite[1].GetPosition().y });
+		m_sprite2[1].SetPosition({ _x, m_sprite2[1].GetPosition().y });
 		_x = m_sprite2[0].GetPosition().x - l_moveSpeed;
-		m_sprite2[0].SetPosition({ _x, m_sprite[0].GetPosition().y });
+		m_sprite2[0].SetPosition({ _x, m_sprite2[0].GetPosition().y });
 		break;
 	case 0:
 		break;

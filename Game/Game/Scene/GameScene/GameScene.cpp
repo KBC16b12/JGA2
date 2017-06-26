@@ -50,6 +50,7 @@ GameScene::~GameScene()
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{
 		g_gameCamera[i]->FinishViewPort();
+		g_gameCamera[i]->Reset();
 	}
 	Sky().SetDisable();
 
@@ -62,6 +63,7 @@ bool GameScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init(m_bgm_path);
+	m_bgm->SetVolume(0.15f);
 	m_bgm->Play(true);
 
 	int l_half_w = Engine().GetScreenWidth() / 2;

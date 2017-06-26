@@ -25,6 +25,10 @@ bool PincerBullet::Start()
 
 void PincerBullet::PlayerDamage(Player *player)
 {
+	if (!player->IsActive() || player->IsInvincible())
+	{
+		return;
+	}
 	for (int i = 0; i < PLAYER_NUM; i++)
 	{
 		if (i == m_playerNum)
@@ -41,6 +45,7 @@ void PincerBullet::PlayerDamage(Player *player)
 	}
 	CSoundSource *l_pincerSound = NewGO<CSoundSource>(PRIORITY0);
 	l_pincerSound->Init("Assets/sound/exprosion.wav");
+	l_pincerSound->SetVolume(1.2f);
 	l_pincerSound->Play(false);
 	std::vector<CCamera*> l_camera;
 	for (int i = 0; i < PLAYER_NUM; i++)

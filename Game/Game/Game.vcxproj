@@ -159,7 +159,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>tkEngine.lib;%(AdditionalDependencies);LinearMath.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib;</AdditionalDependencies>
+      <AdditionalDependencies>tkEngine.lib;%(AdditionalDependencies);LinearMath.lib;BulletSoftBody.lib;BulletDynamics.lib;BulletCollision.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -178,6 +178,7 @@
     <ClCompile Include="Item\ItemBox.cpp" />
     <ClCompile Include="Item\ItemMaker.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Map\InvisibleObject.cpp" />
     <ClCompile Include="Map\Map.cpp" />
     <ClCompile Include="Map\MapChip.cpp" />
     <ClCompile Include="Map\MapObject.cpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="Item\Item.h" />
     <ClInclude Include="Item\ItemBox.h" />
     <ClInclude Include="Item\ItemMaker.h" />
+    <ClInclude Include="Map\InvisibleObject.h" />
     <ClInclude Include="Map\Map.h" />
     <ClInclude Include="Map\MapChip.h" />
     <ClInclude Include="Map\MapObject.h" />

@@ -122,11 +122,6 @@ void Player::Update()
 	m_killCountSprite->SetData(m_killCount);
 	Move();
 
-	//ワールド行列の更新
-	m_skinModelFirst.Update(m_position, m_rotation, CVector3::One);
-	m_skinModelThird.Update(m_position, m_rotation, CVector3::One);
-	//アニメーションの更新
-	m_Animation.Update(1.0f / 50.0f);
 
 	KeyOutput();
 	DataOutput();
@@ -152,6 +147,11 @@ void Player::Update()
 	}
 
 	m_weapon.Update();
+	//ワールド行列の更新
+	m_skinModelFirst.Update(m_position, m_rotation, CVector3::One);
+	m_skinModelThird.Update(m_position, m_rotation, CVector3::One);
+	//アニメーションの更新
+	m_Animation.Update(GameTime().GetFrameDeltaTime());
 }
 
 void Player::Render(CRenderContext& renderContext, int playernum)
@@ -333,12 +333,16 @@ void Player::Eaten()
 
 void Player::Respawn()
 {
-	SMapInfo l_mapDat = g_randomPosManager->GetPlayerRespawnPos(m_playernum);
 	//HPを回復して座標を初期化
 	m_hp = m_maxhp;
+
+	SMapInfo l_mapDat = g_randomPosManager->GetPlayerRespawnPos(m_playernum);
 	m_position = l_mapDat.s_position;
 	m_characterController.SetPosition(m_position);
 	m_rotation = l_mapDat.s_rotation;
+	//ワールド行列の更新
+	m_skinModelFirst.Update(m_position, m_rotation, CVector3::One);
+	m_skinModelThird.Update(m_position, m_rotation, CVector3::One);
 	m_isInvincible = true;
 	m_weapon.Respawn();
 	m_isActive = true;

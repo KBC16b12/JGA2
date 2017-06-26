@@ -10,7 +10,7 @@ namespace
 {
 	std::vector<SMapInfo> n_solo_map_dat =
 	{
-#include "../../Map/MapData/locationInfo.h"
+#include "../../Map/MapData/locationInfo2.h"
 	};
 }
 
@@ -141,7 +141,7 @@ void TitleScene::SceneChange()
 			case enChar:
 				//NewGO<CharScene>(PRIORITY1)->Init(true);
 				g_gameScene = NewGO<GameScene>(PRIORITY1);
-				g_gameScene->Init(n_solo_map_dat, "Assets/sound/GameBGM2.wav");
+				g_gameScene->Init(n_solo_map_dat, "Assets/sound/BattleScene.wav");
 				break;
 			case enSolo:
 				NewGO<SoloScene>(PRIORITY1);

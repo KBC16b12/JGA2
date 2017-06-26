@@ -140,6 +140,10 @@ public:
 		m_weapon.SetIsPincer(isPincerAttack);
 	}
 
+	bool IsInvincible()
+	{
+		return m_isInvincible;
+	}
 private:
 	/*!
 	*@brief	HPバー更新関数。

@@ -80,7 +80,7 @@ void Bullet::DeathCheck()
 		if (m_playerNum != i)
 		{
 			//ƒvƒŒƒCƒ„[‚É“–‚½‚Á‚½‚ç
-			if (l_distance.Length() < l_playerRadius)
+			if (l_distance.Length() < l_playerRadius && l_player->IsActive())
 			{
 				DeleteGO(this);
 				PlayerDamage(l_player);
