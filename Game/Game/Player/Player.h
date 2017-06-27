@@ -144,6 +144,11 @@ public:
 	{
 		return m_isInvincible;
 	}
+
+	int GetHP()
+	{
+		return m_hp;
+	}
 private:
 	/*!
 	*@brief	HPバー更新関数。
@@ -188,9 +193,11 @@ private:
 	bool					m_isInvincibleTec;
 	float					m_invincibleTecCount;	//テクニックを切り替える時間
 	float					m_invincibleCount;		//リスキル防止の無敵時間を数える変数
+	bool					m_isRendering;
 	Weapon					m_weapon;
 	CLight					m_light;
 	PlayerRecovery*			m_recovery;
 	CAnimation				m_animation;
+	const int				m_height = 3.95f;
 };
 

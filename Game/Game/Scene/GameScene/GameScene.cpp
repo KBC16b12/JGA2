@@ -68,7 +68,7 @@ bool GameScene::Start()
 {
 	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init(m_bgm_path);
-	m_bgm->SetVolume(0.15f);
+	m_bgm->SetVolume(0.33f);
 	m_bgm->Play(true);
 
 	int l_half_w = Engine().GetScreenWidth() / 2;

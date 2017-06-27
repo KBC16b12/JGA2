@@ -45,7 +45,7 @@ public:
 
 	void Reload();
 
-	void Respawn();
+	void PlayerDeath();
 
 	void SetIsPincer(bool isPincerAttack)
 	{

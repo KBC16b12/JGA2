@@ -109,7 +109,7 @@ float3 CalcLimLight( float3 normal, float3 lightDir, float3 limColor)
  */
 float3 SpecLight(float3 normal, float3 worldPos, float2 uv)
 {
-	float specPow = tex2D(g_speculerMapSampler, uv);
+	//float specPow = tex2D(g_speculerMapSampler, uv);
 	float3 spec = 0.0f;
 	float3 toEyeDir = normalize( g_cameraPos - worldPos );
 	float3 R = -toEyeDir + 2.0f * dot(normal, toEyeDir) * normal;
@@ -119,7 +119,7 @@ float3 SpecLight(float3 normal, float3 worldPos, float2 uv)
 		float3 L = -g_light.diffuseLightDir[i].xyz;
 		spec += g_light.diffuseLightColor[i] * pow(max(0.0f, dot(L,R)), 2 ) * g_light.diffuseLightColor[i].w;	//スペキュラ強度。
 	}
-	return spec * specPow;
+	return spec;
 }
 /*!
  * @brief	ポイントライトを計算。

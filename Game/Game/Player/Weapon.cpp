@@ -150,6 +150,10 @@ void Weapon::SetWeapon()
 	do
 	{
 		m_state = (BULLETSTATE)(g_random.GetRandInt() % BULLETSTATE_NUM);
+		if (m_state == BULLETSTATE_GRENADE && g_random.GetRandInt() % 2 == 0)
+		{
+			m_state = BULLETSTATE_BOUND;
+		}
 	}while (m_state == BULLETSTATE_NOMAL);
 
 	m_itemSprite->SetItem(m_state);
@@ -165,8 +169,10 @@ void Weapon::Reload()
 	m_playerAnime->PlayAnimation(ANIMESTATE_RELOAD);
 }
 
-void Weapon::Respawn()
+void Weapon::PlayerDeath()
 {
 	m_magazine = MAGAZINE_SIZE;
 	m_bulletStrikeNum = 0;
+	m_state = BULLETSTATE_NOMAL;
+	m_itemSprite->SetStrikeNum(m_bulletStrikeNum);
 }

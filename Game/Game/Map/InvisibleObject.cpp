@@ -18,6 +18,7 @@ InvisibleObject::~InvisibleObject()
 void InvisibleObject::Init(SMapInfo map_dat)
 {
 	MapChip::Init(map_dat);
+	m_SkinModel.SetShadowCasterFlag(false);
 	m_meshCollider.CreateFromSkinModel(&m_SkinModel, m_SkinModelData.GetBody()->GetRootBoneWorldMatrix());
 	RigidBodyInfo rbInfo;
 	//剛体のコライダーを渡す。
@@ -34,6 +35,7 @@ void InvisibleObject::Init(SMapInfo map_dat)
 
 bool InvisibleObject::Start()
 {
+	
 	return true;
 }
 

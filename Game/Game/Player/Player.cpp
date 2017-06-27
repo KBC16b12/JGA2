@@ -31,6 +31,7 @@ Player::Player()
 	m_invincibleCount = 0.0f;
 	m_invincibleTecCount = 0.0f;
 	m_recovery = NewGO<PlayerRecovery>(PRIORITY1);
+	m_isRendering = true;
 }
 
 Player::~Player()
@@ -101,7 +102,7 @@ void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 	switch (m_playernum)
 	{
 	case 0:
-		l_ambinetLight.Set(1.2f, 1.2f, 1.2f);
+		l_ambinetLight.Set(1.2f, 1.2f, 0.2f);
 		break;
 	case 1:
 		l_ambinetLight.Set(1.8f, 0.2f, 0.2f);
@@ -135,19 +136,20 @@ void Player::Update()
 	//無敵状態なら
 	if (m_isInvincible)
 	{
-		if (0.2f <= m_invincibleTecCount)
+		if (0.15f <= m_invincibleTecCount)
 		{
 			m_isInvincibleTec = !m_isInvincibleTec;
+			m_isRendering = !m_isRendering;
 			m_invincibleTecCount = 0.0f;
 		}
-		if (m_isInvincibleTec)
-		{
-			m_skinModelThird.SetTechnique(enTecShaderHandle_Invincible);
-		}
-		else
-		{
-			m_skinModelThird.SetTechnique(enTecShaderHandle_Toon);
-		}
+		//if (m_isInvincibleTec)
+		//{
+		//	m_skinModelThird.SetTechnique(enTecShaderHandle_Invincible);
+		//}
+		//else
+		//{
+		//	m_skinModelThird.SetTechnique(enTecShaderHandle_Toon);
+		//}
 		m_invincibleTecCount += GameTime().GetFrameDeltaTime();
 	}
 
@@ -166,7 +168,7 @@ void Player::Render(CRenderContext& renderContext, int playernum)
 	{
 		m_skinModelFirst.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
 	}
-	else
+	else if(m_isRendering)
 	{
 		m_skinModelThird.Draw(renderContext, g_gameCamera[playernum]->GetViewMatrix(), g_gameCamera[playernum]->GetProjectionMatrix());
 	}
@@ -262,7 +264,8 @@ void Player::Move()
 	m_characterController.Execute(GameTime().GetFrameDeltaTime());
 	//実行結果を受け取る。
 	m_position = m_characterController.GetPosition();
-	m_position.y += 3.4f;
+
+	m_position.y += m_height;
 	CQuaternion multi;
 	multi.SetRotation(CVector3::AxisY, CMath::DegToRad(l_angle));
 	m_rotation.Multiply(multi);
@@ -324,13 +327,8 @@ void Player::Startup()
 
 void Player::Eaten()
 {
-	m_hp -= 1;
-	if (m_hp <= 0)
-	{
-
-		Death(CVector3::Zero);
-	}
-	else
+	m_hp -= m_hp - 1;
+	if (0 < m_hp)
 	{
 		m_recovery->Hit();
 	}
@@ -343,14 +341,15 @@ void Player::Respawn()
 
 	SMapInfo l_mapDat = g_randomPosManager->GetPlayerRespawnPos(m_playernum);
 	m_position = l_mapDat.s_position;
+	m_position.y += m_height;
 	m_characterController.SetPosition(m_position);
 	m_rotation = l_mapDat.s_rotation;
 	//ワールド行列の更新
 	m_skinModelFirst.Update(m_position, m_rotation, CVector3::One);
 	m_skinModelThird.Update(m_position, m_rotation, CVector3::One);
 	m_isInvincible = true;
-	m_weapon.Respawn();
 	m_isActive = true;
+	m_weapon.PlayerDeath();
 }
 
 void Player::Invincible()
@@ -367,12 +366,12 @@ void Player::Invincible()
 		m_skinModelThird.SetTechnique(enTecShaderHandle_Toon);
 		m_invincibleCount = 0.0f;
 		m_invincibleTecCount = 0.0f;
+		m_isRendering = true;
 	}
 }
 
 void Player::Death(CVector3 moveSpeed)
 {
-
 	m_isActive = false;
 	g_gameCamera[m_playernum]->PlayAnime();
 	for (int i = 0; i < PLAYERMESHNUM; i++)

@@ -10,7 +10,7 @@ namespace
 {
 	std::vector<SMapInfo> n_solo_map_dat =
 	{
-#include "../../Map/MapData/locationInfo2.h"
+#include "../../Map/MapData/LocationInfo2.h"
 	};
 }
 

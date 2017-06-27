@@ -42,7 +42,7 @@ void ItemMaker::Update()
 		{
 			CSkinModelData *l_skinModelData = nullptr;
 			CAnimation*		l_animation = nullptr;
-			if (g_random.GetRandInt() % 2 != 0)
+			if (g_random.GetRandInt() % 10 != 0)
 			{
 				m_item = NewGO<ItemBox>(PRIORITY1);
 				l_skinModelData = m_modelDataItemBox.GetBody();

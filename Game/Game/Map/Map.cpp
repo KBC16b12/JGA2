@@ -54,7 +54,7 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 		{
 			l_mapChip = NewGO<TrapA>(PRIORITY1);
 		}
-		else if (!strcmp("InvisibleObject", l_map_dat.s_modelName))
+		else if (!strcmp("InvisibleObject2", l_map_dat.s_modelName))
 		{
 			l_mapChip = NewGO<InvisibleObject>(PRIORITY1);
 		}

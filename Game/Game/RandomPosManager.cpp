@@ -38,7 +38,7 @@ SMapInfo RandomPosManager::GetPlayerRespawnPos(int playerNum)
 			}
 			CVector3 distance = l_player[i]->GetPosition();
 			distance.Subtract(l_position);
-			if (distance.Length() < 20.0f)
+			if (distance.Length() < 40.0f)
 			{
 				l_isLoop = true;
 				break;
@@ -58,7 +58,7 @@ SMapInfo RandomPosManager::GetPlayerStartPos()
 		l_vectorNum = (int)(g_random.GetRandInt() % m_playerData.size());
 	} 
 	while (m_playerData[l_vectorNum].m_isUse);
-	m_playerData[l_vectorNum].m_isUse = true;
+	m_playerData[l_vectorNum].m_isUse = true; 
 	return m_playerData[l_vectorNum].m_mapDat;
 }
 

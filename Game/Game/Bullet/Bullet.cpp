@@ -53,6 +53,8 @@ bool Bullet::Start()
 	SkinModelDataResources().Load(m_modelData, "Assets/modelData/Bullet.X", NULL, false, 1);
 	m_skinModel.Init(m_modelData.GetBody());
 	m_skinModel.SetLight(m_pLight);
+	m_skinModel.SetShadowCasterFlag(true);
+	m_skinModel.SetTechnique(enTecShaderHandle_Toon);
 	return true;
 }
 
