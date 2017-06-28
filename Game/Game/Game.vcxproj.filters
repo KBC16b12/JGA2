@@ -179,11 +179,14 @@
     <ClCompile Include="Bullet\PincerBullet.cpp">
       <Filter>Source Files\Bullet</Filter>
     </ClCompile>
+    <ClCompile Include="Player\DeadAfterPlayer.cpp">
+      <Filter>Source Files\Player</Filter>
+    </ClCompile>
     <ClCompile Include="Map\MapObject.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Player\DeadAfterPlayer.cpp">
-      <Filter>Source Files\Player</Filter>
+    <ClCompile Include="Map\InvisibleObject.cpp">
+      <Filter>Source Files\Map</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,6 +309,9 @@
     </ClInclude>
     <ClInclude Include="PlayerMeshCommon.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Map\InvisibleObject.h">
+      <Filter>Source Files\Map</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

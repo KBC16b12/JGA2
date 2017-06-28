@@ -566,7 +566,7 @@ PSOutput invincible_PSMain(VS_OUTPUT In)
 		float t = min(z / g_fogParam.y, 1.0f);
 		color.xyz = lerp(color.xyz, float3(0.75f, 0.75f, 0.95f), t);
 	}
-	float luminanceColor = 1.07f;
+	float luminanceColor = 2.0f;
 	color.xyz *= luminanceColor;
 
 	PSOutput psOut = (PSOutput)0;

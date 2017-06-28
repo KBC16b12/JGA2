@@ -110,7 +110,7 @@ namespace tkEngine{
 	}
 	void CParticle::Update()
 	{
-		float deltaTime = 1.0f / 60.0f;
+		float deltaTime = GameTime().GetFrameDeltaTime();
 		CVector3 addGrafity = gravity;
 		addGrafity.Scale(deltaTime);
 		velocity.Add(addGrafity);

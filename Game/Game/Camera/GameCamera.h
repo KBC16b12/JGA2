@@ -83,6 +83,11 @@ public:
 		m_isDead = true;
 	}
 
+	void Reset()
+	{
+		m_isDead = false;
+	}
+
 private:
 
 	CCamera					m_camera;				//ƒJƒƒ‰

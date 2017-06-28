@@ -14,9 +14,9 @@ namespace tkEngine{
 	namespace {
 		const float shadowAreaTable[CShadowMap::MAX_SHADOW_MAP][2] =
 		{
-			{ 20.0f, 20.0f },
-			{ 45.0f, 45.0f },
-			{ 120.0f, 120.0f },
+			{ 40.0f, 40.0f },
+			{ 85.0f, 85.0f },
+			{ 220.0f, 220.0f },
 		};
 	}
 	CShadowMap::CShadowMap() :

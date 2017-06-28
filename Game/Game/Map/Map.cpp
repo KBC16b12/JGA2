@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Map.h"
 #include "MapObject.h"
+#include "InvisibleObject.h"
 #include "../Camera/GameCamera.h"
 #include "../Item/Item.h"
 #include "../Trap.h"
@@ -52,6 +53,10 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 		else if (!strcmp("torabasami", l_map_dat.s_modelName))
 		{
 			l_mapChip = NewGO<TrapA>(PRIORITY1);
+		}
+		else if (!strcmp("InvisibleObject2", l_map_dat.s_modelName))
+		{
+			l_mapChip = NewGO<InvisibleObject>(PRIORITY1);
 		}
 		else
 		{

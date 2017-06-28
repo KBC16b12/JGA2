@@ -49,6 +49,8 @@ public:
 	*/
 	char* GetByMyAddress();
 
+	char* GetRecvData(ULONG addr, int port);
+
 private:
 	/*!
 	*@brief óMƒŠƒXƒg’TõŠÖ”

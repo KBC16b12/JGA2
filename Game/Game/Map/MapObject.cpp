@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "MapObject.h"
 #include "Camera/GameCamera.h"
-#include "Map/MapChip.h"
 
 MapObject::MapObject()
 {
-	m_skyLight.SetAmbinetLight(CVector3::One);
 }
 
 

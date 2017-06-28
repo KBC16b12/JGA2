@@ -68,7 +68,7 @@ void InitTkEngine( HINSTANCE hInst )
 	Engine().Init(initParam);	//‰Šú‰»B
 	
 	ShadowMap().SetNear(2.0f);
-	ShadowMap().SetFar(40.0f);
+	ShadowMap().SetFar(200.0f);
 	
 }
 

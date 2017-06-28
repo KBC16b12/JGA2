@@ -1,6 +1,6 @@
 #pragma once
 
-#define JOIN_NUM 4
+#define JOIN_NUM 3
 
 class WaitScene : public IGameObject
 {
@@ -67,9 +67,9 @@ private:
 
 	bool						m_isHost;
 
-	ULONG						m_addressList[JOIN_NUM];
+	JoinData					m_joinData[JOIN_NUM + 1];
 
-	int							m_IPcount;
+	int							m_addrCnt;
 
 	CharData					m_char;
 };

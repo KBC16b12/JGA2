@@ -100,7 +100,6 @@ void Weapon::Update()
 
 void Weapon::BulletFilling()
 {
-	
 	if (m_isReload || g_gameScene == nullptr)
 	{
 		return;
@@ -112,7 +111,7 @@ void Weapon::BulletFilling()
 	m_shotSound->Play(false);
 
 	m_playerAnime->PlayAnimation(ANIMESTATE_SHOT);
-	Bullet *l_bullet;
+	Bullet *l_bullet = nullptr;
 	//m_state‚Ìó‘Ô‚É‚æ‚è‚Ç‚Ì’e‚ğ‘Å‚¿o‚·‚©Œˆ‚ß‚é
 	switch (m_state)
 	{
@@ -132,7 +131,6 @@ void Weapon::BulletFilling()
 	case BULLETSTATE_GRENADE:
 		l_bullet = NewGO<GrenadeBullet>(PRIORITY1);
 		break;
-
 	}
 	Player *l_player = g_gameScene->GetPlayer(m_playerNum);
 	l_bullet->Init(l_player->GetPosition(), l_player->GetFrontWorldMatrix(), m_playerNum, m_pLight);
@@ -152,6 +150,10 @@ void Weapon::SetWeapon()
 	do
 	{
 		m_state = (BULLETSTATE)(g_random.GetRandInt() % BULLETSTATE_NUM);
+		if (m_state == BULLETSTATE_GRENADE && g_random.GetRandInt() % 2 == 0)
+		{
+			m_state = BULLETSTATE_BOUND;
+		}
 	}while (m_state == BULLETSTATE_NOMAL);
 
 	m_itemSprite->SetItem(m_state);
@@ -167,8 +169,10 @@ void Weapon::Reload()
 	m_playerAnime->PlayAnimation(ANIMESTATE_RELOAD);
 }
 
-void Weapon::Respawn()
+void Weapon::PlayerDeath()
 {
 	m_magazine = MAGAZINE_SIZE;
 	m_bulletStrikeNum = 0;
+	m_state = BULLETSTATE_NOMAL;
+	m_itemSprite->SetStrikeNum(m_bulletStrikeNum);
 }

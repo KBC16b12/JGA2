@@ -35,6 +35,12 @@ void MapChip::Init(SMapInfo map_dat)
 	CQuaternion l_rotation;
 	l_rotation.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
 	m_rotation.Multiply(l_rotation);
+	if (!strcmp("Bilboard", map_dat.s_modelName))
+	{
+		l_rotation.SetRotation(CVector3::AxisZ, CMath::DegToRad(90));
+		m_rotation.Multiply(l_rotation);
+	}
+
 	m_SkinModel.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
 	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
 }

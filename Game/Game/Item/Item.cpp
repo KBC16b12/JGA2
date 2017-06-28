@@ -84,7 +84,7 @@ void Item::Update()
 		float l_dot = l_distance.Dot(l_playerFrontVector);
 		if (distance < 10.0f)
 		{
-			if (Pad(i).IsTrigger(enButtonA) && l_dot > cos(CMath::DegToRad(15)) && !m_isOpen)
+			if (Pad(i).IsTrigger(enButtonA) && l_dot > cos(CMath::DegToRad(90)) && !m_isOpen)
 			{
 				Death(l_player);
 				break;
@@ -145,25 +145,19 @@ void Item::Death(Player *player)
 	m_isOpen = true;
 	CVector3 l_direction;
 	l_direction.Subtract(player->GetPosition(), m_position);
-	CVector3 l_flont;
-	CMatrix l_worldMatrix = m_SkinModel.GetWorldMatrix();
-	l_flont.x = l_worldMatrix.m[2][0];
-	l_flont.y = l_worldMatrix.m[2][1];
-	l_flont.z = l_worldMatrix.m[2][2];
+	l_direction.y = 0.0f;
+	CVector3 l_flont = CVector3::AxisZ;
 	l_direction.Normalize();
 	l_flont.Normalize();
 	float l_dot = l_direction.Dot(l_flont);
 
 	l_dot = acos(l_dot);
 	l_flont.Cross(l_direction);
-	if (l_flont.y < 0)
+	if (l_direction.x < 0)
 	{
 		l_dot *= -1;
 	}
-
-	CQuaternion multi;
-	multi.SetRotation(CVector3::AxisY, l_dot);
-	m_rotation.Multiply(multi);
+	m_rotation.SetRotation(CVector3::AxisY, l_dot);
 	m_animation->PlayAnimation(1);
 }
 
