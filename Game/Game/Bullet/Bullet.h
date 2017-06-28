@@ -20,9 +20,9 @@ public:
 	*@brief position		弾が発射される座標
 	*@brief moveSpeed		飛ぶ方向
 	*@brief playerNum		この弾を打ったプレイヤーの番号
-	*@brief light			プレイヤーのライト
+	*@brief ambientLight			プレイヤーのアンビエントライト
 	*/
-	virtual void Init(CVector3 position, CVector3 movespeed, int playerNum, CLight* light);
+	virtual void Init(CVector3 position, CVector3 movespeed, int playerNum, CVector3 ambientLight);
 	/*
 	*@brief 更新処理
 	*/
@@ -55,7 +55,7 @@ protected:
 	CVector3				m_moveSpeed;
 	CSkinModel				m_skinModel;
 	CSkinModelDataHandle	m_modelData;
-	CLight*					m_pLight;
+	CLight					m_light;
 	int						m_playerNum;
 	float					m_lifeTime;
 };

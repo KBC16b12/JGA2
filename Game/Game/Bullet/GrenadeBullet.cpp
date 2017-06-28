@@ -14,7 +14,7 @@ GrenadeBullet::~GrenadeBullet()
 {
 }
 
-void GrenadeBullet::Init(CVector3 position, CVector3 moveSpeed, int playerNum, CLight* light)
+void GrenadeBullet::Init(CVector3 position, CVector3 moveSpeed, int playerNum, CVector3 light)
 {
 	Bullet::Init(position, moveSpeed, playerNum, light);
 	m_characterController.SetGravity(-35.0f);

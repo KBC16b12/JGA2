@@ -23,6 +23,7 @@ Weapon::Weapon()
 	m_itemSprite = NewGO<ItemSprite>(PRIORITY1);
 	m_pincer = NewGO<PincerAttack>(PRIORITY0);
 	m_magazineSprite = NewGO<MagazineSprite>(PRIORITY0);
+	m_target = NewGO<TargetSprite>(PRIORITY0);
 	m_isReloadSound = true;
 	m_isPincerAttack = false;
 }
@@ -33,15 +34,17 @@ Weapon::~Weapon()
 	DeleteGO(m_itemSprite);
 	DeleteGO(m_pincer);
 	DeleteGO(m_magazineSprite);
+	DeleteGO(m_target);
 }
-void Weapon::Init(int playerNum, CAnimation* animation, CLight* light)
+void Weapon::Init(int playerNum, CAnimation* animation, CVector3 ambientLight)
 {
 	m_playerNum = playerNum;
 	m_itemSprite->Init(playerNum);
+	m_target->Init(playerNum);
 	m_pincer->Init(playerNum);
 	m_magazineSprite->Init(playerNum);
 	m_playerAnime = animation;
-	m_pLight = light;
+	m_pLight = ambientLight;
 }
 
 void Weapon::Update()

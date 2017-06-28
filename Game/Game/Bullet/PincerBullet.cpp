@@ -17,7 +17,7 @@ bool PincerBullet::Start()
 {
 	m_modelData.CloneModelData(*g_bulletModel, NULL);
 	m_skinModel.Init(&m_modelData);
-	m_skinModel.SetLight(m_pLight);
+	m_skinModel.SetLight(&m_light);
 	m_skinModel.SetTechnique(enTecShaderHandle_PincerBullet);
 	m_skinModel.SetShadowCasterFlag(true);
 	return true;

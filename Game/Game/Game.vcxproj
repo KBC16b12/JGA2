@@ -173,6 +173,7 @@
     <ClCompile Include="HUD\ItemSprite.cpp" />
     <ClCompile Include="HUD\KillCountSprite.cpp" />
     <ClCompile Include="HUD\MagazineSprite.cpp" />
+    <ClCompile Include="HUD\TargetSprite.cpp" />
     <ClCompile Include="HUD\TimeSprite.cpp" />
     <ClCompile Include="Item\Item.cpp" />
     <ClCompile Include="Item\ItemBox.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="HUD\ItemSprite.h" />
     <ClInclude Include="HUD\KillCountSprite.h" />
     <ClInclude Include="HUD\MagazineSprite.h" />
+    <ClInclude Include="HUD\TargetSprite.h" />
     <ClInclude Include="HUD\TimeSprite.h" />
     <ClInclude Include="Item\Item.h" />
     <ClInclude Include="Item\ItemBox.h" />
