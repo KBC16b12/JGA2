@@ -5,6 +5,7 @@ class MagazineSprite;
 class Bullet;
 class Player;
 class PincerAttack;
+#include "HUD/TargetSprite.h"
 #define STRIKE_NUM 30
 #define MAGAZINE_SIZE 15
 
@@ -26,7 +27,7 @@ public:
 	/*
 	*@brief 初期化関数
 	*/
-	void Init(int playerNum, CAnimation* animation, CLight* light);
+	void Init(int playerNum, CAnimation* animation, CVector3 ambientLight);
 
 	/*
 	*@brief 更新処理
@@ -51,11 +52,17 @@ public:
 	{
 		m_isPincerAttack = isPincerAttack;
 	}
+
+	void SetTargetFlg(bool flg)
+	{
+		m_target->SetRenderFlg(flg);
+	}
 private:
 	BULLETSTATE m_state;				//どのアイテムを使ってるかの状態を表す変数(NOMALはない状態)
 	int			m_bulletStrikeNum;		//アイテムを使った状態の弾を打てる回数
 	int			m_playerNum;			
 	ItemSprite*	m_itemSprite;
+	TargetSprite* m_target;
 	MagazineSprite* m_magazineSprite;
 	float		m_strikeInterval;		//弾を打ってから次の弾を打つまでのインターバル
 	bool		m_isStrike;				//弾を打てるかどうか
@@ -65,6 +72,7 @@ private:
 	int			m_magazine;				//残弾数
 	CAnimation* m_playerAnime;			//プレイヤーのアニメーション
 	bool		m_isReloadSound;		//リロード音を発生させるフラグ
-	CLight*		m_pLight;
+	CVector3	m_pLight;
 	bool		m_isPincerAttack;
+
 };

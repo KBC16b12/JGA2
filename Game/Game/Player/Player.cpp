@@ -95,7 +95,6 @@ void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 	m_position = position;
 	m_playernum = playernum;
 	m_recovery->Init(&m_hp, m_maxhp, m_playernum);
-	m_weapon.Init(m_playernum, &m_animation, &m_light);
 	float l_lightColor = 0.2f;
 	float l_playerColor = 0.5f;
 	CVector3 l_ambinetLight = { l_lightColor, l_lightColor, l_lightColor };
@@ -115,6 +114,7 @@ void Player::Init(CVector3 position, CQuaternion rotation, int playernum)
 		break;
 	}
 	m_light.SetAmbinetLight(l_ambinetLight);
+	m_weapon.Init(m_playernum, &m_animation, m_light.GetAmbientLight());
 }
 
 void Player::Update()
@@ -240,12 +240,12 @@ void Player::Move()
 	l_moveSpeed.Add(l_moveZ);
 
 	/*アングル*/
-	float angleSpeed = 7.0f;
+	float angleSpeed = 200.0f;
 	if (Pad(m_playernum).IsPress(enButtonLB1))
 	{
 		angleSpeed *= 0.5f;
 	}
-	l_angle += Pad(m_playernum).GetRStickXF() * angleSpeed;
+	l_angle += Pad(m_playernum).GetRStickXF() * angleSpeed * GameTime().GetFrameDeltaTime();
 
 	/*ジャンプ*/
 	//仕様から一応削除
@@ -350,6 +350,7 @@ void Player::Respawn()
 	m_isInvincible = true;
 	m_isActive = true;
 	m_weapon.PlayerDeath();
+	m_weapon.SetTargetFlg(true);
 }
 
 void Player::Invincible()
@@ -384,6 +385,7 @@ void Player::Death(CVector3 moveSpeed)
 		l_position.z = l_worldMatrix.m[3][2];
 		l_deadPlayer->Init(g_playerMeshModel[i], l_position, m_rotation, m_light, moveSpeed, g_playerMeshState[i]);
 	}
+	m_weapon.SetTargetFlg(false);
 }
 
 void Player::KillCountUp()

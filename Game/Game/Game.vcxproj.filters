@@ -188,6 +188,9 @@
     <ClCompile Include="Map\InvisibleObject.cpp">
       <Filter>Source Files\Map</Filter>
     </ClCompile>
+    <ClCompile Include="HUD\TargetSprite.cpp">
+      <Filter>Source Files\HUD</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -312,6 +315,9 @@
     </ClInclude>
     <ClInclude Include="Map\InvisibleObject.h">
       <Filter>Source Files\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD\TargetSprite.h">
+      <Filter>Source Files\HUD</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -18,7 +18,7 @@ Bullet::~Bullet()
 {
 }
 
-void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum, CLight* light)
+void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum, CVector3 ambientLight)
 {
 	//Ç«ÇÃÉvÉåÉCÉÑÅ[Ç™ë≈Ç¡ÇΩÇÃÇ©ÇÃî‘çÜäÑÇËìñÇƒ
 	m_playerNum = playerNum;
@@ -45,14 +45,17 @@ void Bullet::Init(CVector3 position, CVector3 movespeed, int playerNum, CLight* 
 	m_characterController.Init(0.2f, 0.3f, m_position);
 	m_characterController.SetMoveSpeed(m_moveSpeed);
 	m_characterController.SetGravity(0.0f);
-	m_pLight = light;
+	CVector3 l_ambientLight = ambientLight;
+	l_ambientLight.Scale(1.5f);
+	m_light = g_defaultLight;
+	m_light.SetAmbinetLight(l_ambientLight);
 }
 
 bool Bullet::Start()
 {
 	SkinModelDataResources().Load(m_modelData, "Assets/modelData/Bullet.X", NULL, false, 1);
 	m_skinModel.Init(m_modelData.GetBody());
-	m_skinModel.SetLight(m_pLight);
+	m_skinModel.SetLight(&m_light);
 	m_skinModel.SetShadowCasterFlag(true);
 	m_skinModel.SetTechnique(enTecShaderHandle_Toon);
 	return true;
