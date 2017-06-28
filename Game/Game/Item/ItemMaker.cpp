@@ -38,7 +38,7 @@ void ItemMaker::Update()
 	else
 	{
 		m_intervalTime += GameTime().GetFrameDeltaTime();
-		if (/*15.0f*/1.0f < m_intervalTime)
+		if (15.0f < m_intervalTime)
 		{
 			CSkinModelData *l_skinModelData = nullptr;
 			CAnimation*		l_animation = nullptr;
