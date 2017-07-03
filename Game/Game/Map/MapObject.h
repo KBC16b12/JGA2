@@ -11,7 +11,7 @@ public:
 
 	bool Start();
 
-	void Update();
+	//void Update();
 
 	void Render(CRenderContext& renderContext, int cameraNum);
 

@@ -32,7 +32,7 @@ private:
 	CTexture*			m_grenadeTexture;
 	CTexture*			m_boundTexture;
 	CSprite				m_itemSprite;
-	CTexture*			m_countTexture[NUM];
+	CTexture*			m_countTexture[DECI];
 	CSprite				m_countSprite1;
 	CSprite				m_countSprite10;
 	int					m_playerNum;				//ƒvƒŒƒCƒ„[‚Ì”Ô†

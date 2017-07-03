@@ -63,5 +63,8 @@ protected:
 	CSkinModelDataHandle		m_SkinModelData;	//スキンモデルのハンドル
 	CVector3					m_position;			//座標
 	CQuaternion					m_rotation;			//回転
+	CObjectFrustumCulling		m_culling[PLAYER_NUM];
+	CAabb						m_aabb;
+	bool						m_isCulling;
 };
 

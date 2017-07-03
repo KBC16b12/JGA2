@@ -42,14 +42,10 @@ void PincerBullet::PlayerDamage(Player *player)
 		if (l_distance.Length() < 100.0f)
 		{
 
-			int l_playerDamage;
-			if (player->GetPlayerNum() == i)
+			int l_playerDamage = l_player->GetHP();
+			if (player->GetPlayerNum() != i)
 			{
-				l_playerDamage = l_player->GetMaxHP();
-			}
-			else
-			{
-				l_playerDamage = l_player->GetHP() - 1;
+				l_playerDamage--;
 			}
 
 			l_player->Damage(m_playerNum, l_playerDamage, m_moveSpeed);

@@ -28,6 +28,8 @@ namespace tkEngine{
 	void CMeshCollider::CreateFromSkinModel( CSkinModel* model, const CMatrix* offsetMatrix )
 	{
 		stridingMeshInterface = new btTriangleIndexVertexArray;
+		aabbMax.Set(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+		aabbMin.Set(FLT_MAX, FLT_MAX, FLT_MAX);
 		//CSkinModelからコリジョンで使用する、頂点バッファとインデックスバッファを作成する。
 		LPD3DXMESH mesh = model->GetOrgMeshFirst();
 		if (mesh != NULL) {
@@ -51,6 +53,8 @@ namespace tkEngine{
 					if (offsetMatrix) {
 						offsetMatrix->Mul(posTmp);
 					}
+					aabbMax.Max(posTmp);
+					aabbMin.Min(posTmp);
 					vertexBuffer->push_back(posTmp);
 					char* p = (char*)pos;
 					p += stride;

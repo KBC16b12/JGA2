@@ -24,13 +24,30 @@ ResultScene::ResultScene()
 	}
 	for (int i = 0; i < 4; i++) {
 		m_sprite[i].Init(m_texture[i]);
-		m_sprite[i].SetPosition({ -210.0f,150.0f - i * 130});
+		m_sprite[i].SetPosition({ -210.0f,173.0f - i * 130});
 		m_sprite[i].SetSize({ 100.0f,100.0f });
 	}
 	//m_SampleTex = TextureResources().LoadEx("Assets/sprite/Result.png");
 	m_SampleTex = TextureResources().LoadEx("Assets/sprite/result.png");
 	m_Sample.Init(m_SampleTex);
 	m_Sample.SetSize({ (float)Engine().GetScreenWidth(),(float)Engine().GetScreenHeight() });
+	/*CTexture *l_backTexture = TextureResources().Load("Assets/sprite/result.png");
+	m_backGround.Init(l_backTexture);
+	m_backGround.SetSize({ (float)Engine().GetScreenWidth(),(float)Engine().GetScreenHeight() });
+	CVector2 l_position = { -210.0f, 173.0f };
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		char l_filePath[60];
+		sprintf(l_filePath, "Assets/sprite/raking/%d.png", i);
+		CTexture *l_rankTexture = TextureResources().Load(l_filePath);
+		m_rankSprite[i].Init(l_rankTexture);
+		CVector2 l_size = { 100.0f, 100.0f };
+		m_rankSprite[i].SetSize(l_size);
+		m_rankSprite[i].SetPosition(l_position);
+		l_position.y -= m_heightInterval;
+
+	}*/
+
 	m_state = 3;
 	m_positionLimit = 0.0f;
 }
@@ -67,6 +84,37 @@ bool ResultScene::Start()
 		}
 	}
 
+	/*CTexture* l_numTexture[DECI];
+	for (int i = 0; i < DECI; i++)
+	{
+		char l_filePath[60];
+		sprintf(l_filePath, "Assets/sprite/KillScoreNum/%d.png", i);
+		l_numTexture[i] = TextureResources().LoadEx(l_filePath);
+	}
+	CVector2 l_playerSize = { 300.0f, 100.0f };
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		char l_filePath[60];
+		sprintf(l_filePath, "Assets/sprite//playerlist/0%d.png", pNum[i]);
+		CTexture *l_playerTexture = TextureResources().Load(l_filePath);
+		m_playerSprite[i].Init(l_playerTexture);
+		float l_height = m_rankSprite[i].GetPosition().y;
+		CVector2 l_playerPos = { 0.0f, l_height - 20.0f};
+		m_playerSprite[i].SetPosition(l_playerPos);
+		m_playerSprite[i].SetSize(l_playerSize);
+		int l_killScore[KILLCOUNT_DIGIT];
+		l_killScore[0] = pKill[pNum[i]] / 10 % 10;
+		l_killScore[1] = pKill[pNum[i]] % 10;
+		CVector2 l_killScorePos = { 200.0f, l_height };
+		for (int j = 0; j < 2; j++)
+		{
+			m_killScore[i][j].Init(l_numTexture[l_killScore[j]]);
+			m_killScore[i][j].SetPosition(l_killScorePos);
+			m_killScore[i][j].SetSize({ 60.0f, 70.0f });
+			l_killScorePos.x += 50.0f;
+		}
+	}*/
+
 	for (int i = 0; i < 4; i++)
 	{
 		char cp[60];
@@ -75,16 +123,18 @@ bool ResultScene::Start()
 	}
 	for (int i = 0; i < 4; i++) {
 		m_sprite2[i].Init(m_texture[i]);
-		m_sprite2[i].SetPosition({ 800.0f,158.0f - i * 130 });
+		m_sprite2[i].SetPosition({ 810.0f,158.0f - i * 130 });
 		m_sprite2[i].SetSize({ 300.0f,100.0f });
-		int l_killScore10 = pKill[pNum[i]] / 10 % 10;
-		int l_killScore1 = pKill[pNum[i]] % 10;
-		m_killScore[i][0].Init(m_numTexture[l_killScore10]);
-		m_killScore[i][1].Init(m_numTexture[l_killScore1]);
+		int l_killScore[KILLCOUNT_DIGIT];
+		l_killScore[0] = pKill[pNum[i]] / 10 % 10;
+		l_killScore[1] = pKill[pNum[i]] % 10;
+		CVector2 l_killScorePos = { 920.0f, 158.0f - i * 130 };
 		for (int j = 0; j < 2; j++)
 		{
-			m_killScore[i][j].SetPosition({ 930.0f + 50.0f * j, 158.0f - i * 130 });
+			m_killScore[i][j].Init(m_numTexture[l_killScore[j]]);
+			m_killScore[i][j].SetPosition(l_killScorePos);
 			m_killScore[i][j].SetSize({ 60.0f, 70.0f });
+			l_killScorePos.x += 50.0f;
 		}
 	}
 
@@ -182,6 +232,16 @@ void ResultScene::Draw(CRenderContext& renderContext)
 			m_killScore[i][j].Draw(renderContext);
 		}
 	}
+	/*m_backGround.Draw(renderContext);
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		m_rankSprite[i].Draw(renderContext);
+		m_playerSprite[i].Draw(renderContext);
+		for (int j = 0; j < KILLCOUNT_DIGIT; j++)
+		{
+			m_killScore[i][j].Draw(renderContext);
+		}
+	}*/
 }
 
 void ResultScene::SceneChange()

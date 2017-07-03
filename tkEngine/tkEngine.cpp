@@ -41,15 +41,16 @@ namespace tkEngine{
 
 		m_screenHeight = initParam.screenHeight;
 		m_screenWidth = initParam.screenWidth;
+		HICON hIcon = LoadIcon(initParam.hInstance, MAKEINTRESOURCE(101));
 		WNDCLASSEX wc =
 		{
 			sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
-			GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr,
-			TEXT("D3D Tutorial"), nullptr
+			GetModuleHandle(nullptr), hIcon, nullptr, nullptr, nullptr,
+			TEXT("every noisily"), nullptr
 		};
 		RegisterClassEx(&wc);
 		// Create the application's window
-		m_hWnd = CreateWindow(TEXT("D3D Tutorial"), TEXT("D3D Tutorial 06: Meshes"),
+		m_hWnd = CreateWindow(TEXT("every noisily"), TEXT("every noisily"),
 			WS_OVERLAPPEDWINDOW, 0, 0, m_screenWidth, m_screenHeight,
 			nullptr, nullptr, wc.hInstance, nullptr);
 

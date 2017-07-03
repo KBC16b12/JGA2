@@ -84,7 +84,7 @@ void Item::Update()
 		float l_dot = l_distance.Dot(l_playerFrontVector);
 		if (distance < 10.0f)
 		{
-			if (Pad(i).IsTrigger(enButtonA) && l_dot > cos(CMath::DegToRad(90)))
+			if (Pad(i).IsTrigger(enButtonA) && l_dot > cos(CMath::DegToRad(90)) && !m_isOpen)
 			{
 				Death(l_player);
 				break;

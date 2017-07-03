@@ -23,7 +23,7 @@ public:
 
 	void PostRender(CRenderContext& renderContext, int playerNum)override;
 private:
-	CTexture*			m_countTexture[NUM];
+	CTexture*			m_countTexture[DECI];
 	CSprite				m_countSprite1;
 	CSprite				m_countSprite10;
 	int					m_playerNum;				//ƒvƒŒƒCƒ„[‚Ì”Ô†

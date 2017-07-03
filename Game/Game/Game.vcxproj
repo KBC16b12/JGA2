@@ -240,6 +240,7 @@
     <ClInclude Include="Player\PlayerRecovery.h" />
     <ClInclude Include="Player\Weapon.h" />
     <ClInclude Include="RandomPosManager.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scene\CharScene\CharScene.h" />
     <ClInclude Include="Scene\Fade\Fade.h" />
     <ClInclude Include="Scene\GameScene\GameScene.h" />
@@ -253,6 +254,12 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="stuNamespace.h" />
     <ClInclude Include="Trap.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

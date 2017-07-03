@@ -14,7 +14,7 @@ CSkinModelData* g_bulletModel = nullptr;
 const PlayerMeshState g_playerMeshState[PLAYERMESHNUM] =
 {
 	{"Head", 1.6f},
-	{"Hat" , 0.1f},
+	{"Hat" , 0.2f},
 	{"Body", 1.6f},
 	{"RightHand", 0.4f},
 	{"LeftHand", 0.4f}
@@ -66,6 +66,10 @@ GameScene::~GameScene()
 
 bool GameScene::Start()
 {
+
+	TextureResources().Load("Assets/particle/snowman.png");
+	TextureResources().Load("Assets/particle/Explosion5.png");
+	TextureResources().Load("Assets/particle/Explosion1.png");
 	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init(m_bgm_path);
 	m_bgm->SetVolume(0.33f);
@@ -158,7 +162,7 @@ void GameScene::SceneChange()
 			m_end_timer += GameTime().GetFrameDeltaTime();
 		}
 
-		if (END_TIMER <= m_end_timer || Pad(0).IsTrigger(enButtonStart))
+		if (END_TIMER <= m_end_timer)
 		{
 			//ƒŠƒUƒ‹ƒg‚Ö‘JˆÚ
 			m_scenedata = enResult;

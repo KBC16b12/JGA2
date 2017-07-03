@@ -19,7 +19,7 @@ bool ItemSprite::Start()
 {
 	m_boundTexture = TextureResources().LoadEx("Assets/sprite/bound.jpg");
 	m_grenadeTexture = TextureResources().LoadEx("Assets/sprite/bomb.jpg");
-	for (int i = 0;i < NUM;i++)
+	for (int i = 0;i < DECI;i++)
 	{
 		char l_filePath[128];
 		sprintf(l_filePath, "Assets/sprite/NewNumber/%d.png", i);

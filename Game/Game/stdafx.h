@@ -12,8 +12,9 @@
 #define PLAYER_NUM 4
 #define ITEM_NUM 4
 #define BULLET_DAMAGE 1
-#define NUM 10
+#define DECI 10
 #define PLAYERMESHNUM 5
+#define KILLCOUNT_DIGIT 2
 
 #define DEFAULT_PORT 10000
 
@@ -39,6 +40,7 @@
 #include "tkEngine/character/tkCharacterController.h"
 #include "tkEngine/particle/tkParticleEmitter.h"
 #include "tkEngine/shape/tkSphereShape.h"
+#include "tkEngine/culling/tkObjectFrustumCulling.h"
 
 
 using namespace tkEngine;

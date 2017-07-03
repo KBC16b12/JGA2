@@ -16,7 +16,7 @@ MagazineSprite::~MagazineSprite()
 
 bool MagazineSprite::Start()
 {
-	for (int i = 0; i < NUM; i++)
+	for (int i = 0; i < DECI; i++)
 	{
 		char l_filePath[128];
 		sprintf(l_filePath, "Assets/sprite/MagazineNum/%d.png", i);

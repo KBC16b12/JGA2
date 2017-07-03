@@ -210,6 +210,7 @@ void Player::UpdateHPBar()
 
 void Player::Move()
 {
+
 	float	l_angle = 0.0f;
 	move = -13.0f; //移動速度
 	CVector3 l_moveSpeed = m_characterController.GetMoveSpeed();
@@ -341,8 +342,8 @@ void Player::Respawn()
 
 	SMapInfo l_mapDat = g_randomPosManager->GetPlayerRespawnPos(m_playernum);
 	m_position = l_mapDat.s_position;
-	m_position.y += m_height;
 	m_characterController.SetPosition(m_position);
+	m_position.y += m_height;
 	m_rotation = l_mapDat.s_rotation;
 	//ワールド行列の更新
 	m_skinModelFirst.Update(m_position, m_rotation, CVector3::One);

@@ -71,8 +71,17 @@ private:
 	CSoundSource*				m_bgm;							//BGMソース。
 
 	CTexture*					m_SampleTex;						//!<サンプルのテクスチャ。
-	CSprite						m_Sample;							//!<サンプルのスプライト。
-
+	CSprite					m_Sample;							//!<サンプルのスプライト。
+	CTexture*					m_texture[4];
+	CTexture*					m_numTexture[10];
+	CSprite					m_killScore[4][2];
+	CSprite					m_sprite[4];
+	CSprite					m_sprite2[4];
+	//CSprite						m_rankSprite[PLAYER_NUM];
+	//CSprite						m_playerSprite[PLAYER_NUM];
+	//CSprite						m_backGround;
+	//CSprite						m_killScore[PLAYER_NUM][KILLCOUNT_DIGIT];
+	const float					m_heightInterval = 130.0f;
 	RunStat						m_runstat = enFadeIn;
 
 	SceneData					m_scenedata;
@@ -84,11 +93,6 @@ private:
 	int							pNum[4];
 	int                         pKill[4];
 	int							tmp = 0;
-	CTexture*					m_texture[4];
-	CTexture*					m_numTexture[10];
-	CSprite						m_killScore[4][2];
-	CSprite						m_sprite[4];
-	CSprite						m_sprite2[4];
 	int							m_state;
 	float						m_positionLimit;
 	float						m_intervalTime;

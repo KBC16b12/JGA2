@@ -122,7 +122,7 @@ void TitleScene::SceneChange()
 		}*/
 		for (int i = 0; i < PLAYER_NUM; i++)
 		{
-			if (Pad(i).IsTrigger(enButtonA) || Pad(0).IsTrigger(enButtonStart))
+			if (Pad(i).IsTrigger(enButtonA) || Pad(i).IsTrigger(enButtonStart))
 			{
 				m_scenedata = enChar;
 

@@ -44,8 +44,8 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 		else if (!strcmp("snowman1-3", l_map_dat.s_modelName))
 		{
 			CQuaternion multi;
-			multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
-			l_map_dat.s_rotation.Multiply(multi);
+			//multi.SetRotation(CVector3::AxisX, CMath::DegToRad(90));
+			//l_map_dat.s_rotation.Multiply(multi);
 			multi.SetRotation(CVector3::AxisY, CMath::DegToRad(180));
 			l_map_dat.s_rotation.Multiply(multi);
 			g_randomPosManager->AddPlayerData(l_map_dat);
