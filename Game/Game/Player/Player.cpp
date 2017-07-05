@@ -74,7 +74,7 @@ bool Player::Start()
 	m_skinModelThird.SetShadowReceiverFlag(true);
 	//キャラクタコントローラの初期化。
 	m_characterController.Init(1.7f, 1.0f, m_position);
-	//m_characterController.SetGravity(0.0f);
+	m_characterController.SetGravity(0.0f);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_WAIT, false);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_SHOT, false);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_RELOAD, false);

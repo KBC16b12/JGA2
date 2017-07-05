@@ -3,6 +3,12 @@
 #include "MapChip.h"
 class Player;
 
+struct MapChipInfo
+{
+	std::vector<SMapInfo> *map_data;
+	int hash;
+};
+
 class Map : public IGameObject
 {
 public:
@@ -51,5 +57,7 @@ private:
 	bool						m_isLoad;
 	Player*						m_player[PLAYER_NUM];
 	std::vector<MapChip*>		m_mapchip;			//マップチップリスト
+	std::vector<MapChipInfo>	m_mapInfo;
+	bool						m_isInstancing;
 };
 

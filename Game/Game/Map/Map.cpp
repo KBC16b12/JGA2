@@ -12,6 +12,7 @@
 Map::Map()
 {
 	m_isLoad = false;
+	m_isInstancing = true;
 }
 
 Map::~Map()
@@ -22,9 +23,15 @@ Map::~Map()
 		l_map_dat->SetActiveFlag(false);
 		DeleteGO(l_map_dat);
 	}
+	m_mapchip.clear();
 	for (int i = 0;i < PLAYER_NUM;i++)
 	{
 		DeleteGO(m_player[i]);
+	}
+	if (m_isInstancing)
+	{
+		m_mapInfo.clear();
+		SkinModelDataResources().InstancingRelease();
 	}
 }
 
@@ -60,12 +67,44 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 		}
 		else
 		{
-			l_mapChip = NewGO<MapObject>(PRIORITY1);
+			if (m_isInstancing)
+			{
+				int l_hash = CUtil::MakeHash(l_map_dat.s_modelName);
+				bool mapchipFlg = true;
+				for (const MapChipInfo& mapChipInfo : m_mapInfo)
+				{
+					if (mapChipInfo.hash == l_hash)
+					{
+						mapChipInfo.map_data->push_back(l_map_dat);
+						mapchipFlg = false;
+						break;
+					}
+				}
+				if (mapchipFlg)
+				{
+					m_mapInfo.push_back({ new std::vector<SMapInfo>, l_hash });
+					m_mapInfo.back().map_data->push_back(l_map_dat);
+				}
+			}
+			else
+			{
+				l_mapChip = NewGO<MapObject>(PRIORITY1);
+			}
 		}
 		if (l_mapChip != nullptr)
 		{
 			m_mapchip.push_back(l_mapChip);
 			m_mapchip.back()->Init(l_map_dat);
+		}
+
+	}
+	if (m_isInstancing)
+	{
+		for (MapChipInfo& mapChipInfo : m_mapInfo)
+		{
+			MapObject *l_mapObject = NewGO<MapObject>(PRIORITY1);
+			l_mapObject->Init(mapChipInfo.map_data);
+			m_mapchip.push_back(l_mapObject);
 		}
 	}
 	for (int i = 0; i < ITEM_NUM; i++)

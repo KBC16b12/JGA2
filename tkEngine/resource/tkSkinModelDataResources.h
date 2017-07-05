@@ -88,6 +88,11 @@ namespace tkEngine{
 			m_skinModelDataMap.clear();
 			m_cs.Unlock();
 		}
+
+		void InstancingRelease()
+		{
+			m_instancingModelDataList.clear();
+		}
 		/*!
 		* @brief	ガベージコレクトの実行。
 		*@details

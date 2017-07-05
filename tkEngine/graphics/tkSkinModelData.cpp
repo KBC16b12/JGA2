@@ -66,6 +66,7 @@ namespace {
 		}
 
 		SAFE_DELETE_ARRAY(pMeshContainer->ppTextures);
+		SAFE_DELETE_ARRAY(pMeshContainer->textures);
 		SAFE_DELETE_ARRAY(pMeshContainer->materials);
 		SAFE_DELETE_ARRAY(pMeshContainer->ppBoneMatrixPtrs);
 		SAFE_RELEASE(pMeshContainer->pBoneCombinationBuf);

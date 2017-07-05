@@ -23,7 +23,6 @@ void MapChip::ModelInit(const char *modelName)
 	m_SkinModel.SetShadowCasterFlag(true);
 	m_SkinModel.SetShadowReceiverFlag(true);
 	m_SkinModel.SetLight(&g_defaultLight);
-	m_isCulling = true;
 
 }
 
@@ -41,19 +40,8 @@ void MapChip::Init(SMapInfo map_dat)
 		l_rotation.SetRotation(CVector3::AxisZ, CMath::DegToRad(90));
 		m_rotation.Multiply(l_rotation);
 	}
-	if (!strcmp(map_dat.s_modelName, "Road") || 
-		!strcmp(map_dat.s_modelName, "L_Roads") || 
-		!strcmp(map_dat.s_modelName, "T_Roads") || 
-		!strcmp(map_dat.s_modelName, "X_Roads"))
-	{
-		m_isCulling = false;
-	}
 	m_SkinModel.SetAtomosphereParam(enAtomosphereFuncObjectFromAtomosphere);
 	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
-	for (int i = 0; i < PLAYER_NUM; i++)
-	{
-		m_culling[i].Init(g_gameCamera[i]->GetCamera());
-	}
 	
 }
 
@@ -64,25 +52,11 @@ bool MapChip::Start()
 
 void MapChip::Update()
 {
-	if (m_isCulling)
-	{
-		for (int i = 0; i < PLAYER_NUM; i++)
-		{
-			m_culling[i].Execute(m_aabb);
-		}
-	}
 	m_SkinModel.Update(m_position, m_rotation, CVector3::One);
 }
 
 void MapChip::Render(CRenderContext& renderContext, int cameranum)
 {
-	if (m_isCulling)
-	{
-		if (m_culling[cameranum].IsCulling())
-		{
-			return;
-		}
-	}
 	m_SkinModel.Draw(renderContext, g_gameCamera[cameranum]->GetViewMatrix(), g_gameCamera[cameranum]->GetProjectionMatrix());
 }
 
