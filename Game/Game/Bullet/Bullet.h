@@ -22,7 +22,7 @@ public:
 	*@brief playerNum		この弾を打ったプレイヤーの番号
 	*@brief ambientLight			プレイヤーのアンビエントライト
 	*/
-	virtual void Init(CVector3 position, CVector3 movespeed, int playerNum, CVector3 ambientLight);
+	virtual void Init(CVector3 position, CVector3 movespeed, int playerNum, CVector3 ambientLight );
 	/*
 	*@brief 更新処理
 	*/

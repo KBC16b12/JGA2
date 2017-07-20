@@ -37,6 +37,7 @@
 #include "tkEngine/Physics/tkPhysics.h"
 #include "tkEngine/physics/tkRigidBody.h"
 #include "tkEngine/Physics/tkMeshCollider.h"
+#include "tkEngine/Physics/tkBoxCollider.h"
 #include "tkEngine/character/tkCharacterController.h"
 #include "tkEngine/particle/tkParticleEmitter.h"
 #include "tkEngine/shape/tkSphereShape.h"

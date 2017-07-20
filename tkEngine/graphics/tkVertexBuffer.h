@@ -42,7 +42,11 @@ namespace tkEngine{
 			int numVertex, 
 			int stride, 
 			const D3DVERTEXELEMENT9* vertexLayout,
-			const void* pSrcVertexBuffer 
+			const void* pSrcVertexBuffer
+		);
+		void ReCreate(
+			int numVertex,
+			const void* pSrcVertexBuffer
 		);
 		/*!
 		 * @brief	頂点バッファの開放。
@@ -69,16 +73,25 @@ namespace tkEngine{
 		{
 			return m_pVertexDecl;
 		}
+
+		int GetSize()
+		{
+			return m_size;
+		}
 		/*!
 		* @brief	頂点バッファを更新。
 		*/
 		void Update(const void* data);
+
+		void Update(const void* data, int numVertex);
 	private:
+		const D3DVERTEXELEMENT9*		m_vertexLayout;
 		LPDIRECT3DVERTEXBUFFER9			m_pVB;				//!<頂点バッファ。
 		SVertexDecralation* 			m_pVertexDecl;		//!<頂点定義。
 		int 							m_stride;			//!<頂点ストライド。
 		int 							m_numVertex;		//!<頂点数。
 		int 							m_size;				//!<バッファサイズ。
+
 	};
 }
 #endif // #define _TKRENDERBUFFER_H_

@@ -47,8 +47,7 @@ void PincerBullet::PlayerDamage(Player *player)
 			{
 				l_playerDamage--;
 			}
-
-			l_player->Damage(m_playerNum, l_playerDamage, m_moveSpeed);
+			l_player->Damage(m_playerNum, l_playerDamage, m_moveSpeed, m_position);
 		}
 	}
 	CSoundSource *l_pincerSound = NewGO<CSoundSource>(PRIORITY0);

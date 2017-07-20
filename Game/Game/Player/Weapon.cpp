@@ -71,8 +71,9 @@ void Weapon::Update()
 	//ƒŠƒ[ƒh’†
 	if (m_isReload)
 	{
+
 		if (!m_playerAnime->IsPlay())
-		{
+		{		
 			m_magazine = MAGAZINE_SIZE;
 			m_isReload = false;
 		}

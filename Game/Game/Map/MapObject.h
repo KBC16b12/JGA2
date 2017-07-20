@@ -24,13 +24,17 @@ public:
 	void Init(std::vector<SMapInfo>* map_data);
 
 private:
+	CBoxCollider*				m_boxCollider;
 	CMeshCollider*				m_meshCollider;		//メッシュコライダー。
 	CRigidBody*					m_rigidBody;		//剛体。
 	CMatrix*					m_worldMatrix;
 	std::vector<SMapInfo>*		m_map_data;
-	CAabb						m_aabb;
+	CAabb*						m_aabb;
 	bool						m_isCulling;
-	CObjectFrustumCulling		m_culling[PLAYER_NUM];
+	CObjectFrustumCulling*		m_culling[PLAYER_NUM];
 	bool						m_isInstancing;
+	CMatrix*					m_instancingWorldMatrix;
+	int							m_mapChipNum;
+
 };
 

@@ -22,15 +22,16 @@ namespace tkEngine{
 			int numVertex, 
 			int stride, 
 			const D3DVERTEXELEMENT9* vertexLayout,
-			const void* pSrcVertexBuffer )
+			const void* pSrcVertexBuffer)
 	{
 		Release();
+		m_vertexLayout = vertexLayout;
 		m_numVertex = numVertex;
 		m_stride = stride;
 		m_size = m_numVertex * m_stride;
 		LPDIRECT3DDEVICE9 d3dDevice = CEngine::Instance().GetD3DDevice();
 		HRESULT hr = d3dDevice->CreateVertexBuffer(
-			numVertex * stride,
+			m_numVertex * m_stride,
 			0,
 			0,
 			D3DPOOL_DEFAULT,
@@ -44,7 +45,7 @@ namespace tkEngine{
 			Update(pSrcVertexBuffer);
 		}
 		//頂点定義を作成。
-		d3dDevice->CreateVertexDeclaration(vertexLayout, &m_pVertexDecl);
+		d3dDevice->CreateVertexDeclaration(m_vertexLayout, &m_pVertexDecl);
 	}
 	void CVertexBuffer::Release()
 	{
@@ -55,6 +56,17 @@ namespace tkEngine{
 	}
 	void CVertexBuffer::Update(const void* data)
 	{
+		void* pDstVertexBuffer;
+		HRESULT hr = m_pVB->Lock(0, 0, &pDstVertexBuffer, D3DLOCK_DISCARD);
+		TK_ASSERT(SUCCEEDED(hr), "Failed VertexBuffer Lock!!");
+		//まるっとコピー。
+		memcpy(pDstVertexBuffer, data, m_size);
+		m_pVB->Unlock();
+	}
+	void CVertexBuffer::Update(const void* data, int numVertex)
+	{
+		m_numVertex = numVertex;
+		m_size = m_numVertex * m_stride;
 		void* pDstVertexBuffer;
 		HRESULT hr = m_pVB->Lock(0, 0, &pDstVertexBuffer, D3DLOCK_DISCARD);
 		TK_ASSERT(SUCCEEDED(hr), "Failed VertexBuffer Lock!!");

@@ -47,6 +47,7 @@ namespace tkEngine{
 		float		lifeTime;							//!<パーティクルエミッターの寿命
 		float		scale;								//!<拡大倍率。変わらないなら1.0f
 		bool		isRotaion;							//!<パーティクルを回転させるか
+		int			particleNum;						//!<1フレームに出てくるパーティクルの数
 	};
 	/*!
 	 * @brief	パーティクルの発生機
@@ -90,6 +91,7 @@ namespace tkEngine{
 		std::list<CParticle*>	deleteParticleList;	//!<削除されたパーティクルのリスト。
 		float					m_lifeTimer;	//!<エミッターの寿命
 		std::vector<CCamera*>	cameraVector;
+		int						m_particleNum;
 	};
 }
 

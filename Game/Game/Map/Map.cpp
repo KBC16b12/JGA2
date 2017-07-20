@@ -12,7 +12,6 @@
 Map::Map()
 {
 	m_isLoad = false;
-	m_isInstancing = true;
 }
 
 Map::~Map()
@@ -40,7 +39,15 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 	//マップチップの作成
 	for each(SMapInfo l_map_dat in map_dat)
 	{
+		bool l_isInstancing = false;
 		MapChip *l_mapChip = nullptr;
+		if (!strcmp(l_map_dat.s_modelName, "X_Roads") ||
+			!strcmp(l_map_dat.s_modelName, "L_Roads") ||
+			!strcmp(l_map_dat.s_modelName, "T_Roads") ||
+			!strcmp(l_map_dat.s_modelName, "Road"))
+		{
+			l_isInstancing = true;
+		}
 		if (!strcmp("itembox1-1", l_map_dat.s_modelName))
 		{
 			CQuaternion multi;
@@ -67,7 +74,7 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 		}
 		else
 		{
-			if (m_isInstancing)
+			if (l_isInstancing)
 			{
 				int l_hash = CUtil::MakeHash(l_map_dat.s_modelName);
 				bool mapchipFlg = true;
@@ -98,7 +105,7 @@ void Map::Init(std::vector<SMapInfo> map_dat)
 		}
 
 	}
-	if (m_isInstancing)
+	if (!m_mapInfo.empty())
 	{
 		for (MapChipInfo& mapChipInfo : m_mapInfo)
 		{

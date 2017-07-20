@@ -6,6 +6,7 @@
 #include "tkEngine/graphics/prerender/tkShadowMap.h"
 #include "tkEngine/graphics/material/tkSkinModelMaterial.h"
 #include "tkEngine/graphics/tkAtmosphericScatteringParam.h"
+#include "tkEngine/culling/tkObjectFrustumCulling.h"
 
 namespace tkEngine{
 	void CSkinModel::SetupMaterialCommonParameter(CSkinModelMaterial& material, D3DXMATRIX& viewMatrix, D3DXMATRIX& viewProj, bool isDrawToShadowMap)
@@ -106,7 +107,7 @@ namespace tkEngine{
 		pd3dDevice->SetStreamSource(
 			1, 
 			m_skinModelData->GetInstancingVertexBuffer().GetBody(), 
-			0, 
+			0,
 			m_skinModelData->GetInstancingVertexBuffer().GetStride()
 		);	
 		pd3dDevice->SetIndices(ib);
@@ -220,7 +221,6 @@ namespace tkEngine{
 
 
 			for (DWORD i = 0; i < pMeshContainer->NumMaterials; i++) {
-
 				CSkinModelMaterial& material = pMeshContainer->materials[i];
 
 				EnShaderTechnique oldTec = material.GetTechnique();
@@ -242,7 +242,7 @@ namespace tkEngine{
 				material.SetMatrix(CSkinModelMaterial::enMatrixShaderHandle_WorldMatrix, (CMatrix&)mWorld);
 				
 				material.SendMaterialParamToGPU();
-				if (isInstancingDraw) {
+				if (isInstancingDraw) {						
 					//インスタンシング描画。
 					DrawMeshContainer_InstancingDrawCommon(pd3dDevice, pMeshContainer, 0);
 				}

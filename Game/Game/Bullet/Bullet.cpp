@@ -115,7 +115,7 @@ void Bullet::Move()
 
 void Bullet::PlayerDamage(Player *player)
 {
-	player->Damage(m_playerNum, BULLET_DAMAGE, m_position);
+	player->Damage(m_playerNum, BULLET_DAMAGE, m_moveSpeed, m_position);
 }
 
 void Bullet::Render(CRenderContext& renderContext)

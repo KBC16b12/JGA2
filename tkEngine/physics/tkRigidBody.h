@@ -28,7 +28,9 @@ namespace tkEngine{
 		CRigidBody();
 		~CRigidBody();
 		void Release();
+		void CreateMeshOnly(RigidBodyInfo& rbInfo);
 		void Create(RigidBodyInfo& rbInfo);
+
 		btRigidBody* GetBody()
 		{
 			return rigidBody;

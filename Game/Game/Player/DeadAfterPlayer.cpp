@@ -147,7 +147,8 @@ void DeadAfterPlayer::ParticleEmit()
 		{ 1.0f, 1.0f, 1.0f },								//!<乗算カラー。
 		m_time / 2.0f,											//!<パーティクルエミッターの寿命
 		1.0f,											//!<サイズスケール
-		false
+		false,
+		1
 	},
 		l_emitPosition, l_camera);
 

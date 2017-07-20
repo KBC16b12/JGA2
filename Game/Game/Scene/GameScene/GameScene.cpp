@@ -70,6 +70,7 @@ bool GameScene::Start()
 	TextureResources().Load("Assets/particle/snowman.png");
 	TextureResources().Load("Assets/particle/Explosion5.png");
 	TextureResources().Load("Assets/particle/Explosion1.png");
+	TextureResources().Load("Assets/particle/Hiteffect.png");
 	m_bgm = NewGO<CSoundSource>(PRIORITY1);
 	m_bgm->Init(m_bgm_path);
 	m_bgm->SetVolume(0.33f);

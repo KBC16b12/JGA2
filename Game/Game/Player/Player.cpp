@@ -73,7 +73,7 @@ bool Player::Start()
 	m_skinModelFirst.SetShadowReceiverFlag(true);
 	m_skinModelThird.SetShadowReceiverFlag(true);
 	//キャラクタコントローラの初期化。
-	m_characterController.Init(1.7f, 1.0f, m_position);
+	m_characterController.Init(1.3f, 1.0f, m_position);
 	m_characterController.SetGravity(0.0f);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_WAIT, false);
 	m_animation.SetAnimationLoopFlag(ANIMESTATE_SHOT, false);
@@ -127,7 +127,6 @@ void Player::Update()
 	UpdateHPBar();
 	m_killCountSprite->SetData(m_killCount);
 	Move();
-
 
 	KeyOutput();
 	DataOutput();
@@ -272,7 +271,7 @@ void Player::Move()
 	m_rotation.Multiply(multi);
 }
 
-void Player::Damage(int playerNum, int damage, CVector3 moveSpeed)
+void Player::Damage(int playerNum, int damage, CVector3 moveSpeed, CVector3 bulletPosition)
 {
 	if (m_isInvincible || !m_isActive)
 	{
@@ -284,12 +283,62 @@ void Player::Damage(int playerNum, int damage, CVector3 moveSpeed)
 	{
 		//もしHPが０になり死んだ場合殺した相手のカウントアップをしリスポーンする。
 		g_gameScene->GetPlayer(playerNum)->KillCountUp();
-		Death(moveSpeed);
+		Death(bulletPosition);
 	}
 	else
 	{
 		m_recovery->Hit();
 	}
+	std::vector<CCamera*> l_camera;
+	for (int i = 0; i < PLAYER_NUM; i++)
+	{
+		l_camera.push_back(&g_gameCamera[i]->GetCamera());
+	}
+	CVector3 l_emitPosition = m_position;
+	CVector3 l_moveSpeed = moveSpeed;
+	l_moveSpeed.Normalize();
+	CVector3 l_subPos = l_moveSpeed;
+	l_moveSpeed.Scale(70.0f);
+	l_subPos.Scale(-10.0f);
+	l_emitPosition.Add(l_subPos);
+	CVector3 l_randomWidth;
+	l_randomWidth.Cross(l_moveSpeed, CVector3::AxisY);
+	l_randomWidth.Normalize();
+	l_randomWidth.Scale(20);
+	l_randomWidth.y += l_randomWidth.Length();
+	CParticleEmitter *l_particleEmitter = NewGO<CParticleEmitter>(PRIORITY0);
+	l_particleEmitter->Init(g_random, g_gameCamera[m_playernum]->GetCamera(),
+	{
+		"Assets/particle/HitEffect.png",				//!<テクスチャのファイルパス。
+		l_moveSpeed,								//!<初速度。
+		0.2f,											//!<寿命。単位は秒。
+		0.2f,											//!<発生時間。単位は秒。
+		0.8f,											//!<パーティクルの幅。
+		0.8f,											//!<パーティクルの高さ。
+		{ 0.0f, 0.0f, 0.0f, },							//!<初期位置のランダム幅。
+		l_randomWidth,							//!<初速度のランダム幅。
+		{ 0.0f, 0.0f, 0.0f },							//!<速度の積分のときのランダム幅。
+		{
+			{ 0.0f, 0.0f, 1.0f, 1.0f },
+			{ 0.0f, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 0.0f, 0.0f },
+			{ 0.0f, 0.0f, 0.0f, 0.0f }
+		},												//!<UVテーブル。最大4まで保持できる。xが左上のu、yが左上のv、zが右下のu、wが右下のvになる。
+		1,												//!<UVテーブルのサイズ。
+		{ 0.0f, -30.0f, 0.0f },								//!<重力。
+		true,											//!<死ぬときにフェードアウトする？
+		0.15f,											//!<フェードする時間。
+		1.0f,											//!<初期アルファ値。
+		true,											//!<ビルボード？
+		0.0f,											//!<輝度。ブルームが有効になっているとこれを強くすると光が溢れます。
+		0,												//!<0半透明合成、1加算合成。
+		{ 1.0f, 1.0f, 1.0f },								//!<乗算カラー。
+		0.2f,											//!<パーティクルエミッターの寿命
+		1.0f,											//!<サイズスケール
+		false,
+		24
+	},
+		l_emitPosition, l_camera);
 }
 
 void Player::Trap()

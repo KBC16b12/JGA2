@@ -102,6 +102,11 @@ namespace tkEngine{
 		{
 			m_instanceVertexBuffer.Update(data);
 		}
+
+		void UpdateInstancingCullingDrawData(const void* data, int numInstance)
+		{
+			m_instanceVertexBuffer.Update(data, numInstance);
+		}
 		/*!
 		* @brief	インスタンシング描画用の時に使用する頂点定義を取得。
 		*/

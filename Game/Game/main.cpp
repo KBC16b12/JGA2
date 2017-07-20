@@ -93,5 +93,10 @@ int WINAPI wWinMain(
 	
 	Engine().RunGameLoop();		//ゲームループを実行。
 	delete g_bulletModel;
+	for (CSkinModelData* modeldata : g_playerMeshModel)
+	{
+		delete modeldata;
+	}
+	g_playerMeshModel.erase(g_playerMeshModel.begin(), g_playerMeshModel.end());
 	return 0;
 }

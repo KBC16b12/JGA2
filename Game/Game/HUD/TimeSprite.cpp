@@ -6,7 +6,7 @@
 */
 TimeSprite::TimeSprite()
 {
-	m_time = 120.0f;
+	m_time = 180.0f;
 	for (int i = 0; i < 10; i++) {
 		char cp[60];
 		sprintf(cp, "Assets/sprite/NewNumber/%d.png", i);

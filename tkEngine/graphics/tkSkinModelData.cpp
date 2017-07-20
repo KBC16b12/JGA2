@@ -835,7 +835,7 @@ namespace tkEngine{
 	bool CSkinModelData::CreateInstancingDrawData( LPD3DXFRAME frame, int numInstance, D3DVERTEXELEMENT9* vertexElement )
 	{
 		if(frame->pMeshContainer){
-			
+
 			//メッシュを発見。
 			//まずはストリーム１の頂点バッファを追加した頂点定義を作成する。
 			//頂点定義は全てのメッシュで同じ。
@@ -862,7 +862,6 @@ namespace tkEngine{
 			pd3dDevice->CreateVertexDeclaration(declElement, &m_vertexDeclForInstancingDraw);
 			SAFE_RELEASE(pd3dDevice);
 			//頂点バッファの作成。
-			
 			DWORD vertexBufferStride = D3DXGetDeclVertexSize(vertexElement, 1);
 			m_instanceVertexBuffer.Create(numInstance, vertexBufferStride, vertexElement, nullptr);
 			return true;

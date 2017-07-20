@@ -58,7 +58,7 @@ public:
 	*@brief int playerNum	当てたプレイヤーの番号
 	*@brief int damage		プレイヤーが受けるダメージ量
 	*/
-	void Damage(int playerNum, int damage, CVector3 moveSpeed);
+	void Damage(int playerNum, int damage, CVector3 moveSpeed, CVector3 bulletPosition);
 
 	void Trap();
 

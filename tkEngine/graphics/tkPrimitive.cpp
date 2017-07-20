@@ -38,7 +38,7 @@ namespace tkEngine{
 		m_vertexStride = vertexStride;
 		m_numIndex = numIndex;
 		Release();
-		m_vertexBuffer.Create( numVertex, vertexStride, vertexLayout, pSrcVertexBuffer );
+		m_vertexBuffer.Create( numVertex, vertexStride, vertexLayout, pSrcVertexBuffer);
 		m_indexBuffer.Create( numIndex, indexFormat, pSrcIndexbuffer );
 		if(primitiveType == eTriangleList){
 			m_numPolygon = numIndex / 3;

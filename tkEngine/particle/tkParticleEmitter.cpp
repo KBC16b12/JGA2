@@ -14,11 +14,13 @@ namespace tkEngine{
 	CParticleEmitter::CParticleEmitter()
 	{
 		m_lifeTimer = 0.0f;
+		m_particleNum = 1;
 	}
 	CParticleEmitter::~CParticleEmitter()
 	{
 		cameraVector.clear();
 	}
+
 	void CParticleEmitter::Init(CRandom& random, const CCamera& camera, const SParicleEmitParameter& param, const CVector3& emitPosition , std::vector<CCamera*> cameravector)
 	{
 		this->random = &random;
@@ -28,23 +30,29 @@ namespace tkEngine{
 		timer = param.intervalTime;
 		m_lifeTimer = param.lifeTime;
 		cameraVector = cameravector;
+		m_particleNum = param.particleNum;
 	}
+
 	bool CParticleEmitter::Start()
 	{
 		return true;
 	}
+
 	void CParticleEmitter::Update()
 	{
 		if (timer >= param.intervalTime) {
-			//パーティクルを生成。
-			CParticle* p = GameObjectManager().NewGameObject<CParticle>(2);
-			p->Init(*random, *camera, param, emitPosition);
-			for (CCamera* cam: cameraVector)
+			for (int i = 0; i < m_particleNum; i++)
 			{
-				p->AddCamera(*cam);
+				//パーティクルを生成。
+				CParticle* p = GameObjectManager().NewGameObject<CParticle>(2);
+				p->Init(*random, *camera, param, emitPosition);
+				for (CCamera* cam : cameraVector)
+				{
+					p->AddCamera(*cam);
+				}
+				particleList.push_back(p);
 			}
 			timer = 0.0f;
-			particleList.push_back(p);
 		}
 		timer += 1.0f / 60.0f;
 		//remove-eraseイディオム。

@@ -10,9 +10,9 @@
 #include "tkEngine/timer/tkStopwatch.h"
 
 
-//#if BUILD_LEVEL != BUILD_LEVEL_MASTER
+#if BUILD_LEVEL != BUILD_LEVEL_MASTER
 #define USE_DISP_FPS
-//#endif
+#endif
 
 namespace tkEngine{
 	LRESULT CALLBACK CEngine::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -152,7 +152,7 @@ namespace tkEngine{
 		//ポストエフェクトをレンダリング。
 		m_postEffect.Create( initParam.graphicsConfig );
 		//空を初期化。
-		AddGO(/*initParam.gameObjectPrioMax-1*/0, &m_sky);
+		AddGO(initParam.gameObjectPrioMax-1, &m_sky);
 		m_sky.Init();
 		m_sky.SetActiveFlag(false);
 		m_soundEngine.Init();
