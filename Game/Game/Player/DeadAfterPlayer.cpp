@@ -2,8 +2,6 @@
 #include "DeadAfterPlayer.h"
 #include "Camera/GameCamera.h"
 
-
-
 DeadAfterPlayer::DeadAfterPlayer()
 {
 	m_time = 0.0f;

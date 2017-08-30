@@ -238,7 +238,6 @@ void Player::Move()
 	l_moveZ.Scale(Pad(m_playernum).GetLStickYF());
 	l_moveSpeed.Add(l_moveX);
 	l_moveSpeed.Add(l_moveZ);
-
 	/*ƒAƒ“ƒOƒ‹*/
 	float angleSpeed = 200.0f;
 	if (Pad(m_playernum).IsPress(enButtonLB1))

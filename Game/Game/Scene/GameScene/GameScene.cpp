@@ -158,11 +158,11 @@ void GameScene::SceneChange()
 		//	SetActiveFlags(false);
 		//	return;
 		//}
-		if (m_time->IsFinish() ||
+		if (m_time->IsFinish()/* ||
 			Pad(0).IsPress(enButtonStart) ||
 			Pad(1).IsPress(enButtonStart) ||
 			Pad(2).IsPress(enButtonStart) ||
-			Pad(3).IsPress(enButtonStart))
+			Pad(3).IsPress(enButtonStart)*/)
 		{
 			m_end_timer += GameTime().GetFrameDeltaTime();
 		}
