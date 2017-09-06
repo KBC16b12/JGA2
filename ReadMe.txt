@@ -18,15 +18,13 @@ JGA2/Game/Game.sln
 		・ViewPortSprit/tkViewPortSprit.h
 		・ViewPortSprit/tkViewPortSprit.cpp
 		・理由
-		・ゲームの仕様で画面分割する必要があり
-		　Gameを変えるよりエンジン部分を変えた方が楽だったからです。
+		・ゲームの仕様で画面分割する必要があったためです。
 		・描画してる部分のコードは
 		　元々あったGameObjectManagerからコピー＆ペーストしたものをif文で分けただけです。
 		
 		・graphics/tkShadeCommon.h
 		・理由
-		・シェーダーのテクニックをGame側から簡単に変えれるように、
-　　　　　　　　　CSkinModelやCSkinModelDataなどでテクニックのenumを共有したかったため専用のヘッダーを作成しました。
+		・シェーダーのテクニックをGame側から簡単に変えられるように専用のヘッダーを作成しました。
 		・中に書いてあるenumはもともとエンジンのコードをコピー＆ペーストしたもので、
 		　そこにゲームで使う新しいテクニックを増やしていきました。
 
@@ -36,7 +34,7 @@ JGA2/Game/Game.sln
 		・character/tkCharacterController.cpp
 		・理由
 		・反射ベクトルを求める必要が出てきたので、
-		　Execute関数が衝突したときに壁の法線を返すようにしました。
+		　衝突したときに壁の法線を返すようにExecute関数を改造しました。
 
 		・gameObject/tkGameObject.h
 		・理由
@@ -81,7 +79,7 @@ JGA2/Game/Game.sln
 		・particle/tkParticleEmitter.cpp
 		・理由
 		・インスタンスを生成したオブジェクトが管理して消さないといけなかったので、
-		　初期化時のパラメーターで寿命を与えて勝手に死んでくれるようにしました。
+		　初期化時のパラメーターで寿命を与えて自動で終了してくれるようにしました。
 
 外部ライブラリ(物理エンジン)
 	・BulletCollision
